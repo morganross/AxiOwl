@@ -111,6 +111,9 @@ As source packages, installers, and guides are published, this repository will b
 
 Issues and pull requests are welcome once the source layout is published. For now, the best contribution is clear feedback on the project shape, installer expectations, and the workflows that should be documented first.
 
+<div align="center">
+  <img src="https://github.com/morganross/AxiOwl/blob/main/owl_head_transparent.png" width="156" alt="AxiOwl owl mascot" />
+</div>
 ## Security
 
 If you believe you found a security issue, avoid opening a public issue with sensitive details. Open a minimal private report path with the maintainer first, then share reproduction details once a safe channel is agreed.
