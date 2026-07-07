@@ -1,8 +1,8 @@
 # AxiOwl Architecture Overview
 
-AxiOwl is a local Windows coordinator for AI provider messaging. It discovers provider sessions, stores them in a local registry, accepts send/create/rename requests through CLI or MCP, routes those requests through provider-specific delivery edges, and records enough evidence to distinguish a local handoff from a real provider response.
+AxiOwl is a local Windows coordinator for AI provider messaging and normalization. It discovers provider sessions, stores them in a local registry, accepts send/create/rename requests through CLI or MCP, routes those requests through provider-specific delivery edges, and records enough evidence to distinguish a local handoff from a real provider response.
 
-Plain English version: AxiOwl is the switchboard. It does not replace Codex, Cursor, VS Code, Antigravity, Claude, OpenCode, or Copilot. It learns where their live sessions are, gives them a way to receive messages, and gives them a way to reply back with identity attached.
+Plain English version: AxiOwl is the switchboard and normalization layer. It does not replace Codex, Cursor, VS Code, Antigravity, Claude, OpenCode, or Copilot. It learns where their live sessions are, gives them a consistent local name and identity model, gives them a way to receive messages, and gives them a way to reply back with identity attached.
 
 ## Why The Architecture Is Split
 
@@ -16,7 +16,21 @@ AxiOwl does not use one universal provider adapter because the providers are not
 | VSIX-backed chat | Uses extension install, host APIs, and provider-owned MCP registration. |
 | Remote node | Requires a network/node contract and is intentionally separate from local provider repair. |
 
-The design choice is deliberate: one generic path would hide provider differences and make failures harder to diagnose. A provider-specific edge makes the contract clear: discovery, install, send, proof, and known risks all belong to that provider surface.
+The design choice is deliberate: one generic path would hide provider differences and make failures harder to diagnose. A provider-specific edge makes the contract clear: discovery, install, send, proof, and known risks all belong to that provider surface. The normalized layer sits above those edges so AxiOwl can still ask common questions about very different tools.
+
+## Normalization Role
+
+AxiOwl normalizes provider concepts into a shared local model:
+
+| Provider-specific thing | AxiOwl model |
+|---|---|
+| Chat, composer, session, conversation | Registry agent/session record |
+| Provider-specific id | `provider_session_id` |
+| App, extension, CLI, agent window | Provider surface |
+| Provider-specific delivery command | Provider edge |
+| Local status/logs/results | Evidence for install, discovery, send, and reply |
+
+This is why AxiOwl is more than a message sender. It gives the workflow a stable vocabulary for tools that otherwise behave differently.
 
 ## High-Level Flow
 

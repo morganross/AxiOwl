@@ -36,6 +36,20 @@ With AxiOwl, the workflow is more structured:
 
 The human still decides what to ask and what to do with the answer. AxiOwl handles more of the message plumbing.
 
+It also normalizes the workflow. Instead of treating every provider as a completely separate world, AxiOwl gives the work a common shape:
+
+```text
+target provider surface
+target session
+message
+receipt
+provider result
+MCP reply
+sender identity
+```
+
+That common shape is what makes multi-provider work less chaotic.
+
 ## What Changes In Practice
 
 You spend less time copying between windows and more time managing the actual work.
@@ -46,6 +60,7 @@ You also get clearer evidence:
 - whether AxiOwl accepted the request;
 - whether the provider replied;
 - which provider session sent the reply.
+- how a provider-specific chat/session/composer maps into the same AxiOwl registry model.
 
 ## Why Receipts Matter In Workflow
 
@@ -58,3 +73,5 @@ AxiOwl separates:
 - provider reply received.
 
 That makes failure easier to talk about. “AxiOwl accepted it but Cursor did not reply” is much more useful than “it failed somehow.”
+
+The same is true for normalization. “This row is `cursor:agents` and has a stale provider session id” is much more useful than “Cursor is weird today.”

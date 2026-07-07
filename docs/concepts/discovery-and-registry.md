@@ -18,7 +18,7 @@ Discovery can look at provider app state, session files, local databases, bridge
 
 ## Registry
 
-The registry is AxiOwl's local address book. It stores:
+The registry is AxiOwl's local address book and one of its main normalization tools. It stores:
 
 - display name;
 - aliases;
@@ -36,6 +36,16 @@ The registry is AxiOwl's local address book. It stores:
 Finding a chat does not prove the chat can receive and reply.
 
 Discovery is the map. Provider response is the road test.
+
+## Registry As Normalization
+
+Providers store sessions differently. The registry gives AxiOwl a common way to describe them:
+
+```text
+display name + provider + surface + provider session id + sendable state + evidence
+```
+
+That normalized row lets AxiOwl treat different provider sessions as addressable targets while still preserving provider-specific details.
 
 ## Stale Rows
 

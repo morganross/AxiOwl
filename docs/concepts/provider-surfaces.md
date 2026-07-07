@@ -34,3 +34,5 @@ Plain English version: the app name is not the whole address. The surface matter
 ## Why AxiOwl Separates Them
 
 Separating surfaces keeps the installer honest and the tests meaningful. A passing VS Code test should not mark Copilot CLI supported. A passing Cursor agent test should not imply any other Cursor surface exists.
+
+This is also part of normalization. AxiOwl normalizes provider surfaces into a shared naming model, but it does not collapse different surfaces into one vague brand label.

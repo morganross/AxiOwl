@@ -5,9 +5,9 @@ slug: /intro
 
 # AxiOwl Docs
 
-AxiOwl is local Windows software for AI provider messaging. It installs provider integrations, discovers provider sessions, sends messages to those sessions, and lets providers reply back through AxiOwl MCP with sender identity.
+AxiOwl is local Windows software for AI provider messaging and provider normalization. It installs provider integrations, discovers provider sessions, gives different provider surfaces a shared vocabulary, sends messages to those sessions, and lets providers reply back through AxiOwl MCP with sender identity.
 
-Plain English version: AxiOwl is a local message switchboard for AI work sessions. It helps one provider session talk to another without pretending all providers work the same way.
+Plain English version: AxiOwl is a local switchboard and translation layer for AI work sessions. It helps one provider session talk to another while making different provider tools easier to name, test, compare, and diagnose.
 
 ## Start Here
 
@@ -57,6 +57,7 @@ After that, use the source-of-truth docs:
 | Concept | Guide |
 |---|---|
 | Provider surfaces | [Provider Surfaces](concepts/provider-surfaces.md) |
+| Normalization layer | [AxiOwl As A Normalization Layer](concepts/normalization-layer.md) |
 | Support status words | [Supported, Target, Experimental, Unsupported](concepts/supported-target-experimental.md) |
 | Receipts and proof | [Receipts Versus Proof](concepts/receipts-vs-proof.md) |
 | MCP identity | [MCP And Metadata](concepts/mcp-and-metadata.md) |

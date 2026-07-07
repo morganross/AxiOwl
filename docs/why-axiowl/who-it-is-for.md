@@ -6,6 +6,8 @@ sidebar_position: 2
 
 AxiOwl is for builders who use multiple AI tools in the same project.
 
+It is especially useful for builders who want a common local model across those tools, not just another way to send text.
+
 ## Good Fit
 
 AxiOwl is a good fit if:
@@ -17,6 +19,7 @@ AxiOwl is a good fit if:
 - you want local control instead of a purely hosted coordination layer;
 - you test installers, provider integrations, or multi-agent workflows;
 - you need to know which provider actually replied.
+- you want provider sessions normalized into one registry instead of remembered separately in each app.
 
 ## Example Users
 
@@ -34,7 +37,7 @@ You are building or testing AI provider integrations. AxiOwl gives you install l
 
 ### Power User
 
-You already run multiple agents and want explicit routing: send this to a Cursor agent, ask Codex CLI for a status, ask VS Code Copilot to confirm something, and record which one replied.
+You already run multiple agents and want explicit routing: send this to a Cursor agent, ask Codex CLI for a status, ask VS Code Copilot to confirm something, and record which one replied. You also want those sessions described in a consistent way so tests and logs make sense.
 
 ## Not A Good Fit
 
@@ -48,4 +51,4 @@ AxiOwl is probably not useful if:
 
 ## The Honest Pitch
 
-AxiOwl is most valuable when you already feel the pain of scattered AI sessions. If you only use one tool occasionally, it may be more system than you need. If you live in several provider sessions every day, the coordination layer starts to matter.
+AxiOwl is most valuable when you already feel the pain of scattered AI sessions. If you only use one tool occasionally, it may be more system than you need. If you live in several provider sessions every day, the coordination and normalization layer starts to matter.

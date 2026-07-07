@@ -20,6 +20,7 @@ Why AxiOwl helps:
 - target is explicit;
 - reply comes back through MCP;
 - logs show the path.
+- the provider-specific chat becomes a normalized AxiOwl target.
 
 ## Check Provider Health
 
@@ -34,6 +35,7 @@ Why AxiOwl helps:
 - one run id ties the test together;
 - failures can be grouped by provider surface;
 - supported and target providers are not confused.
+- every provider is tested against the same proof model.
 
 ## Coordinate CLI And Editor Work
 
@@ -44,6 +46,7 @@ Why this matters:
 - editor integrations may need extensions;
 - CLI integrations may need cwd, auth, and metadata;
 - a passing editor test does not prove CLI support.
+- AxiOwl normalizes the names and proof states while preserving those differences.
 
 ## Diagnose A Failed Install
 

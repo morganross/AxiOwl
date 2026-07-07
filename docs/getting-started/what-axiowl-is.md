@@ -4,13 +4,13 @@ sidebar_position: 1
 
 # What AxiOwl Is
 
-AxiOwl is local software that helps AI provider sessions send messages to each other.
+AxiOwl is local software that helps AI provider sessions send messages to each other and gives those sessions a common local model.
 
-Think of it as a switchboard. Codex, Cursor, VS Code, Antigravity, Claude Code CLI, OpenCode CLI, and Copilot CLI all have different ways of storing sessions, exposing tools, receiving messages, and replying. AxiOwl gives them a shared local coordination layer.
+Think of it as a switchboard and normalization layer. Codex, Cursor, VS Code, Antigravity, Claude Code CLI, OpenCode CLI, and Copilot CLI all have different ways of storing sessions, exposing tools, receiving messages, and replying. AxiOwl gives them a shared local coordination layer and a shared vocabulary.
 
 ## Plain English Version
 
-Without AxiOwl, each provider session is mostly trapped in its own app or command line. With AxiOwl, a supported provider session can be addressed by name, receive a message, and reply back through AxiOwl MCP.
+Without AxiOwl, each provider session is mostly trapped in its own app or command line. With AxiOwl, a supported provider session can be addressed by name, represented in a registry, receive a message, and reply back through AxiOwl MCP.
 
 The important phrase is “supported provider session.” AxiOwl does not make every possible app magically work. It supports specific provider surfaces that have been installed, discovered, tested, and proven.
 
@@ -21,6 +21,7 @@ AxiOwl:
 - installs local provider integrations;
 - discovers chats, sessions, and agents;
 - stores them in a local registry;
+- normalizes provider names, surfaces, sessions, receipts, and proof;
 - lets users or providers send messages to targets;
 - exposes MCP tools so providers can reply;
 - logs receipts and delivery evidence;
@@ -52,4 +53,4 @@ Provider app or CLI
 
 The providers are different. Cursor Agent Window is not VS Code Copilot. Codex CLI is not Codex agents. Claude Code CLI is not Antigravity agents. AxiOwl keeps those paths separate because separate paths make failures explainable.
 
-The architecture favors clear proof over broad claims. That is why the docs repeatedly distinguish receipts, provider acceptance, and MCP replies.
+The architecture favors clear proof over broad claims. That is why the docs repeatedly distinguish receipts, provider acceptance, and MCP replies, and why provider surfaces are normalized without pretending they are identical.
