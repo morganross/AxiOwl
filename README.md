@@ -24,6 +24,8 @@ AxiOwl is the public home for a self-hosted control plane: remote node source co
 
 It is designed for builders who want ownership of their infrastructure, clear node coordination, and a practical path from install to operations.
 
+Documentation site: https://morganross.github.io/AxiOwl/
+
 ## At A Glance
 
 | Layer | What it does | Why it matters |

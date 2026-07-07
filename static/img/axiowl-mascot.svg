@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AxiOwl mascot</title>
+  <desc id="desc">A stylized owl head with amber eyes and black glasses.</desc>
+  <defs>
+    <radialGradient id="face" cx="50%" cy="44%" r="62%">
+      <stop offset="0%" stop-color="#fff4d6"/>
+      <stop offset="42%" stop-color="#d8903d"/>
+      <stop offset="100%" stop-color="#653313"/>
+    </radialGradient>
+    <linearGradient id="cream" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8e7"/>
+      <stop offset="100%" stop-color="#f1b86f"/>
+    </linearGradient>
+    <linearGradient id="wing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7c071"/>
+      <stop offset="52%" stop-color="#9a5421"/>
+      <stop offset="100%" stop-color="#2a160c"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#0f172a" flood-opacity=".22"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#softShadow)">
+    <path fill="url(#wing)" stroke="#120906" stroke-width="12" stroke-linejoin="round"
+      d="M93 314C39 213 83 125 117 71c8 65 35 82 61 102 30-74 79-106 78-106 1 0 49 32 79 106 26-20 53-37 61-102 34 54 78 142 24 243-33 62-92 101-164 107-72-6-131-45-163-107z"/>
+
+    <path fill="url(#face)" stroke="#120906" stroke-width="10" stroke-linejoin="round"
+      d="M256 96c-93 0-168 72-168 161 0 96 74 173 168 190 94-17 168-94 168-190 0-89-75-161-168-161z"/>
+
+    <path fill="url(#cream)" stroke="#160b06" stroke-width="8" stroke-linejoin="round"
+      d="M113 184c67 15 106 51 134 118-48-7-90-22-126-51 18 47 53 84 103 112-64-5-114-32-145-79 13-44 23-75 34-100z"/>
+    <path fill="url(#cream)" stroke="#160b06" stroke-width="8" stroke-linejoin="round"
+      d="M399 184c-67 15-106 51-134 118 48-7 90-22 126-51-18 47-53 84-103 112 64-5 114-32 145-79-13-44-23-75-34-100z"/>
+
+    <path fill="#3f200d" opacity=".92"
+      d="M256 112c11 18 23 45 23 78 0 37-13 70-23 90-10-20-23-53-23-90 0-33 12-60 23-78z"/>
+    <g fill="#4b260f" opacity=".9">
+      <ellipse cx="213" cy="151" rx="9" ry="18" transform="rotate(-34 213 151)"/>
+      <ellipse cx="299" cy="151" rx="9" ry="18" transform="rotate(34 299 151)"/>
+      <ellipse cx="181" cy="188" rx="8" ry="17" transform="rotate(-48 181 188)"/>
+      <ellipse cx="331" cy="188" rx="8" ry="17" transform="rotate(48 331 188)"/>
+      <ellipse cx="230" cy="216" rx="8" ry="18" transform="rotate(-18 230 216)"/>
+      <ellipse cx="282" cy="216" rx="8" ry="18" transform="rotate(18 282 216)"/>
+    </g>
+
+    <g>
+      <circle cx="185" cy="255" r="53" fill="#1b0c05"/>
+      <circle cx="327" cy="255" r="53" fill="#1b0c05"/>
+      <circle cx="185" cy="255" r="39" fill="#f59e0b"/>
+      <circle cx="327" cy="255" r="39" fill="#f59e0b"/>
+      <circle cx="185" cy="255" r="22" fill="#030712"/>
+      <circle cx="327" cy="255" r="22" fill="#030712"/>
+      <circle cx="170" cy="239" r="9" fill="#fff"/>
+      <circle cx="312" cy="239" r="9" fill="#fff"/>
+    </g>
+
+    <path fill="#d97706" stroke="#120906" stroke-width="9" stroke-linejoin="round"
+      d="M256 282l33 38-33 58-33-58 33-38z"/>
+
+    <g fill="none" stroke="#080504" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="118" y="216" width="118" height="82" rx="20" stroke-width="14"/>
+      <rect x="276" y="216" width="118" height="82" rx="20" stroke-width="14"/>
+      <path d="M236 255c13-10 27-10 40 0" stroke-width="12"/>
+      <path d="M118 251l-32-42M394 251l32-42" stroke-width="12"/>
+    </g>
+  </g>
+</svg>
