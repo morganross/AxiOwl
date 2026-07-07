@@ -8,6 +8,8 @@ See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
 Standalone OpenCode CLI sessions.
 
+Plain English version: this is the OpenCode command-line provider surface.
+
 ## Delivery Method
 
 Historical implementation used `opencode session list` and `opencode run --session` with an AxiOwl MCP config directory. Current final support requires provider-owned MCP metadata or an AxiOwl/provider patch that supplies that metadata programmatically.
@@ -34,3 +36,7 @@ Historical response-backed proof exists, but current support requires new proof 
 - CLI config location can vary.
 - Session list output and run syntax can change.
 - Environment-only identity is not accepted as final support.
+
+## Architecture Rationale
+
+OpenCode CLI remains target because the existing path proved reachability but not the final identity contract. Keeping it target avoids overstating support before clean-machine metadata proof exists.

@@ -8,9 +8,13 @@ See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
 Native VS Code chat/session surfaces.
 
+Plain English version: this is VS Code chat itself, not merely a generic Copilot label.
+
 ## Delivery Method
 
 AxiOwl writes bridge commands and the VS Code extension executes VS Code chat/session commands. The stronger native path opens the exact target session and proves message persistence against VS Code session files.
+
+The target-session proof matters because sending to “whatever chat is active” is unsafe. AxiOwl should know which session it targeted.
 
 ## Installer Action
 
@@ -35,3 +39,7 @@ Response-backed tests have passed for VS Code sessions.
 - Ownership matters: the bridge must target the correct window/session.
 - Stale old extension folders from previous product naming must be cleaned.
 - A send receipt is not enough; session-file proof or MCP reply is needed.
+
+## Architecture Rationale
+
+VS Code native support uses a bridge because the relevant chat commands and session context are in the VS Code process. Ownership checks exist because multiple VS Code windows can be open at once, and the wrong window can produce a false success.

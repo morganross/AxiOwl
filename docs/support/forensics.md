@@ -15,6 +15,21 @@ Separate these events:
 
 Do not treat an earlier event as proof of a later event.
 
+## Diagnostic Mindset
+
+Most AxiOwl failures are boundary failures. The job is to find which boundary failed:
+
+1. MSI selected the wrong feature.
+2. MSI failed to install/configure/patch.
+3. Provider app did not load the integration.
+4. Discovery enrolled the wrong session.
+5. AxiOwl sent to the wrong target.
+6. Provider received but could not reply.
+7. MCP tools were missing.
+8. MCP reply lacked sender metadata.
+
+This framing prevents circular debugging. Do not keep reinstalling when the failure is stale provider session metadata. Do not keep editing provider code when the MSI installed an old artifact.
+
 ## Collect Logs
 
 Collect:
@@ -31,7 +46,10 @@ Also collect:
 - VS Code AxiOwl Bridge output channel;
 - Cursor AxiOwl Cursor Bridge output channel;
 - provider CLI stdout/stderr;
-- relevant provider session files when safe.
+- relevant provider session files when safe;
+- exact MSI path and file timestamp;
+- `axiowl status` output;
+- unique run id used for tests.
 
 ## Failed Install
 
@@ -43,6 +61,7 @@ Check:
 4. Whether old legacy bridge folders were removed.
 5. Whether payload manifest hash matched installed `axiowl.exe`.
 6. Whether helper custom actions failed or were skipped.
+7. Whether the installed MSI was the intended new artifact.
 
 Common causes:
 
@@ -51,7 +70,8 @@ Common causes:
 - selected provider not installed;
 - missing elevation for patch path;
 - app still running during patch;
-- stale MSI artifact installed instead of new build.
+- stale MSI artifact installed instead of new build;
+- provider checkbox preselected from bad discovery.
 
 ## Missing MCP Tools
 
@@ -62,6 +82,7 @@ Check:
 3. The AxiOwl executable path in config exists.
 4. The provider can start `axiowl mcp-server`.
 5. The MCP server receives provider metadata.
+6. The provider surface actually supports MCP in that context.
 
 If tools exist in one session but not another, compare provider session/workspace config and startup time.
 
@@ -81,7 +102,8 @@ Discovery failure patterns:
 - provider workspace folder no longer exists;
 - old session name reused;
 - provider-specific database/session format changed;
-- local discovery skipped because provider was not selected.
+- local discovery skipped because provider was not selected;
+- a target provider surface confused with another surface from the same brand.
 
 ## Cursor Patch Failures
 
@@ -104,13 +126,15 @@ Cursor Glass submit patch is not installed or not visible to the bridge.
 
 That means the bridge ran but the required patched command was not available.
 
+Cursor diagnosis should be extra conservative. A bad patch can affect app startup. Read logs before patching again.
+
 ## VS Code Patch Failures
 
 Check:
 
 1. VS Code feature was selected.
 2. VS Code was closed before patching.
-3. Bridge extension installed under the current `axiowl` id.
+3. Bridge extension installed under the current AxiOwl id.
 4. Old legacy extension folders were removed.
 5. MCP server definition is visible to VS Code.
 6. Native session id maps to the intended target session.
@@ -151,3 +175,7 @@ Run id:
 ## Selected fix
 ## Regression tests
 ```
+
+## Support Opinion
+
+AxiOwl support should prefer a small number of high-quality facts over a large amount of speculation. The best support answer says what failed, where it failed, what proof shows that, and what the next correction should verify.

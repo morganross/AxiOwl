@@ -8,6 +8,8 @@ See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
 Remote AxiOwl nodes and remote provider routing.
 
+Plain English version: remote is a different product boundary. It is not a fallback for local provider failures.
+
 ## Delivery Method
 
 Current local provider builds intentionally treat remote delivery as out of scope. Remote should not be used as a fallback to hide local provider failures.
@@ -33,3 +35,7 @@ Not part of local provider support.
 
 - Remote fallback can mask local install/delivery failures.
 - Remote support needs its own explicit contract and validation.
+
+## Architecture Rationale
+
+Remote should remain separate because it changes the trust boundary, delivery boundary, and failure model. Keeping it out of local-provider remediation makes local bugs easier to diagnose.

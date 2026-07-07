@@ -2,6 +2,12 @@
 
 The canonical release checklist is [Release Validation Checklist](../reference/release-validation-checklist.md). This page expands it for day-to-day release execution.
 
+## Release Principle
+
+A release is a chain of proof. Compilation proves code can build. MSI provenance proves the artifact contains the code. VM install proves another machine can install it. Provider tests prove the integration works. GitHub upload proves users can retrieve it.
+
+Skipping any link makes later failures harder to explain.
+
 ## Release Inputs
 
 Before building:
@@ -77,6 +83,16 @@ Run:
 7. retest.
 
 The reinstall should not depend on stale extension folders, stale registry rows, or old MSI artifacts.
+
+## Docs Release
+
+For docs-only changes:
+
+- run `npm run build`;
+- verify GitHub Pages workflow passes;
+- verify the live site responds;
+- confirm source-of-truth docs did not drift from provider pages;
+- avoid publishing historical reports as current product truth.
 
 ## Release Decision
 

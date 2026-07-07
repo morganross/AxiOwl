@@ -1,6 +1,12 @@
 # AxiOwl Security And Trust Docs
 
-AxiOwl is a local coordinator. Users should know what it reads, writes, patches, and sends.
+AxiOwl is a local coordinator. Users should know what it reads, writes, patches, sends, and intentionally avoids.
+
+## Trust Model
+
+AxiOwl runs locally and integrates with local provider software. That gives it power: it can read provider session metadata, write MCP config, install bridge extensions, and patch selected provider files. The product must therefore be explicit about boundaries.
+
+Plain English version: AxiOwl should touch only what it needs, explain what it touched, and fail loudly when it cannot do that safely.
 
 ## What AxiOwl Reads
 
@@ -73,9 +79,13 @@ Provider replies through MCP must include provider/session metadata so AxiOwl ca
 
 Local provider support should remain local unless a remote feature is explicitly selected. Remote must not be used to hide local delivery failures.
 
+Remote support needs a separate trust contract because it changes the boundary from local machine state to network/node state.
+
 ## License Activation
 
 License activation state is local unless activation is explicitly performed. The installer and status output may report activation state. Users should expect unactivated installs to show activation reminders.
+
+License logic should not silently block local diagnostics. A user should still be able to understand install and provider state.
 
 ## User Expectations
 
@@ -86,3 +96,7 @@ Users should expect:
 - loud failure when patch/config/install steps cannot be completed;
 - no silent fallback that makes unsupported paths look supported;
 - receipts that distinguish AxiOwl handoff from provider delivery proof.
+
+## Security Opinion
+
+The safest AxiOwl behavior is narrow and auditable. Broad cleanup, broad patching, and broad fallback may feel robust in one test, but they increase risk on another machine. Robustness should come from discovery, validation, logs, rollback, and precise feature boundaries.

@@ -8,6 +8,8 @@ See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
 Antigravity agent sessions.
 
+Plain English version: this is the Antigravity agent surface, not the standalone AGY CLI surface.
+
 ## Delivery Method
 
 AxiOwl uses the Antigravity provider edge and AxiOwl MCP reply path.
@@ -34,3 +36,7 @@ Response-backed Antigravity tests have passed.
 - Quota/auth can block testing.
 - Provider metadata must identify the replying session.
 - Do not assume Antigravity CLI support is the same as Antigravity agent support.
+
+## Architecture Rationale
+
+Antigravity agents remain separate from Antigravity CLI because their session model and delivery mechanism differ. Keeping them separate lets the agent surface stay supported while the CLI surface remains target until metadata proof is complete.
