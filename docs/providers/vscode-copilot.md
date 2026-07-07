@@ -4,6 +4,10 @@ Status: `supported`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean Copilot chat inside VS Code. The important idea is that AxiOwl talks to VS Code through an installed bridge extension and MCP definition, not by pretending VS Code is just a simple command-line tool.
+
 ## Surface
 
 Copilot-backed chat inside VS Code.

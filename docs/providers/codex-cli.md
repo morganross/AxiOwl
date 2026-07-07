@@ -4,6 +4,10 @@ Status: `supported`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean Codex from the command line. Codex CLI support is separate from Codex agent support because CLI sessions have different process, cwd, and session-state behavior.
+
 ## Surface
 
 Standalone Codex CLI sessions.

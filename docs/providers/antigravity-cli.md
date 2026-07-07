@@ -4,6 +4,10 @@ Status: `target`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean Antigravity from the command line. It is a target, not supported, because the current product requires provider-owned metadata proof before CLI support is final.
+
 ## Surface
 
 Standalone AGY / Antigravity CLI conversations.

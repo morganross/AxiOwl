@@ -4,6 +4,10 @@ Status: `supported`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean Codex running as an active agent session. Do not use this page to reason about standalone Codex CLI. The main thing to remember is that a Codex agent is supported when it can receive a message and reply through AxiOwl MCP with Codex session identity.
+
 ## Surface
 
 Codex agent sessions running locally.

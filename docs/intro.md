@@ -11,6 +11,17 @@ Plain English version: AxiOwl is a local message switchboard for AI work session
 
 ## Start Here
 
+New readers should start with the beginner pages before jumping into the matrices:
+
+| Beginner page | Why it matters |
+|---|---|
+| [What AxiOwl Is](getting-started/what-axiowl-is.md) | Establishes the switchboard mental model. |
+| [Install And First Run](getting-started/install-first-run.md) | Explains what the MSI should do and what install success means. |
+| [Send Your First Message](getting-started/send-your-first-message.md) | Shows the basic send/receipt/reply loop. |
+| [How To Read Status And Logs](getting-started/how-to-read-status.md) | Helps users find evidence instead of guessing. |
+
+After that, use the source-of-truth docs:
+
 | Document | Purpose |
 |---|---|
 | [Architecture Overview](reference/architecture-overview.md) | How AxiOwl is structured and how messages move through the system. |
@@ -29,6 +40,18 @@ Plain English version: AxiOwl is a local message switchboard for AI work session
 | Support and diagnosis | [Support / Forensics](support/forensics.md) |
 | Release and QA | [Release / QA](release/qa-checklist.md) |
 | Security and trust | [Security / Trust](security/trust-boundaries.md) |
+
+## Concept Guides
+
+| Concept | Guide |
+|---|---|
+| Provider surfaces | [Provider Surfaces](concepts/provider-surfaces.md) |
+| Support status words | [Supported, Target, Experimental, Unsupported](concepts/supported-target-experimental.md) |
+| Receipts and proof | [Receipts Versus Proof](concepts/receipts-vs-proof.md) |
+| MCP identity | [MCP And Metadata](concepts/mcp-and-metadata.md) |
+| Discovery and registry | [Discovery And Registry](concepts/discovery-and-registry.md) |
+| Installer checkboxes | [Installer Checkboxes](concepts/installer-checkboxes.md) |
+| Local and remote | [Local Versus Remote](concepts/local-vs-remote.md) |
 
 ## The One Rule To Remember
 

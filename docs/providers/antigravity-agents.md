@@ -4,6 +4,10 @@ Status: `supported`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean the Antigravity agent surface. Do not use this page to decide whether Antigravity CLI is supported; that is a separate target provider surface.
+
 ## Surface
 
 Antigravity agent sessions.

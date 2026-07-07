@@ -4,6 +4,10 @@ Status: `unsupported` for local-provider remediation builds
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean remote nodes or remote routing. Remote is not local provider support and should not be used as a fallback to make local provider failures look successful.
+
 ## Surface
 
 Remote AxiOwl nodes and remote provider routing.

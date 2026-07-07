@@ -4,6 +4,10 @@ Status: `target`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean Claude Code CLI sessions. It is a target surface because AxiOwl needs robust metadata and stale-working-directory handling before marking it supported.
+
 ## Surface
 
 Claude Code CLI sessions.

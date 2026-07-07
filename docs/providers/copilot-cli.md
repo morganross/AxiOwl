@@ -4,6 +4,10 @@ Status: `target`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean standalone Copilot CLI. It is not the same as Copilot inside VS Code, and it remains a target until auth and metadata proof are complete.
+
 ## Surface
 
 Standalone Copilot CLI sessions.

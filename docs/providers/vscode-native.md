@@ -4,6 +4,10 @@ Status: `supported`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean VS Code's native chat/session surface. AxiOwl must target the correct VS Code window and session, so ownership and session proof matter.
+
 ## Surface
 
 Native VS Code chat/session surfaces.

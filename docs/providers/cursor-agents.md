@@ -4,6 +4,10 @@ Status: `supported`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean Cursor's Agent Window or Composer. Cursor is the most patch-sensitive supported provider surface, so a passing test depends on the bridge, command watcher, MCP config, and submit patch all being present.
+
 ## Surface
 
 Cursor Agent Window / Composer sessions.

@@ -1,0 +1,8 @@
+{
+  "label": "Security And Trust",
+  "position": 13,
+  "link": {
+    "type": "generated-index",
+    "description": "Trust boundaries, local writes, provider patches, metadata, and user expectations."
+  }
+}

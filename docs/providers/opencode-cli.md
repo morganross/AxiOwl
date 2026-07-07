@@ -4,6 +4,10 @@ Status: `target`
 
 See [Provider Support Matrix](../reference/provider-support-matrix.md).
 
+## Novice Summary
+
+Use this page when you mean OpenCode CLI. Historical tests showed reachability, but final support requires provider-owned MCP metadata under the current rules.
+
 ## Surface
 
 Standalone OpenCode CLI sessions.

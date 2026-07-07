@@ -1,0 +1,8 @@
+{
+  "label": "Providers",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Provider-surface pages for supported, target, and unsupported AxiOwl integrations."
+  }
+}
