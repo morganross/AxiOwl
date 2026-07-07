@@ -11,7 +11,18 @@ Plain English version: AxiOwl is a local message switchboard for AI work session
 
 ## Start Here
 
-New readers should start with the beginner pages before jumping into the matrices:
+New readers should start with the plain-English workflow pages before jumping into the matrices:
+
+| Why page | Why it matters |
+|---|---|
+| [Why Use AxiOwl](why-axiowl/why-use-axiowl.md) | Explains the problem AxiOwl solves. |
+| [Who AxiOwl Is For](why-axiowl/who-it-is-for.md) | Describes the people and workflows that benefit. |
+| [A Workflow Story](why-axiowl/workflow-story.md) | Shows how AxiOwl fits into everyday work. |
+| [Why Download And Install It](why-axiowl/why-download-and-install.md) | Explains what installing gives you. |
+| [When Not To Use AxiOwl](why-axiowl/when-not-to-use-it.md) | Sets honest boundaries. |
+| [Practical Examples](why-axiowl/examples.md) | Shows real use cases. |
+
+Then move to the beginner pages:
 
 | Beginner page | Why it matters |
 |---|---|

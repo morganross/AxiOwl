@@ -6,6 +6,7 @@ Start with [reference](reference/README.md). Those files are the source of truth
 
 | Audience | Folder |
 |---|---|
+| Why use it | [why-axiowl](why-axiowl/why-use-axiowl.md) |
 | Beginner path | [getting-started](getting-started/what-axiowl-is.md) |
 | Concepts | [concepts](concepts/provider-surfaces.md) |
 | Source of truth | [reference](reference/README.md) |
@@ -23,9 +24,11 @@ Historical reports, dated plans, and regression writeups remain useful evidence,
 
 ## Reading Order For New Users
 
-1. [What AxiOwl Is](getting-started/what-axiowl-is.md)
-2. [Provider Surfaces](concepts/provider-surfaces.md)
-3. [Install And First Run](getting-started/install-first-run.md)
-4. [Send Your First Message](getting-started/send-your-first-message.md)
-5. [Receipts Versus Proof](concepts/receipts-vs-proof.md)
-6. [Provider Support Matrix](reference/provider-support-matrix.md)
+1. [Why Use AxiOwl](why-axiowl/why-use-axiowl.md)
+2. [Who AxiOwl Is For](why-axiowl/who-it-is-for.md)
+3. [What AxiOwl Is](getting-started/what-axiowl-is.md)
+4. [Provider Surfaces](concepts/provider-surfaces.md)
+5. [Install And First Run](getting-started/install-first-run.md)
+6. [Send Your First Message](getting-started/send-your-first-message.md)
+7. [Receipts Versus Proof](concepts/receipts-vs-proof.md)
+8. [Provider Support Matrix](reference/provider-support-matrix.md)
