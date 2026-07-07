@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/axiowl-mascot.svg" width="156" alt="AxiOwl owl mascot" />
+  <img src="https://github.com/morganross/AxiOwl/blob/main/owl_head_transparent.png" width="156" alt="AxiOwl owl mascot" />
 
   <h1>AxiOwl</h1>
 
