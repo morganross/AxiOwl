@@ -5,8 +5,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AxiOwl',
-  tagline: 'Local AI provider messaging, installer, and support documentation.',
-  favicon: 'img/axiowl-mascot.svg',
+  tagline: 'Documentation for installing, connecting, and operating AxiOwl across providers and nodes.',
+  favicon: 'img/axiowl-owl-head.png',
 
   future: {
     v4: true,
@@ -50,15 +50,18 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/axiowl-mascot.svg',
+      image: 'img/axiowl-hero-owl.webp',
       colorMode: {
-        respectPrefersColorScheme: true,
+        defaultMode: 'light',
+        respectPrefersColorScheme: false,
       },
       navbar: {
         title: 'AxiOwl',
         logo: {
           alt: 'AxiOwl mascot',
-          src: 'img/axiowl-mascot.svg',
+          src: 'img/axiowl-owl-head.png',
+          href: 'https://axiowl.com/',
+          target: '_self',
         },
         items: [
           {
@@ -86,6 +89,7 @@ const config = {
             href: 'https://github.com/morganross/AxiOwl',
             label: 'GitHub',
             position: 'right',
+            className: 'navbar__github-link',
           },
         ],
       },
@@ -130,6 +134,10 @@ const config = {
             title: 'More',
             items: [
               {
+                label: 'AxiOwl.com',
+                href: 'https://axiowl.com/',
+              },
+              {
                 label: 'Developer Docs',
                 to: '/docs/developer',
               },
@@ -140,7 +148,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} AxiOwl. Built with Docusaurus.`,
+        copyright: `Copyright ${new Date().getFullYear()} AxiOwl. All rights reserved.`,
       },
       prism: {
         theme: prismThemes.github,
