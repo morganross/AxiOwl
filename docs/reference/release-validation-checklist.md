@@ -1,135 +1,132 @@
 # Release Validation Checklist
 
-This checklist is the source of truth for release and QA validation. It exists to prevent the most expensive failure mode: publishing a build that compiles but does not install, discover, send, or receive correctly on another machine.
+This is the source of truth for release and QA validation. It prevents AxiOwl from presenting code presence, a local receipt, or an old method report as proof that the current artifact works on another computer.
 
-## Release Philosophy
+## 1. Establish Provenance
 
-AxiOwl release validation must prove behavior, not intent. A clean build is necessary, but it is only the first gate. The release has to prove that the MSI contains the current binary, the installer selects the right features, the runtime can discover provider sessions, and supported providers can respond through AxiOwl MCP.
+- Confirm the intended repository, workspace, and `main` branch.
+- Record the exact source commit and product version.
+- Review the working tree and include only intentional files.
+- Remove or isolate stale release artifacts that could be installed by mistake.
+- Compare product claims with the provider, installer, platform, and protocol matrices.
 
-Plain English version: the release is not done when the MSI exists. The release is done when a clean machine can install it and providers can answer.
+## 2. Build And Test Current Source
 
-## Preflight
+- Configure and build the Windows Release targets.
+- Run the native test suite and installer safety checks.
+- Build through `apps/windows-desktop/installer/build-windows-msi.ps1`.
+- Confirm all runtime-referenced executables are staged and packaged.
+- Record MSI version, ProductCode, payload hashes, and source commit.
+- Verify the final release directory contains the intended flat artifacts, not stale subfolders.
 
-- Confirm repo, branch, and folder.
-- Confirm branch is `main`.
-- Confirm the working tree contains only intentional changes.
-- Confirm provider support status in [Provider Support Matrix](provider-support-matrix.md).
-- Confirm installer behavior in [Installer Behavior Matrix](installer-behavior-matrix.md).
-- Confirm docs describe current behavior, not a stale plan.
-- Remove stale local release artifacts that could be confused with the new build.
-- Record the source commit that produced the artifact.
+Compilation alone does not satisfy this gate. The produced MSI must contain the binaries from the recorded source commit.
 
-## Clean Build
+## 3. Clean Windows 11 Install
 
-- Build the native Windows app from current source.
-- Run CMake tests.
-- Run installer safety checks.
-- Build MSI through `apps/windows-desktop/installer/build-windows-msi.ps1`.
-- Verify generated MSI contains the current `axiowl.exe`, manifest, VSIX payloads, helper executables, and expected WiX custom actions.
+- Download or copy the exact candidate artifact to a clean VM.
+- Verify provider discovery occurs before checkbox defaults are chosen.
+- Verify only detected providers are preselected.
+- Verify manually selected missing providers fail with a useful explanation.
+- Verify unchecked providers are not patched, configured, closed, restarted, or removed.
+- Verify selected provider apps are closed only when their install action requires it and are restarted intentionally.
+- Verify per-user configuration is written for the interactive user, not the elevated installer account.
+- Verify logs name every helper phase and its result.
+- Verify installed binary and manifest hashes match provenance.
 
-## MSI Provenance
+## 4. Core Runtime And Discovery
 
-Verify:
+- Run `axiowl status` and record version, manifest, activation, service, and runtime state.
+- Run provider/session discovery.
+- Verify discovered registry rows retain provider-owned session ids.
+- Verify stale paths are not promoted to sendable rows.
+- Verify manual/protected rows survive discovery merges.
+- Verify absent providers remain absent rather than becoming optimistic successes.
 
-- manifest source commit;
-- package version;
-- ProductCode rotation;
-- payload hashes;
-- installed `axiowl.exe` hash after install;
-- release folder does not contain stale subfolder artifacts or old MSI confusion.
+## 5. Provider Surface Validation
 
-The purpose is simple: when a user says they installed the latest build, AxiOwl should be able to prove which source produced it.
+Test each supported surface independently, including separate agent-window, editor, extension, and CLI surfaces under the same brand.
 
-## Clean VM Install
+For every supported send path:
 
-On a clean Windows 11 VM:
+1. Select or create a current session.
+2. Send a message containing a unique release run id.
+3. Record the AxiOwl acceptance receipt.
+4. Confirm provider-visible receipt of the complete message.
+5. Require a response through AxiOwl MCP.
+6. Verify sender provider/session metadata.
+7. Verify run and receipt correlation.
 
-- download from GitHub or the intended release source;
-- install through the MSI;
-- verify checkbox defaults are based on discovered providers;
-- verify missing providers are not preselected;
-- verify unchecked providers are not patched, closed, restarted, or removed;
-- verify selected provider apps are closed only when required;
-- verify install logs are written;
-- verify `axiowl status` can explain version, manifest, and activation state;
-- verify no unexpected terminal/window spam beyond unavoidable Windows Installer UI.
+For create and rename, test and record those operations independently. Authentication or quota blocks are not code failures, but they also do not supply support proof.
 
-## Provider Discovery
+## 6. A2A Server Validation
 
-- Run AxiOwl discovery after install.
-- Verify registry rows for discovered providers.
-- Verify provider session ids are stable enough to address.
-- Verify stale paths are not enrolled as sendable.
-- Verify missing providers remain unchecked/unsupported instead of silently passing.
-- Verify discovery logs explain provider absence or failure.
+- Fetch the public Agent Card and validate advertised URLs and capabilities.
+- Validate scoped-agent cards and authorization boundaries.
+- Test HTTP+JSON and JSON-RPC message send.
+- Test task get, list, cancel, and extended card behavior.
+- Test push configuration, retries, terminal failure, and dead-letter records.
+- Verify streaming routes continue to advertise `implemented=false` until implemented.
 
-## Create Chat Tests
+### Service/User Boundary
 
-- Use one fresh/current target per supported provider surface.
-- Avoid old stale chats for release proof.
-- Record a unique run id for each test round.
-- Create new chats where the provider supports create.
-- Use existing current chats where create is not supported or unsafe.
+- Install the optional `AxiOwlApi` feature and verify the LocalSystem service lifecycle.
+- Test public service routes separately from protected interactive-user provider routes.
+- Verify broker-required routes fail loudly with `503` when no user broker is available.
+- Do not mark protected service-backed desktop delivery complete until `axiowl-user-broker.exe` is packaged, launched, authenticated, and lifecycle-tested.
 
-## Send/Receive Tests
+## 7. External A2A Client Validation
 
-For each supported provider surface:
+- Import an independent Agent Card.
+- Test unauthenticated, bearer, and OAuth client-credential modes as claimed.
+- Send and retrieve tasks through both supported A2A bindings.
+- Verify task state, artifacts, timeout, cancellation, and error mapping.
+- Confirm interoperability against an independent implementation, not only AxiOwl-to-AxiOwl.
 
-- send a message asking for a response over AxiOwl MCP;
-- include the unique run id;
-- confirm the target receives the message;
-- confirm the provider replies through AxiOwl MCP;
-- confirm the reply includes the expected run id;
-- confirm sender identity maps to the provider/session that replied;
-- confirm `accepted_by_axiowl` is not treated as delivery proof.
+## 8. Inter-Node Validation
 
-## CLI Tests
+Use two clean AxiOwl nodes and validate each claimed transport independently:
 
-CLI providers must be tested separately from editor and agent surfaces.
+- direct HTTPS A2A;
+- hosted relay;
+- A2A over SSH;
+- guarded legacy migration path.
 
-For CLI providers:
+For each path, record node identity, selected transport, redacted credential source, preflight result, task id, destination result, and reply correlation. Disable or break one route at a time to prove fallback policy and verify that logs disclose every fallback.
 
-- confirm CLI is installed;
-- confirm CLI auth is available;
-- discover or create a CLI session;
-- send through AxiOwl;
-- require reply through AxiOwl MCP;
-- verify provider-owned sender metadata;
-- reject environment-only identity as final support;
-- keep auth-blocked providers as `target`, not `supported`.
+## 9. XMPP Branch Validation
 
-## Uninstall/Reinstall Tests
+XMPP is currently branch-only. Validation must occur from `feature/xmpp-remote-transport` with branch provenance and must cover WSS/TLS verification, SCRAM-SHA-256, session routing, result correlation, external chat gateway policy, Prosody integration, and branch-specific MSI behavior.
 
-- Install selected providers.
-- Verify provider response paths.
-- Uninstall.
-- Verify AxiOwl-owned runtime/config cleanup.
-- Verify unrelated provider data remains intact.
-- Reinstall.
-- Verify checkbox defaults again.
-- Verify selected-only provider behavior.
-- Retest supported providers.
+Passing branch tests does not change current-main documentation. Merge, reconcile, package, clean-machine test, and then update the protocol matrix.
 
-Uninstall/reinstall tests matter because stale config can make a broken new installer look successful or make a working installer look broken.
+## 10. Uninstall, Repair, And Reinstall
 
-## GitHub Upload
+- Install a deliberate subset of provider features.
+- Prove those provider paths.
+- Run MSI repair and verify feature ownership remains granular.
+- Uninstall and verify only AxiOwl-owned state for installed features is removed.
+- Verify unrelated provider chats, extensions, settings, and credentials remain intact.
+- Reinstall with a different feature selection.
+- Repeat discovery and end-to-end provider tests.
 
-- Commit intentional source/docs/build changes.
-- Push to `main` only when requested and validated.
-- Upload MSI artifact only after release validation passes.
-- Write a success-method report for any new provider/install method that passed end-to-end.
-- Confirm GitHub Actions workflows pass.
-- Confirm GitHub Pages docs build when docs changed.
+The second install must not succeed only because the first install left a stale extension, patch, registry row, or config entry behind.
+
+## 11. Platform Validation
+
+- Run the complete Windows release sequence for Windows claims.
+- Validate the narrow Linux package only for the surfaces and functions it actually ships.
+- Keep parked Linux desktop code and macOS outside supported product claims.
+
+## 12. Documentation And GitHub
+
+- Build the Docusaurus website with `npm run build`.
+- Verify internal links and generated navigation.
+- Confirm provider pages agree with the provider support matrix.
+- Confirm protocol pages agree with the protocol support matrix.
+- Confirm installer pages agree with actual WiX and helper ownership.
+- Push the intended commit and verify GitHub Actions and GitHub Pages deployment.
+- Publish MSI assets only after their separate release validation passes.
 
 ## Release Decision
 
-Publish only when:
-
-- build passed;
-- MSI provenance passed;
-- clean VM install passed;
-- provider response tests passed for supported providers;
-- uninstall/reinstall passed;
-- docs match actual status;
-- known risks are documented;
-- no target provider is presented as supported.
+A capability may be called supported only when its current artifact passes the applicable clean-machine, identity, delivery, reply, uninstall, and protocol gates. Implemented but unvalidated work remains implemented, target, experimental, or branch-only. Historical success guides engineering; current evidence governs the release claim.

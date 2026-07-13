@@ -3,68 +3,53 @@ sidebar_position: 1
 slug: /intro
 ---
 
-# AxiOwl Docs
+# AxiOwl Documentation
 
-AxiOwl is local Windows software for AI provider messaging and provider normalization. It installs provider integrations, discovers provider sessions, gives different provider surfaces a shared vocabulary, sends messages to those sessions, and lets providers reply back through AxiOwl MCP with sender identity.
+AxiOwl is a general-purpose normalization and communication layer for AI agents. It gives unlike provider surfaces a shared address book, message contract, identity model, receipt model, and set of diagnostic tools without pretending that every provider works the same way.
 
-Plain English version: AxiOwl is a local switchboard and translation layer for AI work sessions. It helps one provider session talk to another while making different provider tools easier to name, test, compare, and diagnose.
+Plain English: AxiOwl lets you find an AI work session, send work to it through the method that provider actually supports, and receive a reply whose origin can be checked. The session may be in a desktop agent window, an editor, a CLI, another AxiOwl node, or an external A2A system.
+
+## Product Areas
+
+| Area | What it does | Current boundary |
+|---|---|---|
+| Provider messaging | Discovers and addresses local provider sessions, then sends through provider-specific delivery edges. | Current Windows product; support varies by provider surface. |
+| MCP replies | Lets a provider return a message with sender, session, run, and receipt correlation. | Current main behavior. |
+| A2A | Exposes selected desktop agents as A2A endpoints and calls external Agent Card endpoints. | Implemented on current main; streaming routes are declared but not implemented. |
+| Inter-node | Connects AxiOwl nodes through direct HTTPS A2A, relay, or A2A over SSH. | Implemented on current main with explicit transport selection and guarded fallback. |
+| XMPP | Adds standards-based chat transport and external XMPP gateway behavior. | Implemented on `feature/xmpp-remote-transport`, not merged into current main. |
+| Installation | Installs the core runtime and selected provider-specific config, extensions, patches, or services. | Windows MSI is primary. Linux support is narrower; macOS is unsupported. |
+
+The status statements above are summaries. Use the [Provider Support Matrix](reference/provider-support-matrix.md), [Protocol Support Matrix](reference/protocol-support-matrix.md), [Platform Support Matrix](reference/platform-support-matrix.md), and [Installer Behavior Matrix](reference/installer-behavior-matrix.md) for the exact current claims.
 
 ## Start Here
 
-New readers should start with the plain-English workflow pages before jumping into the matrices:
+New users:
 
-| Why page | Why it matters |
+1. Read [What AxiOwl Is](getting-started/what-axiowl-is.md).
+2. Read [Install And First Run](getting-started/install-first-run.md).
+3. Follow [Send Your First Message](getting-started/send-your-first-message.md).
+4. Learn the difference between [Receipts And Proof](concepts/receipts-vs-proof.md).
+
+People evaluating the product should read [Why Use AxiOwl](why-axiowl/why-use-axiowl.md) and [AxiOwl As A Normalization Layer](concepts/normalization-layer.md).
+
+Developers and operators should start with [Architecture Overview](reference/architecture-overview.md), [A2A](a2a/README.md), [Inter-Node Communication](inter-node/README.md), and [Release Validation](reference/release-validation-checklist.md).
+
+## Source Of Truth
+
+These documents govern current product claims:
+
+| Document | Governs |
 |---|---|
-| [Why Use AxiOwl](why-axiowl/why-use-axiowl.md) | Explains the problem AxiOwl solves. |
-| [Who AxiOwl Is For](why-axiowl/who-it-is-for.md) | Describes the people and workflows that benefit. |
-| [A Workflow Story](why-axiowl/workflow-story.md) | Shows how AxiOwl fits into everyday work. |
-| [Why Download And Install It](why-axiowl/why-download-and-install.md) | Explains what installing gives you. |
-| [When Not To Use AxiOwl](why-axiowl/when-not-to-use-it.md) | Sets honest boundaries. |
-| [Practical Examples](why-axiowl/examples.md) | Shows real use cases. |
+| [Provider Support Matrix](reference/provider-support-matrix.md) | Provider surface support and last validation status. |
+| [Installer Behavior Matrix](reference/installer-behavior-matrix.md) | What each MSI feature installs, patches, configures, and removes. |
+| [Protocol Support Matrix](reference/protocol-support-matrix.md) | A2A, inter-node, relay, SSH, streaming, and XMPP status. |
+| [Platform Support Matrix](reference/platform-support-matrix.md) | Windows, Linux, and macOS product boundaries. |
+| [Architecture Overview](reference/architecture-overview.md) | Runtime components and message flows. |
+| [Release Validation Checklist](reference/release-validation-checklist.md) | Evidence required before a capability is called release-ready. |
 
-Then move to the beginner pages:
+Historical reports explain how a method was discovered. They do not override these current matrices.
 
-| Beginner page | Why it matters |
-|---|---|
-| [What AxiOwl Is](getting-started/what-axiowl-is.md) | Establishes the switchboard mental model. |
-| [Install And First Run](getting-started/install-first-run.md) | Explains what the MSI should do and what install success means. |
-| [Send Your First Message](getting-started/send-your-first-message.md) | Shows the basic send/receipt/reply loop. |
-| [How To Read Status And Logs](getting-started/how-to-read-status.md) | Helps users find evidence instead of guessing. |
+## One Rule To Remember
 
-After that, use the source-of-truth docs:
-
-| Document | Purpose |
-|---|---|
-| [Architecture Overview](reference/architecture-overview.md) | How AxiOwl is structured and how messages move through the system. |
-| [Provider Support Matrix](reference/provider-support-matrix.md) | Which provider surfaces are supported, target, experimental, unsupported, or removed. |
-| [Installer Behavior Matrix](reference/installer-behavior-matrix.md) | What the MSI installs, patches, configures, removes, and avoids. |
-| [Release Validation Checklist](reference/release-validation-checklist.md) | Required release and QA gates. |
-
-## Audience Guides
-
-| Audience | Guide |
-|---|---|
-| Users | [User Docs](user/README.md) |
-| Installer operators | [Installer Docs](installer/README.md) |
-| Provider-specific work | [Provider Docs](providers/README.md) |
-| Developers | [Developer Docs](developer/README.md) |
-| Support and diagnosis | [Support / Forensics](support/forensics.md) |
-| Release and QA | [Release / QA](release/qa-checklist.md) |
-| Security and trust | [Security / Trust](security/trust-boundaries.md) |
-
-## Concept Guides
-
-| Concept | Guide |
-|---|---|
-| Provider surfaces | [Provider Surfaces](concepts/provider-surfaces.md) |
-| Normalization layer | [AxiOwl As A Normalization Layer](concepts/normalization-layer.md) |
-| Support status words | [Supported, Target, Experimental, Unsupported](concepts/supported-target-experimental.md) |
-| Receipts and proof | [Receipts Versus Proof](concepts/receipts-vs-proof.md) |
-| MCP identity | [MCP And Metadata](concepts/mcp-and-metadata.md) |
-| Discovery and registry | [Discovery And Registry](concepts/discovery-and-registry.md) |
-| Installer checkboxes | [Installer Checkboxes](concepts/installer-checkboxes.md) |
-| Local and remote | [Local Versus Remote](concepts/local-vs-remote.md) |
-
-## The One Rule To Remember
-
-An AxiOwl receipt means AxiOwl accepted a request. It does not prove the target provider received the message. The strongest normal proof is a response from the provider over AxiOwl MCP with the correct sender identity.
+An AxiOwl acceptance receipt proves that AxiOwl accepted responsibility for a request. It does not prove the target consumed the message. The strongest ordinary proof is a correlated response from the intended provider session over AxiOwl MCP or the corresponding completed A2A task result.

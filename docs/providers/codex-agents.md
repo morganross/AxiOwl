@@ -1,58 +1,33 @@
 # Codex Agents
 
-Status: `supported`
+Codex agents are Codex Desktop conversations discovered from provider-owned state and addressed through the local Codex provider edge.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+See the canonical [Provider Support Matrix](../reference/provider-support-matrix.md).
 
-## Novice Summary
+## Capabilities
 
-Use this page when you mean Codex running as an active agent session. Do not use this page to reason about standalone Codex CLI. The main thing to remember is that a Codex agent is supported when it can receive a message and reply through AxiOwl MCP with Codex session identity.
+| Operation | Status | Method |
+|---|---|---|
+| Discovery | supported | Codex thread/session state |
+| Send | supported | Local Codex desktop transport |
+| Create | unsupported | Previous app-server spawn path was disabled as unreliable |
+| Rename | supported | Codex app-server rename plus provider-native verification |
+| MCP reply | supported | Codex plugin/MCP metadata |
 
-## Surface
+## Installer
 
-Codex agent sessions running locally.
+The Codex checkbox installs the AxiOwl Codex plugin, MCP configuration, marketplace entry, and skill. It does not patch an editor binary.
 
-Plain English version: this is Codex as an active agent session, not the standalone Codex CLI surface.
+## Identity
 
-## Delivery Method
+The thread/session ID is the routing identity. A display title is not sufficient because multiple threads can share similar titles and titles can change.
 
-AxiOwl delivers through the Codex provider edge. Replies come back through AxiOwl MCP, which gives AxiOwl sender/session identity for the replying Codex session.
+## Evidence
 
-The expected flow is:
+Response-backed delivery has worked. Provider-visible rename has also been proven through Codex app-server notification and native session-index persistence. Desktop create remains deliberately rejected rather than reporting a fragile spawn as success.
 
-```text
-AxiOwl send
-  -> Codex provider edge
-  -> target Codex session
-  -> Codex reply over AxiOwl MCP
-  -> registry sender identity resolution
-```
+## Risks
 
-## Installer Action
-
-The installer installs the AxiOwl Codex plugin/skill integration and MCP config where selected.
-
-Codex should be selected only when Codex is discovered or the user explicitly selects it. Installing another provider should not remove or reinstall Codex integration as collateral damage.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | No editor binary patch expected. |
-| Extension | No VSIX-style extension expected. |
-| MCP | Required for replies. |
-| Config | Codex plugin/MCP config. |
-
-## Test Status
-
-Response-backed Codex tests have passed. A receipt alone is not enough; the passing proof is a Codex reply through AxiOwl MCP.
-
-## Known Risks
-
-- Existing sessions can keep stale MCP transport state until restarted.
-- Old product naming or stale plugin config can confuse discovery after rename/refactor work.
-- Sender identity must come from MCP metadata, not guessed display names.
-
-## Architecture Rationale
-
-Codex agents are treated as their own provider surface because the agent runtime can provide MCP metadata and reply directly through AxiOwl. That is cleaner than pretending Codex agent behavior and Codex CLI behavior are identical.
+- an already-open Codex session can retain a stale MCP transport until restarted;
+- plugin installation and active-session MCP initialization are separate boundaries;
+- AxiOwl acceptance does not prove Codex completed the turn.

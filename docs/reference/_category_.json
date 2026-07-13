@@ -1,6 +1,6 @@
 {
   "label": "Reference",
-  "position": 4,
+  "position": 15,
   "link": {
     "type": "generated-index",
     "description": "Canonical product contracts for architecture, support status, installer behavior, and release validation."

@@ -1,48 +1,27 @@
 # Antigravity CLI
 
-Status: `target`
+Antigravity CLI is a separate provider edge from the Antigravity agent window.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
-
-Use this page when you mean Antigravity from the command line. It is a target, not supported, because the current product requires provider-owned metadata proof before CLI support is final.
-
-## Surface
-
-Standalone AGY / Antigravity CLI conversations.
-
-Plain English version: this is command-line Antigravity, not the Antigravity agent window.
-
-## Delivery Method
-
-Historical implementation used AGY conversation discovery and resume/print mode. Current policy requires provider-owned MCP metadata, so the final method must include a programmatic metadata patch or equivalent provider-supported metadata path.
-
-## Installer Action
-
-Target behavior: install CLI MCP config and apply a robust metadata patch when the CLI is discovered and selected.
-
-The installer should not precheck this feature merely because Antigravity agents are present. Agent support and CLI support are separate.
-
-## Requirements
-
-| Requirement | Needed |
+| Operation | Status |
 |---|---|
-| Patch | Required for final metadata compliance unless provider supplies metadata natively. |
-| Extension | No VSIX. |
-| MCP | Required. |
-| Config | CLI MCP config. |
+| Discovery | implemented |
+| Send | implemented |
+| Create | implemented |
+| Rename | unsupported |
+| MCP reply | implemented |
 
-## Test Status
+## Installer
 
-Historical response-backed proof exists, but current support requires new proof with provider-owned metadata.
+The runtime contains `antigravity_cli` discovery and provider code, but the primary MSI does not expose a dedicated Antigravity CLI provider contract. The Antigravity checkbox configures the agent surface MCP integration.
 
-## Known Risks
+## Evidence
 
-- Quota/auth can block testing.
-- CLI session storage may change.
-- Environment-only sender identity is not accepted as final support.
+Antigravity CLI has produced a response-backed AxiOwl reply in earlier testing. The July 12 full suite declared CLI rename unsupported before dispatch. That is an intentional capability result, not a failed rename attempt.
 
-## Architecture Rationale
+## Risks
 
-The CLI remains `target` because the product requirement changed from “can we make it reply” to “can we make it reply with provider-owned identity in a robust way.” That is the right tradeoff for supportability.
+- installer support and runtime support are different;
+- provider authentication and CLI availability must be checked on each machine;
+- rename must remain visibly unsupported until a real provider contract exists.

@@ -1,102 +1,79 @@
-# AxiOwl Security And Trust Docs
+# Security, Privacy, And Trust Boundaries
 
-AxiOwl is a local coordinator. Users should know what it reads, writes, patches, sends, and intentionally avoids.
+AxiOwl connects software that was not designed around one shared trust model. Its security goal is therefore explicit authority: each component should read, write, patch, or transmit only what its selected feature and current operation require.
 
-## Trust Model
+Plain English: AxiOwl has meaningful access to local provider state and, when enabled, remote agent endpoints. Users need to know which boundary an operation crossed and which credentials made it possible.
 
-AxiOwl runs locally and integrates with local provider software. That gives it power: it can read provider session metadata, write MCP config, install bridge extensions, and patch selected provider files. The product must therefore be explicit about boundaries.
+## Local User Boundary
 
-Plain English version: AxiOwl should touch only what it needs, explain what it touched, and fail loudly when it cannot do that safely.
+The ordinary runtime operates in the interactive user's context. It may read provider session metadata, provider configuration, AxiOwl registry state, and provider installation paths required for discovery and delivery. It may write AxiOwl-owned runtime files and selected provider integration entries.
 
-## What AxiOwl Reads
+Provider session data is used to address work. It should not be treated as a general license to inspect unrelated workspace content, credentials, or conversations.
+
+## Installer Boundary
+
+The MSI has machine-level authority for components that require it and launches selected per-user configuration work in the actual interactive user context. Each provider feature owns its config, extension, patch, cleanup, app shutdown, and restart behavior.
+
+Unchecked features should not modify or remove their provider. Uninstall should remove AxiOwl-owned state for installed features while preserving unrelated provider settings, chats, extensions, and authentication.
+
+## Provider Patch And Extension Boundary
+
+Some surfaces expose no stable public API for required delivery or identity behavior. Their integration may use an extension or a validated patch to provider-owned files. These are higher-risk operations because provider updates can change the private implementation.
+
+Patch-sensitive operations need discovery, multiple structural checks, pre-change validation, backup or rollback, post-change validation, and loud failure. A partial or ambiguous match is not permission to modify the file.
+
+## A2A Service Boundary
+
+The optional `AxiOwlApi` Windows service runs as LocalSystem. That service boundary is intentionally separate from the interactive user's provider sessions. Public Agent Cards and network A2A operations can be served there, but protected operations that need user-owned provider state require the user broker path.
+
+Current packaging does not yet include and start the compiled user-broker executable. Protected service routes that require it can return `503`. This is a known release boundary, not an authentication workaround.
+
+## Network And Node Boundary
+
+Inter-node communication can use direct HTTPS A2A, relay, or A2A over SSH. Every path needs explicit node identity, authenticated peer or endpoint configuration, bounded timeouts, and transport-specific logs. A legacy fallback is guarded and should not silently reduce the trust guarantees of the selected route.
+
+External A2A endpoints are separate trust domains. Importing an Agent Card describes capabilities; it does not make that endpoint trusted. Bearer tokens and OAuth client credentials must be scoped and protected as secrets.
+
+## XMPP Boundary
+
+The XMPP transport exists on `feature/xmpp-remote-transport`, not current main. Its trust model adds XMPP account credentials, TLS certificate validation, SCRAM authentication, stanza routing, and gateway authorization. Those secrets and policies should remain separate from local provider credentials. Branch implementation does not equal released support.
+
+## Data AxiOwl Reads And Writes
 
 AxiOwl may read:
 
-- local provider session metadata;
-- local provider config files;
-- provider chat/session indexes or databases needed for discovery;
-- AxiOwl registry/log/runtime files;
-- selected provider install paths;
-- license activation state;
-- installer payload manifest/provenance.
-
-Provider-specific discovery should read only what is needed to find and address sessions.
-
-## What AxiOwl Writes
+- provider install and version information;
+- provider session indexes, databases, or process metadata needed for discovery;
+- selected provider MCP/config files;
+- AxiOwl registry, runtime, logs, manifests, and license state;
+- configured Agent Cards and remote-node records.
 
 AxiOwl may write:
 
-- `%LOCALAPPDATA%\AxiOwl\bin\axiowl.exe`;
-- `%LOCALAPPDATA%\AxiOwl\manifest.json`;
-- `%LOCALAPPDATA%\AxiOwl\logs`;
-- `%LOCALAPPDATA%\AxiOwl\registry`;
-- `%LOCALAPPDATA%\AxiOwl\runtime`;
-- selected provider MCP config;
-- selected provider bridge extension files;
-- selected provider patch changes;
-- selected provider AxiOwl-owned config entries.
+- its installed binaries, manifests, registry, runtime, logs, and configuration;
+- selected MCP server entries;
+- selected bridge extensions or validated provider patches;
+- A2A task, correlation, retry, and dead-letter state;
+- explicit remote-node, Agent Card, or credential references.
 
-## What AxiOwl Patches
+It should not broadly rewrite unrelated extensions, settings, workspace files, provider chats, or authentication tokens.
 
-Some provider surfaces require patches because the provider does not expose a stable public API for the required behavior.
+## Metadata And Privacy
 
-Patch-sensitive surfaces:
-
-- VS Code native/Copilot integration where selected;
-- Cursor Agent Window / Glass submit integration;
-- future CLI metadata support where provider metadata is not available natively.
-
-Patching should be selected-feature-specific and should fail loudly when unsafe.
-
-## What AxiOwl Should Not Touch
-
-AxiOwl should not modify:
-
-- unrelated provider extensions;
-- user auth tokens;
-- unrelated provider settings;
-- unrelated workspace files;
-- provider chats except by sending user-requested messages;
-- unchecked provider surfaces;
-- remote configuration unless explicitly selected.
-
-## Metadata Sent
-
-AxiOwl messages can include:
-
-- sender display name;
-- sender provider/session id;
-- target display name;
-- target provider/session id;
-- run id;
-- receipt/message id;
-- reply instructions;
-- license activation reminder text where configured.
-
-Provider replies through MCP must include provider/session metadata so AxiOwl can route replies correctly.
-
-## Local And Remote
-
-Local provider support should remain local unless a remote feature is explicitly selected. Remote must not be used to hide local delivery failures.
-
-Remote support needs a separate trust contract because it changes the boundary from local machine state to network/node state.
+Messages may carry sender and target names, provider/session ids, run ids, message or receipt ids, task ids, and reply-routing instructions. Network transports also reveal the endpoint identities needed for routing. Logs should record enough evidence to diagnose a route without dumping unrelated conversation content or secret values.
 
 ## License Activation
 
-License activation state is local unless activation is explicitly performed. The installer and status output may report activation state. Users should expect unactivated installs to show activation reminders.
+License activation is an explicit operation against the configured activation service. Activation state can be reported locally. License diagnostics should not conceal installation, transport, or provider failures, and credentials should never be copied into method reports or public logs.
 
-License logic should not silently block local diagnostics. A user should still be able to understand install and provider state.
+## Security Rules
 
-## User Expectations
+1. Select features explicitly and keep ownership granular.
+2. Validate before and after modifying provider-owned files.
+3. Separate local user authority from service authority.
+4. Authenticate every network boundary.
+5. Redact secrets while preserving correlation evidence.
+6. Report the exact success boundary reached.
+7. Fail loudly when identity, ownership, or validation is ambiguous.
 
-Users should expect:
-
-- selected provider integrations only;
-- clear logs;
-- loud failure when patch/config/install steps cannot be completed;
-- no silent fallback that makes unsupported paths look supported;
-- receipts that distinguish AxiOwl handoff from provider delivery proof.
-
-## Security Opinion
-
-The safest AxiOwl behavior is narrow and auditable. Broad cleanup, broad patching, and broad fallback may feel robust in one test, but they increase risk on another machine. Robustness should come from discovery, validation, logs, rollback, and precise feature boundaries.
+See [A2A Operations And Security](../a2a/operations-and-security.md), [Node Pairing And Trust](../inter-node/pairing-identity-and-trust.md), and [XMPP Deployment And Security](../xmpp/deployment-credentials-and-security.md).

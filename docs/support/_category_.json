@@ -1,6 +1,6 @@
 {
   "label": "Support",
-  "position": 11,
+  "position": 14,
   "link": {
     "type": "generated-index",
     "description": "Forensic guidance for failed installs, stale provider state, missing MCP tools, and provider patch failures."

@@ -1,6 +1,6 @@
 {
   "label": "Operations",
-  "position": 9,
+  "position": 12,
   "link": {
     "type": "generated-index",
     "description": "Practical playbooks for testing, releases, and ongoing maintenance."

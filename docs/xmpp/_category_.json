@@ -1,0 +1,8 @@
+{
+  "label": "XMPP",
+  "position": 7,
+  "link": {
+    "type": "generated-index",
+    "description": "The isolated XMPP remote transport and external chat gateway feature line."
+  }
+}

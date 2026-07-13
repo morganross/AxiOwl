@@ -1,37 +1,32 @@
-# AxiOwl Provider Docs
+# Provider Surfaces
 
-Each provider page describes one provider surface. The status source of truth is [Provider Support Matrix](../reference/provider-support-matrix.md).
+A provider is a brand or protocol plus a concrete surface. Codex Desktop and Codex CLI are different providers in AxiOwl because discovery, installation, delivery, lifecycle, and proof differ.
 
-## Why Provider Pages Are Surface-Specific
+Use the [Provider Support Matrix](../reference/provider-support-matrix.md) for operation-level status.
 
-Provider support is not just brand support. A brand can expose an editor integration, an agent window, a CLI, and a VSIX-backed chat surface. Those surfaces can require different installs, patches, metadata, delivery proof, and failure handling.
+## Local Desktop And Editor Surfaces
 
-Plain English version: `codex:agents` and `codex:cli` are not the same thing. `cursor:agents` and a hypothetical Cursor CLI are not the same thing. Treating them as the same creates bad tests and bad installs.
+- [Codex Agents](codex-agents.md)
+- [VS Code Native](vscode-native.md)
+- [VS Code Copilot-Backed](vscode-copilot.md)
+- [Cursor Agents](cursor-agents.md)
+- [Antigravity Agents](antigravity-agents.md)
 
-## Provider Pages
+## CLI Surfaces
 
-| Provider surface | Page | Current status |
-|---|---|---|
-| Codex agents | [Codex Agents](codex-agents.md) | supported |
-| Codex CLI | [Codex CLI](codex-cli.md) | supported |
-| VS Code Copilot | [VS Code Copilot](vscode-copilot.md) | supported |
-| VS Code native | [VS Code Native](vscode-native.md) | supported |
-| Cursor agents | [Cursor Agents](cursor-agents.md) | supported |
-| Antigravity agents | [Antigravity Agents](antigravity-agents.md) | supported |
-| Antigravity CLI | [Antigravity CLI](antigravity-cli.md) | target |
-| Claude Code CLI | [Claude Code CLI](claude-code-cli.md) | target |
-| OpenCode CLI | [OpenCode CLI](opencode-cli.md) | target |
-| Copilot CLI | [Copilot CLI](copilot-cli.md) | target |
-| Remote | [Remote](remote.md) | unsupported for local-provider remediation |
+- [Codex CLI](codex-cli.md)
+- [Antigravity CLI](antigravity-cli.md)
+- [Claude Code CLI](claude-code-cli.md)
+- [Copilot CLI](copilot-cli.md)
+- [OpenCode CLI](opencode-cli.md)
+- [Cursor Agent CLI](cursor-agent-cli.md)
 
-## Provider Page Contract
+## Protocol And Built-In Surfaces
 
-Every provider page should answer:
+- [External A2A Endpoints](external-a2a.md)
+- [AxiOwl Remote Nodes](remote.md)
+- [AxiOwl Mailbox](axiowl-mailbox.md)
 
-1. Is this surface supported, target, experimental, unsupported, or removed?
-2. How does AxiOwl deliver a message?
-3. What does the installer do?
-4. What patch, extension, MCP config, or CLI config is required?
-5. What test proof exists?
-6. What risks are known?
-7. Why is this architecture the right current choice?
+## Reading Status Correctly
+
+Do not infer create or rename support from send support. Do not infer installer coverage from the existence of a provider edge. Do not infer a provider response from an AxiOwl acceptance receipt.

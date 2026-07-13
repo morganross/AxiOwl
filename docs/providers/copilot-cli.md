@@ -1,48 +1,27 @@
 # Copilot CLI
 
-Status: `target`
+Copilot CLI is the standalone GitHub Copilot command-line product. It is not the Copilot-backed session inside VS Code.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
-
-Use this page when you mean standalone Copilot CLI. It is not the same as Copilot inside VS Code, and it remains a target until auth and metadata proof are complete.
-
-## Surface
-
-Standalone Copilot CLI sessions.
-
-Plain English version: this is Copilot as a command-line provider, not Copilot inside VS Code.
-
-## Delivery Method
-
-AxiOwl has code support for Copilot CLI create/resume paths, but final support requires provider-owned MCP metadata and working Copilot CLI authentication.
-
-## Installer Action
-
-Target behavior: install Copilot CLI MCP config and robust metadata patch when Copilot CLI is discovered and selected.
-
-The installer should not treat GitHub CLI auth as proof that Copilot CLI auth is ready.
-
-## Requirements
-
-| Requirement | Needed |
+| Operation | Status |
 |---|---|
-| Patch | Required for final metadata compliance unless Copilot CLI supplies metadata natively. |
-| Extension | No VSIX for CLI surface. |
-| MCP | Required. |
-| Config | Copilot CLI MCP config. |
+| Discovery | implemented |
+| Send | implemented |
+| Create | implemented |
+| Rename | unsupported |
+| MCP reply | implemented |
 
-## Test Status
+## Installer
 
-Code support exists, but local testing has been auth-blocked and metadata patch proof is outstanding.
+The Copilot CLI checkbox installs the metadata patch required for provider-owned session identity on MCP calls. The installer does not install Copilot CLI or authenticate GitHub.
 
-## Known Risks
+## Evidence
 
-- Copilot CLI auth is not the same as generic GitHub CLI auth.
-- Classic GitHub tokens may not satisfy Copilot CLI auth requirements.
-- Do not count config injection alone as support.
+The July 12 create and send tests stopped before provider delivery because the installed Copilot CLI had no authentication information. The failure proves the provider edge reached a real auth preflight; it does not prove successful delivery. Rename remains a deliberate unsupported operation.
 
-## Architecture Rationale
+## Risks
 
-Copilot CLI should become a first-class CLI provider only when auth detection and metadata ownership are clear. It is likely simple after those are solved, but simplicity is not proof.
+- clean-machine GitHub/Copilot authentication is an external prerequisite;
+- local request validation is not provider dispatch;
+- the provider patch must survive Copilot CLI updates and continue to attach real session metadata.

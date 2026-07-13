@@ -1,48 +1,27 @@
 # Claude Code CLI
 
-Status: `target`
+Claude Code CLI uses documented session files and resume behavior, with AxiOwl MCP installed into Claude's configuration.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
+| Operation | Status | Current implementation |
+|---|---|---|
+| Discovery | implemented | Claude JSONL/session state and cwd validation |
+| Send | implemented | Resume exact Claude session |
+| Create | implemented | New session, initial message, readiness, and verification |
+| Rename | implemented | Full native rename verification workflow |
+| MCP reply | implemented | MCP warm-up and provider metadata handling |
 
-Use this page when you mean Claude Code CLI sessions. It is a target surface because AxiOwl needs robust metadata and stale-working-directory handling before marking it supported.
+## Installer
 
-## Surface
+The Claude checkbox installs Claude MCP configuration when Claude is detected and selected. It does not install Claude itself or alter Claude authentication.
 
-Claude Code CLI sessions.
+## Evidence
 
-Plain English version: this is Claude's command-line coding session surface.
+Claude Code CLI has returned response-backed AxiOwl messages. The July 12 full test exposed a false-negative create verifier after the provider actually replied. Current `main` contains later MCP warm-up, readiness, create-verification, and rename-lifecycle fixes. A post-merge clean-machine round remains the validation gate.
 
-## Delivery Method
+## Risks
 
-AxiOwl uses Claude Code CLI documented print/resume behavior against discovered JSONL session state. Current final support requires provider-owned MCP metadata or an AxiOwl/provider patch that supplies that metadata programmatically.
-
-## Installer Action
-
-Target behavior: install Claude MCP config and metadata support when Claude Code CLI is discovered and selected.
-
-The installer should validate that Claude exists and that discovered sessions have valid working directories before marking targets sendable.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | Required for final metadata compliance unless Claude supplies metadata natively. |
-| Extension | No VSIX. |
-| MCP | Required. |
-| Config | Claude MCP config. |
-
-## Test Status
-
-Historical response-backed proof exists, but current support requires new proof under the metadata policy.
-
-## Known Risks
-
-- Claude sessions need valid working directories.
-- Stale cwd paths can block tool calls.
-- JSONL session discovery must not mark stale sessions as sendable.
-
-## Architecture Rationale
-
-Claude Code CLI is a good target because it has documented CLI resume behavior, but it should not be promoted until metadata and stale-cwd handling are robust on clean machines.
+- a stale or nonexistent working directory can block the provider before MCP runs;
+- session JSONL discovery must not promote stale sessions;
+- successful provider output and successful lifecycle verification are distinct boundaries.

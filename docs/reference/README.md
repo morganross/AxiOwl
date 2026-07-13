@@ -4,7 +4,7 @@ This folder is the current product contract for AxiOwl. Other docs can explain t
 
 ## Why This Folder Exists
 
-AxiOwl has several moving parts: a Windows installer, local runtime, provider discovery, MCP tools, provider-specific bridges, patches, and CLI integrations. When those parts are documented in separate dated reports, it becomes easy for one page to say a provider is separate, another to say it is folded into the MSI, and a third to describe an old experiment as current behavior.
+AxiOwl has several moving parts: a Windows installer, local runtime, provider discovery, MCP tools, provider-specific bridges, patches, CLI integrations, an A2A boundary, inter-node routing, and feature-branch transports. When those parts are documented in separate dated reports, it becomes easy for one page to describe a plan, another to describe branch code, and a third to treat an old experiment as a released feature.
 
 The source-of-truth pattern prevents that loop. Current behavior belongs here. Historical discoveries belong in reports. Future ideas belong in plans. Troubleshooting stories belong in support docs.
 
@@ -13,7 +13,9 @@ The source-of-truth pattern prevents that loop. Current behavior belongs here. H
 | Document | Purpose |
 |---|---|
 | [Architecture Overview](architecture-overview.md) | Explains the system shape, message flow, registry, discovery, delivery, and receipt boundaries. |
-| [Provider Support Matrix](provider-support-matrix.md) | Defines which provider surfaces are supported, target, experimental, unsupported, or removed. |
+| [Provider Support Matrix](provider-support-matrix.md) | Defines discovery, send, create, rename, reply, installer, and test status by provider surface. |
+| [Platform Support Matrix](platform-support-matrix.md) | Separates released OS support from remote, laboratory, and feature-branch assets. |
+| [Protocol Support Matrix](protocol-support-matrix.md) | Defines MCP, A2A, relay, SSH, legacy, and XMPP boundaries. |
 | [Installer Behavior Matrix](installer-behavior-matrix.md) | Defines what the MSI installs, patches, configures, removes, avoids, and logs. |
 | [Release Validation Checklist](release-validation-checklist.md) | Defines the minimum release proof before publishing a Windows installer or docs update. |
 
@@ -24,7 +26,8 @@ The source-of-truth pattern prevents that loop. Current behavior belongs here. H
 | Provider | A brand and surface pair, such as `cursor:agents`, `codex:cli`, or `copilot:vsix extension`. |
 | Surface | The specific place AxiOwl talks to: editor, agent window, CLI, VSIX-backed session, or remote node. |
 | Supported | End-to-end response proof exists under the current rules. |
-| Target | Code or design exists, but the current support bar has not been met. |
+| Implemented | Current code contains the operation, but current release proof is incomplete. |
+| Feature branch | Code exists outside current `main` and is not part of the primary release. |
 | Receipt | A record that AxiOwl accepted a request. It is not the same as provider delivery proof. |
 | MCP reply | A provider response through AxiOwl MCP with provider-owned sender metadata. This is the strongest routine proof. |
 | Discovery | The process of finding provider sessions and adding or refreshing registry rows. |
@@ -40,6 +43,8 @@ The source-of-truth pattern prevents that loop. Current behavior belongs here. H
 6. Keep provider pages consistent with the matrix.
 7. Keep installer docs consistent with the installer behavior matrix.
 8. When a provider changes status, update the matrix first.
+9. Do not describe a feature branch as current-main behavior.
+10. Separate an operation's implementation status from its most recent end-to-end test result.
 
 ## Architecture Opinion
 

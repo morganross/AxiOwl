@@ -1,114 +1,93 @@
-# AxiOwl Installer Docs
+# AxiOwl Windows Installer
 
-The Windows MSI installs the AxiOwl local runtime and selected provider integrations. Each provider checkbox should behave like a separate feature even though everything is packaged in one MSI.
+The primary MSI installs the AxiOwl runtime, mailbox, selected provider integrations, and an optional A2A networking feature. It is one package with provider-scoped feature ownership.
 
-The source of truth is [Installer Behavior Matrix](../reference/installer-behavior-matrix.md).
+The canonical contract is the [Installer Behavior Matrix](../reference/installer-behavior-matrix.md).
 
-## Plain English Summary
+## What The MSI Places
 
-The installer should do three things well:
+The MSI has two storage boundaries:
 
-1. Install the AxiOwl runtime.
-2. Install only the provider integrations the user selected or discovery safely preselected.
-3. Leave enough logs and proof to explain what happened.
+- a stable machine-owned backend under 64-bit Program Files, containing packaged payloads and MSI-owned components;
+- user-scoped runtime, registry, logs, bridge state, and configuration under `%LOCALAPPDATA%\AxiOwl`.
 
-It should not close or change provider apps just because they exist. It should not uninstall Codex because Cursor is being installed. It should not precheck Claude merely because AxiOwl has Claude code. It should be provider-aware.
+Machine service state and elevated logs live under `%PROGRAMDATA%\AxiOwl`.
 
-## MSI Checkboxes
+## Provider Selection
 
-Provider checkboxes should be selected from discovery:
+Checkboxes are real MSI controls. Detection supplies defaults, but the user remains the final selection authority.
 
-- provider app or CLI detected;
-- required install path exists;
-- provider-specific support gate allows the feature;
-- feature is not remote-only or unsupported by default.
+The current provider selections cover:
 
-Unchecked provider features should not be installed, patched, closed, restarted, or uninstalled as collateral damage.
+- Codex plugin, MCP, and skill;
+- VS Code Copilot bridge, MCP, and patch;
+- VS Code native bridge and MCP;
+- Antigravity MCP;
+- Claude Code CLI MCP;
+- Copilot CLI metadata patch;
+- Cursor bridge, MCP, patch, and discovery;
+- remote enrollment/deployment/discovery, unchecked by default.
 
-## What Gets Installed
+Codex CLI, Antigravity CLI, OpenCode CLI, and Cursor Agent CLI have runtime code but do not currently have equivalent dedicated MSI provider contracts.
 
-The core install places AxiOwl under `%LOCALAPPDATA%\AxiOwl`, including:
+## A2A Networking Checkbox
 
-- `bin\axiowl.exe`;
-- manifest/provenance file;
-- runtime directories;
-- registry directories;
-- logs;
-- selected provider integration files.
+`A2A networking` is unchecked by default. Selecting it installs the automatic API Windows service and relay executable.
 
-Provider features may install:
+This feature is not required to call an external A2A endpoint from the normal AxiOwl CLI. It is for hosting machine-scoped API/A2A routes and relay support.
 
-- MCP config;
-- provider bridge extension;
-- provider patch;
-- CLI config;
-- discovery records;
-- AxiOwl-owned wrapper/config files.
+Current limitation: the service expects an interactive user broker for protected provider delivery, while the current MSI does not package or start that broker executable. See [A2A Operations And Security](../a2a/operations-and-security.md).
 
-## What Gets Patched
+## Patches And Extensions
 
-Patches are provider-specific and selected-feature-specific.
+Provider-specific actions include:
 
-VS Code and Cursor integrations can require patching private provider implementation details. Those patches are fragile by nature and must be validated after install.
+- VS Code bridge extensions and Copilot metadata patching;
+- Cursor bridge extension and adaptive submit patching;
+- Copilot CLI metadata patching;
+- provider MCP configuration;
+- Codex plugin and skill installation.
 
-CLI providers that are still `target` need future provider-owned metadata patches before they count as fully supported.
+Patch execution proves only that the installer action ran. Post-install provider behavior is the real test.
 
-The important rule is that a patch must have a reason and a proof. The reason is the provider does not expose a stable public API for the needed behavior. The proof is post-install behavior, not just “patch code ran.”
+## App Shutdown
 
-## What Gets Configured
+The installer closes an app only when a selected feature needs exclusive access to its files or loaded extension. Discovery alone must not close an application.
 
-Depending on selected features, the installer configures:
+Cursor and VS Code shutdown scopes are separate. Codex is not closed because Cursor was selected. A2A service and relay processes have their own replacement/removal scope.
 
-- AxiOwl MCP server entries;
-- VS Code bridge extension and MCP server definition;
-- Cursor bridge extension and MCP config;
-- Codex plugin/skill integration;
-- Antigravity/Gemini MCP config;
-- Claude/OpenCode/Copilot CLI MCP config where selected.
+## Repair, Upgrade, And Uninstall
 
-## What Gets Removed
+Repair and upgrade preserve installed A2A state unless the public A2A property explicitly selects or deselects it. Provider cleanup remains scoped to the selected or removed provider feature.
 
-The installer may remove stale AxiOwl-owned files, including:
-
-- old legacy bridge extension folders;
-- stale AxiOwl bridge registry/config entries;
-- stale AxiOwl-owned runtime files;
-- obsolete AxiOwl-owned install artifacts.
-
-It should not remove unrelated provider files, user chats, user auth tokens, unrelated extensions, or unrelated settings.
-
-## App Shutdown Behavior
-
-The installer should close provider apps only when a selected install action requires it. Patching or replacing a loaded extension may require closing that provider app. Discovery alone does not.
-
-This is a major safety boundary. Closing apps by discovery instead of selected feature creates surprising user interruption and makes unchecked boxes meaningless.
+Uninstall removes MSI-owned payloads, AxiOwl services, AxiOwl extension folders, and AxiOwl configuration. It must not remove provider authentication, user chats, unrelated extensions, or unrelated settings.
 
 ## Logs
 
-Read these first during install diagnosis:
+Collect both MSI and helper logs:
+
+```powershell
+msiexec /i path\to\axiowl-activation-a2a-windows-installer.msi /l*v install.log
+```
+
+Then inspect:
 
 ```text
 %LOCALAPPDATA%\AxiOwl\logs
+%PROGRAMDATA%\AxiOwl\logs
 %LOCALAPPDATA%\AxiOwl\registry
 %LOCALAPPDATA%\AxiOwl\runtime
 ```
 
-For MSI-level diagnosis, run or collect an MSI verbose log:
+The release preflight JSON records the build commit, dirty worktree, MSI identity, payload hashes, and validation steps. A verified preflight is artifact proof, not clean-machine or provider-roundtrip proof.
 
-```powershell
-msiexec /i path\to\axiowl-activation-windows-installer.msi /l*v install.log
-```
+## Common Symptoms
 
-## Common Installer Problems
-
-| Symptom | Meaning |
+| Symptom | Boundary to inspect |
 |---|---|
-| Checkbox preselected for missing provider | Discovery/default-selection bug. |
-| Provider app closed while unchecked | Feature isolation bug. |
-| `extension not found` warning | Stale provider extension id/path or URI wake-up fallback behavior. |
-| Install succeeds but provider cannot reply | Install success is not message-path proof. Run provider send/receive tests. |
-| Old folder appears in new chat | Stale provider workspace/session state, stale config, or provider default behavior. Diagnose before assuming AxiOwl delivery failed. |
-
-## Success Criteria
-
-The installer is successful when selected install actions complete and logs/provenance prove what was installed. Provider support is successful later, when each supported provider surface replies over AxiOwl MCP.
+| Missing provider checkbox default | Provider detection and default-selection evidence |
+| Unchecked app was closed | Feature/process-scope isolation |
+| Extension not found | Installed extension folder, extension ID, and stale provider cache |
+| A2A public card works but send returns `503` | Missing interactive user broker |
+| Install succeeded but provider did not answer | Provider discovery, delivery, and MCP reply evidence |
+| Repair removed another provider | MSI feature selection and provider uninstall scope |

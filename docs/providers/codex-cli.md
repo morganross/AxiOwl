@@ -1,62 +1,27 @@
 # Codex CLI
 
-Status: `supported`
+Codex CLI is a separate provider surface from Codex Desktop even though both use Codex session concepts.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
+| Operation | Status | Method |
+|---|---|---|
+| Discovery | supported | Codex CLI session metadata |
+| Send | supported | Resume the exact native session |
+| Create | implemented | Start a new Codex CLI session with the initial message |
+| Rename | supported | Provider-visible native rename |
+| MCP reply | supported | Codex MCP metadata and plugin path |
 
-Use this page when you mean Codex from the command line. Codex CLI support is separate from Codex agent support because CLI sessions have different process, cwd, and session-state behavior.
+## Installer
 
-## Surface
+The primary MSI has one Codex checkbox for the Codex plugin/MCP/skill integration. It does not expose a separate Codex CLI checkbox, even though the runtime has a distinct `codex_cli` provider edge.
 
-Standalone Codex CLI sessions.
+## Evidence
 
-Plain English version: this is Codex from the command line, not the Codex agent window.
+Codex CLI has returned response-backed AxiOwl messages and provider-visible rename proof. In the July 12 full round, create reached and named the correct session but the provider turn ended before a complete MCP reply. Current documentation therefore distinguishes implemented create from fully validated create.
 
-## Delivery Method
+## Risks
 
-AxiOwl uses local Codex CLI/thread operations and resumes or targets Codex CLI sessions. Replies must come back through AxiOwl MCP with Codex CLI session identity.
-
-Expected proof flow:
-
-```text
-AxiOwl send/create
-  -> Codex CLI session/thread
-  -> provider receives prompt
-  -> provider replies using AxiOwl MCP
-  -> MCP metadata identifies Codex CLI session
-```
-
-## Installer Action
-
-The installer installs AxiOwl MCP/plugin support needed for Codex CLI where selected.
-
-Codex CLI should be tested separately from Codex agents. A passing Codex agent test does not prove Codex CLI.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | Provider-owned metadata path must remain intact. |
-| Extension | No VSIX. |
-| MCP | Required. |
-| Config | Required where Codex CLI needs AxiOwl MCP config. |
-
-## Test Status
-
-Response-backed proof exists:
-
-```text
-AXIOWL_CODEX_CLI_REPLY_OK
-```
-
-## Known Risks
-
-- CLI support is separate from Codex agent support.
-- Environment-only identity injection is not accepted as final support.
-- Stale session state can produce misleading target rows.
-
-## Architecture Rationale
-
-Codex CLI gets its own provider surface because command-line sessions have different process, cwd, and session-state behavior than agent sessions. That separation keeps install, discovery, and QA honest.
+- desktop and CLI sessions must not be merged solely because they share a UUID format;
+- a partial transcript is not a completed reply;
+- the installer/runtime coverage difference matters on a clean machine.

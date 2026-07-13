@@ -1,6 +1,6 @@
 {
   "label": "Developer Guide",
-  "position": 10,
+  "position": 13,
   "link": {
     "type": "generated-index",
     "description": "Architecture, registry, MCP, discovery, delivery, build, and release guidance for developers."

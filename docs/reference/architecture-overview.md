@@ -1,145 +1,93 @@
 # AxiOwl Architecture Overview
 
-AxiOwl is a local Windows coordinator for AI provider messaging and normalization. It discovers provider sessions, stores them in a local registry, accepts send/create/rename requests through CLI or MCP, routes those requests through provider-specific delivery edges, and records enough evidence to distinguish a local handoff from a real provider response.
+AxiOwl is a normalization, identity, discovery, messaging, and protocol gateway for AI provider sessions. The primary runtime runs locally on Windows. It can also expose those sessions through A2A and route work to external A2A services or another AxiOwl node.
 
-Plain English version: AxiOwl is the switchboard and normalization layer. It does not replace Codex, Cursor, VS Code, Antigravity, Claude, OpenCode, or Copilot. It learns where their live sessions are, gives them a consistent local name and identity model, gives them a way to receive messages, and gives them a way to reply back with identity attached.
+Plain English version: AxiOwl gives unlike AI products a shared address book and message contract without pretending they work the same way. Provider-specific code handles the difficult last mile. A2A and inter-node transports provide standard boundaries around that local capability.
 
-## Why The Architecture Is Split
-
-AxiOwl does not use one universal provider adapter because the providers are not the same product surface.
-
-| Surface type | Why it needs its own path |
-|---|---|
-| Desktop agent window | Usually has private UI/session state and may require a bridge or patch. |
-| Editor chat | Often has extension APIs, workspace state, and command routing. |
-| CLI | Usually has process execution, session files, auth state, and separate MCP config. |
-| VSIX-backed chat | Uses extension install, host APIs, and provider-owned MCP registration. |
-| Remote node | Requires a network/node contract and is intentionally separate from local provider repair. |
-
-The design choice is deliberate: one generic path would hide provider differences and make failures harder to diagnose. A provider-specific edge makes the contract clear: discovery, install, send, proof, and known risks all belong to that provider surface. The normalized layer sits above those edges so AxiOwl can still ask common questions about very different tools.
-
-## Normalization Role
-
-AxiOwl normalizes provider concepts into a shared local model:
-
-| Provider-specific thing | AxiOwl model |
-|---|---|
-| Chat, composer, session, conversation | Registry agent/session record |
-| Provider-specific id | `provider_session_id` |
-| App, extension, CLI, agent window | Provider surface |
-| Provider-specific delivery command | Provider edge |
-| Local status/logs/results | Evidence for install, discovery, send, and reply |
-
-This is why AxiOwl is more than a message sender. It gives the workflow a stable vocabulary for tools that otherwise behave differently.
-
-## High-Level Flow
+## Architectural Layers
 
 ```text
-user / provider MCP call / CLI
-  -> axiowl.exe
-  -> CLI or MCP command handler
-  -> MessagePipeline
-  -> sender identity resolution
-  -> target registry resolution
-  -> targeted discovery repair when safe
-  -> final visible body construction
-  -> provider_edges dispatch
-  -> provider-specific delivery module
-  -> delivery logs and provider result
-  -> provider reply over MCP when the target responds
+user, provider MCP tool, CLI, A2A client, or remote node
+  -> command or protocol boundary
+  -> authenticated sender identity
+  -> registry and target resolution
+  -> normalized message request
+  -> local, A2A, or inter-node routing
+  -> provider-specific delivery edge
+  -> provider session
+  -> provider MCP reply
+  -> receipt or A2A task completion
 ```
 
-## Core Components
+## Core Local Runtime
 
-| Component | Current role | Why it exists |
-|---|---|---|
-| `apps/windows-desktop/src/cli.cpp` | Command entry point for `send`, `create`, `rename`, `discover`, `list`, `status`, `mcp-server`, installer helper modes, and delivery worker modes. | Keeps human, installer, and provider automation on the same runtime instead of separate scripts. |
-| `apps/windows-desktop/src/mcp_server.cpp` | MCP server and tool implementation. It requires provider/session metadata for sender identity and fails loudly when identity is missing. | Provider replies need real identity. Guessing sender names creates stale or misrouted replies. |
-| `apps/windows-desktop/src/message_pipeline.cpp` | Main send pipeline. It validates requests, resolves sender/target, runs one targeted discovery repair, records receipt boundaries, and starts delivery. | Centralizes the difference between “AxiOwl accepted this” and “the provider received this.” |
-| `apps/windows-desktop/src/registry.cpp` | Durable local registry of agents, aliases, providers, provider session ids, node ids, sendability, and discovery source. | Names are for people; provider session ids are for routing. The registry connects both. |
-| `apps/windows-desktop/src/discovery*.cpp` | Provider discovery and registry merge. | Provider sessions move, expire, rename, and restart. Discovery refreshes local truth. |
-| `apps/windows-desktop/src/provider_edges.cpp` | Provider dispatch table for deliver/create/rename. | Makes supported surfaces explicit. Unknown or out-of-scope providers fail clearly. |
-| `apps/windows-desktop/src/provider_*.cpp` | Provider-specific delivery implementations. | Each provider has different mechanics, proof, and failure modes. |
-| `apps/windows-desktop/src/delivery_worker.cpp` | Background delivery handoff. | A send request can return after AxiOwl accepts it while provider delivery continues separately. |
-| `apps/windows-desktop/src/installer_helper_main.cpp` | MSI helper executable. Installs runtime, selected provider integrations, patches, discovery, and finalization. | MSI custom actions stay organized by feature and can log provider-specific steps. |
-| `apps/windows-desktop/installer/build-windows-msi.ps1` | Native build and MSI packaging. | Produces the release artifact and verifies payload/provenance. |
-| `apps/windows-desktop/extensions/vscode/out/extension.js` | VS Code bridge extension. Registers MCP definition and runs VS Code chat/session commands. | VS Code needs an in-host bridge because the useful chat APIs live inside VS Code. |
-| `apps/windows-desktop/extensions/cursor/out/extension.js` | Cursor bridge extension. Uses command files, watcher, URI fallback, and Cursor patch-provided commands. | Cursor delivery needs in-process visibility plus patched submit entry points. |
+| Component | Responsibility |
+|---|---|
+| `cli.cpp` | Human and automation commands for discovery, send, create, rename, A2A, nodes, API, relay, and diagnostics. |
+| `mcp_server.cpp` | AxiOwl MCP tools, sender metadata validation, reply receipts, and A2A reply correlation. |
+| `registry.cpp` | Durable agent names, aliases, provider session IDs, node ownership, sendability, and verification state. |
+| `discovery*.cpp` | Provider-specific and A2A discovery, enrollment, and registry refresh. |
+| `message_pipeline.cpp` | Sender resolution, target repair, visible-body construction, receipt boundaries, and provider dispatch. |
+| `provider_edges.cpp` | Explicit send, create, and rename dispatch by provider surface. |
+| `provider_*.cpp` | Provider-native delivery and proof logic. |
+| `delivery_worker.cpp` | Isolated provider delivery work and final provider result logging. |
+| mailbox components | Local message inbox, GUI, test orchestration, and a built-in addressable endpoint. |
 
-## Receipt Boundary
+## A2A Boundary
 
-The most important operational rule is that receipts are not delivery proof.
+The A2A implementation has two roles:
 
-| Evidence | Meaning | What it does not prove |
-|---|---|---|
-| `accepted_by_axiowl` | AxiOwl validated the request and handed it to the delivery layer. | It does not prove the provider UI received, displayed, or processed the message. |
-| provider result `accepted_by_provider` | The provider edge reported acceptance. | It may still not prove a useful human-visible response. |
-| provider reply over MCP | The target provider received the message, acted on it, and replied through AxiOwl with sender identity. | It does not prove every future session of that provider will work. |
+- expose eligible registry sessions and provider factories as A2A agents;
+- import and send to external A2A Agent Cards as `provider=a2a` targets.
 
-This distinction is not academic. It prevents false success reports. AxiOwl should never treat “we queued it” as the same thing as “the provider answered.”
+Inbound A2A tasks enter the normal message pipeline. A provider reply carrying the original receipt can complete the task. Outbound A2A targets also use the normal provider dispatch table, which means external endpoints participate in the same names, evidence, and receipt vocabulary as local providers.
 
-## Registry Model
+See [A2A In AxiOwl](../a2a/README.md).
 
-The registry is durable local state. It is not just a cache. It is the local address book that maps user-facing chat names to provider-owned sessions.
+## Machine API And Interactive User Broker
 
-Important fields:
+The optional API executable can run as a LocalSystem Windows service. Provider registries and app sessions belong to the interactive user. A named-pipe user broker is therefore designed to forward authenticated protected requests from the service into the active user session.
 
-| Field | Purpose | Design note |
-|---|---|---|
-| `display_name` | Human-readable chat or agent name. | Useful for humans, unsafe as the only routing key. |
-| `aliases` | Extra names or sender addresses. | Helps preserve usability across renames. |
-| `provider` | Provider edge such as `codex`, `cursor`, or `vscode_native`. | Determines which delivery module is used. |
-| `provider_session_id` | Provider-owned session id. | The strongest local routing key. |
-| `node_id` | Local or remote node identity. | Keeps local and remote records distinguishable. |
-| `sendable` | Whether AxiOwl currently believes the row can receive messages. | Must be earned by discovery or proof. |
-| `source` | Discovery/manual/MCP source of the row. | Helps diagnose stale or manually inserted records. |
-| `last_seen_at` | Last discovery or registration time. | Freshness signal, not delivery proof. |
-| `last_verified_at` | Last stronger proof time. | Better than discovery alone. |
-| `last_error` | Last known problem. | Should be preserved for diagnosis. |
+The broker accepts only a LocalSystem caller and does not poll. The current primary MSI does not package or start the broker executable, so this service-to-user path is not yet complete in the shipped installer.
 
-## Sender Identity
+## Inter-node Routing
 
-AxiOwl needs to know who is sending because replies must route back to a real provider session. For MCP, sender identity should come from provider-owned metadata or from a provider patch that supplies equivalent metadata.
+Remote nodes are durable registry records with transport policy and credentials. Current transport choices include direct HTTPS A2A, hosted A2A relay, A2A JSON-RPC over SSH, and explicit legacy migration modes.
 
-Environment-only identity is not enough for final CLI support because it can be injected by the caller without proving the provider session actually owns that identity.
+Fallback is allowed only when an earlier transport is known to be unavailable or migration-safe. Ambiguous failure blocks fallback to prevent duplicate delivery.
 
-Plain English version: the provider must show its ID when it calls AxiOwl. AxiOwl should not simply believe a label.
+See [Axi-To-Axi And Chat-To-Chat Communication](../inter-node/README.md).
 
-## Discovery
+## XMPP Feature Line
 
-Discovery finds sessions and refreshes the registry. It can repair missing or stale targets once during a send, but it is not allowed to hide broken delivery.
+The XMPP implementation is isolated on `feature/xmpp-remote-transport`. It provides RFC 7395 transport, Prosody routing, receiver-agent behavior, and an ordinary XMPP chat gateway. It is not currently merged into `main` and is not part of the primary MSI.
 
-Discovery should:
+See [XMPP Transport](../xmpp/README.md).
 
-- find current provider sessions;
-- preserve manual/protected rows when appropriate;
-- downgrade stale auto-discovered rows when proof disappears;
-- keep stale paths from becoming sendable;
-- leave evidence in logs.
+## Identity And Registry Model
 
-Discovery should not:
+| Field | Meaning |
+|---|---|
+| `display_name` | Human-facing address. |
+| `aliases` | Additional lookup names and retained protocol metadata. |
+| `provider` | Delivery edge, such as `codex`, `cursor`, `a2a`, or `remote`. |
+| `provider_session_id` | Provider-owned local session address or external A2A service URL. |
+| `agent_id` | Strong normalized identity used by scoped A2A endpoints where present. |
+| `node_id` | Machine or routing owner. |
+| `sendable` | Current eligibility for delivery, not proof of a future response. |
+| `last_verified_at` | Stronger proof timestamp. |
+| `last_error` | Retained diagnostic state. |
 
-- mark stale sessions as working;
-- convert a missing provider into a silent success;
-- use remote fallback to hide a local provider failure;
-- delete unrelated provider data.
+Human names can change. Provider and protocol IDs are used for routing and verification.
 
-## Delivery
+## Receipt Model
 
-Delivery is provider-specific because each surface needs different mechanics:
+AxiOwl keeps request acceptance, provider delivery, provider response, and A2A task completion separate. This rule applies locally and across network boundaries.
 
-- Codex has local app/session and CLI paths.
-- VS Code uses an extension and native chat/session commands.
-- Cursor uses a bridge, command files, watcher, URI fallback, and patch-provided submit command.
-- Antigravity has agent and CLI surfaces with different mechanics.
-- Claude, OpenCode, and Copilot CLI surfaces require CLI session and metadata handling.
+See [Receipts Versus Proof](../concepts/receipts-vs-proof.md).
 
-The provider edge should report precise states: accepted, failed, unsupported, auth-blocked, out-of-scope, missing patch, stale target, or no provider proof.
+## Installer Ownership
 
-## Installer Integration
-
-The MSI installs AxiOwl once but should treat each provider feature as a separate install unit. That is the practical compromise: one installer for users, separate logic for provider safety.
-
-The installer should only close, patch, configure, remove, or restart provider apps for selected features that need that action. This avoids collateral damage and makes uninstall/reinstall behavior predictable.
+The MSI is one user experience with separately owned provider features. An unchecked provider should not be closed, patched, configured, or removed. The optional A2A feature owns its API service, relay payload, service configuration, and machine feature marker.
 
 See [Installer Behavior Matrix](installer-behavior-matrix.md).

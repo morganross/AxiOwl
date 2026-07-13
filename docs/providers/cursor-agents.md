@@ -1,72 +1,31 @@
 # Cursor Agents
 
-Status: `supported`
+Cursor agents are Composer sessions addressed by the Cursor bridge extension and a patch-provided exact-session submit path.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
+| Operation | Status | Method |
+|---|---|---|
+| Discovery | supported | Cursor Composer headers and bridge registry |
+| Send | experimental | Command-file watcher and patched submit command |
+| Create | experimental | Cursor Agent/Composer lifecycle with correlation checks |
+| Rename | experimental | Native title command plus provider-visible verification |
+| MCP reply | supported | Cursor MCP configuration and provider metadata |
 
-Use this page when you mean Cursor's Agent Window or Composer. Cursor is the most patch-sensitive supported provider surface, so a passing test depends on the bridge, command watcher, MCP config, and submit patch all being present.
+## Installer
 
-## Surface
+The Cursor checkbox owns bridge extension installation, MCP configuration, adaptive workbench patching, discovery, preflight, rollback, and commit stages.
 
-Cursor Agent Window / Composer sessions.
+The command-file watcher is the normal delivery path after Cursor is running. A Cursor URI wake-up is a fallback and can produce a false extension-not-found warning.
 
-Plain English version: this is Cursor's agent/composer UI surface, not a separate standalone Cursor CLI.
+## Evidence
 
-## Delivery Method
+Cursor has produced response-backed AxiOwl replies. The current patch engine and bridge are built around exact session ownership rather than broad UI text matching. Rename remains experimental because Cursor can accept a title command without persisting the requested title.
 
-AxiOwl uses a Cursor bridge extension plus Cursor patch support. The preferred path is:
+## Risks
 
-```text
-AxiOwl provider edge
-  -> command JSON file
-  -> Cursor bridge command watcher
-  -> glass.axiowlSubmitToAgent
-  -> Cursor agent/composer
-```
-
-The Cursor URI wake-up path is fallback only. It should not be the normal path when the bridge watcher is installed and active.
-
-## Why Cursor Needs More Machinery
-
-Cursor does not expose a stable public API for the exact delivery behavior AxiOwl needs. The working path therefore combines:
-
-- a bridge extension running inside Cursor;
-- a command-file watcher for normal delivery;
-- a fallback URI trigger for waking the bridge;
-- a patch-provided submit command;
-- detailed logs and result files.
-
-That is not accidental complexity. It is the cost of targeting a private provider surface while still demanding proof and avoiding false success.
-
-## Installer Action
-
-The installer installs the Cursor bridge extension, configures Cursor MCP, applies the Cursor patch when selected, and runs Cursor discovery.
-
-The installer should close Cursor only when selected patch or extension work requires it.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | Yes. Cursor Glass/workbench submit hook is required. |
-| Extension | AxiOwl Cursor bridge extension. |
-| MCP | Required for replies. |
-| Config | Cursor MCP and bridge registry/config. |
-
-## Test Status
-
-Response-backed Cursor tests have passed.
-
-## Known Risks
-
-- Cursor patching touches private/minified implementation details.
-- The required command is `glass.axiowlSubmitToAgent`; when missing, sends must fail loudly.
-- URI wake-up can cause false `extension not found` warnings and should remain fallback.
-- Cursor must be restarted after certain patch/install changes.
-- Black-screen failures can come from bad patch state or corrupted provider runtime state and require forensic log review before further edits.
-
-## Architecture Rationale
-
-Cursor is intentionally isolated as its own provider feature because a Cursor failure can affect app startup. Its patch, bridge, watcher, cleanup, and rollback behavior should not be mixed with generic installer logic.
+- Cursor workbench code is private and minified;
+- patch installation can succeed while runtime activation fails;
+- a black window indicates damaged workbench code and requires rollback;
+- command acceptance is not provider-visible delivery;
+- stale bridge directories can produce misleading extension warnings.
