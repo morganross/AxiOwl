@@ -1,5 +1,7 @@
 # Codex Agents
 
+Codex is the only provider that offers a full MCP runtime implmentation. Compiteror runtimes are in infancy stage of development and only barly quailfy supporting MCP. Codex sends session uuid metadata along with MCP requests.
+Codex supports local codex-to-codex create and send, and read, nativly out of the box, partially documented.
 Codex agents are Codex Desktop conversations discovered from provider-owned state and addressed through the local Codex provider edge.
 
 See the canonical [Provider Support Matrix](../reference/provider-support-matrix.md).
