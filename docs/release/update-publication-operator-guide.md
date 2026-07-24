@@ -406,12 +406,9 @@ This conditional current-pointer write is the atomic selection operation.
 
 The native implementation in
 [`update_manager.cpp`](https://github.com/morganross/axiowl-cplus/blob/main/apps/windows-desktop/src/update_manager.cpp) uses
-`stable` by default and has this compiled endpoint:
-
-```text
-https://objectstorage.us-sanjose-1.oraclecloud.com/n/ax0jy7uvkwdy/
-b/axiowl-update-channel-prod/o/channels
-```
+`stable` by default and reads its signed channel pointer from the configured
+HTTPS update endpoint. Exact production storage endpoints are intentionally not
+published on this public page.
 
 The client:
 
@@ -565,26 +562,18 @@ The authoritative machine-readable sources are:
 
 ## OCI Object and Trust Model
 
-The live inventory is
-[`oci-update-inventory.json`](https://github.com/morganross/axiowl-cplus/blob/main/services/update/infra/oci-update-inventory.json).
-It records:
+Production deployment identifiers, bucket names, tenancy details, regional
+endpoints, key identifiers, and retention dates are intentionally omitted from
+this public guide. Release operators use the separately controlled deployment
+inventory.
 
-```text
-region:                    us-sanjose-1
-Object Storage namespace:  ax0jy7uvkwdy
-logical signing key:       axiowl-update-signing-v1
-algorithm:                 ECDSA_SHA_256
-curve:                     NIST_P256
-KMS protection mode:       SOFTWARE
-```
+The design uses three logically separate storage areas:
 
-### Buckets
-
-| Bucket | Public policy | Versioning | Retention | Purpose |
-|---|---|---|---|---|
-| `axiowl-update-immutable-prod` | Read without list | disabled | 365 days, lock date 2026-08-07 | Components, releases, channel history |
-| `axiowl-update-channel-prod` | Read without list | enabled | none | Mutable current channel pointers |
-| `axiowl-update-audit-prod` | private | disabled | 730 days, lock date 2026-08-07 | Publication receipts |
+| Storage area | Visibility | Purpose |
+|---|---|---|
+| Immutable release storage | Public read without listing | Signed components, release envelopes, and channel history |
+| Channel storage | Public read without listing | Small mutable current-channel pointers |
+| Audit storage | Private | Publication receipts and retained release evidence |
 
 Public read access is an availability decision, not an integrity decision.
 Clients trust the pinned public key, purpose claims, signatures, hashes,
@@ -592,19 +581,19 @@ sequence rules, and local policy.
 
 ### Object paths
 
-Current code writes:
+The conceptual object layout is:
 
 ```text
-axiowl-update-immutable-prod/
+immutable-release-storage/
   artifacts/<component_id>/<version>/<sha256>/<filename>
   releases/<release_version>/<payload_sha256>.envelope.json
   channel-history/<channel>/<sequence>-<payload_sha256>.envelope.json
 
-axiowl-update-channel-prod/
+channel-storage/
   channels/internal/current.envelope.json
   channels/stable/current.envelope.json
 
-axiowl-update-audit-prod/
+private-audit-storage/
   publication-receipts/<release_version>/<payload_sha256>.json
 ```
 
@@ -654,7 +643,6 @@ KMS to sign the digest using:
 ```text
 message_type:       DIGEST
 signing_algorithm:  ECDSA_SHA_256
-key version:        current_key_version_id from the inventory
 ```
 
 The signed envelope contains exactly:
@@ -667,8 +655,8 @@ payload_b64
 signature
 ```
 
-The client-facing `key_id` is the stable logical identifier
-`axiowl-update-signing-v1`, not the OCI key OCID.
+The client-facing `key_id` is a stable logical identifier, not the cloud
+provider's internal key identifier.
 
 The schemas are:
 
@@ -781,12 +769,12 @@ There is no automatic credential fallback.
 
 The intended roles are:
 
-- `AxiOwlUpdatePublisher`: create/read immutable artifacts and releases, use
-  only the update signing key, write private receipts;
-- `AxiOwlChannelPromoter`: create channel history and conditionally update
-  current channel pointers;
-- `AxiOwlUpdateBreakGlassAdmins`: retention, visibility, deletion, and KMS
-  administration, never ordinary publication.
+- a publisher identity that can create and read immutable artifacts and
+  releases, use only the update signing key, and write private receipts;
+- a separate promoter identity that can create channel history and
+  conditionally update current channel pointers;
+- a break-glass administration role for retention, visibility, deletion, and
+  key administration, never ordinary publication.
 
 The OCI inventory says the concrete publisher and promoter identities have not
 yet been created. Therefore production resource-principal commands are not
@@ -1453,7 +1441,6 @@ signed SHA-256." The expected property is:
 - [Emergency hold command](https://github.com/morganross/axiowl-cplus/blob/main/services/update/tools/hold_channel.py)
 - [Channel publication primitives](https://github.com/morganross/axiowl-cplus/blob/main/services/update/tools/channel_publication_common.py)
 - [Independent public verifier](https://github.com/morganross/axiowl-cplus/blob/main/services/update/tools/verify_public_release.py)
-- [OCI update inventory](https://github.com/morganross/axiowl-cplus/blob/main/services/update/infra/oci-update-inventory.json)
 - [Existing publishing notes](https://github.com/morganross/axiowl-cplus/blob/main/services/update/docs/PUBLISHING.md)
 - [Existing emergency hold notes](https://github.com/morganross/axiowl-cplus/blob/main/services/update/docs/EMERGENCY-HOLD.md)
 
