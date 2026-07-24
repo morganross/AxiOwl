@@ -6,7 +6,7 @@ sidebar_position: 2
 
 # AxiOwl Update Publication Operator Guide
 
-Last source review: 2026-07-23
+Last source review: 2026-07-24
 
 This document is the operator source of truth for publishing an AxiOwl Windows
 update. It explains the path from a committed source revision to a provider
@@ -27,45 +27,27 @@ does not become available to clients until a channel pointer is promoted.
 
 ## Current Bottom Line
 
-The checked-in signed release at commit
-`2806c742b77d153275bd9b8a2d7cda7f8ed9d246` proves that the Windows build,
-inner PE signing, Claude package assembly, WiX packaging, MSI structural
-verification, outer MSI signing, and release evidence export completed. The
-evidence says the signed source revision was
-`e1725992a0795c267798f65ec800ee6fc2536b33`.
+AxiOwl has published its first signed pull-update release and promoted it to
+the `internal` validation channel.
 
-The pull-update publication path is **not production-available today**:
-
-1. The checked-in signed-component manifest and signing proof contain a UTF-8
-   BOM, while the Python publication validator opens them as strict `utf-8`.
-   Validation currently fails before any OCI call.
-2. `requires_processes_stopped` was serialized as a string for update-eligible
-   executables and as `{}` for empty values. The locked schema and publisher
-   require arrays.
-3. The OCI inventory records that the least-privilege publisher and promoter
-   identities, Object Storage logging, and first publication remain deployment
-   work.
-4. Public checks of both `internal` and `stable` currently return HTTP 404 for
-   `current.envelope.json`.
-5. The native client can verify and record a channel pointer and release
-   envelope. It does not yet download, stage, or apply the nine core component
-   files.
-6. Claude package staging and local apply exist, but provider package
-   publication, provider channel discovery, and network download are not
-   implemented.
-7. The GitHub signed-release workflow does not call the OCI publisher or
-   promoter.
-8. The intended `internal` then `stable` flow is blocked by a contract
-   mismatch. Release payloads and receipts are channel-bound, while component
-   object paths are shared across channels and create-only publication rejects
-   the already-present identical components. The publisher needs an
-   evidence-bound "existing identical object" or promotion-reuse contract.
-9. The provider package store has focused native tests, but there is no
-   repository test suite for the Python OCI publisher, promoter, hold, or
-   public-verification scripts.
-
-Do not promote or advertise a pull update until these blockers are corrected,
-new artifacts are built, and every gate in this guide passes.
+1. Immutable signed release objects were published separately from channel
+   movement.
+2. The public `internal` pointer returns HTTP 200 and selects active release
+   `2.0.30`.
+3. The public `stable` pointer now returns HTTP 200 and selects active release
+   `2.0.30` at sequence 1.
+4. Stable availability required evidence-bound re-signing of the internally
+   verified release for channel `stable`, followed by a separately signed
+   stable pointer promotion. Publication never moves stable automatically.
+5. The native client verifies signed channel and release metadata. Core
+   component download, staging, and apply remain unfinished.
+6. Provider package pull, verification, staging, activation, and apply are
+   implemented. The current internal release includes the Claude package.
+7. GitHub signed-release assets and pull-update publication remain separate
+   operator actions.
+8. Create and Send now provide nonblocking update-check opportunities when
+   verified metadata is missing or older than four hours. A provider failure
+   keeps its original result and is never retried by the checker.
 
 ## Status Matrix
 
@@ -73,24 +55,26 @@ new artifacts are built, and every gate in this guide passes.
 |---|---|---|
 | Release compile | Implemented | Production builder configures x64 Release and builds serially. |
 | Focused in-process tests | Implemented | Production builder runs `ctest -L in_process`; process-spawning tests are disabled. |
-| Inner PE Artifact Signing | Implemented | Eleven unique PE files are signed and independently verified. |
-| Claude provider package assembly | Implemented | `claude_code_cli` package `1.0.0` contains one signed worker and its manifest. |
-| Signed-component export | Implemented, current output incompatible | Contract expects 11 artifacts and 9 update-eligible components; current JSON has BOM and array-shape defects. |
+| Inner PE Artifact Signing | Implemented | Published evidence contains eleven unique signed PE files. Counts come from each release manifest and proof. |
+| Claude provider package assembly | Implemented | The published Claude package contains one signed worker and its manifest. |
+| Signed-component export | Implemented | The published export contains 11 signed artifacts and 9 update-eligible core components. |
 | WiX MSI package | Implemented | MSI is built only after signed inner bytes are copied into staging. |
 | Structural MSI verification | Implemented | The MSI is decompiled and 13 first-party PE occurrences plus 2 WiX binaries are checked. |
 | Outer MSI signing | Implemented | Structurally verified MSI is signed last and independently verified. |
 | Transactional local release export | Implemented | Eight release files are published together, with the MSI last. |
 | GitHub clean-machine release gate | Implemented | Signed assets, clean install, upgrade, feature change, repair, uninstall, and Claude package state are checked. |
 | GitHub Release asset publication | Implemented for matching `v*` tags | A manual `main` run signs and tests but does not create a GitHub Release. |
-| OCI resource inventory | Partly implemented | Compartment, key, and buckets exist; publisher/promoter identities and logging remain pending. |
-| Immutable OCI release publisher | Implemented code, blocked in current artifact handoff | Publisher validates, uploads, reads back, KMS-signs, and emits a receipt. Current release fails local validation. |
-| OCI publication tests | Not implemented | The Python tools compile, but no checked-in automated publication test suite exists. |
-| Channel promotion and hold | Implemented code, not deployed end to end | No public channel pointer exists. |
-| Independent public verification | Implemented code | Both current channels return HTTP 404. |
+| Update infrastructure | Implemented for internal publication | Dedicated storage and update-signing trust are in use; live IAM and logging remain operational audit items. |
+| Immutable release publisher | Implemented and exercised | Publisher validates, uploads immutable bytes, reads them back, signs metadata, and emits a receipt without moving a channel. |
+| Publication tests | Implemented for provider-package publication and promotion contracts | Full live-infrastructure failure injection remains incomplete. |
+| Channel promotion and hold | Implemented; internal and stable exercised | Both channels have active sequence 1 pointers. Hold remains an explicit higher-sequence operation. |
+| Evidence-bound channel re-signing | Implemented and exercised | All internal release objects were freshly reverified, only the signed channel claim changed, and a new immutable stable release envelope was created without rewriting component bytes. |
+| Independent public verification | Implemented | Both internal and stable return HTTP 200 and verify. |
 | Native channel/release check | Implemented | Client verifies signatures, purpose, channel, hashes, hold state, and monotonic sequence. |
+| Opportunistic Create/Send check | Implemented and exercised | Missing/stale metadata starts a detached one-shot check; provider failures are not retried. |
 | Core component download/stage/apply | Planned, not implemented | There is no core `update download` or `update apply` command. |
-| Claude package local stage/activate/apply | Implemented | Requires an existing absolute package directory; no network package download exists. |
-| Provider package OCI release/channel | Planned, not implemented | The Claude manifest and ZIP are GitHub/build artifacts only. |
+| Provider package local stage/activate/apply | Implemented | Closed-world manifest, hash, signature, immutable revision, receipt, and active pointer checks remain authoritative. |
+| Provider package pull | Implemented | The client discovers a package through the verified release and downloads and verifies its manifest and worker. |
 | Silent update | Planned, not implemented | No production scheduler applies updates. |
 | Push notification | Planned, not implemented | Signed pull remains the intended authority. |
 
@@ -145,6 +129,54 @@ The availability boundary is the conditional write of
 unreferenced immutable evidence in Object Storage, but they do not select a new
 release for clients.
 
+Because the channel is part of the signed release payload, the internal release
+could not simply be relabeled as stable. A narrow rechannel operation
+reverified the source receipt and signed internal envelope, freshly downloaded
+and hashed all nine core components plus the Claude manifest and worker,
+reused those immutable bytes without uploading or overwriting them, changed
+only the channel claim, and signed a new immutable stable release envelope.
+Only after exact public read-back did a separate stable pointer promotion make
+that envelope available on stable.
+
+## Opportunistic Checks During Create and Send
+
+AxiOwl checks for fresh signed update metadata during real Create and Send
+workflows. This is a bounded one-shot check, not polling, a heartbeat, an
+always-running updater, or an automatic installer.
+
+```mermaid
+sequenceDiagram
+    participant User as Create or Send caller
+    participant Flow as Common workflow
+    participant Provider as Provider
+    participant Check as Detached checker
+    participant Trust as Signed update trust path
+    participant State as Verified local state
+
+    User->>Flow: Create or Send
+    Flow->>Flow: Inspect verified pointer age
+    alt Missing or older than four hours
+        Flow-->>Check: Launch detached one-shot check
+    end
+    Flow->>Provider: Run original operation
+    Provider-->>Flow: Original success or failure
+    alt Provider operation failed
+        Flow-->>Check: Offer one forced check
+    end
+    Flow-->>User: Return original result unchanged
+    Check->>Check: Acquire cross-process lock and recheck state
+    Check->>Trust: Verify signed pointer and release
+    Check->>State: Publish verified state atomically
+    Check->>Check: Log and exit
+```
+
+The checker reuses the channel in the last valid verified signed pointer.
+`stable` is only the first-run fallback when no valid pointer exists. A failed
+provider operation is not retried, and no component or package is
+automatically applied. This keeps provider messaging and update verification
+separate even though a real provider operation supplies the opportunity to
+check.
+
 ## Authority and Responsibility Boundaries
 
 | Owner | Owns | Does not own |
@@ -157,8 +189,8 @@ release for clients.
 | OCI channel promoter | Higher-sequence signed active or hold pointer and conditional current-pointer update | Building, artifact mutation, release repair |
 | OCI Object Storage | Availability of public bytes and retained private evidence | Integrity. Integrity comes from signatures and hashes. |
 | OCI KMS | Purpose-bound update envelope signatures using the dedicated key | Authenticode signing, activation signing, client policy |
-| Native updater | Pinned-key verification, monotonic channel acceptance, release verification, local status | Current core artifact download/stage/apply |
-| Provider package store | Closed-world package validation, immutable local revision, receipt, active pointer, rollback primitive | Provider package network publication or discovery |
+| Native updater | Pinned-key verification, monotonic channel acceptance, release verification, local status, one-shot opportunistic checks | Current core artifact download/stage/apply |
+| Provider package store | Closed-world package validation, immutable local revision, receipt, active pointer, rollback primitive | Release publication and channel promotion |
 
 The current duplication/manual gap is deliberate in some places and accidental
 in others. Signing and promotion should remain separate. GitHub and OCI
@@ -177,9 +209,9 @@ At the reviewed release:
 ```text
 core package_version:       2.0.30
 Claude provider_id:         claude_code_cli
-Claude package_version:     1.0.0
-signed source_git_head:     e1725992a0795c267798f65ec800ee6fc2536b33
-signed artifact commit:     2806c742b77d153275bd9b8a2d7cda7f8ed9d246
+Claude package_version:     1.0.1
+signed source_git_head:     e7307c9bcbe1bc453b239922f720ae235bbbdccc
+signed artifact commit:     e7192e1
 ```
 
 The artifact commit differs from `source_git_head` because the signed binary
@@ -265,13 +297,13 @@ After inner signing, the builder creates:
 
 The signed-component export uses component-owned versions. Core and tool
 components use `2.0.30`; the Claude worker uses its independently owned
-`1.0.0`.
+`1.0.1`.
 
 The provider package is configuration-only. Its manifest declares:
 
 ```text
 provider_id:                    claude_code_cli
-package_version:                1.0.0
+package_version:                1.0.1
 worker_protocol_version:        1
 minimum_core_protocol_version:  1
 operating_system:               windows
@@ -434,6 +466,8 @@ axiowl update check [--channel <channel>] [--endpoint <channel-base-url>]
 axiowl update check --channel-pointer <signed-pointer-envelope.json> \
   --release-envelope <signed-release-envelope.json> [--channel <channel>]
 axiowl update provider status claude_code_cli
+axiowl update provider pull claude_code_cli [--channel <channel>] \
+  [--endpoint <channel-base-url>]
 axiowl update provider apply claude_code_cli \
   --package-root <verified-directory>
 ```
@@ -479,7 +513,7 @@ sha256
 artifact_signing_operation_id
 ```
 
-The current contract requires:
+The contract proven by the published release requires:
 
 - exactly 11 unique artifacts;
 - exactly 11 unique component IDs, artifact names, and operation IDs;
@@ -513,48 +547,20 @@ as they occur in the MSI, plus the duplicate API-service and relay
 helper-source occurrences.
 
 Publication and audit code must derive counts from current manifest/proof
-evidence. Plans and reports with hard-coded 10- or 12-occurrence prose are
-historical context, not the current executable contract.
+evidence. Future provider-package releases can legitimately change those
+counts. Plans and reports with hard-coded 10- or 12-occurrence prose are
+historical context, not release authority.
 
 ## Current Signed Component Evidence
 
-The following values describe the checked-in `2806c74` artifact set. They are
-evidence for this release, not constants for future releases.
+The published release contains 11 unique signed PE byte sets, nine
+update-eligible core components, one provider worker, and one MSI-only
+provider-detection DLL. The MSI contains 13 first-party PE occurrences because
+two signed byte sets are intentionally packaged twice.
 
-| Component | File | Owner | Version | Pull eligible | Size | SHA-256 | Artifact Signing operation ID |
-|---|---|---|---|---:|---:|---|---|
-| `core.runtime` | `axiowl.exe` | `core` | `2.0.30` | yes | 4,103,928 | `42430941c510b2fdc1d162869b6772eb75fae6f670d72558f5e0b67f8448de26` | `01e012ad-a379-4203-b806-6d258c5e7020` |
-| `core.mailbox` | `axiowl-mailbox.exe` | `core` | `2.0.30` | yes | 1,218,296 | `5f829c53ab115fd020b314fb8ac0d1a6638427da100caa42bf9b0e6b4708d4f7` | `f9a85e05-0fb1-4332-b9ac-c65c6c1f305e` |
-| `tools.tester` | `axiowl-tester.exe` | `tools` | `2.0.30` | yes | 963,320 | `85be23231de34dfb9dca206392ee245963ed1da401c0e33c297378e95778a0b1` | `5c8020f4-fbfe-4e89-b5b6-7e765ac39b6c` |
-| `tools.launch-broker` | `axiowl-test-launch-broker.exe` | `tools` | `2.0.30` | yes | 476,408 | `f6a24db164296a00c69e878bde1c033daad0982402b440f95dc8f891b81153d7` | `98eb0c66-a022-42ea-a96b-50be92949097` |
-| `provider.claude_code_cli.worker` | `axiowl-provider-claude-worker.exe` | `claude_code_cli` | `1.0.0` | no | 844,024 | `ca19b4e199c63e04c7e9951838d2cc8fa1e57bcdf7c6fb05007ca88c1462aba5` | `22b59fa5-4eb4-4ec9-bd0a-42c9567723e4` |
-| `core.installer.ui` | `axiowl-installer.exe` | `core` | `2.0.30` | yes | 2,619,640 | `4868dd686a6d299087eabf63332874e2cedd19c639c84599e4ff6e88b4888457` | `12f43461-6eb0-4015-98c9-6413fcbdbc3b` |
-| `core.installer.silent` | `axiowl-installer-silent.exe` | `core` | `2.0.30` | yes | 265,464 | `cd262bb1f2b3d81427e800383631d9222ab50f3902625d6b107928225fe2bbe4` | `28cda175-ea8c-49fc-8f43-a2a5cd098fec` |
-| `core.api-service` | `axiowl-api-service.exe` | `core` | `2.0.30` | yes | 3,306,232 | `9db08d003d317325c98b225632ad6d2a3cae77bda9c3c0385f1234be15413fdc` | `f5f87458-5bd1-4dd4-b080-03594c826115` |
-| `core.user-broker` | `axiowl-user-broker.exe` | `core` | `2.0.30` | yes | 3,022,584 | `c91de8a00234b9a309261cbcd0c371e9b402aebb0ef0e3b77fe526d69495aabf` | `2c45f6a2-cf76-4101-8af0-3e9844229649` |
-| `core.relay` | `axiowl-relay.exe` | `core` | `2.0.30` | yes | 3,268,344 | `799aa775a1adcf155f79105530bde486b1b23849b92b20b2350cd4da340e21d0` | `60e5432f-a0dd-429b-aa89-0160487e709a` |
-| `core.installer.provider-detection` | `axiowl-installer-provider-detect-ca.dll` | `core` | `2.0.30` | no | 697,592 | `f08ef0af3bcafc8dc173e6d9f8389c311b6c3a8ff10ff13c48d48d80f851aa30` | `4ecde67b-4cc0-493d-ab39-88377b4346cc` |
-
-Other release bindings:
-
-```text
-signed MSI SHA-256:
-638b9da79ab157ea368a0c1709717fa312dd5e331b7f507070b0948dfcad0283
-
-signed-component manifest SHA-256:
-1c8b518f2d2fdbeb46d174642b8a49f2977b5b8c4cd4c72e4b1d64ebf56d2315
-
-signed-component archive SHA-256:
-555d732820643f0b9a53734349cbfa9976638ed9abff790f4831e08440e4b1cd
-
-Claude provider manifest SHA-256:
-3492938ea36f34140ea81a6af07fb7e2458b23d0220988ae82e65344e1a582d9
-
-Claude provider archive SHA-256:
-1965b6628910f67868f93389279f6f417dfeca76cb0dbbc5552c391ad752fbdf
-```
-
-The authoritative machine-readable sources are:
+Exact hashes, sizes, signing operation IDs, and proof bindings are
+release-specific and must be read from the authoritative machine-readable
+sources:
 
 - [`axiowl-activation-a2a-signing-proof.json`](https://github.com/morganross/axiowl-cplus/blob/main/release/axiowl-activation-a2a-signing-proof.json)
 - [`axiowl-activation-a2a-signed-components.json`](https://github.com/morganross/axiowl-cplus/blob/main/release/axiowl-activation-a2a-signed-components.json)
@@ -777,8 +783,8 @@ The intended roles are:
   key administration, never ordinary publication.
 
 The OCI inventory says the concrete publisher and promoter identities have not
-yet been created. Therefore production resource-principal commands are not
-ready.
+must be audited in the live environment. Repository configuration alone is not
+proof of current IAM assignments.
 
 Required human decisions should be:
 
@@ -791,8 +797,8 @@ Required human decisions should be:
 
 ## Operator Publication Procedure
 
-This procedure describes the intended complete operation. The current release
-must stop at Step 4 because its publication inputs fail validation.
+This procedure describes the complete operation. Release `2.0.30` has completed
+all steps for both internal and stable.
 
 ### Step 1: Record source state
 
@@ -899,11 +905,9 @@ Expected passing output shape:
 {'package_version': '<version>', 'artifacts': 11, 'update_eligible': 9}
 ```
 
-The reviewed `2806c74` inputs fail here on the UTF-8 BOM. Removing the BOM by
-hand is not a valid release operation because the proof and embedded ZIP
-manifest bind the exact bytes. The builder/consumer contract must be corrected
-and a new signed artifact set produced. The wrong process-list JSON types must
-also be corrected before publication.
+An earlier release candidate exposed UTF-8 BOM and process-list serialization
+defects. Those were historical builder/consumer failures, not a reason to edit
+signed evidence by hand. Every new release must rerun this preflight.
 
 ### Step 5: Install publication dependencies
 
@@ -936,6 +940,10 @@ python .\services\update\tools\publish_release.py `
     .\release\axiowl-activation-a2a-signed-components.zip `
   --signing-proof `
     .\release\axiowl-activation-a2a-signing-proof.json `
+  --provider-package-manifest `
+    .\release\axiowl-activation-a2a-provider-claude_code_cli-package.json `
+  --provider-package-archive `
+    .\release\axiowl-activation-a2a-provider-claude_code_cli-package.zip `
   --inventory `
     .\services\update\infra\oci-update-inventory.json `
   --channel internal `
@@ -953,6 +961,10 @@ python .\services\update\tools\publish_release.py `
     .\release\axiowl-activation-a2a-signed-components.zip `
   --signing-proof `
     .\release\axiowl-activation-a2a-signing-proof.json `
+  --provider-package-manifest `
+    .\release\axiowl-activation-a2a-provider-claude_code_cli-package.json `
+  --provider-package-archive `
+    .\release\axiowl-activation-a2a-provider-claude_code_cli-package.zip `
   --inventory `
     .\services\update\infra\oci-update-inventory.json `
   --channel internal `
@@ -1047,35 +1059,38 @@ Promote the already published, independently verified release only after:
 - support and rollback readiness;
 - confirmation that no hold is active.
 
-Use a stable-channel receipt bound to the release and a new stable sequence.
-The current publisher embeds the channel in the release payload, so an
-`internal` release envelope is not silently relabeled as `stable`; publish and
-verify the intended channel explicitly.
+The signed release payload includes its channel, so the internal envelope
+cannot be relabeled. The stable rechannel operation must first reverify the
+internal receipt and envelope, freshly download and hash every referenced
+component and provider object, reuse those immutable bytes without uploading
+or overwriting them, change only the signed channel claim, and create a new
+stable release envelope and receipt.
 
-That intended operation is not currently executable for a release already
-published to `internal`. The stable publication reaches the same
-content-addressed component paths, and the create-only uploader rejects those
-existing objects even when their bytes are identical. Do not work around this
-by deleting objects, changing hashes, or manually editing a receipt. Add and
-validate an evidence-bound reuse/resume contract before operating the
-`internal` to `stable` lifecycle.
+The ordinary promoter then consumes that stable-specific receipt and creates a
+separately signed stable pointer with its own increasing sequence. Independent
+public verification must pass after promotion. Release `2.0.30` completed this
+flow at stable sequence 1.
 
 ### Step 12: Provider package availability
 
-The current Claude package can be applied only from an existing verified
-directory:
+The current Claude package can be pulled from the verified release or applied
+from an existing verified directory:
 
 ```powershell
 .\build\Release\axiowl.exe update provider status claude_code_cli
+
+.\build\Release\axiowl.exe update provider pull claude_code_cli `
+  --channel stable
 
 .\build\Release\axiowl.exe update provider apply claude_code_cli `
   --package-root <absolute-directory-containing-provider-package.json-and-worker>
 ```
 
 The production MSI uses its embedded Claude package through the same package
-store. No command currently downloads the Claude package ZIP from OCI, and no
-provider-specific signed channel is implemented. Do not claim provider pull
-availability based on the presence of the package in a GitHub Release.
+store. Provider pull discovers the manifest and worker records in the verified
+release, downloads and verifies those immutable objects, stages them, and uses
+the same package store to install and activate the revision. The package ZIP
+remains publication/audit evidence and is not a client download.
 
 ## Provider Package Revisions and Activation
 
@@ -1088,7 +1103,7 @@ For production state, the typical layout is:
 %LOCALAPPDATA%\AxiOwl\provider-packages\
   claude_code_cli\
     versions\
-      1.0.0\
+      1.0.1\
         provider-package.json
         installed-provider-receipt.json
         axiowl-provider-claude-worker.exe
@@ -1120,9 +1135,11 @@ worker.
 
 Current limitations:
 
-- only `claude_code_cli` is enabled in the update command;
-- apply requires an already present directory, not the generated ZIP;
-- no provider package download or provider channel exists;
+- the published release contains the Claude package;
+- manual apply requires an already present directory, while pull performs
+  verified network retrieval and staging;
+- provider packages are records within the signed release rather than
+  independently promoted provider channel pointers;
 - the rollback primitive has no public update CLI command;
 - activation occurs before the worker performs its configuration operation, so
   a later configuration failure needs explicit operator evidence and recovery.
@@ -1169,7 +1186,7 @@ release. Never:
 | Local publisher validation | None | Correct the builder/consumer contract and produce a new signed artifact set. Never hand-edit a proof-bound manifest. |
 | Partial immutable component upload | No channel change | Preserve logs and inventory exact objects. Current publisher has no resume or verified-existing-object mode; create-only reruns can fail on already written objects. Escalate before retrying. |
 | Release uploaded but receipt failed | No channel change | Treat release as unreferenced evidence. Current tooling lacks receipt reconstruction/resume; do not promote from manually assembled claims. |
-| Publishing the same bytes for a second channel | No second-channel change | Current channel-bound release receipts require another publication, while create-only shared component paths reject existing objects. Stop until the publisher can verify and reuse identical immutable objects. |
+| Re-signing a verified release for a second channel | No second-channel change until promotion | Use the evidence-bound rechannel operation. It must reverify the source release and freshly hash every public object before reusing immutable bytes. |
 | Channel history written but current write failed | Current channel unchanged | Read and verify current pointer, then retry with a new greater sequence. A sequence gap is acceptable. |
 | Public verification fails before promotion | No client change | Do not promote. Preserve public bytes and compare object hash, envelope signature, and receipt. |
 | Public verification fails after promotion | Clients may see selected release | Immediately publish a higher-sequence hold or known-good active pointer, then investigate. |
@@ -1192,9 +1209,9 @@ $bytes = [System.IO.File]::ReadAllBytes(
 $bytes[0..2] | ForEach-Object { $_.ToString('X2') }
 ```
 
-`EF BB BF` is a UTF-8 BOM. Current Python input loading rejects it. Do not strip
-it from a signed release file because the signing proof and ZIP bind the exact
-manifest bytes.
+`EF BB BF` is a UTF-8 BOM. Current input loading accepts builder JSON through
+`utf-8-sig`; the older strict-UTF-8 failure has been corrected. Do not strip or
+rewrite signed evidence because the proof and ZIP bind the exact bytes.
 
 ### Publisher rejects `requires_processes_stopped`
 
@@ -1234,8 +1251,9 @@ blindly retry the stale conditional write.
 ### Public verification returns 404
 
 No current pointer exists at the configured channel path, the wrong channel
-was selected, or promotion did not complete. As of this review, both
-`internal` and `stable` return 404.
+was selected, or promotion did not complete. As of this review, both internal
+and stable return HTTP 200. A future 404 describes that channel pointer; it
+does not prove that immutable release objects were never published.
 
 ### Public signature verification fails
 
