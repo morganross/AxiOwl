@@ -1,136 +1,126 @@
-# AxiOwl Developer Docs
+# AxiOwl Developer Guide
 
-This document describes the current implementation for developers and future agents. The architecture source of truth is [Architecture Overview](../reference/architecture-overview.md).
+This guide explains how to change AxiOwl without collapsing provider-specific behavior, local runtime behavior, and network protocols into one undiagnosable path. The canonical component inventory is the [Architecture Overview](../reference/architecture-overview.md).
 
 ## Engineering Model
 
-AxiOwl is intentionally split into a small set of stable core concepts and many provider-specific edges. The core should be boring: validate, resolve, discover, dispatch, log. The provider edges can be weird because provider surfaces are weird.
+AxiOwl has a stable normalization core and a set of deliberately specialized edges.
 
-This is the design tradeoff: isolate provider weirdness so it does not infect the registry, MCP server, installer, or release process.
+The core owns addresses, registry records, sender identity, request validation, correlation, receipts, logs, and normalized results. Provider edges own the mechanics of discovering and delivering to one provider surface. Protocol edges own A2A, inter-node, relay, SSH, and branch-only XMPP behavior. Installer features own the files and provider configuration they install and remove.
 
-## Important Directories
+That separation is the main reliability strategy. A new provider method should not silently change the meaning of a receipt, and a network fallback should not hide a broken local delivery edge.
 
-| Path | Purpose |
+## Repository Areas
+
+| Area | Responsibility |
 |---|---|
-| `apps/windows-desktop/src` | C++ runtime, CLI, MCP server, registry, discovery, provider edges, installer helper. |
-| `apps/windows-desktop/extensions/vscode` | VS Code bridge extension source/payload. |
-| `apps/windows-desktop/extensions/cursor` | Cursor bridge extension source/payload. |
-| `apps/windows-desktop/installer` | MSI build scripts and safety checks. |
-| `release` | Built MSI and WiX artifacts. |
-| `docs/reference` | Current product source of truth. |
+| `apps/windows-desktop/src` | C++ CLI, MCP server, message pipeline, registry, discovery, provider edges, A2A server/client, inter-node transport, services, and installer helpers. |
+| `apps/windows-desktop/extensions` | Provider bridge and extension payloads. |
+| `apps/windows-desktop/installer` | MSI source generation, provider feature actions, safety checks, staging, and provenance. |
+| `apps/windows-desktop/tests` | Native unit, integration, protocol, provider, and installer-oriented tests. |
+| `release` | Final flat release artifacts and provenance output. |
+| `docs/reference` | Product source-of-truth matrices and release checklist. |
+| `feature/xmpp-remote-transport` | XMPP implementation currently outside main. |
 
-## Message Flow
+## Local Message Flow
 
 ```text
-MCP tool or CLI command
-  -> CLI/MCP handler
-  -> MessagePipeline
-  -> validate target/body/sender
-  -> resolve sender identity
-  -> resolve target registry row
-  -> targeted discovery repair when needed
-  -> build final visible body
-  -> provider_edges dispatch
-  -> provider module
-  -> delivery proof/log
+CLI or MCP request
+  -> request validation
+  -> sender identity resolution
+  -> target registry resolution
+  -> targeted discovery repair when justified
+  -> normalized message and correlation ids
+  -> provider edge selection
+  -> provider-specific delivery
+  -> explicit result boundary and logs
+  -> correlated MCP reply
 ```
 
-The central rule is that `MessagePipeline` owns the general send contract, while `provider_*.cpp` owns provider-specific mechanics.
+The pipeline should make a missing identity, stale target, unsupported operation, authentication block, and delivery rejection distinguishable. Do not return a generic success merely because the request entered the pipeline.
 
-## Registry Model
+## A2A Flow
 
-The registry is durable local state, not a cache-only convenience. It maps names and aliases to provider sessions.
+```text
+A2A HTTP+JSON or JSON-RPC request
+  -> route and authentication
+  -> Agent Card / scoped-agent resolution
+  -> task creation or lookup
+  -> provider factory or external client
+  -> local provider, another node, or external endpoint
+  -> task state, result, artifacts, push, or MCP-correlated reply
+```
 
-Developer rule: do not mark a row sendable unless discovery or direct proof justifies it. Do not allow stale paths or stale display names to become stronger than provider-owned session ids.
+Current main supports Agent Cards, scoped agents, send, task get/list/cancel, extended cards, push configuration, retries, and dead letters. Streaming routes are declared but advertise `implemented=false`; do not convert route presence into a support claim.
 
-The registry should help humans target chats by name while preserving machine-safe routing through provider session ids.
+## Inter-Node Flow
 
-## MCP Metadata Requirements
+Inter-node delivery resolves node identity and then selects direct HTTPS A2A, relay, or A2A over SSH according to configuration and policy. A guarded legacy fallback exists for compatibility. Every transport decision and fallback must be visible in logs because otherwise an apparent success cannot prove which path worked.
 
-Provider replies must include enough metadata for AxiOwl to identify the sender session. The MCP server should fail loudly when metadata is missing.
+See [Transport Selection](../inter-node/transport-selection-and-fallback.md) and [Node Pairing And Trust](../inter-node/pairing-identity-and-trust.md).
 
-For final CLI support, do not rely on environment-only identity injection. Add provider-owned metadata through native MCP metadata, provider patching, or an equivalent provider-supported mechanism.
+## Service And User Broker Boundary
 
-This is not bureaucracy. Without metadata, AxiOwl cannot know whether a reply came from the target session, a stale session, or a caller pretending to be a session.
+The optional MSI A2A feature installs `AxiOwlApi` as an automatic LocalSystem service and installs the relay executable. Interactive provider sessions and user-owned provider files are outside that service account.
 
-## Sender Identity Rules
+The source tree compiles `axiowl-user-broker.exe`, but the current build target list, artifact manifest, and WiX package do not install and launch it. Consequently, protected service routes that require interactive provider access can return `503`. Preserve that loud failure until packaging and lifecycle management for the broker are complete.
 
-Sender identity should resolve in this order:
+## XMPP Branch Boundary
 
-1. Provider-owned MCP metadata.
-2. Explicit provider session id that matches a registry row.
-3. Explicit sender address/alias that maps to a registry row.
-4. Targeted discovery repair.
+`feature/xmpp-remote-transport` contains an XMPP transport with WebSocket/TLS, SCRAM-SHA256, session routing, a receiver agent, Prosody integration, and an external gateway. It is not present in current main and is behind main. Merge work must reconcile current main architecture, run branch-specific tests, and update the protocol matrix; copying old branch docs into current claims is not enough.
 
-Avoid guessing a sender from a display name that looks like a raw session id.
+## Registry And Identity
 
-## Discovery Flow
+The registry is durable routing state. A sendable row needs evidence that the provider session or endpoint can be addressed. Preserve provider-owned session ids, node ids, A2A agent ids, and aliases as distinct fields rather than deriving identity from a display name.
 
-Discovery modules find provider sessions and merge them into the registry. Discovery is provider-specific and should preserve manual/protected rows.
+Provider replies should use provider-owned MCP metadata whenever available. Explicit session ids may be resolved against the registry. Discovery may repair a missing row, but it should not invent sender identity from a convenient current process or environment variable.
 
-Discovery can:
+## Discovery
 
-- add newly found sessions;
-- refresh last-seen fields;
-- enrich manual rows;
-- downgrade stale auto-discovered rows when proof disappears;
-- repair a missing target once during send.
+Discovery is provider- and surface-specific. It may read provider databases, histories, config, processes, extension state, or documented CLI output. Discovery should record evidence, merge without destroying protected/manual rows, and downgrade stale automatic state when evidence disappears.
 
-Discovery should not:
+Installer discovery and runtime chat discovery are related but different. Installer discovery decides which provider features are sensible to preselect. Runtime discovery finds addressable sessions. A detected provider installation does not prove a sendable session exists.
 
-- silently convert stale rows into sendable rows;
-- delete unrelated provider data;
-- hide provider delivery failures.
+## Provider Operations
 
-## Delivery Flow
+Implement `send`, `create`, and `rename` independently. A surface that supports send does not automatically support create or rename. Return an explicit unsupported result for missing operations.
 
-Provider delivery lives in `provider_*.cpp` and is selected by `provider_edges.cpp`.
+Provider pages and the [Provider Support Matrix](../reference/provider-support-matrix.md) document current operation-level claims.
 
-Delivery results must distinguish:
+## Installer Rules
 
-- AxiOwl handoff accepted;
-- provider accepted;
-- provider rejected;
-- provider unavailable;
-- unsupported provider;
-- auth-blocked provider;
-- missing patch;
-- stale target;
-- remote out-of-scope.
+1. Give each provider feature a clear ownership contract.
+2. Preselect only discovered provider installations.
+3. Close and restart only apps required by selected actions.
+4. Perform user configuration as the interactive user, not the elevated MSI account.
+5. Validate patches before and after modification and support rollback.
+6. Remove only AxiOwl-owned state for installed features.
+7. Preserve logs from every custom action and helper phase.
+8. Package every executable referenced by a runtime path.
+9. Record source commit and payload hashes in artifact provenance.
 
-## Installer Development Rules
+## Build And MSI
 
-The installer should be feature-isolated. A provider feature owns its install, patch, config, cleanup, and logs. Core install owns only the AxiOwl runtime and shared AxiOwl-owned state.
-
-Do not add wide cleanup because a single provider is failing. Wide cleanup can make a test pass once while deleting user state or breaking another provider.
-
-## Build System
-
-The Windows build uses CMake. The MSI build script validates toolchain dependencies, builds native artifacts, stages payloads, writes provenance, and verifies the generated MSI.
-
-Primary build script:
+The Windows app uses CMake. The MSI pipeline is driven by:
 
 ```text
 apps/windows-desktop/installer/build-windows-msi.ps1
 ```
 
-## MSI Build Process
+The pipeline builds native targets, runs tests and safety checks, stages provider payloads, generates WiX input, builds the MSI, writes provenance, and verifies the final payload. A successful CMake compile does not prove the MSI contains the current executable or every service dependency.
 
-The MSI build should:
+## Change Process
 
-1. build `axiowl.exe`;
-2. run tests;
-3. stage helper executables and extensions;
-4. stage provider payloads;
-5. write artifact manifest;
-6. compile WiX;
-7. verify MSI payload/provenance;
-8. leave final artifact under `release`.
+1. Identify the exact boundary being changed.
+2. Read the current source-of-truth matrix and historical method evidence.
+3. Trace callers and ownership before editing.
+4. Add focused tests at the changed boundary.
+5. Build the artifact users will actually run.
+6. Validate on the development machine and a clean machine.
+7. Require a correlated reply or completed task for end-to-end claims.
+8. Update the source-of-truth matrix and provider/protocol page together.
+9. Record a success method after the current artifact passes, not before.
 
-## Release Process
+## Definition Of Done
 
-Use [Release Validation Checklist](../reference/release-validation-checklist.md). Do not publish a build solely because compilation succeeded.
-
-## Development Opinion
-
-The safest way to work on AxiOwl is to change one boundary at a time and test the boundary you changed. Installer changes need install logs. Provider changes need send/receive proof. Registry changes need stale-row tests. MCP changes need metadata proof. Release changes need clean-machine validation.
+A code path is not complete merely because it exists. Completion requires packaging, configuration, authentication, operation-level tests, failure diagnostics, uninstall ownership where applicable, and current documentation. Use the [Release Validation Checklist](../reference/release-validation-checklist.md) as the final gate.

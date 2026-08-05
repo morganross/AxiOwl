@@ -1,85 +1,63 @@
-# AxiOwl User Docs
+# AxiOwl User Guide
 
-AxiOwl lets supported AI provider sessions send messages to each other through a local Windows coordinator. It is designed for local provider-to-provider messaging, not for replacing the providers themselves.
+AxiOwl is a local-first communication and normalization layer for AI work sessions. It helps you address unlike tools in a consistent way while using the delivery method that each provider surface actually supports.
 
-## What AxiOwl Does
+You can use AxiOwl to send a focused request from one AI session to another, collect the response, and retain evidence about who replied and which request the reply belongs to. Current main also supports A2A endpoints and inter-node communication for workflows that extend beyond one local provider window.
 
-AxiOwl:
+## The Everyday Workflow
 
-- discovers provider sessions and chats on your machine;
-- records reachable sessions in a local registry;
-- sends messages to selected provider sessions;
-- exposes an MCP tool so providers can reply through AxiOwl;
-- records receipts, logs, and delivery evidence;
-- installs provider-specific integration pieces such as MCP config, extensions, or patches.
+1. Install the AxiOwl core and only the provider integrations you intend to use.
+2. Let AxiOwl discover sessions that those providers already know about.
+3. Select a target by its human-readable name or stable provider/session identity.
+4. Send a message, CLI request, MCP request, or A2A task.
+5. Keep the acceptance receipt as the start of the audit trail.
+6. Confirm the provider reply or completed A2A task for end-to-end proof.
 
-Plain English version: AxiOwl keeps a local address book of AI sessions and delivers messages to them using the method that each provider surface actually supports.
+## Why Use It
 
-## What AxiOwl Does Not Do
+AxiOwl is useful when work spans more than one AI surface. One session can remain responsible for a project while another investigates a narrow issue, reviews code, tests a different provider, or works from another node. The response returns through a normalized path instead of depending on manual copy-and-paste between unrelated tools.
 
-AxiOwl does not make every provider magically support every surface. It does not turn a CLI into an editor integration. It does not prove delivery just because it accepted a request. It also should not modify provider apps that were not selected during install.
+That can reduce duplicated explanation and token use. The coordinator can send only the task and required context, while the specialist returns only the relevant result. AxiOwl provides the addressing, transport, correlation, and identity evidence around that exchange.
 
-This matters because “provider” is not just a brand name. `cursor:agents`, `codex:cli`, and `copilot:vsix extension` are different surfaces with different install and delivery requirements.
+## Installation
 
-## Installing
+The Windows MSI installs the core runtime for the current user and offers provider-specific features. A feature may install MCP configuration, an extension, a validated patch, a helper, or a service. A provider checkbox is not merely a label; it owns a specific installation contract.
 
-Use the Windows MSI built by the project. During install, choose provider checkboxes for the provider surfaces you want to integrate.
+Discovery should preselect only provider surfaces detected on the machine. Unchecked features should not patch, close, restart, configure, or remove that provider's files. The optional A2A service is separate and is not selected by default.
 
-Checkboxes should be preselected only for providers discovered on the machine. You can manually select a provider feature, but a selected provider may still fail if the provider app, CLI, auth, or required version is missing.
+Read [Installer Behavior](../installer/README.md) before making provider selections.
 
-See [Installer Docs](../installer/README.md) and [Installer Behavior Matrix](../reference/installer-behavior-matrix.md).
+## Sending A Local Message
 
-## Sending Messages
-
-The common command form is:
+The common CLI form is:
 
 ```powershell
 axiowl send --to "Target chat name" --body "Message text"
 ```
 
-Provider sessions can also send through MCP using the `axiowl_send_message` tool. MCP sends are preferred for provider replies because they include provider/session identity metadata.
+Providers can send or reply through the `axiowl_send_message` MCP tool. The MCP path is especially important for replies because it can carry provider-owned sender/session identity and correlation metadata.
 
-## Provider Replies
+## A2A And Other Nodes
 
-When a provider receives a message, AxiOwl asks it to reply over MCP. A correct reply proves more than a local send receipt:
+AxiOwl can expose selected desktop agents through A2A and call external Agent Card endpoints. It can also route to another AxiOwl node through direct HTTPS A2A, relay, or A2A over SSH. These are explicit network features with authentication and trust requirements; they are not silent fallbacks for a broken local provider.
 
-1. AxiOwl accepted the request.
-2. The provider received the message.
-3. The provider had AxiOwl MCP available.
-4. The provider sent a reply through AxiOwl.
-5. AxiOwl could identify the provider session that replied.
+Start with [A2A](../a2a/README.md) and [Inter-Node Communication](../inter-node/README.md).
 
-This is why tests ask providers to reply with exact status text and a run id. The reply is the proof.
+## Reading Results
 
-## What A Receipt Means
+`accepted_by_axiowl` means the request entered AxiOwl's delivery pipeline. It is not proof that the target completed the work. A provider reply with correct metadata or a completed A2A task is the normal end-to-end proof.
 
-`accepted_by_axiowl` means AxiOwl accepted the message and handed it to the delivery layer. It does not prove the target provider displayed or processed the message.
+Use [Receipts, Delivery, And Completion Proof](../concepts/receipts-vs-proof.md) when interpreting a test or support log.
 
-End-to-end proof is a provider reply through AxiOwl MCP with correct sender identity.
+## What Supported Means
 
-## What Supported Provider Means
+Support belongs to a specific surface. A brand can have one supported surface and another target or experimental surface. The [Provider Support Matrix](../reference/provider-support-matrix.md) records current claims, while each [Provider Page](../providers/README.md) explains its delivery and installation method.
 
-A provider is supported only when the full path works:
+## Product Boundaries
 
-- discovery;
-- install/config;
-- send;
-- provider receive;
-- provider MCP reply;
-- correct sender identity.
-
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
-
-## Common User Confusions
-
-| Confusion | Explanation |
-|---|---|
-| “The installer succeeded, so all providers work.” | Install success proves selected install actions completed. Provider response tests prove message paths. |
-| “AxiOwl accepted the message, so the provider got it.” | `accepted_by_axiowl` is local handoff proof only. |
-| “Codex works, so Codex CLI must work too.” | Agent and CLI surfaces are separate provider surfaces. |
-| “Cursor has a warning, so messaging must have failed.” | Some Cursor warning paths are separate from the working command-file watcher path. Logs decide. |
-| “A stale old chat name appeared, so the new installer is broken.” | Maybe, but provider session/workspace state can also preserve stale paths. Diagnose before guessing. |
-
-## Current Supported Provider Surfaces
-
-Current status lives in [Provider Support Matrix](../reference/provider-support-matrix.md). Do not rely on old reports or historical plans for current status.
+- Windows is the primary complete product platform.
+- Linux support is narrower and must be evaluated by package and provider surface.
+- macOS is currently unsupported.
+- XMPP implementation exists on a feature branch and is not part of current main.
+- A2A streaming routes are declared but not implemented.
+- A receipt never substitutes for a correlated provider reply or completed task.

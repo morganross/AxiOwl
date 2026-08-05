@@ -4,72 +4,45 @@ sidebar_position: 8
 
 # AxiOwl As A Normalization Layer
 
-AxiOwl is a messaging layer, but that is not the whole idea. AxiOwl is also a normalization layer.
+AxiOwl is not merely a message sender. It is a normalization layer over provider products that use different names, identifiers, storage formats, invocation methods, and success signals.
 
-Plain English version: AxiOwl makes different AI tools easier to name, address, test, compare, and diagnose.
+Plain English: users should be able to say which AI session they mean and what they want delivered. AxiOwl absorbs the provider-specific work required to turn that request into a concrete operation while keeping enough detail to explain a failure.
 
-## What Normalization Means
+## What Is Normalized
 
-Every provider has its own words and mechanics:
-
-- one calls something a chat;
-- another calls it a session;
-- another calls it a composer;
-- another stores it in a CLI history file;
-- another exposes it through an extension;
-- another needs a patch or bridge.
-
-AxiOwl does not erase those differences. It puts a consistent layer above them.
-
-## What AxiOwl Normalizes
-
-| Different provider reality | AxiOwl normalized idea |
+| Provider variation | AxiOwl concept |
 |---|---|
-| Chat, agent, composer, session, conversation | Agent/session registry row |
-| Provider-specific session ids | `provider_session_id` |
-| Provider-specific surfaces | `brand:surface` provider model |
-| Provider-specific config locations | Selected installer feature |
-| Provider-specific send mechanics | Provider delivery edge |
-| Provider-specific reply tools | AxiOwl MCP reply |
-| Provider-specific success signals | Receipt, provider result, MCP reply proof |
-| Provider-specific logs | AxiOwl logs, registry, runtime evidence |
+| Chat, thread, composer, agent, task, or session | Addressable agent/session registry row |
+| Provider-specific identifier | Provider and provider session id |
+| Window, editor, extension, or CLI | Provider surface |
+| Database, file, process, or extension discovery | Discovery result and evidence |
+| UI hook, command file, CLI argument, or HTTP request | Delivery edge |
+| Provider callback or tool invocation | MCP reply with sender metadata |
+| HTTP A2A endpoint | Agent Card, agent id, task, and message |
+| Local or remote machine | Node identity and transport |
+| Accepted, delivered, completed, replied | Explicit proof boundary |
 
-## Why This Matters
+## What Remains Provider-Specific
 
-Without normalization, every provider failure is a one-off mystery. With normalization, AxiOwl can ask the same questions:
+Normalization does not erase differences. A Cursor private implementation patch has different risks from a Claude Code CLI configuration. An A2A task has a different lifecycle from a local editor submit. A remote HTTPS route has a different trust boundary from a local command file.
 
-1. Was the provider installed?
-2. Was the provider surface selected?
-3. Was a session discovered?
-4. Was the registry row sendable?
-5. Was a message accepted by AxiOwl?
-6. Did the provider accept it?
-7. Did the provider reply through MCP?
-8. Did the reply include correct metadata?
+AxiOwl therefore keeps provider discovery, installation, delivery, and cleanup in provider-specific edges. The stable core handles naming, validation, identity, routing, correlation, logging, and results.
 
-The answers come from different provider mechanisms, but the questions stay stable.
+## Why It Matters In A Workflow
 
-## Normalization Is Not Hiding Detail
+Without the normalization layer, a multi-provider workflow repeatedly spends time rediscovering where sessions live, how each tool receives text, and what success means. With AxiOwl, the workflow can use one conceptual sequence:
 
-Good normalization does not pretend all providers are the same. It gives them a shared vocabulary while preserving the provider-specific facts needed for diagnosis.
+1. Resolve the intended agent or session.
+2. Select the delivery edge that belongs to its provider surface.
+3. Attach sender and correlation identity.
+4. Dispatch the message or A2A task.
+5. Record the exact boundary reached.
+6. Correlate the reply to the original request.
 
-That is why AxiOwl still has provider-specific pages, provider-specific installer actions, and provider-specific known risks.
+This reduces repeated setup and prompt explanation. It can also reduce token use because one agent can ask a specialist agent for a focused result instead of reproducing the specialist's entire context in every session. AxiOwl does not automatically make prompts smaller; it makes purposeful delegation and concise result exchange practical.
 
-## Messaging Plus Normalization
+## General-Purpose, Not Provider-Blind
 
-Messaging is what AxiOwl does in the moment:
+The interface is general-purpose because the same address, identity, correlation, and proof ideas work across providers and protocols. The implementation remains provider-aware because reliability requires knowing the real installation and delivery method for each surface.
 
-```text
-send this message to that provider session
-```
-
-Normalization is what makes that possible across tools:
-
-```text
-know what "that provider session" means,
-know how to address it,
-know how to test it,
-know how to prove it replied
-```
-
-Both parts matter. Messaging without normalization becomes fragile. Normalization without messaging becomes just an inventory. AxiOwl needs both.
+The current capabilities and boundaries are recorded in the [Provider Support Matrix](../reference/provider-support-matrix.md) and [Protocol Support Matrix](../reference/protocol-support-matrix.md).

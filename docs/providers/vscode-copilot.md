@@ -1,50 +1,27 @@
-# VS Code Copilot
+# VS Code Copilot-Backed Sessions
 
-Status: `supported`
+This surface is a Copilot session hosted inside VS Code. It is not the standalone Copilot CLI.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
+| Operation | Status | Method |
+|---|---|---|
+| Discovery | supported | VS Code bridge and Copilot session state |
+| Send | experimental | Exact-session bridge command |
+| Create | implemented | Copilot-backed bridge create |
+| Rename | implemented | Bridge command plus provider-native verification |
+| MCP reply | supported | VS Code host MCP plus patched session metadata |
 
-Use this page when you mean Copilot chat inside VS Code. The important idea is that AxiOwl talks to VS Code through an installed bridge extension and MCP definition, not by pretending VS Code is just a simple command-line tool.
+## Installer
 
-## Surface
+The checkbox owns the bridge extension, MCP configuration, and Copilot metadata patch. These are separate MSI features from VS Code native support even though both operate inside VS Code.
 
-Copilot-backed chat inside VS Code.
+## Evidence
 
-Plain English version: this is Copilot running in VS Code, reached through the AxiOwl VS Code bridge and MCP registration.
+Response-backed messages have passed in earlier rounds. The July 12 full round did not complete a roundtrip, and one rename target had a provider-owned corrupted `events.jsonl`. AxiOwl registry updates do not substitute for a provider-visible title.
 
-## Delivery Method
+## Risks
 
-AxiOwl uses the VS Code bridge extension and MCP server definition. The bridge exposes AxiOwl MCP to VS Code and can route messages through VS Code chat commands.
-
-The important implementation boundary is that useful VS Code chat behavior lives inside VS Code. A local executable alone cannot reliably control it without an in-host bridge.
-
-## Installer Action
-
-The installer installs the AxiOwl VS Code bridge extension and MCP server definition when the VS Code/Copilot feature is selected.
-
-VS Code should be closed only when the selected install action requires patching or replacing loaded extension files.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | Native/Copilot patch path may be selected depending on feature. |
-| Extension | AxiOwl VS Code bridge extension. |
-| MCP | Required. |
-| Config | VS Code MCP server definition. |
-
-## Test Status
-
-Response-backed VS Code Copilot tests have passed.
-
-## Known Risks
-
-- VS Code extension folders can become stale after rename/refactor work.
-- New chats may inherit stale workspace state from VS Code itself.
-- The bridge depends on VS Code MCP APIs being available in that host.
-
-## Architecture Rationale
-
-The VS Code bridge is the right shape because it uses the host that owns the chat state. The alternative, trying to drive VS Code only from outside, gives weaker targeting and weaker proof.
+- VS Code and Copilot extension updates can change private metadata anchors;
+- corrupted Copilot session files are provider-state failures, not successful AxiOwl renames;
+- an extension command resolving is weaker than provider transcript proof.

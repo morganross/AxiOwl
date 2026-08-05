@@ -1,46 +1,31 @@
 # OpenCode CLI
 
-Status: `target`
+OpenCode CLI is addressed through its native session ID and resume/create commands.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
-
-Use this page when you mean OpenCode CLI. Historical tests showed reachability, but final support requires provider-owned MCP metadata under the current rules.
-
-## Surface
-
-Standalone OpenCode CLI sessions.
-
-Plain English version: this is the OpenCode command-line provider surface.
-
-## Delivery Method
-
-Historical implementation used `opencode session list` and `opencode run --session` with an AxiOwl MCP config directory. Current final support requires provider-owned MCP metadata or an AxiOwl/provider patch that supplies that metadata programmatically.
-
-## Installer Action
-
-Target behavior: install OpenCode CLI MCP config and metadata support when OpenCode is discovered and selected.
-
-## Requirements
-
-| Requirement | Needed |
+| Operation | Status |
 |---|---|
-| Patch | Required for final metadata compliance unless OpenCode supplies metadata natively. |
-| Extension | No supported VSIX currently. |
-| MCP | Required. |
-| Config | OpenCode MCP config. |
+| Discovery | implemented |
+| Send | implemented |
+| Create | implemented |
+| Rename | unsupported |
+| MCP reply | implemented |
 
-## Test Status
+## Installer
 
-Historical response-backed proof exists, but current support requires new proof under the metadata policy.
+The primary MSI does not currently expose a dedicated OpenCode provider contract. It therefore does not guarantee installation of a native OpenCode executable or MCP configuration on another computer.
 
-## Known Risks
+## Multiline Safety
 
-- CLI config location can vary.
-- Session list output and run syntax can change.
-- Environment-only identity is not accepted as final support.
+Current code refuses a Windows batch shim for multiline provider delivery. Earlier `%*` reparsing could truncate the message. Failing before dispatch is safer than sending corrupted content and reporting success.
 
-## Architecture Rationale
+## Evidence
 
-OpenCode CLI remains target because the existing path proved reachability but not the final identity contract. Keeping it target avoids overstating support before clean-machine metadata proof exists.
+OpenCode CLI has produced a response-backed AxiOwl reply in earlier testing. The July 12 full round failed because only an unsafe batch shim was available and no native executable passed the transport requirements. Rename is unsupported.
+
+## Risks
+
+- npm `.cmd` shims can alter quoting and multiline arguments;
+- runtime support currently exceeds MSI provisioning;
+- an imported session is not sendable without a content-preserving executable path.

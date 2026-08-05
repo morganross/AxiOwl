@@ -1,27 +1,29 @@
-# AxiOwl Release And QA Docs
+# Release And QA Execution Guide
 
-The canonical release checklist is [Release Validation Checklist](../reference/release-validation-checklist.md). This page expands it for day-to-day release execution.
+The canonical gate is the [Release Validation Checklist](../reference/release-validation-checklist.md). This page explains how to execute it and retain evidence.
 
-## Release Principle
+## A Release Is A Chain Of Proof
 
-A release is a chain of proof. Compilation proves code can build. MSI provenance proves the artifact contains the code. VM install proves another machine can install it. Provider tests prove the integration works. GitHub upload proves users can retrieve it.
+Source compilation proves that code can compile. Artifact provenance proves which source entered the package. Clean-machine installation proves the package can configure another computer. Provider and protocol tests prove the installed paths work. Uninstall and reinstall tests prove the result was not a stale-state accident.
 
-Skipping any link makes later failures harder to explain.
+## Evidence Folder
 
-## Release Inputs
+Create one run id for the release candidate and retain:
 
-Before building:
+- source commit and branch;
+- native test output;
+- MSI build log, manifest, ProductCode, version, and hashes;
+- clean VM install and uninstall logs;
+- discovery output and selected checkbox state;
+- provider send receipts and correlated replies;
+- A2A task ids, states, and results;
+- inter-node transport selection logs;
+- known failures and status decisions;
+- GitHub Actions run URLs.
 
-- confirm branch is `main`;
-- confirm folder is the intended single repo workspace;
-- review `git status`;
-- confirm untracked files are intentional;
-- confirm provider support matrix is current;
-- remove stale local release artifacts that could be installed by mistake.
+Secrets, tokens, and private message bodies must be redacted.
 
-## Build Validation
-
-Required:
+## Build Sequence
 
 ```powershell
 cmake --build apps\windows-desktop\build --config Release
@@ -29,79 +31,50 @@ ctest --test-dir apps\windows-desktop\build -C Release --output-on-failure
 apps\windows-desktop\installer\build-windows-msi.ps1
 ```
 
-The build must produce a fresh MSI and provenance files under `release`.
+Use the project's current configured build workflow when command details evolve. The required outcome is a fresh MSI with matching provenance, not merely an old release file next to a new log.
 
-## Installer Validation
+## Windows Installer Sequence
 
-On the dev machine and clean VM:
+Test first install, selected-provider install, repair, uninstall, and reinstall on the development machine and a clean Windows 11 VM. Verify provider discovery before selection, selected-only app shutdown/restart, user-context config, AxiOwl-owned cleanup, and no stale payload substitution.
 
-1. Start from a known provider install state.
-2. Run MSI.
-3. Verify checkbox defaults.
-4. Select intended providers.
-5. Finish install.
-6. Read install logs.
-7. Run `axiowl status`.
-8. Run discovery.
-9. Confirm registry rows.
+Test the optional A2A feature separately. Confirm service account, service startup, public Agent Card access, and the known broker-dependent protected-route behavior. Do not mark protected service-backed desktop delivery complete while the user broker is absent from the MSI.
 
-## Provider Response Tests
+## Provider Sequence
 
-Use one fresh/current target per supported provider surface. Ask for a plain response over AxiOwl MCP and include a unique run id.
+For every surface marked supported:
 
-Required currently supported surfaces:
+1. Create or select a current session.
+2. Send a request containing the release run id.
+3. Record the AxiOwl receipt.
+4. Require a reply through AxiOwl MCP.
+5. Verify sender provider and session identity.
+6. Verify run and receipt correlation.
+7. Repeat after reinstall.
 
-- Codex agents;
-- Codex CLI;
-- VS Code/Copilot;
-- VS Code native where available;
-- Cursor agents;
-- Antigravity agents.
+Test CLI, editor, extension, and agents-window surfaces as separate providers. Record auth and quota blocks separately from implementation defects, but do not turn an untested path into a supported claim.
 
-Target surfaces should be tested separately but must not be marked supported until they satisfy the current metadata rule.
+## A2A Sequence
 
-## CLI Provider Tests
+Validate both AxiOwl roles:
 
-For CLI providers:
+- server: Agent Card, scoped-agent resolution, message send, task get/list/cancel, extended card, and authentication;
+- client: external Agent Card import, HTTP+JSON and JSON-RPC calls, bearer or OAuth credentials, task polling, and result mapping;
+- operations: push callback, retry, dead-letter, timeout, cancellation, and MCP reply correlation.
 
-- create or discover a CLI session;
-- send through AxiOwl;
-- require reply through AxiOwl MCP;
-- verify provider-owned sender metadata;
-- record auth failures separately from implementation failures.
+Verify that advertised streaming capability remains false until streaming is implemented and tested.
 
-## Uninstall/Reinstall Validation
+## Inter-Node Sequence
 
-Run:
+Use two clean nodes. Validate direct HTTPS A2A, relay, and A2A over SSH independently when each is claimed. Record selected transport, node identity, credential source, failure, fallback, task result, and reply. Disable one transport at a time to prove fallback policy rather than inferring it from a successful final result.
 
-1. install selected providers;
-2. test;
-3. uninstall;
-4. verify AxiOwl-owned cleanup;
-5. reinstall;
-6. verify selected-only behavior;
-7. retest.
+## XMPP Sequence
 
-The reinstall should not depend on stale extension folders, stale registry rows, or old MSI artifacts.
+XMPP tests belong to `feature/xmpp-remote-transport` until merge. Build the branch artifact, run its unit/integration tests, validate TLS and SCRAM behavior, test session routing and the gateway, and then reconcile with current main. A passing branch test does not change the current-main protocol matrix.
 
-## Docs Release
+## Documentation And Website
 
-For docs-only changes:
-
-- run `npm run build`;
-- verify GitHub Pages workflow passes;
-- verify the live site responds;
-- confirm source-of-truth docs did not drift from provider pages;
-- avoid publishing historical reports as current product truth.
+Run `npm run build` in the Docusaurus repository. Check internal links, source-of-truth matrix consistency, and GitHub Pages deployment. Historical method reports may support an engineering decision, but they must not be indexed as current capability claims without a current matrix entry.
 
 ## Release Decision
 
-Publish only when:
-
-- build passed;
-- MSI provenance passed;
-- clean VM install passed;
-- provider response tests passed for supported providers;
-- uninstall/reinstall passed;
-- docs match actual status;
-- success-method report exists for new working methods.
+Publish only the capabilities that passed the current run. Keep partially implemented, auth-blocked, branch-only, or fragile paths labeled accurately. A release may ship with documented target or experimental paths; it may not present them as supported.

@@ -1,46 +1,27 @@
 # Antigravity Agents
 
-Status: `supported`
+Antigravity agents are sessions in the Antigravity/Gemini agent surface. They are distinct from Antigravity CLI sessions.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
+| Operation | Status | Method |
+|---|---|---|
+| Discovery | supported | Antigravity session metadata |
+| Send | supported | Antigravity provider edge |
+| Create | implemented | Provider create workflow |
+| Rename | implemented | Provider request plus native verification |
+| MCP reply | supported | Antigravity MCP configuration and sender metadata |
 
-Use this page when you mean the Antigravity agent surface. Do not use this page to decide whether Antigravity CLI is supported; that is a separate target provider surface.
+## Installer
 
-## Surface
+The Antigravity checkbox installs MCP configuration. The current Windows installer contract does not install an Antigravity editor patch or extension.
 
-Antigravity agent sessions.
+## Evidence
 
-Plain English version: this is the Antigravity agent surface, not the standalone AGY CLI surface.
+Response-backed sends have passed. In the July 12 create round, the correct session received the request, but the provider planned rather than executed its MCP reply. The create path is therefore implemented but not promoted to supported by that run.
 
-## Delivery Method
+## Risks
 
-AxiOwl uses the Antigravity provider edge and AxiOwl MCP reply path.
-
-## Installer Action
-
-The installer configures Antigravity/Gemini MCP integration when selected.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | No editor patch expected for current supported surface. |
-| Extension | No VSIX expected. |
-| MCP | Required. |
-| Config | Antigravity/Gemini MCP config. |
-
-## Test Status
-
-Response-backed Antigravity tests have passed.
-
-## Known Risks
-
-- Quota/auth can block testing.
-- Provider metadata must identify the replying session.
-- Do not assume Antigravity CLI support is the same as Antigravity agent support.
-
-## Architecture Rationale
-
-Antigravity agents remain separate from Antigravity CLI because their session model and delivery mechanism differ. Keeping them separate lets the agent surface stay supported while the CLI surface remains target until metadata proof is complete.
+- agent and CLI identities can be confused;
+- planning text is not an executed MCP tool call;
+- native title verification can fail even after the provider receives a rename prompt.

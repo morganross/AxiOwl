@@ -1,65 +1,118 @@
 # Installer Behavior Matrix
 
-This page is the public source of truth for Windows MSI behavior. The installer should be adaptive and provider-aware without being mysterious. A user should be able to tell what each checkbox does and what it will not touch.
+This is the source of truth for current Windows MSI feature ownership. It describes checked-in behavior, not the ideal future installer.
 
-## Design goal
+## Design Contract
 
-The MSI should feel like one installer to the user and like separate feature installers internally. One MSI can contain many isolated provider features. Selecting Cursor should not change Codex. Selecting VS Code should not uninstall a Claude CLI configuration. Leaving a provider unchecked should mean AxiOwl leaves that provider alone, except for safe cleanup of AxiOwl-owned state.
+The MSI is one package with isolated provider features. Selecting one provider authorizes only that provider's install, patch, process, configuration, and cleanup scopes.
 
-## Installer principles
+An unchecked provider must not be installed, patched, closed, restarted, or removed merely because discovery found it.
 
-1. Provider checkboxes default from discovery and explicit user choice.
-2. A selected provider feature installs only what that surface needs.
-3. An unchecked provider feature is not installed, patched, closed, restarted, or uninstalled.
-4. Selected provider apps are closed only when the selected action needs exclusive file access.
-5. A selected feature reports an unsafe or incompatible action instead of pretending it worked.
-6. Cleanup removes AxiOwl-owned stale files, not unrelated provider data.
-7. Cursor command-file delivery is primary when its watcher is available; URI wake-up is fallback only.
-8. Remote features can exist but should be unchecked by default.
-9. Logs explain each install phase in plain terms.
+## Core Runtime
 
-## Core install
+| Component | Ownership |
+|---|---|
+| `axiowl.exe` | Always-installed local CLI, MCP, registry, provider, A2A-client, and diagnostic runtime. |
+| `axiowl-mailbox.exe` | Always-installed mailbox GUI and local endpoint. |
+| installer helper executables | MSI custom-action implementation and silent helper boundary. |
+| `axiowl-tester.exe` | Provider test interface packaged with the primary installer. |
 
-| Area | Action | Rationale |
-|---|---|---|
-| Local runtime | Install the AxiOwl runtime in the selected user or machine scope. | Keeps ownership clear and avoids unnecessary system-wide mutation. |
-| Provenance | Record product version and artifact provenance. | Helps distinguish a fresh installer from a stale MSI. |
-| Runtime state | Create only AxiOwl-owned runtime, registry, and log state. | Makes cleanup and diagnosis predictable. |
-| Finalization | Run selected discovery and write status evidence. | A successful install should leave an explanation, not just an exit code. |
+The core runtime can act as an outbound A2A client without installing the optional machine service.
 
-## Provider feature matrix
+## Current Provider Checkboxes
 
-| Provider feature | Checkbox behavior | Installs | Patches | Configures | Cleans | Does not touch |
-|---|---|---|---|---|---|---|
-| Codex agents | Precheck when Codex is discovered or the user selects it. | Agent integration. | No editor binary patch expected. | MCP and plugin support. | AxiOwl-owned stale config. | Provider auth and unrelated sessions. |
-| Codex CLI | Precheck when Codex CLI is discovered or selected. | CLI integration. | Only a future provider-specific metadata patch if required. | MCP support. | AxiOwl-owned stale CLI config. | Provider auth and unrelated CLI config. |
-| VS Code / Copilot VSIX | Precheck when VS Code is discovered or selected. | AxiOwl VS Code bridge. | Native integration patch only when selected. | VS Code MCP definition. | Old AxiOwl bridge entries. | Non-AxiOwl extensions and settings. |
-| Cursor agents | Precheck when Cursor is discovered or selected. | Cursor bridge. | Cursor editor patch only when selected. | MCP config and bridge registry. | Old AxiOwl Cursor artifacts. | User chats, auth, and unrelated extensions. |
-| Antigravity agents | Precheck when Antigravity state is discovered or selected. | MCP integration. | No editor patch expected. | Provider MCP config. | AxiOwl-owned stale entries. | Non-AxiOwl provider config. |
-| Antigravity CLI | Target; precheck only when discovered and eligible. | CLI MCP configuration. | Future metadata integration. | CLI session configuration. | AxiOwl-owned stale entries. | Auth tokens and unrelated CLI files. |
-| Claude Code CLI | Target; precheck only when discovered and eligible. | CLI MCP configuration. | Future metadata integration. | Provider MCP configuration. | AxiOwl-owned stale entries. | Auth, projects, and session history. |
-| OpenCode CLI | Target; precheck only when discovered and eligible. | CLI MCP configuration. | Future metadata integration. | Provider MCP configuration. | AxiOwl-owned stale entries. | Auth and unrelated configuration. |
-| Copilot CLI | Target; precheck only when discovered and eligible. | CLI MCP configuration. | Future metadata integration. | Provider MCP configuration. | AxiOwl-owned stale entries. | Account credentials and unrelated files. |
-| Remote | Unchecked by default. | Remote config only when explicitly selected. | None for local install. | Remote node settings. | AxiOwl-owned remote state. | Local provider repair and unrelated remote data. |
+| Checkbox | Current feature ownership | Discovery default | Process/config scope |
+|---|---|---|---|
+| Codex | Codex plugin, MCP configuration, and skill | Checked only when Codex is detected | Codex plugin/MCP/marketplace only |
+| VS Code Copilot-backed | Bridge extension, MCP configuration, metadata patch | Checked only when the surface is detected | VS Code only |
+| VS Code native | Bridge extension and MCP configuration | Checked only when VS Code native is detected | VS Code only |
+| Antigravity | Antigravity/Gemini MCP configuration | Checked only when detected | Antigravity MCP config |
+| Claude | Claude Code CLI MCP configuration | Checked only when Claude is detected | Claude MCP config |
+| Copilot CLI | Copilot CLI metadata patch | Checked only when Copilot CLI is detected | Copilot CLI patch state |
+| Cursor | Bridge extension, MCP configuration, submit patch, and discovery | Checked only when Cursor is detected | Cursor only, with rollback stages |
+| Remote | Enroll, deploy, and discovery modules | Unchecked by default | Explicit remote configuration and nodes |
 
-## Discovery and checkbox defaults
+## Runtime Providers Without Dedicated Checkboxes
 
-Discovery answers whether a provider appears present and usable. It does not prove support. The installer should not preselect a provider because AxiOwl contains code for it. It should preselect only when discovery finds the provider and the selected feature is eligible.
+Current runtime provider edges also include Codex CLI, Antigravity CLI, OpenCode CLI, and Cursor Agent CLI. They do not currently have equivalent dedicated provider contracts in the primary MSI.
 
-## Closing and restarting apps
+This distinction matters on another computer: source-level support does not guarantee the installer provisions the CLI, authentication, MCP configuration, or native executable required by that provider.
 
-Provider apps should be closed only when the selected feature needs exclusive access. They should not be closed merely because discovery found them. If a restart is required, the installer should identify which selected feature caused it.
+## Optional A2A Feature
 
-## Cleanup boundaries
+The `A2A networking` checkbox is separate from provider discovery and is unchecked by default.
 
-Cleanup should be aggressive inside AxiOwl-owned paths and conservative elsewhere.
+When selected, it owns:
 
-Safe cleanup includes stale AxiOwl bridge artifacts, runtime temporary files, MCP entries created by AxiOwl, and old AxiOwl product-name artifacts. Unsafe cleanup includes provider auth tokens, user chats, unrelated extensions, workspace files, and global settings not created by AxiOwl.
+- `axiowl-api-service.exe`;
+- the automatic `AxiOwlApi` Windows service;
+- `axiowl-relay.exe`;
+- machine service configuration;
+- the `HKLM\Software\AxiOwl\Features\A2A` feature marker;
+- service and relay removal during feature deselection or uninstall.
 
-## Security boundary
+Repair and upgrade preserve an already installed A2A feature unless it is explicitly deselected.
 
-The MSI installs integration components; it does not become the provider's credential manager or the customer's device authority. Device trust, encryption, authorization, and replay protection remain runtime concerns. See [Security And Trust](../security/README.md).
+### Current User-Broker Gap
 
-## Success definition
+The API service starts with `--user-broker` so authenticated protected A2A routes can reach registry and provider state owned by the active interactive user. Current CMake contains `axiowl-user-broker.exe`, but the primary MSI build target list, artifact manifest, and WiX source do not package or start it.
 
-A successful MSI install proves selected install actions completed. It does not prove every provider can send and reply. Provider support requires a current response-backed path with provider-owned identity evidence.
+Therefore:
+
+- public Agent Card routes can be hosted by the service;
+- direct user-run `axiowl a2a serve` remains available;
+- protected machine-service requests requiring local provider delivery return `503` without a running broker;
+- installing the A2A checkbox does not yet prove end-to-end desktop-agent exposure through the service.
+
+## XMPP Installer
+
+The XMPP branch has a separate MSI, product identity, upgrade identity, install directory, build script, and safety checker. It is not currently a checkbox in the primary MSI and must not be described as installed by the current A2A feature.
+
+## Discovery And Defaults
+
+Discovery answers whether a provider appears installed and eligible. It does not prove the provider can receive or reply.
+
+Default checkbox rules:
+
+1. detected local provider: eligible to be prechecked;
+2. undetected provider: unchecked unless the user explicitly selects it;
+3. remote features: unchecked by default;
+4. A2A networking: unchecked by default;
+5. repair/upgrade: preserve the previous explicit A2A selection.
+
+## Closing And Restarting Apps
+
+The installer closes provider applications only within selected feature scopes and only when file replacement or patching requires it. Discovery alone must not close an app.
+
+Current explicit process scopes include VS Code-only, Cursor-only, Codex-only, the API service, and the relay executable.
+
+## Cleanup And Uninstall
+
+Cleanup is aggressive inside AxiOwl-owned paths and conservative around provider-owned data.
+
+The installer may remove:
+
+- stale AxiOwl bridge extension folders;
+- AxiOwl-created MCP entries;
+- AxiOwl patch backups and command files;
+- AxiOwl services, relay payloads, feature markers, and machine config owned by a removed feature.
+
+It must not remove:
+
+- provider authentication tokens;
+- user chats or session history;
+- unrelated extensions;
+- unrelated provider configuration;
+- another unchecked AxiOwl provider feature.
+
+## Logs And Proof
+
+| Evidence | Purpose |
+|---|---|
+| MSI verbose log | Feature selection, component action, custom-action sequencing, and Windows Installer failures. |
+| `%LOCALAPPDATA%\AxiOwl\logs` | User-context helper, discovery, bridge, and provider logs. |
+| `%PROGRAMDATA%\AxiOwl\logs` | Elevated and machine-service install logs. |
+| build preflight JSON | Git head, worktree state, payload hashes, MSI identity, and safety-check results. |
+| provider-native logs | Proof that install output was usable by the provider. |
+
+An artifact marked `artifact_verified` proves build-time payload and MSI checks. It does not prove a clean-machine install, provider roundtrip, or machine-service user-broker path.

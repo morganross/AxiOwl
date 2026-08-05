@@ -2,35 +2,26 @@
 sidebar_position: 7
 ---
 
-# Local Versus Remote
+# Local, Remote, And External Endpoints
 
-AxiOwl local provider support and remote node support are different boundaries.
+AxiOwl uses the same normalized address and task ideas across several trust boundaries, but the transports are not interchangeable.
 
-## Local
+## Local Provider Delivery
 
-Local provider support means AxiOwl talks to provider apps, extensions, CLIs, and sessions on the same machine.
+Local delivery reaches a provider surface on the same user machine. It may use a provider CLI, MCP configuration, an extension, a command-file watcher, or a validated patch. Local discovery can inspect provider-owned files and processes that are not available to a remote service.
 
-Local support deals with:
+## AxiOwl Node Delivery
 
-- installed apps;
-- local config;
-- local session files;
-- local registry;
-- local provider patches;
-- local MCP tools.
+Inter-node delivery reaches another AxiOwl installation. Current main can choose direct HTTPS A2A, a configured relay, or A2A over SSH. The selected path has its own identity, pairing, credential, timeout, and evidence requirements.
 
-## Remote
+Remote transport is not a fallback that hides broken local delivery. A local provider failure remains a local provider failure. Inter-node routing is selected because the target belongs to another node.
 
-Remote support means AxiOwl talks across a node/network boundary.
+## External A2A Delivery
 
-Remote support needs:
+External A2A delivery imports an Agent Card and sends standards-based A2A requests to a non-AxiOwl endpoint. AxiOwl acts as the client and does not assume the external server shares AxiOwl's local registry or provider mechanics.
 
-- node identity;
-- network transport;
-- trust contract;
-- remote install/update rules;
-- remote logs and proof.
+## XMPP Transport
 
-## Why Remote Is Not A Fallback
+The XMPP transport is implemented on `feature/xmpp-remote-transport`, not current main. It adds an additional network boundary with XMPP identities, TLS, SCRAM authentication, routing, and gateway policy. It must not be documented as a main-branch release feature until merged and revalidated.
 
-Remote should not hide a local provider bug. If local Cursor delivery fails, remote routing should not make the test look successful. That would make diagnosis worse.
+See [Inter-Node Communication](../inter-node/README.md), [External A2A Endpoints](../a2a/external-endpoints.md), and the [Protocol Support Matrix](../reference/protocol-support-matrix.md).

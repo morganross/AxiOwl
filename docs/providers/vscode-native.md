@@ -1,49 +1,32 @@
 # VS Code Native
 
-Status: `supported`
+VS Code native support addresses sessions through an in-host bridge extension because the useful chat/session APIs live inside VS Code.
 
-See [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Capabilities
 
-## Novice Summary
+| Operation | Status | Method |
+|---|---|---|
+| Discovery | supported | Bridge and provider session state |
+| Send | experimental | Exact-session bridge command |
+| Create | implemented | Native bridge create command |
+| Rename | implemented | Native bridge rename and verification |
+| MCP reply | supported | VS Code MCP definition and session metadata |
 
-Use this page when you mean VS Code's native chat/session surface. AxiOwl must target the correct VS Code window and session, so ownership and session proof matter.
+## Installer
 
-## Surface
+The VS Code native checkbox installs the native bridge extension and MCP configuration. VS Code Copilot-backed support is a separate feature with an additional metadata patch.
 
-Native VS Code chat/session surfaces.
+## Ownership
 
-Plain English version: this is VS Code chat itself, not merely a generic Copilot label.
+Multiple VS Code windows can exist. Bridge ownership identifies which window owns a session and avoids broadcasting a command until any window claims it. Command acceptance without native transcript mutation is not delivery proof.
 
-## Delivery Method
+## Evidence
 
-AxiOwl writes bridge commands and the VS Code extension executes VS Code chat/session commands. The stronger native path opens the exact target session and proves message persistence against VS Code session files.
+Response-backed native messages have worked. The July 12 full round exposed a bridge queue/ownership failure: the target transcript did not change and no reply returned. The path remains implemented but requires current post-install validation.
 
-The target-session proof matters because sending to “whatever chat is active” is unsafe. AxiOwl should know which session it targeted.
+## Risks
 
-## Installer Action
-
-The installer installs the VS Code bridge extension, MCP config, and selected native patch/config pieces.
-
-## Requirements
-
-| Requirement | Needed |
-|---|---|
-| Patch | Yes for native metadata/session integration where selected. |
-| Extension | AxiOwl VS Code bridge extension. |
-| MCP | Required for replies. |
-| Config | VS Code MCP server definition. |
-
-## Test Status
-
-Response-backed tests have passed for VS Code sessions.
-
-## Known Risks
-
-- Native VS Code internals can change.
-- Ownership matters: the bridge must target the correct window/session.
-- Stale old extension folders from previous product naming must be cleaned.
-- A send receipt is not enough; session-file proof or MCP reply is needed.
-
-## Architecture Rationale
-
-VS Code native support uses a bridge because the relevant chat commands and session context are in the VS Code process. Ownership checks exist because multiple VS Code windows can be open at once, and the wrong window can produce a false success.
+- stale extension folders;
+- wrong-window ownership;
+- queued commands without bridge receipt;
+- stale workspace paths in newly created provider sessions.

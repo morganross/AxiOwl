@@ -2,26 +2,26 @@
 sidebar_position: 3
 ---
 
-# Receipts Versus Proof
+# Receipts, Delivery, And Completion Proof
 
-AxiOwl has several success boundaries. They are deliberately different because a system that calls every handoff a success is difficult to troubleshoot and unsafe to trust.
+One request crosses several boundaries. AxiOwl reports those boundaries separately so an early success cannot be mistaken for an end-to-end success.
 
-## Receipt
+| Evidence | What it proves | What it does not prove |
+|---|---|---|
+| AxiOwl acceptance receipt | AxiOwl validated and accepted the request for processing. | The provider received, displayed, or acted on it. |
+| Delivery-edge acceptance | The provider-specific transport accepted the operation. | The intended agent completed the work. |
+| Provider MCP reply | A provider session called AxiOwl back with correlated identity. | That every claim inside the reply is correct. |
+| A2A task state | The remote A2A server reported the task's current lifecycle state. | Completion until the state and result actually say completed. |
+| Completed A2A result | The task reached completion and returned its result/artifacts. | Independent validation of the result's content. |
 
-`accepted_by_axiowl` means AxiOwl accepted the request and handed it to the delivery layer. It does not mean the provider read the message.
+## Why Receipts Exist
 
-## Provider acceptance
+Receipts make asynchronous work observable. They give support and automation a stable message id or task id to follow through later logs and replies. They are useful evidence, but each receipt names only the boundary that produced it.
 
-Provider acceptance means the provider edge reported that its delivery method accepted the message. This is stronger than an AxiOwl receipt, but it still may not prove that the provider displayed the message or sent a reply.
+## Correlation
 
-## MCP reply
+A reply should carry the identifiers needed to connect it to the original operation, such as a run id, receipt or message id, sender provider/session id, or A2A task id. Missing correlation turns a plausible reply into weak proof because it could belong to another test or stale session.
 
-An MCP reply is the strongest normal proof for a provider conversation. It means a provider session called back into AxiOwl and supplied sender metadata that can be compared with the expected target and session.
+## Support Rule
 
-## Security limits
-
-A receipt does not grant authorization, reveal the content of an encrypted message, or prove that a provider performed an action. A reply proves more about the provider path, but it still does not prove that the endpoint computer or provider account was uncompromised.
-
-## Practical rule
-
-Use receipts to locate the pipeline boundary. Use provider-owned replies to support a delivery claim. Use device and authorization state to decide whether an action was allowed in the first place.
+Use acceptance receipts to diagnose the beginning of a route. Use provider replies or completed A2A tasks to claim end-to-end behavior. Record both when validating a release.

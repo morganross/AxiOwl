@@ -4,7 +4,7 @@ This folder is the current public product contract for AxiOwl. Other docs can ex
 
 ## Why this folder exists
 
-AxiOwl has several moving parts: a Windows installer, a local runtime, provider discovery, MCP tools, provider-specific bridges, patches, and CLI integrations. When those parts are documented in separate dated reports, it becomes easy for one page to describe an experiment as current behavior.
+AxiOwl has several moving parts: a Windows installer, local runtime, provider discovery, MCP tools, provider-specific bridges, patches, CLI integrations, an A2A boundary, inter-node routing, and feature-branch transports. When those parts are documented in separate dated reports, it becomes easy for one page to describe a plan, another to describe branch code, and a third to treat an old experiment as a released feature.
 
 The source-of-truth pattern prevents that drift:
 
@@ -19,7 +19,9 @@ The source-of-truth pattern prevents that drift:
 | Document | Purpose |
 |---|---|
 | [Architecture Overview](architecture-overview.md) | Explains the system shape, message flow, registry, discovery, delivery, and receipt boundaries. |
-| [Provider Support Matrix](provider-support-matrix.md) | Defines which provider surfaces are supported, target, experimental, unsupported, or removed. |
+| [Provider Support Matrix](provider-support-matrix.md) | Defines discovery, send, create, rename, reply, installer, and test status by provider surface. |
+| [Platform Support Matrix](platform-support-matrix.md) | Separates released OS support from remote, laboratory, and feature-branch assets. |
+| [Protocol Support Matrix](protocol-support-matrix.md) | Defines MCP, A2A, relay, SSH, legacy, and XMPP boundaries. |
 | [Installer Behavior Matrix](installer-behavior-matrix.md) | Defines what the MSI installs, patches, configures, removes, avoids, and logs. |
 | [Security And Trust](../security/README.md) | Defines the public security model, encryption limits, device trust, authorization, and data boundaries. |
 | [Release Validation Checklist](release-validation-checklist.md) | Defines the public release evidence expected before publishing a product or docs release. |
@@ -30,9 +32,9 @@ The source-of-truth pattern prevents that drift:
 |---|---|
 | Provider | A brand and surface pair, such as `cursor:agents`, `codex:cli`, or `copilot:vsix extension`. |
 | Surface | The specific place AxiOwl talks to: editor, agent window, CLI, VSIX-backed session, or remote node. |
-| Supported | Current evidence supports the full documented path for that surface. |
-| Target | Intended support exists or code exists, but the current support bar has not been met. |
-| Experimental | A path exists but depends on fragile or changing provider behavior. |
+| Supported | End-to-end response proof exists under the current rules. |
+| Implemented | Current code contains the operation, but current release proof is incomplete. |
+| Feature branch | Code exists outside current `main` and is not part of the primary release. |
 | Receipt | A record that AxiOwl accepted a request. It is not the same as provider delivery proof. |
 | MCP reply | A provider response through AxiOwl MCP with provider-owned sender metadata. |
 | Discovery | The process of finding provider sessions and adding or refreshing registry rows. |
@@ -48,6 +50,8 @@ The source-of-truth pattern prevents that drift:
 6. Keep installer docs consistent with the installer behavior matrix.
 7. Keep public security pages conceptual and do not publish credentials, private keys, internal deployment identifiers, or exact cryptographic wire formats.
 8. When a provider changes status, update the matrix first.
+9. Do not describe a feature branch as current-main behavior.
+10. Separate an operation's implementation status from its most recent end-to-end test result.
 
 ## Architecture opinion
 
