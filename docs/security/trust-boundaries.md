@@ -1,79 +1,79 @@
 # Security, Privacy, And Trust Boundaries
 
-AxiOwl connects software that was not designed around one shared trust model. Its security goal is therefore explicit authority: each component should read, write, patch, or transmit only what its selected feature and current operation require.
+AxiOwl connects software that was not designed around one shared trust model. Its security goal is explicit authority: each component should read, write, patch, or transmit only what its selected feature and current operation require.
 
-Plain English: AxiOwl has meaningful access to local provider state and, when enabled, remote agent endpoints. Users need to know which boundary an operation crossed and which credentials made it possible.
+Plain English: AxiOwl can access local provider state and, when enabled, remote agent endpoints. Users should know which boundary an operation crossed and which credentials made it possible. These public pages explain the model without publishing private keys, credentials, internal host details, or exact wire-level cryptographic parameters.
 
-## Local User Boundary
+## Local user boundary
 
 The ordinary runtime operates in the interactive user's context. It may read provider session metadata, provider configuration, AxiOwl registry state, and provider installation paths required for discovery and delivery. It may write AxiOwl-owned runtime files and selected provider integration entries.
 
-Provider session data is used to address work. It should not be treated as a general license to inspect unrelated workspace content, credentials, or conversations.
+Provider session data is used to address work. It is not a general license to inspect unrelated workspace content, credentials, or conversations.
 
-## Installer Boundary
+## Installer boundary
 
-The MSI has machine-level authority for components that require it and launches selected per-user configuration work in the actual interactive user context. Each provider feature owns its config, extension, patch, cleanup, app shutdown, and restart behavior.
+The MSI has machine-level authority for components that require it and launches selected per-user configuration work in the actual interactive user context. Each provider feature owns its configuration, extension, patch, cleanup, app shutdown, and restart behavior.
 
 Unchecked features should not modify or remove their provider. Uninstall should remove AxiOwl-owned state for installed features while preserving unrelated provider settings, chats, extensions, and authentication.
 
-## Provider Patch And Extension Boundary
+## Provider patch and extension boundary
 
-Some surfaces expose no stable public API for required delivery or identity behavior. Their integration may use an extension or a validated patch to provider-owned files. These are higher-risk operations because provider updates can change the private implementation.
+Some surfaces expose no stable public API for required delivery or identity behavior. Their integration may use an extension or a validated patch to provider-owned files. These are higher-risk operations because provider updates can change private implementation details.
 
-Patch-sensitive operations need discovery, multiple structural checks, pre-change validation, backup or rollback, post-change validation, and loud failure. A partial or ambiguous match is not permission to modify the file.
+Patch-sensitive operations should discover the provider version, validate the expected boundary, make the smallest selected change, and fail loudly when the match is ambiguous. A provider patch is not proof that the provider path works.
 
-## A2A Service Boundary
+## A2A service boundary
 
-The optional `AxiOwlApi` Windows service runs as LocalSystem. That service boundary is intentionally separate from the interactive user's provider sessions. Public Agent Cards and network A2A operations can be served there, but protected operations that need user-owned provider state require the user broker path.
+The optional AxiOwl API service is separate from interactive user provider sessions. Public Agent Cards and network A2A operations can be served there, while protected operations that need user-owned provider state use the user-broker boundary. A service endpoint is a separate trust domain; importing an Agent Card describes capabilities but does not make that endpoint trusted.
 
-Current packaging does not yet include and start the compiled user-broker executable. Protected service routes that require it can return `503`. This is a known release boundary, not an authentication workaround.
+Bearer tokens and OAuth client credentials belong to the remote endpoint boundary. They should be scoped, protected, and never copied into public logs or method reports.
 
-## Network And Node Boundary
+## Network and node boundary
 
-Inter-node communication can use direct HTTPS A2A, relay, or A2A over SSH. Every path needs explicit node identity, authenticated peer or endpoint configuration, bounded timeouts, and transport-specific logs. A legacy fallback is guarded and should not silently reduce the trust guarantees of the selected route.
+Inter-node communication can use direct HTTPS A2A, relay, or A2A over SSH. Each path needs explicit node identity, authenticated peer or endpoint configuration, bounded timeouts, and transport-specific logs. A guarded fallback must not silently reduce the trust guarantees of the selected route.
 
-External A2A endpoints are separate trust domains. Importing an Agent Card describes capabilities; it does not make that endpoint trusted. Bearer tokens and OAuth client credentials must be scoped and protected as secrets.
+## XMPP boundary
 
-## XMPP Boundary
+The public XMPP documentation describes a separate transport boundary and its security responsibilities. It adds account credentials, certificate validation, authenticated routing, and gateway authorization. Those credentials and policies remain separate from local provider credentials. A branch implementation or design document does not by itself mean that XMPP is released support on the current main product.
 
-The XMPP transport exists on `feature/xmpp-remote-transport`, not current main. Its trust model adds XMPP account credentials, TLS certificate validation, SCRAM authentication, stanza routing, and gateway authorization. Those secrets and policies should remain separate from local provider credentials. Branch implementation does not equal released support.
+## Data AxiOwl may read
 
-## Data AxiOwl Reads And Writes
-
-Discovery should read the smallest amount of provider state needed to find a usable session. A chat title or workspace folder is not a substitute for provider-owned session identity.
+When a selected feature needs it, AxiOwl may read:
 
 - provider install and version information;
 - provider session indexes, databases, or process metadata needed for discovery;
-- selected provider MCP/config files;
-- AxiOwl registry, runtime, logs, manifests, and license state;
+- selected provider MCP or configuration files;
+- AxiOwl registry, runtime, logs, manifests, and activation state;
 - configured Agent Cards and remote-node records.
 
-## Provider patches
+Discovery should read the smallest amount of provider state needed to find a usable session. A chat title or workspace folder is not a substitute for provider-owned identity.
 
-- its installed binaries, manifests, registry, runtime, logs, and configuration;
-- selected MCP server entries;
-- selected bridge extensions or validated provider patches;
-- A2A task, correlation, retry, and dead-letter state;
-- explicit remote-node, Agent Card, or credential references.
+## Data AxiOwl may write
+
+AxiOwl may write its installed binaries, manifests, registry, runtime, logs, and configuration; selected MCP entries; selected bridge extensions or validated provider patches; and explicit remote-node or Agent Card records. A remote feature may also create task or correlation state needed to explain a remote handoff.
 
 It should not broadly rewrite unrelated extensions, settings, workspace files, provider chats, or authentication tokens.
 
-## Metadata And Privacy
+## Metadata and privacy
 
-Messages may carry sender and target names, provider/session ids, run ids, message or receipt ids, task ids, and reply-routing instructions. Network transports also reveal the endpoint identities needed for routing. Logs should record enough evidence to diagnose a route without dumping unrelated conversation content or secret values.
+Messages may carry sender and target names, provider and session identifiers, run or task identifiers, receipt identifiers, and reply-routing instructions. Network transports also reveal endpoint information needed for routing. Logs should record enough evidence to diagnose a route without dumping unrelated conversation content or secret values.
 
-## License Activation
+Encryption protects content but does not make all routing metadata invisible. See [Metadata And Identity](metadata-and-identity.md) and [Encryption And Privacy](encryption-and-privacy.md).
 
-License activation is an explicit operation against the configured activation service. Activation state can be reported locally. License diagnostics should not conceal installation, transport, or provider failures, and credentials should never be copied into method reports or public logs.
+## License activation
 
-## Security Rules
+License activation is an explicit operation against the configured activation service. Activation state can be reported locally. License diagnostics should not conceal installation, transport, or provider failures, and credentials should never be copied into public logs.
+
+Licensing is not device authority. Device admission, revocation, and action authorization are separate decisions.
+
+## Public security rules
 
 1. Select features explicitly and keep ownership granular.
-2. Validate before and after modifying provider-owned files.
+2. Validate before modifying provider-owned files.
 3. Separate local user authority from service authority.
 4. Authenticate every network boundary.
 5. Redact secrets while preserving correlation evidence.
 6. Report the exact success boundary reached.
-7. Fail loudly when identity, ownership, or validation is ambiguous.
+7. Fail loudly when identity, ownership, or authorization is ambiguous.
 
 See [A2A Operations And Security](../a2a/operations-and-security.md), [Node Pairing And Trust](../inter-node/pairing-identity-and-trust.md), and [XMPP Deployment And Security](../xmpp/deployment-credentials-and-security.md).

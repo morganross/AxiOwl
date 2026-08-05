@@ -46,9 +46,12 @@ These documents govern current product claims:
 | [Protocol Support Matrix](reference/protocol-support-matrix.md) | A2A, inter-node, relay, SSH, streaming, and XMPP status. |
 | [Platform Support Matrix](reference/platform-support-matrix.md) | Windows, Linux, and macOS product boundaries. |
 | [Architecture Overview](reference/architecture-overview.md) | Runtime components and message flows. |
+| [Security And Trust](security/README.md) | Public encryption boundaries, device trust, authorization, metadata, and security limits. |
 | [Release Validation Checklist](reference/release-validation-checklist.md) | Evidence required before a capability is called release-ready. |
 
 Historical reports explain how a method was discovered. They do not override these current matrices.
+
+Public security pages explain the protection goals and limits without publishing credentials, internal deployment identifiers, or exact cryptographic wire formats.
 
 ## One Rule To Remember
 
