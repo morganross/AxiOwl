@@ -1,102 +1,58 @@
-# AxiOwl Security And Trust Docs
+---
+sidebar_position: 8
+---
 
-AxiOwl is a local coordinator. Users should know what it reads, writes, patches, sends, and intentionally avoids.
+# Trust Boundaries
 
-## Trust Model
+AxiOwl is local software that coordinates provider sessions. Its security depends on keeping the boundaries visible: the user's computer, the provider application, the AxiOwl runtime, any remote server, and the customer who approves devices are different authorities.
 
-AxiOwl runs locally and integrates with local provider software. That gives it power: it can read provider session metadata, write MCP config, install bridge extensions, and patch selected provider files. The product must therefore be explicit about boundaries.
+## What AxiOwl may read
 
-Plain English version: AxiOwl should touch only what it needs, explain what it touched, and fail loudly when it cannot do that safely.
+When a selected feature needs it, AxiOwl may read:
 
-## What AxiOwl Reads
+- provider session and installation metadata needed for discovery;
+- provider configuration needed to address a session;
+- AxiOwl registry, runtime, and diagnostic state;
+- installation and activation status;
+- release provenance needed to describe the installed product.
 
-AxiOwl may read:
+Discovery should read the smallest amount of provider state needed to find a usable session. A chat title or workspace folder is not a substitute for provider-owned session identity.
 
-- local provider session metadata;
-- local provider config files;
-- provider chat/session indexes or databases needed for discovery;
-- AxiOwl registry/log/runtime files;
-- selected provider install paths;
-- license activation state;
-- installer payload manifest/provenance.
+## What AxiOwl may write
 
-Provider-specific discovery should read only what is needed to find and address sessions.
+The core runtime may write its own program files, registry entries, runtime handoff data, logs, and status records. A selected provider feature may also write an AxiOwl-owned MCP entry, bridge extension, integration configuration, or patch required for that surface.
 
-## What AxiOwl Writes
+The exact files differ by provider and operating system. The installer pages describe the feature boundary. Users should be able to see which feature caused a change and which files belong to AxiOwl.
 
-AxiOwl may write:
+## Provider patches
 
-- `%LOCALAPPDATA%\AxiOwl\bin\axiowl.exe`;
-- `%LOCALAPPDATA%\AxiOwl\manifest.json`;
-- `%LOCALAPPDATA%\AxiOwl\logs`;
-- `%LOCALAPPDATA%\AxiOwl\registry`;
-- `%LOCALAPPDATA%\AxiOwl\runtime`;
-- selected provider MCP config;
-- selected provider bridge extension files;
-- selected provider patch changes;
-- selected provider AxiOwl-owned config entries.
+Some editor integrations use private provider behavior because the provider does not expose a stable public API for the required handoff. These patches are inherently more fragile than a documented MCP configuration. They must be selected deliberately, scoped to the provider feature, and reported clearly if the provider version is incompatible.
 
-## What AxiOwl Patches
+Patching one provider must not become permission to rewrite another provider, user chats, unrelated extensions, or unrelated workspace files.
 
-Some provider surfaces require patches because the provider does not expose a stable public API for the required behavior.
+## What AxiOwl should not touch
 
-Patch-sensitive surfaces:
+AxiOwl should not silently modify:
 
-- VS Code native/Copilot integration where selected;
-- Cursor Agent Window / Glass submit integration;
-- future CLI metadata support where provider metadata is not available natively.
+- provider login credentials, access tokens, or private keys;
+- unrelated provider extensions or settings;
+- user chat history or workspace content;
+- unchecked provider features;
+- remote infrastructure that the user did not explicitly select;
+- another provider's data as collateral cleanup.
 
-Patching should be selected-feature-specific and should fail loudly when unsafe.
+## Local and remote boundaries
 
-## What AxiOwl Should Not Touch
+Local provider support should remain local unless a remote feature is explicitly selected. A remote service should not be used to hide a local delivery failure. Remote deployments add their own access, logging, backup, availability, and credential-management responsibilities.
 
-AxiOwl should not modify:
+## Licensing is not device authority
 
-- unrelated provider extensions;
-- user auth tokens;
-- unrelated provider settings;
-- unrelated workspace files;
-- provider chats except by sending user-requested messages;
-- unchecked provider surfaces;
-- remote configuration unless explicitly selected.
+License activation establishes product entitlement. It does not by itself authorize a device to perform every protected action. Device admission, revocation, and action authorization are separate security decisions.
 
-## Metadata Sent
+## Metadata is not content secrecy
 
-AxiOwl messages can include:
+Routing may require provider, surface, session, target, request, and receipt metadata. The content protection model and the metadata model are documented separately because encryption does not make all routing information invisible. See [Metadata And Identity](metadata-and-identity.md).
 
-- sender display name;
-- sender provider/session id;
-- target display name;
-- target provider/session id;
-- run id;
-- receipt/message id;
-- reply instructions;
-- license activation reminder text where configured.
+## Public documentation boundary
 
-Provider replies through MCP must include provider/session metadata so AxiOwl can route replies correctly.
-
-## Local And Remote
-
-Local provider support should remain local unless a remote feature is explicitly selected. Remote must not be used to hide local delivery failures.
-
-Remote support needs a separate trust contract because it changes the boundary from local machine state to network/node state.
-
-## License Activation
-
-License activation state is local unless activation is explicitly performed. The installer and status output may report activation state. Users should expect unactivated installs to show activation reminders.
-
-License logic should not silently block local diagnostics. A user should still be able to understand install and provider state.
-
-## User Expectations
-
-Users should expect:
-
-- selected provider integrations only;
-- clear logs;
-- loud failure when patch/config/install steps cannot be completed;
-- no silent fallback that makes unsupported paths look supported;
-- receipts that distinguish AxiOwl handoff from provider delivery proof.
-
-## Security Opinion
-
-The safest AxiOwl behavior is narrow and auditable. Broad cleanup, broad patching, and broad fallback may feel robust in one test, but they increase risk on another machine. Robustness should come from discovery, validation, logs, rollback, and precise feature boundaries.
+This public site intentionally omits credentials, private keys, internal host details, deployment identifiers, and exact cryptographic wire formats. That omission is not a claim that those details do not exist; it is a separation between user-facing security expectations and controlled engineering records.

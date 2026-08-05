@@ -4,13 +4,13 @@
   <h1>AxiOwl</h1>
 
   <p>
-    <strong>Open-source, self-hosted managed registry and message switchboard software for remote nodes.</strong>
+    <strong>Open-source local coordination and normalization for AI provider sessions.</strong>
   </p>
 
   <p>
     <a href="https://github.com/morganross/AxiOwl/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/morganross/AxiOwl?style=for-the-badge&logo=github&color=F59E0B"></a>
     <a href="https://github.com/morganross/AxiOwl/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/morganross/AxiOwl?style=for-the-badge&logo=git&color=2563EB"></a>
-    <a href="https://github.com/morganross/AxiOwl/issues"><img alt="Issues" src="https://img.shields.io/github/issues/morganross/AxiOwl?style=for-the-badge&logo=githubissues&color=0F766E"></a>
+    <a href="https://github.com/morganross/AxiOwl/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/morganross/AxiOwl?style=for-the-badge&logo=githubissues&color=0F766E"></a>
     <img alt="Self hosted" src="https://img.shields.io/badge/self--hosted-first-111827?style=for-the-badge&logo=serverfault">
     <img alt="Open source" src="https://img.shields.io/badge/open--source-built%20in%20public-7C3AED?style=for-the-badge&logo=opensourceinitiative">
   </p>
@@ -20,9 +20,9 @@
 
 ## What Is AxiOwl?
 
-AxiOwl is the public home for a self-hosted control plane: remote node source code, installers, operating guides, and the managed registry/message switchboard layer that ties them together.
+AxiOwl is local software that helps different AI provider surfaces communicate through a shared identity, discovery, delivery, and reply model. It can work with agent windows, editors, VSIX-backed sessions, and command-line providers without pretending that they all expose the same APIs.
 
-It is designed for builders who want ownership of their infrastructure, clear node coordination, and a practical path from install to operations.
+It is useful when one workflow spans several providers and you need to know which session received a message, which provider replied, and where a failure occurred.
 
 Documentation site: https://morganross.github.io/AxiOwl/
 
@@ -30,91 +30,44 @@ Documentation site: https://morganross.github.io/AxiOwl/
 
 | Layer | What it does | Why it matters |
 | --- | --- | --- |
-| Managed registry | Tracks nodes, services, identities, and useful metadata | Gives operators one reliable source of truth |
-| Message switchboard | Routes coordination messages between local and remote components | Keeps distributed workflows understandable |
-| Remote nodes | Runs the edge-side pieces close to the work | Makes self-hosted deployments flexible |
-| Installers | Packages setup into repeatable steps | Reduces drift between machines |
-| Guides | Documents setup, operations, and recovery | Keeps the project usable without tribal knowledge |
+| Local coordinator | Normalizes provider discovery, identity, handoff, and replies | Makes different provider surfaces easier to compare and operate |
+| Provider integrations | Connects selected editor, agent, and CLI surfaces | Keeps delivery behavior specific to each provider |
+| MCP reply path | Lets provider sessions call back with sender metadata | Makes a reply stronger evidence than a display name |
+| Installer | Installs selected features and provider-owned integration pieces | Limits changes to what the user chose |
+| Security model | Separates encryption, device trust, authorization, replay, and metadata | Prevents a receipt or label from being mistaken for proof |
 
-## System Shape
+## System shape
 
 ```mermaid
 flowchart LR
-  operator["Operator"] --> registry["AxiOwl Registry"]
-  registry --> switchboard["Message Switchboard"]
-  switchboard --> nodeA["Remote Node A"]
-  switchboard --> nodeB["Remote Node B"]
-  switchboard --> nodeC["Remote Node C"]
-  installers["Installers"] --> nodeA
-  guides["How-To Guides"] --> operator
-  registry --> observability["Operations View"]
+  user["User"] --> coordinator["AxiOwl local coordinator"]
+  coordinator --> discovery["Provider discovery"]
+  coordinator --> delivery["Selected delivery edge"]
+  delivery --> provider["Provider session"]
+  provider --> mcp["AxiOwl MCP reply"]
+  mcp --> coordinator
+  coordinator --> evidence["Identity and delivery evidence"]
 ```
 
-## Project Focus
+## Security in plain English
 
-```mermaid
-pie title AxiOwl Project Focus
-  "Managed registry" : 35
-  "Message switchboard" : 30
-  "Remote node runtime" : 20
-  "Installers and guides" : 15
-```
+AxiOwl is designed to protect message content and device trust while keeping routing and provider boundaries explicit. Encryption does not hide every piece of metadata, and it cannot protect a compromised computer or provider account. A device must be trusted before protected work is authorized, and provider-owned identity is stronger than a chat title or alias.
 
-## Message Flow
+The public security docs intentionally omit private keys, credentials, internal deployment details, and exact cryptographic wire formats.
 
-```mermaid
-sequenceDiagram
-  participant O as Operator
-  participant R as Registry
-  participant S as Switchboard
-  participant N as Remote Node
+## Read the docs
 
-  O->>R: Register or inspect node
-  R->>S: Publish routing context
-  S->>N: Deliver command or coordination message
-  N-->>S: Return status
-  S-->>R: Update registry state
-  R-->>O: Present current view
-```
+Start with the [AxiOwl documentation site](https://morganross.github.io/AxiOwl/docs/intro), then use:
 
-## Repository Guide
-
-```text
-.
-├── assets/
-│   └── axiowl-mascot.svg
-└── README.md
-```
-
-As source packages, installers, and guides are published, this repository will become the canonical starting point for running and operating AxiOwl.
-
-## Principles
-
-| Principle | Description |
-| --- | --- |
-| Own the control plane | Operators should be able to self-host the registry and coordination layer. |
-| Keep nodes understandable | Remote nodes should be easy to install, inspect, and replace. |
-| Prefer repeatability | Setup and recovery should be scripted and documented. |
-| Make operations visible | Registry state and message flow should be easy to reason about. |
-
-## Roadmap
-
-| Track | Status |
-| --- | --- |
-| Remote node source | In progress |
-| Installers | In progress |
-| Registry documentation | Planned |
-| Switchboard documentation | Planned |
-| Operator guides | Planned |
+- [Provider Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/provider-support-matrix)
+- [Installer Behavior Matrix](https://morganross.github.io/AxiOwl/docs/reference/installer-behavior-matrix)
+- [Security And Trust](https://morganross.github.io/AxiOwl/docs/security)
+- [Architecture Overview](https://morganross.github.io/AxiOwl/docs/reference/architecture-overview)
 
 ## Contributing
 
-Issues and pull requests are welcome once the source layout is published. For now, the best contribution is clear feedback on the project shape, installer expectations, and the workflows that should be documented first.
+Issues and pull requests are welcome. When reporting a provider or security problem, share the smallest useful reproduction and redact credentials, private keys, tokens, personal message content, and private host details.
 
-<div align="center">
-  <img src="https://github.com/morganross/AxiOwl/blob/main/owl_head_transparent.png" width="156" alt="AxiOwl owl mascot" />
-</div>
+## Security reports
 
-## Security
-
-If you believe you found a security issue, avoid opening a public issue with sensitive details. Open a minimal private report path with the maintainer first, then share reproduction details once a safe channel is agreed.
+Do not publish sensitive vulnerability details in a public issue. Contact the maintainer through a private channel first and agree on a safe way to exchange evidence.

@@ -5,15 +5,15 @@ slug: /intro
 
 # AxiOwl Docs
 
-AxiOwl is local Windows software for AI provider messaging and provider normalization. It installs provider integrations, discovers provider sessions, gives different provider surfaces a shared vocabulary, sends messages to those sessions, and lets providers reply back through AxiOwl MCP with sender identity.
+AxiOwl is local software for messaging between AI provider sessions and for normalizing the different ways those providers expose agents, editors, and command-line tools. It discovers provider sessions, gives them a shared identity model, sends requested messages, and lets providers reply through AxiOwl MCP.
 
-Plain English version: AxiOwl is a local switchboard and translation layer for AI work sessions. It helps one provider session talk to another while making different provider tools easier to name, test, compare, and diagnose.
+Plain English: AxiOwl is a local switchboard and normalization layer for AI work. It helps one provider session talk to another without pretending that all providers have the same chat model, install path, or delivery API.
 
 ## Start Here
 
 New readers should start with the plain-English workflow pages before jumping into the matrices:
 
-| Why page | Why it matters |
+| Page | Why it matters |
 |---|---|
 | [Why Use AxiOwl](why-axiowl/why-use-axiowl.md) | Explains the problem AxiOwl solves. |
 | [Who AxiOwl Is For](why-axiowl/who-it-is-for.md) | Describes the people and workflows that benefit. |
@@ -24,21 +24,24 @@ New readers should start with the plain-English workflow pages before jumping in
 
 Then move to the beginner pages:
 
-| Beginner page | Why it matters |
+| Page | Why it matters |
 |---|---|
 | [What AxiOwl Is](getting-started/what-axiowl-is.md) | Establishes the switchboard mental model. |
 | [Install And First Run](getting-started/install-first-run.md) | Explains what the MSI should do and what install success means. |
-| [Send Your First Message](getting-started/send-your-first-message.md) | Shows the basic send/receipt/reply loop. |
+| [Send Your First Message](getting-started/send-your-first-message.md) | Shows the basic send, receipt, and reply loop. |
 | [How To Read Status And Logs](getting-started/how-to-read-status.md) | Helps users find evidence instead of guessing. |
 
-After that, use the source-of-truth docs:
+## Current source-of-truth pages
 
 | Document | Purpose |
 |---|---|
 | [Architecture Overview](reference/architecture-overview.md) | How AxiOwl is structured and how messages move through the system. |
 | [Provider Support Matrix](reference/provider-support-matrix.md) | Which provider surfaces are supported, target, experimental, unsupported, or removed. |
 | [Installer Behavior Matrix](reference/installer-behavior-matrix.md) | What the MSI installs, patches, configures, removes, and avoids. |
-| [Release Validation Checklist](reference/release-validation-checklist.md) | Required release and QA gates. |
+| [Security And Trust](security/README.md) | Public security goals, encryption boundaries, device trust, authorization, and limits. |
+| [Release Validation Checklist](reference/release-validation-checklist.md) | Release evidence and publishing responsibilities. |
+
+The reference pages describe current public product behavior. Historical reports belong in engineering records, not in the current support contract.
 
 ## Audience Guides
 
@@ -50,7 +53,7 @@ After that, use the source-of-truth docs:
 | Developers | [Developer Docs](developer/README.md) |
 | Support and diagnosis | [Support / Forensics](support/forensics.md) |
 | Release and QA | [Release / QA](release/qa-checklist.md) |
-| Security and trust | [Security / Trust](security/trust-boundaries.md) |
+| Security and trust | [Security And Trust](security/README.md) |
 
 ## Concept Guides
 
@@ -65,6 +68,10 @@ After that, use the source-of-truth docs:
 | Installer checkboxes | [Installer Checkboxes](concepts/installer-checkboxes.md) |
 | Local and remote | [Local Versus Remote](concepts/local-vs-remote.md) |
 
-## The One Rule To Remember
+## Security in one paragraph
+
+AxiOwl treats encryption, authenticated transport, device trust, action authorization, replay protection, and provider identity as separate properties. Encryption protects content; it does not make routing metadata or a compromised host private. A device must be admitted before protected work is authorized, and a provider reply is stronger evidence than an AxiOwl handoff receipt.
+
+## The one rule to remember
 
 An AxiOwl receipt means AxiOwl accepted a request. It does not prove the target provider received the message. The strongest normal proof is a response from the provider over AxiOwl MCP with the correct sender identity.

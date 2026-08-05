@@ -18,7 +18,7 @@ Start with [reference](reference/README.md). Those files are the source of truth
 | Developers | [developer](developer/README.md) |
 | Support and forensics | [support](support/forensics.md) |
 | Release and QA | [release](release/qa-checklist.md) |
-| Security and trust | [security](security/trust-boundaries.md) |
+| Security and trust | [security](security/README.md) |
 
 Historical reports, dated plans, and regression writeups remain useful evidence, but they are not the current product contract unless the source-of-truth docs refer to them.
 
@@ -33,3 +33,4 @@ Historical reports, dated plans, and regression writeups remain useful evidence,
 7. [Send Your First Message](getting-started/send-your-first-message.md)
 8. [Receipts Versus Proof](concepts/receipts-vs-proof.md)
 9. [Provider Support Matrix](reference/provider-support-matrix.md)
+10. [Security And Trust](security/README.md)

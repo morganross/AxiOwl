@@ -4,40 +4,32 @@ sidebar_position: 4
 
 # MCP And Metadata
 
-MCP is how provider sessions call AxiOwl tools. Metadata is how AxiOwl knows which provider session is calling.
+MCP is how a provider session calls AxiOwl tools. Metadata is how AxiOwl identifies the provider session that made the call and matches a reply to the right registry entry.
 
-## Plain English Version
+## Plain English version
 
-When a provider replies, AxiOwl needs caller ID. The provider should not just say “I am Codebase review.” It should provide session identity that AxiOwl can map to a registry row.
+When a provider replies, AxiOwl needs more than a sentence such as "I am Codebase review." It needs provider-owned session identity that can be compared with the registry and current session state.
 
-## Why Metadata Matters
+## Identity is layered
 
-Without metadata, replies can be misrouted or falsely trusted.
+A display name is for people. An alias is for convenience. A provider session identifier is for addressing. A sender identity returned through the provider boundary is evidence that can support a reply claim. These values must not be silently treated as interchangeable.
 
-Examples:
+## Why metadata matters
 
-- a stale chat uses an old name;
-- a CLI process starts from an old cwd;
-- two provider windows have similar titles;
-- a user manually types a display name that looks like a session id.
+Without reliable metadata:
 
-## CLI Metadata Rule
+- a stale chat can receive a message intended for a current session;
+- two windows can have the same title;
+- a CLI can start in an old or missing working directory;
+- a caller-owned environment variable can impersonate a provider identity;
+- a reply can be accepted without proving which provider session sent it.
 
-For CLI providers, environment-only session identity is not enough for final support. The provider must provide metadata through MCP or through a robust provider patch.
+## CLI rule
 
-This rule prevents a caller-owned environment variable from pretending to be provider-owned identity.
+For CLI providers, environment-only session identity is useful for experiments but is not enough for a final support claim. The provider must expose session identity through MCP or through a provider-specific integration that preserves provider-owned metadata.
 
-## Good Metadata
+## Privacy
 
-Good metadata identifies:
+Session identifiers, paths, timestamps, and routing labels can be sensitive even when message content is protected. Logs and diagnostics should include only what is needed to explain the handoff, and shared excerpts should be redacted.
 
-- provider brand;
-- provider surface;
-- provider session id;
-- host/session/window where applicable;
-- cwd when relevant for CLI;
-- node/local runtime identity when relevant.
-
-## Failure Mode
-
-When metadata is missing, AxiOwl should fail loudly instead of guessing.
+See [Metadata And Identity](../security/metadata-and-identity.md) for the public identity model and [Receipts Versus Proof](receipts-vs-proof.md) for the evidence boundary.

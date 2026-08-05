@@ -86,6 +86,11 @@ const config = {
             position: 'left',
           },
           {
+            to: '/docs/security',
+            label: 'Security',
+            position: 'left',
+          },
+          {
             href: 'https://github.com/morganross/AxiOwl',
             label: 'GitHub',
             position: 'right',
@@ -125,8 +130,8 @@ const config = {
                 to: '/docs/release/qa-checklist',
               },
               {
-                label: 'Security / Trust',
-                to: '/docs/security/trust-boundaries',
+                label: 'Security And Trust',
+                to: '/docs/security',
               },
             ],
           },

@@ -3,6 +3,6 @@
   "position": 13,
   "link": {
     "type": "generated-index",
-    "description": "Trust boundaries, local writes, provider patches, metadata, and user expectations."
+    "description": "Public security goals, encryption boundaries, device trust, authorization, metadata, and user expectations."
   }
 }

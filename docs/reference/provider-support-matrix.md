@@ -1,71 +1,57 @@
 # Provider Support Matrix
 
-This page is the source of truth for provider/surface support. A provider is a brand plus a surface, not just a brand name. For example, `cursor:agents`, `codex:cli`, and `copilot:vsix extension` are separate provider surfaces because they use different discovery, install, delivery, and proof paths.
+This page is the public source of truth for provider and surface support. A provider is a brand plus a surface, not just a brand name. For example, `cursor:agents`, `codex:cli`, and `copilot:vsix extension` are separate surfaces because they use different discovery, installation, delivery, and identity paths.
 
-## Why The Matrix Is Strict
+## Why the matrix is strict
 
-It is easy to say a provider “works” when only part of the path works. AxiOwl uses a stricter bar because a partial path is operationally dangerous. Writing a config file is not support. Discovering a stale chat is not support. Returning `accepted_by_axiowl` is not support. A provider is supported when the full round trip works under the current rules.
+It is easy to say a provider "works" when only part of the path works. A configuration file is not support. Discovering a stale chat is not support. An AxiOwl handoff receipt is not support. A provider is supported when the documented round trip works with current provider-owned identity evidence.
 
-Plain English version: supported means the target can receive a message and reply back through AxiOwl with the right identity.
+Plain English: supported means the target can receive a message and reply back through AxiOwl with the right identity under the current release.
 
-## Status Terms
+## Status terms
 
-| Status | Meaning | How to change it |
-|---|---|---|
-| `supported` | Current code has a provider edge and response-backed proof or active working evidence under current rules. | Keep it supported only while release tests continue to pass. |
-| `target` | Intended support exists or code exists, but the current implementation has not met the current support bar. | Promote only after current proof exists. |
-| `experimental` | Code path exists but depends on fragile private provider behavior or patch-sensitive internals. | Keep warnings visible and require extra QA. |
-| `unsupported` | No current supported implementation. | Do not expose as checked/default install behavior. |
-| `removed` | Explicitly removed from current scope. | Reintroduce only with a new provider contract. |
+| Status | Meaning |
+|---|---|
+| `supported` | Current evidence supports the documented provider edge and response path. |
+| `target` | Intended support or code exists, but the current support bar has not been met. |
+| `experimental` | A path exists but depends on fragile private behavior or patch-sensitive internals. |
+| `unsupported` | No current supported implementation is promised. |
+| `removed` | The surface was explicitly removed from current scope. |
 
-## Current Matrix
+## Current matrix
 
-| Provider surface | Status | Delivery method | Installer action | Required integration | Current test status | Known risks |
+| Provider surface | Status | Delivery method | Installer action | Required integration | Public status note | Known risks |
 |---|---|---|---|---|---|---|
-| `codex:agents` | supported | Codex desktop/local app session delivery plus AxiOwl MCP reply path. | Install Codex plugin/skill and MCP integration when selected. | MCP/plugin config. | Response-backed tests have passed. | Existing sessions can keep stale MCP transport until restart. |
-| `codex:cli` | supported | Codex CLI/local Codex thread operations. | Install MCP config/plugin support where applicable. | MCP metadata required. | Response-backed proof exists: `AXIOWL_CODEX_CLI_REPLY_OK`. | Must preserve provider-owned session metadata. |
-| `vscode:agents` | supported | VS Code native chat/session commands through the AxiOwl bridge extension. | Install VS Code bridge extension, MCP config, and patch/config where selected. | VSIX extension, MCP server definition, native ownership/session logic. | Response-backed VS Code tests have passed. | Stale extension folders and old workspace paths can confuse sessions. |
-| `copilot:vsix extension` | supported | VS Code Copilot-backed MCP through the VS Code bridge. | Install VS Code bridge extension and MCP server definition. | VSIX extension and MCP definition. | Response-backed Copilot-in-VS-Code tests have passed. | Requires VS Code host MCP API and a usable Copilot-capable session. |
-| `cursor:agents` | supported | Cursor bridge command files, command watcher, URI fallback, and Glass submit patch. | Install Cursor bridge extension, MCP config, Cursor patch, and discovery. | Cursor extension, MCP config, private Cursor patch. | Response-backed Cursor tests have passed. | Patch-sensitive. Cursor private internals can change. URI wake-up should stay fallback. |
-| `antigravity:agents` | supported | Antigravity provider edge and MCP reply path. | Install Antigravity/Gemini MCP config when selected. | MCP config. | Response-backed tests have passed. | Provider app/session state must expose usable sender metadata. |
-| `antigravity:cli` | target | AGY CLI conversation discovery and resume. | Install CLI MCP config and future metadata patch when ready. | CLI config plus provider metadata patch or native metadata. | Historical response proof exists, but current bar requires metadata-patch proof. | Quota/auth and metadata ownership can block final support. |
-| `claude-code:cli` | target | Claude Code CLI documented print/resume flow against JSONL sessions. | Install Claude MCP config and future metadata patch when ready. | CLI MCP config plus provider metadata patch or native metadata. | Historical response proof exists, but current bar requires metadata-patch proof. | Claude sessions need valid cwd and non-stale JSONL session state. |
-| `opencode:cli` | target | `opencode run --session` with generated config. | Install OpenCode MCP config and future metadata patch when ready. | CLI config plus provider metadata patch or native metadata. | Historical response proof exists, but current bar requires metadata-patch proof. | Needs provider-owned metadata, not environment-only identity. |
-| `copilot:cli` | target | Copilot CLI create/resume path. | Install Copilot CLI MCP config and future metadata patch when ready. | CLI config plus provider metadata patch or native metadata. | Code support exists; auth and metadata proof are outstanding. | Copilot CLI auth differs from classic GitHub token auth. |
-| `cursor:cli` | unsupported | No accepted current provider surface. | None by default. | N/A. | Removed from current matrix unless a real Cursor CLI product/surface is confirmed. | Do not confuse Cursor editor/agent window with a separate CLI provider. |
-| `remote` | unsupported | Explicitly out of scope for local-provider remediation builds. | May remain visible but unchecked when present. | Remote node contract required. | Not part of local provider support. | Must not hide local provider failures. |
+| `codex:agents` | supported | Codex desktop or local agent session plus AxiOwl MCP reply path. | Install the Codex integration and MCP support when selected. | MCP and provider session metadata. | Response-backed support is documented. | Existing sessions may need a restart after integration changes. |
+| `codex:cli` | supported | Codex CLI session delivery plus AxiOwl MCP reply path. | Install the CLI integration when selected. | Provider-owned session metadata. | Response-backed support is documented. | Session identity must remain tied to the current CLI session. |
+| `vscode:agents` | supported | VS Code native chat and session commands through the AxiOwl bridge. | Install the bridge and MCP definition when selected. | VSIX bridge and native session ownership. | Response-backed support is documented. | Stale extension folders and old workspace state can confuse discovery. |
+| `copilot:vsix extension` | supported | VS Code Copilot-backed session through the VS Code bridge. | Install the bridge and MCP definition when selected. | VSIX extension and MCP definition. | Response-backed support is documented. | Requires a usable VS Code host and Copilot session. |
+| `cursor:agents` | supported | Cursor bridge command files, watcher path, URI fallback, and selected editor integration. | Install the Cursor bridge and selected integration files. | Bridge, MCP configuration, discovery, and patch-sensitive editor boundary. | Response-backed support is documented. | Cursor private internals can change; URI wake-up is fallback only. |
+| `antigravity:agents` | supported | Antigravity agent session and AxiOwl MCP reply path. | Install the selected MCP integration. | Provider session metadata. | Response-backed support is documented. | Provider state must expose a usable sender identity. |
+| `antigravity:cli` | target | Documented CLI conversation discovery and resume path. | Install CLI MCP configuration only when selected. | Provider-owned metadata support is still being hardened. | Useful for evaluation; not a final support promise. | Quota, authentication, and metadata ownership can block promotion. |
+| `claude-code:cli` | target | Documented Claude Code CLI session path. | Install CLI MCP configuration only when selected. | Provider-owned metadata support is still being hardened. | Useful for evaluation; not a final support promise. | Sessions need valid current state and a usable working directory. |
+| `opencode:cli` | target | OpenCode CLI session path with provider configuration. | Install CLI MCP configuration only when selected. | Provider-owned metadata support is still being hardened. | Useful for evaluation; not a final support promise. | Do not substitute environment-only identity for provider metadata. |
+| `copilot:cli` | target | Copilot CLI create or resume path. | Install CLI MCP configuration only when selected. | Provider-owned session metadata and authentication boundary. | Useful for evaluation; not a final support promise. | CLI authentication differs from editor authentication. |
+| `cursor:cli` | unsupported | No accepted current Cursor CLI surface is promised. | None by default. | Not applicable. | Do not confuse Cursor editor or agent windows with a CLI. | A future product surface would need a new contract. |
+| `remote` | unsupported | Not part of the local provider support promise. | Unchecked unless explicitly selected for a separate deployment. | A separate remote contract is required. | Do not use it to hide a local delivery failure. | Adds network, server, access, and availability boundaries. |
 
-## The Support Bar
+## The support bar
 
-A provider surface is supported only when all of these are true:
+A provider surface is supported only when:
 
-1. Provider/session discovery works.
+1. Provider or session discovery works.
 2. Installer behavior is selected-feature-specific.
 3. AxiOwl can address the target by stable provider identity.
 4. AxiOwl can send to the provider.
 5. The provider receives or persists the message.
 6. The provider can reply through AxiOwl MCP.
 7. The reply carries correct provider-owned sender identity.
-8. The path is documented with known risks and logs.
+8. The path and known risks are documented.
 
-## Why CLI Providers Are Mostly Target
+## Why CLI providers are mostly target
 
-The CLI experiments proved that several providers could be reached. The current product bar is higher: the provider must supply session identity through MCP metadata or through a robust AxiOwl/provider patch. Per-session environment identity is useful for experiments but not sufficient for final support because it can make AxiOwl believe a caller-owned label instead of provider-owned truth.
+Several CLI experiments proved that providers could be reached. The public support bar is higher: the provider must supply session identity through MCP metadata or through a robust provider integration. A per-session environment value can help an experiment but can also make a caller-owned label look like provider-owned truth.
 
-The architecture decision is to prefer slower promotion and fewer false positives over broad claims that break on another machine.
+## Security note
 
-## Promotion Checklist
-
-Before moving a provider from `target` to `supported`:
-
-- document install action;
-- document discovery source;
-- document delivery method;
-- document metadata source;
-- run clean-machine install;
-- create or discover a fresh session;
-- send a message;
-- receive an MCP reply;
-- prove sender identity;
-- record known risks;
-- update this matrix first.
+Provider support is not the same as authorization to perform a sensitive action. Device admission, message protection, replay protection, and receiver-owned authorization remain separate security boundaries. See [Security And Trust](../security/README.md).
