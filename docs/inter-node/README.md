@@ -36,7 +36,7 @@ The source does not need the destination provider's private installation details
 
 ## Current Status
 
-Current `main` contains standards A2A server/client behavior, direct A2A node delivery, A2A-over-SSH, and the secure XMPP client/server source. The proprietary common `/v1/*` remote API and hosted relay server are retired from the common runtime. Provider-owned remote behavior remains provider-specific and is not a general network fallback.
+AxiOwl provides standards A2A server/client behavior, direct A2A node delivery, A2A-over-SSH, and separate secure XMPP client/server roles. Provider-owned remote experiences remain within their own provider packages.
 
 The current Windows installer has separate A2A Server, A2A Client, XMPP Client, and XMPP Server features. Linux packages the native client and shared security runtime. See the [XMPP section](../xmpp/README.md) for the different identity and authorization model.
 

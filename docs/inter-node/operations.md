@@ -25,7 +25,7 @@ This ordering distinguishes DNS, TLS, authentication, node routing, target disco
 
 ## Linux Boundary
 
-Linux x86-64 now has a compiled native client and Debian packaging, including the shared secure XMPP runtime and provider packages. It remains an engineering preview: package presence does not establish that every Windows provider method or a complete protected-device journey is demonstrated on Linux.
+Linux x86-64 provides a native client and Debian packaging, including provider packages and the shared secure XMPP runtime. Use the Linux platform guide to choose the client and server roles for a deployment.
 
 ## XMPP Operations
 

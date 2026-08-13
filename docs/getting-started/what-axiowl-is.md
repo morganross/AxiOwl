@@ -4,67 +4,67 @@ sidebar_position: 1
 
 # What AxiOwl Is
 
-AxiOwl is software for addressing and coordinating AI work sessions across products that do not share one native messaging system.
+AxiOwl is a coordination layer for AI work.
 
-## Plain English
+It helps people and agents discover provider sessions, address the right target, move a request through the correct integration, and receive a correlated result. The experience is consistent, while the destination still uses its native provider-specific path.
 
-Without AxiOwl, a Codex thread, Cursor Composer, VS Code Copilot chat, Claude Code session, or OpenCode session is mostly confined to its own product. AxiOwl gives supported surfaces a common directory and message vocabulary while still using the provider-specific method required by the destination.
+## Two Ideas In One Product
 
-It is both:
+### A Normalization Layer
 
-- a **normalization layer**, because names, session IDs, operations, receipts, and failures become comparable;
-- a **communication layer**, because local provider packages, MCP, A2A, and secure XMPP can move work across concrete boundaries.
+AxiOwl gives different tools a shared vocabulary:
 
-## What It Does
+- provider and surface;
+- session and target;
+- local node and approved device;
+- message and task;
+- receipt and reply.
 
-AxiOwl can:
+This makes workflows easier to understand even when the underlying providers store and deliver sessions differently.
 
-- install selected provider integrations;
-- discover provider-owned sessions;
-- keep a local registry of addressable targets;
-- send, create, or rename where the exact provider package implements that operation;
-- expose MCP tools so a provider session can identify itself and reply;
-- expose registered agents through A2A or call external A2A agents;
-- route protected remote actions between approved devices through secure XMPP;
-- retain receipts and evidence that explain how far an operation progressed.
+### A Communication Layer
 
-## What It Does Not Do
+AxiOwl moves work through several explicit routes:
 
-AxiOwl does not:
+- local provider packages;
+- MCP tools and provider replies;
+- standards-based A2A endpoints and tasks;
+- A2A between configured nodes;
+- secure XMPP between approved devices.
 
-- replace provider products or accounts;
-- turn a display title into secure identity;
-- guarantee provider completion because a request was accepted;
-- make every provider operation work on every operating system;
-- treat a license token as an account, device, or transport credential;
-- silently downgrade a protected XMPP action to plaintext or another transport;
-- automatically apply core updates in the background.
-
-## The Local Mental Model
+## A Local Workflow
 
 ```text
-provider product
-  -> provider-owned sessions
-  -> AxiOwl discovery
-  -> normalized registry address
-  -> provider-specific operation
-  -> receipt and logs
-  -> provider-owned MCP reply
+provider session
+  -> discovery
+  -> AxiOwl registry
+  -> focused message
+  -> provider package
+  -> correlated reply
 ```
 
-## The Remote Mental Model
+## A Connected Workflow
 
 ```text
-approved source endpoint
-  -> selected A2A or secure XMPP transport
+source session or device
+  -> selected A2A or secure-device route
   -> destination AxiOwl boundary
-  -> destination registry and authorization
-  -> unchanged local provider package
-  -> correlated result or protected receipt
+  -> destination provider package
+  -> result returned to the coordinator
 ```
 
-A2A and XMPP are separate transports. The destination provider still remains provider-specific.
+## What This Enables
 
-## Read Status Carefully
+- delegate implementation and review to different specialists;
+- compare answers from several providers;
+- keep long-running expert sessions available by name;
+- expose selected desktop sessions as A2A agents;
+- call external A2A services from the same project;
+- coordinate protected work across approved devices;
+- retain receipts and replies that make the handoff visible.
 
-"Implemented," "packaged," "installed," "deployed," and "demonstrated" mean different things. Start with [Current Product Status](../reference/current-product-status.md).
+## Your Providers Stay Yours
+
+Provider products continue to own account authentication, model access, and conversation data. AxiOwl installs the selected integration and coordinates the handoff around that provider boundary.
+
+Continue to [What You Can Do With AxiOwl](../use-cases/README.md) or [Install And First Run](install-first-run.md).

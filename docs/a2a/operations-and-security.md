@@ -46,7 +46,7 @@ The Windows installer separates the network and interactive halves:
 
 The service does not inherit provider credentials or user registry state. Provider-backed delivery crosses the authenticated broker boundary and remains subject to the destination registry and provider package.
 
-The old proprietary hosted relay server is retired. A2A-over-SSH remains a separate standards-preserving transport for explicitly configured AxiOwl nodes; it is not a silent fallback for local provider failure.
+A2A-over-SSH provides a standards-preserving route for explicitly configured AxiOwl nodes. Direct A2A and A2A-over-SSH remain deliberate operator choices.
 
 ## Public Exposure
 

@@ -1,16 +1,24 @@
+---
+sidebar_position: 5
+---
+
 # iPhone
 
-The iPhone app is a native SwiftUI client designed to join an existing AxiOwl account pool. It does not create the first trusted desktop authority.
+The iPhone app is a native SwiftUI approved-device companion preview.
 
-## Product Shape
+## The Intended Experience
 
-- account sign-in uses a normal browser-based account flow;
-- a later-device request is approved by an already trusted device;
-- raw XMPP credentials are redeemed directly by the phone and stored in protected local custody;
-- manual JID/password entry and legacy pairing are not the normal product path;
-- A2A remains a separate HTTPS protocol client;
-- XMPP messaging is intended to use the same protected action meaning as desktop endpoints.
+- sign in through a normal browser-based account flow;
+- join an existing AxiOwl trust domain with approval from a current trusted device;
+- keep device keys and transport credentials in protected local custody;
+- connect to the selected secure XMPP endpoint;
+- receive and send protected messages as the approved mobile device;
+- use A2A as a separate standards-based client experience.
 
-## Current Limit
+## A Companion To Trusted Desktops
 
-The source and simulator-build work are real, but no App Store or public signed distribution is claimed. Protected messaging remains unavailable until the complete Apple-callable trust, encryption, routing, and authorization runtime is supplied and linked. The app fails closed instead of sending an unprotected substitute.
+The iPhone experience is designed to join a trust domain established by the user's desktop environment. Each phone receives its own identity and can be managed as its own approved device.
+
+This creates a path for mobile coordination without turning the phone into a copy of a desktop provider host.
+
+Read [Device Trust And Enrollment](../security/device-trust-and-enrollment.md) for the trust model.

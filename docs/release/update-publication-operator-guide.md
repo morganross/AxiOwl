@@ -38,7 +38,7 @@ Building, publishing, and promoting are separate operations. That separation let
 | Client release check | Implemented in the native update manager and CLI. |
 | Provider package pull and apply | Implemented as explicit provider-package operations. |
 | Opportunistic one-shot checks | Implemented around common Create/Send workflows. |
-| Unattended whole-product auto-apply | Not claimed. A check is not permission to replace the installed product. |
+| Whole-product application | Explicit local action after verified download and staging. |
 
 Release records in the repository prove that this machinery has produced and published artifacts. They do not make every older artifact in `release/` current, and they do not prove that every published release was promoted to every channel.
 

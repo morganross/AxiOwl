@@ -1,6 +1,6 @@
 {
   "label": "Release",
-  "position": 17,
+  "position": 19,
   "link": {
     "type": "generated-index",
     "description": "Artifact identity, signing, immutable publication, channel promotion, pull updates, and public release evidence."

@@ -1,8 +1,8 @@
 {
   "label": "Platforms",
-  "position": 5,
+  "position": 7,
   "link": {
     "type": "generated-index",
-    "description": "Current Windows, Linux, macOS, iPhone, Android, and server product boundaries."
+    "description": "AxiOwl experiences for Windows, Linux, macOS, iPhone, Android, and self-hosted or cloud server roles."
   }
 }

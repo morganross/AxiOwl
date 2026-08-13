@@ -5,7 +5,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AxiOwl',
-  tagline: 'A normalization and messaging layer for AI sessions, A2A agents, and approved devices.',
+  tagline: 'Bring your AI tools together. Delegate work, share results, and coordinate securely across providers and devices.',
   favicon: 'img/axiowl-owl-head.png',
 
   future: {
@@ -71,18 +71,18 @@ const config = {
             label: 'Docs',
           },
           {
-            to: '/docs/reference/current-product-status',
-            label: 'Status',
+            to: '/docs/use-cases',
+            label: 'Use Cases',
             position: 'left',
           },
           {
-            to: '/docs/reference/provider-support-matrix',
+            to: '/docs/how-it-works',
+            label: 'How It Works',
+            position: 'left',
+          },
+          {
+            to: '/docs/providers',
             label: 'Providers',
-            position: 'left',
-          },
-          {
-            to: '/docs/reference/platform-support-matrix',
-            label: 'Platforms',
             position: 'left',
           },
           {
@@ -109,25 +109,25 @@ const config = {
                 to: '/docs/intro',
               },
               {
-                label: 'Provider Matrix',
-                to: '/docs/reference/provider-support-matrix',
+                label: 'Use Cases',
+                to: '/docs/use-cases',
               },
               {
-                label: 'Current Product Status',
-                to: '/docs/reference/current-product-status',
+                label: 'Getting Started',
+                to: '/docs/getting-started/install-first-run',
               },
             ],
           },
           {
-            title: 'Operations',
+            title: 'Explore',
             items: [
               {
-                label: 'Support / Forensics',
-                to: '/docs/support/forensics',
+                label: 'How It Works',
+                to: '/docs/how-it-works',
               },
               {
-                label: 'Updates And Publication',
-                to: '/docs/release/update-publication-operator-guide',
+                label: 'Provider Surfaces',
+                to: '/docs/providers',
               },
               {
                 label: 'Security And Trust',
@@ -143,8 +143,12 @@ const config = {
                 href: 'https://axiowl.com/',
               },
               {
-                label: 'Developer Docs',
-                to: '/docs/developer',
+                label: 'A2A Agents',
+                to: '/docs/a2a',
+              },
+              {
+                label: 'Secure Devices',
+                to: '/docs/xmpp',
               },
               {
                 label: 'GitHub',

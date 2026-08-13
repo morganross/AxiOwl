@@ -160,7 +160,7 @@ Check the two Windows features independently:
 5. The interactive broker belongs to the intended user session.
 6. Task acceptance, provider handoff, task completion, and push delivery are not being conflated.
 
-The proprietary common `/v1/*` API and hosted relay server are retired; do not troubleshoot them as the current normal A2A route.
+Current inter-node troubleshooting follows direct A2A or A2A-over-SSH, matching the route selected when the node was registered.
 
 ## Secure XMPP Failures
 

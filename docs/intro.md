@@ -3,54 +3,58 @@ sidebar_position: 1
 slug: /intro
 ---
 
-# AxiOwl Documentation
+# Welcome To AxiOwl
 
-AxiOwl is a communication and normalization layer for AI work sessions. It gives unlike provider surfaces a common address book, message contract, sender-identity model, receipt model, and diagnostic vocabulary while preserving the provider-specific method that actually performs each operation.
+AxiOwl helps your AI tools work together.
 
-In plain English: AxiOwl helps a user or agent find the intended AI session, send work through the integration for that exact surface, and receive a correlated response without pretending that Codex, Cursor, VS Code, Claude, Antigravity, Copilot, and OpenCode all behave alike.
+It gives provider sessions, coding agents, approved devices, and standards-based A2A services a shared coordination layer. You can discover the right session, send it focused work, follow the handoff, and receive a correlated result while each provider keeps its own identity and strengths.
 
-## What Exists Today
+## One Project, Many Specialists
 
-| Area | Current product reality |
-|---|---|
-| Local provider messaging | Implemented through eleven isolated Windows provider packages plus built-in mailbox and registry behavior. Operation support differs by surface. |
-| MCP | The common tool boundary for sender identity, listing, discovery, send, create, rename, status, and correlated replies where a provider exposes the needed metadata. |
-| A2A | A separate standards-based HTTP boundary for exposing registered sessions and calling external agent endpoints. The Windows package includes separate A2A server and interactive client/broker features. |
-| Secure XMPP | Merged into `main`. Shared endpoint security, Windows and Linux clients, Windows and Linux server implementations, and a cloud server role exist. A complete current encrypted client-to-provider journey is not yet claimed. |
-| Desktop platforms | Windows is the packaged primary desktop. Linux x86-64 has a Debian package and provider/XMPP source. macOS has a native Swift implementation and unsigned package evidence. |
-| Mobile platforms | Native Android and iPhone clients exist as engineering previews. They are not public production releases, and protected messaging remains fail-closed where required runtime pieces are unavailable. |
-| Licensing and trust | License entitlement, website account/pool state, device trust, and XMPP transport credentials are separate authorities. A license token is not a device identity or messaging credential. |
-| Updates | Signed Windows artifacts and isolated provider packages exist. Signed pull metadata and provider-package update machinery exist; unattended core replacement is not claimed. |
+Modern AI work rarely happens in one place. A project may use a coding agent for implementation, an editor chat for local context, a CLI session for focused automation, and an external agent for research or document processing.
 
-Read [Current Product Status](reference/current-product-status.md) before interpreting any capability claim. It distinguishes source, package, signature, installation, deployment, and end-to-end evidence.
+AxiOwl lets those specialists participate in one intentional workflow:
 
-## Start Here
+```text
+choose a specialist
+  -> send a focused request
+  -> track the handoff
+  -> receive the result
+  -> decide what happens next
+```
 
-New users:
+## What AxiOwl Brings To The Workflow
 
-1. Read [What AxiOwl Is](getting-started/what-axiowl-is.md).
-2. Check the [Platform Support Matrix](reference/platform-support-matrix.md).
-3. Check the [Provider Support Matrix](reference/provider-support-matrix.md).
-4. Follow [Install And First Run](getting-started/install-first-run.md).
-5. Follow [Send Your First Message](getting-started/send-your-first-message.md).
-6. Learn the difference between [Receipts And Proof](concepts/receipts-vs-proof.md).
+### A Shared Address Book
 
-For security-sensitive use, read [Security And Trust](security/README.md), [Encryption And Privacy](security/encryption-and-privacy.md), and [Device Trust And Enrollment](security/device-trust-and-enrollment.md).
+Provider-aware discovery finds sessions and records them in a normalized registry. Friendly names stay easy for people to use, while provider-owned session identities remain available for exact delivery.
 
-## Public Sources Of Truth
+### Provider-Specific Delivery
 
-| Document | Governs |
-|---|---|
-| [Current Product Status](reference/current-product-status.md) | Review date, evidence vocabulary, and current maturity boundaries. |
-| [Provider Support Matrix](reference/provider-support-matrix.md) | Operations and installer ownership by concrete provider surface. |
-| [Installer Behavior Matrix](reference/installer-behavior-matrix.md) | Windows feature ownership and what each selection changes. |
-| [Protocol Support Matrix](reference/protocol-support-matrix.md) | MCP, A2A, XMPP, and legacy transport status. |
-| [Platform Support Matrix](reference/platform-support-matrix.md) | Windows, Linux, macOS, iOS, Android, and server maturity. |
-| [Architecture Overview](reference/architecture-overview.md) | Runtime, provider, network, trust, and release boundaries. |
-| [Security And Trust](security/README.md) | Public protection goals, limits, and trust boundaries. |
+Each provider surface has its own package. AxiOwl presents a common message experience and then uses the integration designed for that exact destination.
 
-Historical reports remain useful evidence, but they do not override these pages. A dated plan can show what engineers intended; current source and current artifact evidence decide what the website claims.
+### Clear Replies And Receipts
 
-## One Rule To Remember
+Receipts show that a handoff was accepted. Correlated provider replies, A2A task results, and protected remote results let the coordinator follow the work through completion.
 
-An AxiOwl acceptance receipt proves that AxiOwl accepted responsibility for a request. It does not by itself prove that the provider displayed the message, completed the work, or returned a response. The strongest normal proof is a correlated response from the intended provider-owned session or a completed protocol task bound to that response.
+### Local And Remote Coordination
+
+Use local provider packages on one machine, connect standards-based A2A services, link operator-managed nodes over A2A and SSH, or coordinate approved devices through secure XMPP.
+
+### Security With Narrow Authority
+
+Protected device messaging combines encryption, distinct device identities, receiver-owned authorization, replay protection, and protected results. Provider credentials remain with the provider on the destination machine.
+
+## Find Your Starting Point
+
+- Explore [What You Can Do With AxiOwl](use-cases/README.md).
+- See [How AxiOwl Works](how-it-works/README.md).
+- Follow [Install And First Run](getting-started/install-first-run.md).
+- Browse [Provider Surfaces](providers/README.md).
+- Learn about [Security And Trust](security/README.md).
+
+## The AxiOwl Philosophy
+
+AxiOwl normalizes the coordination boundary, not the providers themselves. Codex, Cursor, VS Code Copilot, Claude Code, Antigravity, Copilot CLI, OpenCode, and external A2A agents can keep their own models and workflows while participating in a shared project language.
+
+That is the core promise: less manual shuffling between isolated tools, more deliberate collaboration among the tools you already choose.

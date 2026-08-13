@@ -1,17 +1,28 @@
+---
+sidebar_position: 7
+---
+
 # Cursor Agents
 
-Cursor agents are desktop Composer sessions addressed through the AxiOwl Cursor bridge and exact-session integration.
+Cursor Agents connects AxiOwl to Composer sessions in the Cursor desktop editor. It is a natural fit for implementation and review work that benefits from Cursor's current workspace context.
 
-| Operation | Source status | Risk level |
-|---|---|---|
-| Discover | Implemented | Provider-private session state |
-| Send | Implemented | Experimental integration boundary |
-| Create | Implemented | Experimental integration boundary |
-| Rename | Implemented | Provider-visible persistence required |
-| MCP reply | Implemented | Exact session metadata required |
+## Available Operations
 
-The Cursor feature owns its VSIX bridge, MCP configuration, adaptive integration, isolated worker, process scope, and AxiOwl-owned cleanup.
+| Discover | Send | Create | Rename | Reply through MCP |
+|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes |
 
-The bridge command-file path is preferred while Cursor is active; URI activation is a fallback. Cursor workbench and session internals are private and can change, so package installation never substitutes for a current response-backed check.
+## What AxiOwl Installs
 
-AxiOwl must not broadcast to every Cursor window, infer a session from visible text, or claim a rename merely because a command was accepted.
+The Cursor feature owns its bridge extension, MCP configuration, session integration, isolated worker, and AxiOwl-managed lifecycle.
+
+## A Typical Workflow
+
+1. Discover current Cursor Composer sessions.
+2. Assign one session a clear project role.
+3. Send it work that benefits from the open Cursor workspace.
+4. Receive the result through the correlated reply path.
+
+The bridge keeps the readable Composer title connected to the exact Cursor session so the project can use friendly names with precise delivery.
+
+For the terminal surface, see [Cursor Agent CLI](cursor-agent-cli.md).

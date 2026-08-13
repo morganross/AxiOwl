@@ -2,40 +2,43 @@
 sidebar_position: 7
 ---
 
-# Known Security Limits
+# Shared Security Responsibilities
 
-## End-To-End Demonstration Is Incomplete
+AxiOwl provides security boundaries for coordination, and the surrounding products and operators each keep an important role.
 
-Secure XMPP source, packages, and cloud service evidence exist. A current complete admitted-client, encrypted-message, provider-effect, and protected-receipt journey is not yet a public support claim.
+## The User
 
-## Metadata Remains
+The user chooses which provider integrations to install, which sessions to address, which devices to approve, and which results to trust. Device approval and provider sign-in remain deliberate user actions.
 
-Content encryption does not hide connection timing, endpoint availability, routing identifiers, message size, provider state, or all local logs.
+## The Provider
 
-## Providers Are External Trust Domains
+Each AI provider owns its account authentication, model access, conversation store, and provider-side behavior. AxiOwl uses the selected integration around that boundary.
 
-Once a local provider receives an authorized message, that provider applies its own privacy, retention, account, model, and execution policies. AxiOwl cannot make an external provider zero knowledge.
+## The Endpoint
 
-## Patch-Sensitive Integrations Can Break
+The AxiOwl endpoint owns local keys, trusted-device state, authorization policy, replay state, the provider registry, and the final provider handoff decision.
 
-Cursor, VS Code/Copilot, and selected CLI identity paths depend on provider behavior that is not always a stable public API. Upstream updates can invalidate a patch or change discovery. The safe result is a visible refusal, not an unverified guess.
+## The Routing Service
 
-## Device Loss Has A Hard Boundary
+An XMPP routing service authenticates provisioned connections and moves protected envelopes to exact resources. An A2A service exposes declared agent capabilities and task operations. Each service stays within its selected protocol role.
 
-If every trusted coordinator is lost, central services cannot recover the old trust domain. A new domain is required. This prevents server-side recovery power but increases the importance of keeping at least one trusted device available during normal transfer.
+## The Operator
 
-## No Offline Protected Action Queue
+An operator who runs network services owns domain configuration, TLS certificates, host access, firewall policy, credential rotation, service availability, and appropriate log retention.
 
-The selected secure action path rejects an offline exact destination instead of retaining message bodies for later delivery.
+## The Installer And Updater
 
-## No Universal Exactly-Once Provider Effect
+The installer owns AxiOwl files and selected integrations. Signed update metadata and artifact verification help users understand the origin and intended channel of an update.
 
-AxiOwl can prevent a second authorized local handoff for the same request. It cannot always prove whether an external provider performed an effect immediately before a crash or disconnection.
+## The Shared Goal
 
-## No Unattended Core Update Claim
+Security works best when each boundary keeps its own authority:
 
-Signed metadata and provider-package update machinery exist, but automatic core download, staging, and replacement are not presented as production behavior.
+- a provider login remains provider authority;
+- a license remains entitlement authority;
+- a device identity remains device authority;
+- a routing service remains transport authority;
+- a receiver policy remains action authority;
+- a receipt remains evidence for the stage that produced it.
 
-## Release Evidence Is Artifact-Specific
-
-A newer source revision does not retroactively change an older signed MSI or package. Always identify the exact manifest, artifact, and installation under investigation.
+This separation gives AxiOwl a clear and durable trust model as the product expands across providers and platforms.

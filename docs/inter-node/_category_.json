@@ -1,6 +1,6 @@
 {
   "label": "Inter-node",
-  "position": 9,
+  "position": 12,
   "link": {
     "type": "generated-index",
     "description": "Axi-to-Axi communication across explicit A2A node routes and separate secure XMPP device routes."

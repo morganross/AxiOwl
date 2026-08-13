@@ -4,55 +4,52 @@ sidebar_position: 2
 
 # Install And First Run
 
-## Choose The Right Platform
+This guide takes you from the Windows installer to a discovered provider session.
 
-Windows x64 is the primary packaged desktop. Linux x86-64 has a Debian engineering-preview package. macOS, iPhone, and Android are native previews and are not interchangeable with the Windows MSI.
+## 1. Prepare A Provider Session
 
-See the [Platform Support Matrix](../reference/platform-support-matrix.md).
+Install and sign in to at least one supported provider product. Open a current session you would like AxiOwl to address.
 
-## Windows Feature Selection
+Good first choices include Codex Agents, Codex CLI, Claude Code CLI, Cursor Agents, or VS Code Copilot-backed sessions.
 
-The MSI discovers local provider products and recommends matching provider features. Review the checkboxes. The current installer has separate features for:
+## 2. Run The AxiOwl MSI
 
-- eleven provider packages;
-- A2A Server;
-- A2A Client/user broker;
-- XMPP Client;
-- XMPP Server;
-- mailbox and core local runtime.
+The installer discovers supported provider products and recommends matching integration checkboxes.
 
-An unchecked provider should not be patched, configured, closed, restarted, or removed merely because discovery found it.
+Review the list and choose:
 
-## What A Provider Feature May Do
+- the provider integrations you want;
+- the built-in mailbox experience;
+- optional A2A features;
+- optional XMPP client or server roles.
 
-Depending on the provider, a selected feature can install a plugin, skill, MCP entry, VSIX extension, metadata patch, session bridge, and isolated provider worker. It does not install the provider product or authenticate the provider account.
+Each provider remains a separate feature, so the selection can match your actual workflow.
 
-## First Status Check
+## 3. Complete Setup
 
-After installation, start a new terminal and run:
+The MSI installs the core runtime and the integration assets owned by the selected features. Provider features can add MCP configuration, a plugin or skill, a bridge extension, session metadata support, and an isolated provider worker.
 
-```powershell
-axiowl status
-```
+## 4. Reopen Selected Provider Products
 
-Then run the appropriate discovery command or use the mailbox/provider UI. A discovered provider installation is not yet a discovered chat, and a discovered chat is not yet a proven send path.
+Open the provider products you selected and return to a current session. This gives the provider a fresh opportunity to load its AxiOwl MCP or bridge integration.
 
-## First Message Check
+## 5. Discover Sessions
 
-1. Choose a target whose provider and session identity are visible.
-2. Send a harmless request.
-3. Confirm the target provider transcript changed.
-4. Ask the target to reply over AxiOwl MCP.
-5. Confirm the reply carries the expected provider/session identity and correlation.
+Run discovery through the AxiOwl mailbox, CLI, or provider tools. The registry will show the provider, surface, display name, and exact session identity discovered by each package.
 
-## Network Features
+Give important sessions simple project roles such as:
 
-- A2A Server and A2A Client are separate selections.
-- XMPP Client requires device admission and a per-user transport credential before it connects.
-- XMPP Server requires server configuration and is not required for a hosted cloud connection.
+- Builder;
+- Reviewer;
+- Researcher;
+- Release coordinator.
 
-Installing a network executable is not the same as completing onboarding.
+## 6. Send A First Request
 
-## Lifecycle
+Continue to [Send Your First Message](send-your-first-message.md). A small request with an explicit reply phrase is an easy way to learn the receipt and response flow.
 
-The supported replacement flow is complete **Uninstall** followed by **Uninstall-install**. Keep the verbose installer log when investigating a regression.
+## Optional Next Steps
+
+- [Connect External A2A Agents](../use-cases/connect-external-a2a-agents.md)
+- [Work Securely Across Devices](../use-cases/secure-work-across-devices.md)
+- [Create A Cross-Provider Project Team](../use-cases/cross-provider-project-team.md)

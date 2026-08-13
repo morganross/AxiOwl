@@ -41,7 +41,7 @@ The installer gives AxiOwl one place to:
 - detect installed providers;
 - show provider checkboxes;
 - install selected pieces;
-- clean stale AxiOwl-owned files;
+- manage AxiOwl-owned files through one consistent lifecycle;
 - record logs;
 - verify installed artifacts.
 - put discovered provider sessions into a common registry.

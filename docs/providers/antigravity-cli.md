@@ -1,16 +1,21 @@
+---
+sidebar_position: 10
+---
+
 # Antigravity CLI
 
-Antigravity CLI has its own provider identity, package, MCP configuration, discovery, and lifecycle.
+Antigravity CLI adds Antigravity command-line sessions to the AxiOwl registry and message workflow.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
-| MCP reply | Implemented |
-| Status | Implemented |
+## Available Operations
 
-The current Windows installer has a dedicated Antigravity CLI feature. Older docs saying the CLI had no checkbox or did not support rename are superseded by the current package inventory.
+| Discover | Send | Create | Rename | Status | Reply through MCP |
+|---|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes | Yes |
 
-AxiOwl does not install the `agy` product or authenticate it. An installed package without an authenticated CLI is not a successful provider path.
+## What AxiOwl Installs
+
+The dedicated Windows feature installs Antigravity CLI MCP configuration, provider metadata support, and an isolated worker.
+
+## When To Use It
+
+Choose this surface for focused terminal work, scripts, repository operations, or a long-running Antigravity specialist session. AxiOwl keeps it separate from [Antigravity Agents](antigravity-agents.md) so each destination remains explicit.

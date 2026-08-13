@@ -1,15 +1,21 @@
+---
+sidebar_position: 8
+---
+
 # Cursor Agent CLI
 
-Cursor Agent CLI is separate from Cursor Composer in the desktop editor.
+Cursor Agent CLI brings Cursor's command-line agent sessions into AxiOwl as a surface separate from the desktop editor.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
-| MCP reply | Implemented |
+## Available Operations
 
-The Windows MSI now has a dedicated Cursor CLI feature and isolated package. It applies the provider-specific session-metadata integration needed for exact MCP identity. Older docs saying there was no checkbox or no rename support are stale.
+| Discover | Send | Create | Rename | Reply through MCP |
+|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes |
 
-Cursor authentication remains external. Editor and CLI sessions must not be merged by name or assumed to share one delivery method.
+## What AxiOwl Installs
+
+The dedicated Windows feature installs an isolated provider package and the session metadata integration used by AxiOwl MCP.
+
+## When To Use It
+
+Use the CLI surface for terminal-centered work and the [Cursor Agents](cursor-agents.md) surface for editor-centered Composer work. AxiOwl keeps both in the registry so the coordinator can choose the experience best suited to the task.

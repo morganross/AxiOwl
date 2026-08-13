@@ -1,79 +1,61 @@
-# AxiOwl Windows Installer
+---
+sidebar_position: 1
+slug: /installer
+---
 
-The Windows MSI is one user experience composed of independently owned core, provider, A2A, and XMPP features. The [Installer Behavior Matrix](../reference/installer-behavior-matrix.md) is the canonical feature list.
+# Install The AxiOwl Experience You Want
 
-## Before Installation
+The Windows MSI brings the AxiOwl core, provider integrations, and optional network features into one guided setup.
 
-The UI discovers installed provider products and uses that information only to recommend provider checkboxes. Review the selections. Detection means "this integration may be relevant," not "the provider is authenticated" or "a sendable chat exists."
+## Provider-Aware Selection
 
-Network features are separate choices:
+Before presenting the feature choices, AxiOwl looks for supported provider products on the machine. Detected products can be recommended in the installer, and the user makes the final selection.
 
-- A2A Server;
-- A2A Client/user broker;
-- XMPP Client;
-- XMPP Server.
+This keeps setup focused: choose the provider surfaces you use today and add others later through the normal AxiOwl lifecycle.
 
-## What The MSI Installs
+## Core Features
 
-The core installation includes the local runtime, MCP server, discovery, logs, manifest, and selected mailbox UI. Each provider feature adds its isolated worker and declared plugin, extension, MCP config, or patch assets.
+The core experience provides:
 
-The current MSI graph includes all eleven provider packages listed in the [Provider Support Matrix](../reference/provider-support-matrix.md). This replaces the older design in which several CLI integrations had runtime code but no dedicated MSI ownership.
+- the AxiOwl runtime and MCP server;
+- the local registry and discovery foundation;
+- the mailbox and tray experience;
+- logs and diagnostics;
+- the local CLI;
+- AxiOwl-owned lifecycle and cleanup.
 
-## A2A Features
+## Provider Features
 
-The A2A Server installs the machine service. The A2A Client installs the interactive user broker required to reach provider state owned by the signed-in user. The old public limitation that the broker existed in CMake but was absent from the MSI has been resolved in current source.
+Each provider feature installs its own bounded integration package. Depending on the provider, that can include an MCP entry, plugin, skill, VSIX bridge, metadata integration, or isolated worker.
 
-The current package does not present the old general relay executable as part of the normal A2A feature payload. A2A-over-SSH remains a separate command/protocol path.
+The provider application continues to own its account, model access, authentication, and conversations.
 
-## XMPP Features
+## Optional Connected Features
 
-The XMPP Client and XMPP Server are current MSI features, not a separate feature-branch product.
+The MSI offers separate choices for:
 
-- XMPP Client installs the per-user client payload and trust/TLS support files. It does not create credentials during machine installation.
-- XMPP Server installs the optional native Windows self-host service and administration tool.
+- **A2A Server**, which exposes selected standards-based agent endpoints;
+- **A2A Client**, which adds the interactive user broker for provider-backed A2A work;
+- **XMPP Client**, which joins the signed-in user to approved-device workflows;
+- **XMPP Server**, which adds a customer-controlled Windows self-host service.
 
-Installing either feature is not proof that a device has been admitted or that a protected message journey is complete.
+These choices let one installation act as a local coordinator, an A2A endpoint, an approved device, a self-hosted server, or a combination.
 
-## Patches And Extensions
+## A Clear Lifecycle
 
-Provider integrations may install:
+AxiOwl uses two whole-product operations:
 
-- a Codex plugin and skill;
-- a VS Code or Cursor VSIX bridge;
-- provider MCP configuration;
-- narrowly targeted metadata or delivery patches for Copilot, Cursor, or VS Code surfaces.
+- **Uninstall** removes AxiOwl-owned installed components.
+- **Uninstall-install** performs a complete Uninstall and then installs the selected AxiOwl artifact.
 
-Patch-sensitive providers can change private implementation details in an upstream update. AxiOwl should refuse an ambiguous patch rather than guess. Successful patch installation is weaker evidence than a provider-owned response.
+Provider conversations, provider accounts, and unrelated user files remain under their original owners.
 
-## App Shutdown
+## After Setup
 
-The MSI closes only processes required by selected features and file replacement. Discovery alone does not authorize process shutdown. VS Code, Cursor, Codex, A2A services, and XMPP components have separate scopes.
+1. Open or restart the selected provider product.
+2. Start a current provider session.
+3. Run AxiOwl discovery.
+4. Choose the session in the registry.
+5. Follow [Send Your First Message](../getting-started/send-your-first-message.md).
 
-## Supported Lifecycle
-
-Use complete **Uninstall** or **Uninstall-install**. The public product does not promise a separate repair, in-place upgrade, downgrade, or rollback mode.
-
-Unchecked provider features and provider-owned data must remain untouched. Uninstall removes AxiOwl-owned integrations, not provider accounts or conversations.
-
-## Logs
-
-Capture a verbose MSI log:
-
-```powershell
-msiexec /i path\to\axiowl-installer.msi /l*v install.log
-```
-
-Useful AxiOwl locations include:
-
-```text
-%LOCALAPPDATA%\AxiOwl\logs
-%PROGRAMDATA%\AxiOwl\logs
-%LOCALAPPDATA%\AxiOwl\registry
-%LOCALAPPDATA%\AxiOwl\runtime
-```
-
-Do not post an entire unredacted log publicly. Preserve correlation IDs and status boundaries while removing tokens, credentials, private paths, and message content.
-
-## Interpreting Success
-
-MSI success means Windows Installer completed the selected actions. It does not prove provider authentication, chat discovery, message delivery, XMPP admission, A2A interoperability, or a provider reply. Test the exact selected path after installation.
+For a detailed feature map, see the [Installer Behavior Matrix](../reference/installer-behavior-matrix.md).

@@ -1,19 +1,22 @@
+---
+sidebar_position: 15
+---
+
 # External A2A Endpoints
 
-An external A2A endpoint is a protocol provider rather than a branded desktop product.
+External A2A endpoints let AxiOwl coordinate with standards-based agent services beyond the built-in provider packages.
 
-## Capabilities
+## Available Capabilities
 
-| Operation | Status |
-|---|---|
-| Agent Card discovery | implemented |
-| Registry import | implemented |
-| Send | implemented |
-| Task persistence | implemented |
-| Bearer auth | implemented |
-| OAuth client credentials | implemented |
-| Interactive OIDC login | unsupported in send path |
+- Agent Card discovery;
+- registry import with a friendly local name;
+- message send and task creation;
+- task-state tracking;
+- result and artifact collection;
+- bearer-token and OAuth client-credential configurations.
 
-The imported service becomes a `provider=a2a` registry record. Normal AxiOwl send commands can address its local name.
+Once imported, the endpoint appears as an A2A provider record and can participate in the same project workflow as local provider sessions.
 
-See [Calling External A2A Endpoints](../a2a/external-endpoints.md).
+This makes it possible to combine a specialized external service with Codex, Cursor, Claude Code, VS Code, or another AxiOwl destination.
+
+See [Connect External A2A Agents](../use-cases/connect-external-a2a-agents.md) and [Calling External A2A Endpoints](../a2a/external-endpoints.md).

@@ -75,7 +75,7 @@ Never paste tokens, private keys, password verifiers, or protected device state 
 
 ## 7. Check Transport Selection
 
-New A2A node records use direct `a2a` or `a2a-ssh`. The proprietary common `/v1/*` API and hosted relay server are retired. If an older registry row names a compatibility transport, identify it as stale or migration-era state rather than describing it as the normal current route.
+A2A node records use direct `a2a` or `a2a-ssh`. Confirm that the registry row names the same route the operator selected for that node.
 
 For XMPP, verify the exact WSS endpoint and full resource. Do not substitute A2A, SSH, or a provider-owned remote feature after a protected-route failure.
 

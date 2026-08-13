@@ -4,15 +4,11 @@
   <h1>AxiOwl</h1>
 
   <p>
-    <strong>Open-source local coordination and normalization for AI provider sessions.</strong>
+    <strong>Bring your AI tools together.</strong>
   </p>
 
   <p>
-    <a href="https://github.com/morganross/AxiOwl/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/morganross/AxiOwl?style=for-the-badge&logo=github&color=F59E0B"></a>
-    <a href="https://github.com/morganross/AxiOwl/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/morganross/AxiOwl?style=for-the-badge&logo=git&color=2563EB"></a>
-    <a href="https://github.com/morganross/AxiOwl/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/morganross/AxiOwl?style=for-the-badge&logo=githubissues&color=0F766E"></a>
-    <img alt="Self hosted" src="https://img.shields.io/badge/self--hosted-first-111827?style=for-the-badge&logo=serverfault">
-    <img alt="Open source" src="https://img.shields.io/badge/open--source-built%20in%20public-7C3AED?style=for-the-badge&logo=opensourceinitiative">
+    Coordinate provider sessions, A2A agents, and approved devices through one clear messaging and normalization layer.
   </p>
 </div>
 
@@ -20,57 +16,56 @@
 
 ## What Is AxiOwl?
 
-AxiOwl is local software that helps different AI provider surfaces communicate through a shared identity, discovery, delivery, and reply model. It can work with agent windows, editors, VSIX-backed sessions, and command-line providers without pretending that they all expose the same APIs.
+AxiOwl helps people and AI agents find the right session, send focused work through the correct provider integration, follow the handoff, and receive a correlated result.
 
-It is useful when one workflow spans several providers and you need to know which session received a message, which provider replied, and where a failure occurred.
+It works as both:
 
-Documentation site: https://morganross.github.io/AxiOwl/
+- a **normalization layer** for providers, surfaces, sessions, targets, receipts, and replies;
+- a **communication layer** for local provider packages, MCP, A2A agents, configured nodes, and approved devices.
 
-## At A Glance
+Documentation site: [morganross.github.io/AxiOwl](https://morganross.github.io/AxiOwl/)
 
-| Layer | What it does | Why it matters |
-| --- | --- | --- |
-| Local coordinator | Normalizes provider discovery, identity, handoff, and replies | Makes different provider surfaces easier to compare and operate |
-| Provider integrations | Connects selected editor, agent, and CLI surfaces | Keeps delivery behavior specific to each provider |
-| MCP reply path | Lets provider sessions call back with sender metadata | Makes a reply stronger evidence than a display name |
-| Installer | Installs selected features and provider-owned integration pieces | Limits changes to what the user chose |
-| Security model | Separates encryption, device trust, authorization, replay, and metadata | Prevents a receipt or label from being mistaken for proof |
+## What You Can Build
 
-## System shape
+- cross-provider project teams;
+- builder and reviewer workflows;
+- reusable specialist sessions;
+- external A2A agent integrations;
+- AxiOwl-to-AxiOwl task handoffs;
+- protected coordination between approved devices;
+- observable workflows with receipts and correlated replies.
+
+## How It Fits Together
 
 ```mermaid
 flowchart LR
-  user["User"] --> coordinator["AxiOwl local coordinator"]
-  coordinator --> discovery["Provider discovery"]
-  coordinator --> delivery["Selected delivery edge"]
-  delivery --> provider["Provider session"]
-  provider --> mcp["AxiOwl MCP reply"]
-  mcp --> coordinator
-  coordinator --> evidence["Identity and delivery evidence"]
+  human["Human or coordinator"] --> registry["AxiOwl registry"]
+  registry --> route["Selected provider or protocol route"]
+  route --> agent["Provider session or agent"]
+  agent --> result["Reply, result, or artifact"]
+  result --> human
 ```
 
-## Security in plain English
+AxiOwl normalizes the boundary while each provider keeps its own authentication, model access, session storage, and delivery behavior.
 
-AxiOwl is designed to protect message content and device trust while keeping routing and provider boundaries explicit. Encryption does not hide every piece of metadata, and it cannot protect a compromised computer or provider account. A device must be trusted before protected work is authorized, and provider-owned identity is stronger than a chat title or alias.
+## Start Here
 
-The public security docs intentionally omit private keys, credentials, internal deployment details, and exact cryptographic wire formats.
+- [Explore use cases](https://morganross.github.io/AxiOwl/docs/use-cases)
+- [See how AxiOwl works](https://morganross.github.io/AxiOwl/docs/how-it-works)
+- [Install and send a first message](https://morganross.github.io/AxiOwl/docs/getting-started/install-first-run)
+- [Browse provider surfaces](https://morganross.github.io/AxiOwl/docs/providers)
+- [Understand security and trust](https://morganross.github.io/AxiOwl/docs/security)
 
-## Read the docs
+## Product Reference
 
-Start with the [AxiOwl documentation site](https://morganross.github.io/AxiOwl/docs/intro), then use:
-
+- [Product Capabilities](https://morganross.github.io/AxiOwl/docs/reference/current-product-status)
 - [Provider Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/provider-support-matrix)
-- [Current Product Status](https://morganross.github.io/AxiOwl/docs/reference/current-product-status)
 - [Platform Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/platform-support-matrix)
-- [Installer Behavior Matrix](https://morganross.github.io/AxiOwl/docs/reference/installer-behavior-matrix)
-- [Security And Trust](https://morganross.github.io/AxiOwl/docs/security)
-- [Update Publication And Pull Updates](https://morganross.github.io/AxiOwl/docs/release/update-publication-operator-guide)
+- [Protocol Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/protocol-support-matrix)
 - [Architecture Overview](https://morganross.github.io/AxiOwl/docs/reference/architecture-overview)
 
-## Contributing
+## Security
 
-Issues and pull requests are welcome. When reporting a provider or security problem, share the smallest useful reproduction and redact credentials, private keys, tokens, personal message content, and private host details.
+AxiOwl's approved-device model combines verified connections, distinct device identity, endpoint content protection, receiver-owned authorization, replay protection, and protected results. Provider credentials stay under provider ownership on the destination machine.
 
-## Security reports
-
-Do not publish sensitive vulnerability details in a public issue. Contact the maintainer through a private channel first and agree on a safe way to exchange evidence.
+Sensitive security reports should be shared privately with the maintainer rather than placed in a public issue.

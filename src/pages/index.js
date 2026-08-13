@@ -8,40 +8,40 @@ import styles from './index.module.css';
 
 const cards = [
   {
-    label: 'Start here',
-    title: 'Understand AxiOwl',
-    body: 'Learn the core workflow, who AxiOwl is for, and how provider messaging fits into day-to-day agent work.',
-    to: '/docs/intro',
+    label: 'Use cases',
+    title: 'Put your AI tools to work together',
+    body: 'Build cross-provider teams, delegate to specialists, compare results, and keep project context moving.',
+    to: '/docs/use-cases',
   },
   {
-    label: 'Current reality',
-    title: 'Read product status',
-    body: 'Separate source, package, signature, installation, deployment, and end-to-end evidence before relying on a claim.',
-    to: '/docs/reference/current-product-status',
+    label: 'How it works',
+    title: 'Follow a message from start to reply',
+    body: 'See how discovery, identity, provider packages, transports, receipts, and replies fit into one clear journey.',
+    to: '/docs/how-it-works',
   },
   {
-    label: 'Providers and platforms',
-    title: 'Check exact support',
-    body: 'Compare the eleven Windows provider packages and the current Windows, Linux, macOS, iPhone, Android, and server boundaries.',
-    to: '/docs/reference/provider-support-matrix',
+    label: 'Get started',
+    title: 'Send your first message',
+    body: 'Install the integrations you want, discover a current session, send a focused request, and receive a reply.',
+    to: '/docs/getting-started/install-first-run',
   },
   {
-    label: 'Security',
-    title: 'Understand protected messaging',
-    body: 'Learn how encryption, device trust, receiver authorization, replay rejection, and protected receipts remain separate.',
-    to: '/docs/security',
+    label: 'Providers',
+    title: 'Bring your preferred AI products',
+    body: 'Coordinate Codex, Cursor, VS Code Copilot, Claude Code, Antigravity, OpenCode, Copilot CLI, and A2A agents.',
+    to: '/docs/providers',
   },
   {
-    label: 'Installer',
-    title: 'Choose what AxiOwl changes',
-    body: 'Review provider discovery, selected-only ownership, A2A and XMPP features, cleanup, and lifecycle behavior.',
-    to: '/docs/reference/installer-behavior-matrix',
+    label: 'Secure coordination',
+    title: 'Work across approved devices',
+    body: 'Combine endpoint encryption, distinct device identity, local authorization, replay protection, and protected results.',
+    to: '/docs/use-cases/secure-work-across-devices',
   },
   {
-    label: 'Protocols',
-    title: 'Compare A2A and XMPP',
-    body: 'See how standards A2A tasks and endpoint-protected XMPP actions solve different remote coordination problems.',
-    to: '/docs/reference/protocol-support-matrix',
+    label: 'A2A',
+    title: 'Connect standards-based agents',
+    body: 'Call external A2A services, expose selected agent endpoints, and combine task results with local provider work.',
+    to: '/docs/use-cases/connect-external-a2a-agents',
   },
 ];
 
@@ -53,17 +53,17 @@ function HomepageHeader() {
         <img className={styles.logo} src={heroOwl} alt="AxiOwl owl mascot" />
         <p className={styles.eyebrow}>Product documentation</p>
         <Heading as="h1" className="hero__title">
-          {siteConfig.title} Documentation
+          {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link className="button button--primary button--lg" to="/docs/intro">
-            Read the docs
+          <Link className="button button--primary button--lg" to="/docs/use-cases">
+            Explore use cases
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/reference/provider-support-matrix">
-            Provider support
+            to="/docs/getting-started/install-first-run">
+            Get started
           </Link>
         </div>
       </div>
@@ -76,13 +76,13 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="AxiOwl documentation for provider messaging, A2A, secure XMPP, platform packages, installer ownership, updates, and security boundaries.">
+      description="Bring AI sessions, coding agents, approved devices, and A2A services into one coordinated workflow with AxiOwl.">
       <HomepageHeader />
       <main className={styles.main}>
         <section className="container">
           <div className={styles.sectionHeading}>
-            <p>Documentation paths</p>
-            <Heading as="h2">Find the right starting point</Heading>
+            <p>One coordination layer</p>
+            <Heading as="h2">Choose what you want to accomplish</Heading>
           </div>
           <div className={styles.cardGrid}>
             {cards.map((card) => (

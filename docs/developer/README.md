@@ -56,7 +56,7 @@ A2A request
 
 `axiowl-api-service.exe` runs as the machine-scoped `AxiOwlApi` service. `axiowl-user-broker.exe` owns the interactive-user crossing. Both are current MSI payloads under separate A2A Server and A2A Client features.
 
-The proprietary common `/v1/*` remote API and hosted relay server are retired. Standards A2A, A2A-over-SSH, local CLI/MCP, and provider-owned behavior remain distinct.
+Standards A2A, A2A-over-SSH, local CLI/MCP, secure XMPP, and provider-owned behavior remain distinct integration boundaries.
 
 ## Secure XMPP Flow
 
@@ -159,6 +159,6 @@ When behavior changes, update the smallest applicable source-of-truth pages:
 - [Platform Support Matrix](../reference/platform-support-matrix.md)
 - [Protocol Support Matrix](../reference/protocol-support-matrix.md)
 - [Installer Behavior Matrix](../reference/installer-behavior-matrix.md)
-- [Current Product Status](../reference/current-product-status.md)
+- [Product Capabilities](../reference/current-product-status.md)
 
-Historical plans and method reports explain how the project arrived here. They do not override current source, current package definitions, or current deployment evidence.
+Plans and method reports provide engineering context. The product reference pages define the public vocabulary used by the current documentation.

@@ -1,14 +1,23 @@
+---
+sidebar_position: 4
+---
+
 # Codex Remote
 
-Codex Remote is an isolated provider package for Codex-owned remote projects and conversations. It is not the generic AxiOwl inter-node transport.
+Codex Remote connects AxiOwl to Codex-owned remote projects and conversations. It gives remote Codex work the same project vocabulary used for local providers: discoverable targets, focused messages, and named sessions.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
+## Available Operations
 
-The Windows installer has a dedicated Codex Remote feature and worker. Remote host, project, provider authentication, and session availability remain Codex-owned prerequisites.
+| Discover | Send | Create | Rename |
+|---|---|---|---|
+| Yes | Yes | Yes | Yes |
 
-Do not confuse this provider with [AxiOwl Remote Nodes](remote.md). Codex Remote addresses a Codex product surface; AxiOwl node transport addresses another AxiOwl installation through A2A.
+## What AxiOwl Installs
+
+The Windows installer provides a dedicated Codex Remote feature with its own provider worker and ownership boundary.
+
+## When To Use It
+
+Use Codex Remote when the destination is a Codex product surface hosted or managed through Codex. Use [AxiOwl Remote Nodes](remote.md) when the destination is another AxiOwl installation exposed through A2A.
+
+Keeping those concepts separate lets the project choose between a provider-owned remote conversation and an AxiOwl-owned inter-node route with clear intent.

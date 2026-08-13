@@ -30,5 +30,5 @@ Developer machines accumulate state: old configs, cached provider sessions, inst
 - stale path assumptions;
 - auth assumptions;
 - build artifact mismatch;
-- provider config path bugs;
-- patch path bugs.
+- provider configuration differences;
+- provider integration path assumptions.

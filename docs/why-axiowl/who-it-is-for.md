@@ -4,51 +4,30 @@ sidebar_position: 2
 
 # Who AxiOwl Is For
 
-AxiOwl is for builders who use multiple AI tools in the same project.
+AxiOwl is for people and teams whose AI work already spans several sessions, providers, machines, or specialized agents.
 
-It is especially useful for builders who want a common local model across those tools, not just another way to send text.
+## Software Teams
 
-## Good Fit
+Use one provider to implement, another to review, and another to coordinate release work. AxiOwl keeps each specialist addressable without forcing the team into one AI product.
 
-AxiOwl is a good fit if:
+## Researchers And Analysts
 
-- you use more than one AI coding tool;
-- you keep several AI sessions open at once;
-- you want one provider to ask another provider for review or status;
-- you care about logs and proof;
-- you want local control instead of a purely hosted coordination layer;
-- you test installers, provider integrations, or multi-agent workflows;
-- you need to know which provider actually replied.
-- you want provider sessions normalized into one registry instead of remembered separately in each app.
+Delegate independent questions to several agents, compare their findings, and send the combined evidence to a synthesis session.
 
-## Example Users
+## Technical Operators
 
-### Solo Builder
+Coordinate work between desktops, build machines, self-hosted services, external A2A agents, and approved remote devices using explicit routes.
 
-You use Codex for implementation, Cursor for editor work, and VS Code Copilot for quick checks. AxiOwl gives you a way to address those sessions and ask for responses without copying text between windows all day.
+## Product And Project Leads
 
-### Small Team
+Assign stable roles, send concise handoffs, receive status and replies, and keep the human decision at the center of the workflow.
 
-Your team uses different AI tools. Some people work in VS Code. Some use Cursor. Some use CLI tools. AxiOwl gives you a shared local vocabulary for provider sessions and proof.
+## Advanced Individual Users
 
-### Tool Developer
+Keep long-running expert sessions in different tools and call on the right one when its context or provider capabilities fit the next task.
 
-You are building or testing AI provider integrations. AxiOwl gives you install logs, discovery records, registry state, and response tests that make integration failures easier to understand.
+## Teams Building Agent Services
 
-### Power User
+Use AxiOwl's A2A client and server boundaries to connect standards-based agents with provider-backed desktop sessions.
 
-You already run multiple agents and want explicit routing: send this to a Cursor agent, ask Codex CLI for a status, ask VS Code Copilot to confirm something, and record which one replied. You also want those sessions described in a consistent way so tests and logs make sense.
-
-## Not A Good Fit
-
-AxiOwl is probably not useful if:
-
-- you use only one AI chat and never need cross-provider coordination;
-- you do not want local tools installed;
-- you do not want provider integrations or MCP config;
-- you need a fully hosted team product with no local setup;
-- you need support for a provider surface that is currently marked `target` or `unsupported`.
-
-## The Honest Pitch
-
-AxiOwl is most valuable when you already feel the pain of scattered AI sessions. If you only use one tool occasionally, it may be more system than you need. If you live in several provider sessions every day, the coordination and normalization layer starts to matter.
+The common thread is coordination: AxiOwl becomes valuable when the work is bigger than one isolated chat.

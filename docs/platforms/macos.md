@@ -1,21 +1,26 @@
+---
+sidebar_position: 4
+---
+
 # macOS
 
-AxiOwl for macOS is a separate native Swift implementation. It follows the same registry, MCP, account, licensing, and provider-boundary concepts but does not reuse the Windows/Linux C++ application.
+AxiOwl for macOS is a native Swift desktop preview designed around the same account, registry, MCP, provider, and trust concepts as the rest of the product family.
 
-## Implemented Areas
+## Native Experience
 
-- Swift CLI and SwiftUI application;
-- account sign-in and Keychain-held account state;
-- optional license entitlement import and status;
-- provider discovery and checkbox defaults;
+The macOS implementation includes foundations for:
+
+- a Swift CLI and SwiftUI application;
+- browser-based account sign-in;
+- Keychain-held account and entitlement state;
+- provider discovery and selection;
 - MCP configuration and server operations;
-- Codex CLI and Claude Code CLI discovery/create/send paths;
-- mailbox/provider GUI;
-- XMPP lifecycle and trust-consumer source;
-- unsigned package and local GUI launch evidence.
+- Codex CLI and Claude Code CLI workflows;
+- mailbox and provider views;
+- secure-device lifecycle integration.
 
-## Preview Boundaries
+## Why A Native App
 
-Other CLI delivery paths, editor patching, A2A service behavior, XMPP server administration, and the complete protected network journey remain incomplete or preview-level. The package is not presented as a signed and notarized public release.
+A native Swift implementation can use the security, lifecycle, and user-interface conventions of macOS directly. The result is an AxiOwl experience shaped for the platform rather than a copy of the Windows application.
 
-The public site therefore describes macOS as a native engineering preview, not as unsupported and not as production-equivalent to Windows.
+The macOS preview is a place to explore how AxiOwl provider coordination and approved-device workflows feel in a native Apple desktop product.

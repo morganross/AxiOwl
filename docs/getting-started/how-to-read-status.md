@@ -2,60 +2,43 @@
 sidebar_position: 4
 ---
 
-# How To Read Status And Logs
+# Follow A Message Through AxiOwl
 
-AxiOwl status and logs are meant to answer what happened, not just whether something failed.
+AxiOwl status is designed to show where a handoff is in its journey.
 
-## Status
+## The Main Stages
 
-Run:
-
-```powershell
-axiowl status
-```
-
-Useful status details include:
-
-- installed executable path;
-- manifest/provenance;
-- package version;
-- activation state;
-- registry counts;
-- runtime role;
-- installed binary hash proof when available.
-
-## Logs
-
-Common locations:
-
-```text
-%LOCALAPPDATA%\AxiOwl\logs
-%LOCALAPPDATA%\AxiOwl\registry
-%LOCALAPPDATA%\AxiOwl\runtime
-```
-
-## What To Look For
-
-| Question | Evidence |
+| Stage | What it tells you |
 |---|---|
-| Was the right MSI installed? | Manifest/provenance/hash logs. |
-| Was the provider selected? | MSI log and installer helper logs. |
-| Was the provider discovered? | Discovery logs and registry row. |
-| Was the target sendable? | Registry `sendable` state. |
-| Did AxiOwl accept the message? | Send receipt. |
-| Did provider receive it? | Provider result, session proof, or provider reply. |
-| Did provider reply over MCP? | Incoming MCP message and sender metadata. |
+| Accepted | AxiOwl created the operation and assigned correlation identity |
+| Target resolved | The registry selected the concrete provider, agent, node, or device |
+| Route selected | The operation chose local provider, A2A, SSH, or secure XMPP |
+| Destination accepted | The provider boundary, task service, or approved endpoint received the handoff |
+| Result returned | A provider reply, task result, or protected terminal result came back |
 
-## Plain English Rule
+## Use The Correlation Identity
 
-Logs should let you tell a story:
+A message ID, task ID, receipt ID, or run ID ties the stages together. Keep it with the project record when several agents are working at once.
+
+## Read Status In Plain English
+
+Ask three questions:
+
+1. Which target did AxiOwl resolve?
+2. Which route carried the request?
+3. Which destination result came back?
+
+Those questions provide a clear mental model for local provider messages, A2A tasks, and approved-device actions.
+
+## A Useful Project Record
 
 ```text
-This build installed these files.
-These provider features were selected.
-These sessions were discovered.
-This message was accepted.
-This provider did or did not reply.
+Target:
+Provider or protocol:
+Request ID:
+Receipt:
+Reply or result:
+Next decision:
 ```
 
-If the logs cannot tell that story, the logging needs improvement.
+For the detailed evidence vocabulary, read [Receipts And Observability](../how-it-works/receipts-and-observability.md).

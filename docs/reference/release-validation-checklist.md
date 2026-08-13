@@ -120,7 +120,7 @@ Server health is not proof of endpoint authorization or provider effect. Source-
 
 Before changing a public support label, reconcile:
 
-- [Current Product Status](current-product-status.md)
+- [Product Capabilities](current-product-status.md)
 - [Provider Support Matrix](provider-support-matrix.md)
 - [Platform Support Matrix](platform-support-matrix.md)
 - [Protocol Support Matrix](protocol-support-matrix.md)

@@ -46,9 +46,9 @@ Keep service acceptance, user-broker handoff, provider effect, task completion, 
 
 ## XMPP Review
 
-XMPP is current-main source, not branch-only work. Review the exact client/server roles involved and follow the protected path from endpoint selection through transport authentication, decryption, authorization, replay decision, provider effect, and protected receipt.
+Review the exact XMPP client/server roles involved and follow the protected path from endpoint selection through transport authentication, decryption, authorization, replay decision, provider effect, and protected receipt.
 
-The current source and platform packages are substantial, and cloud server deployment evidence exists. Public status still should not claim a complete five-role user journey unless that exact installed artifact journey is recorded.
+For a release that presents the complete five-role experience, record the exact installed-artifact journey across those roles.
 
 ## Update Review
 

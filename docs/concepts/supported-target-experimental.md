@@ -1,18 +1,34 @@
-# Supported, Implemented, Packaged, And Experimental
+---
+sidebar_position: 2
+---
 
-| Term | Meaning |
+# Capability Levels
+
+AxiOwl uses three simple experience levels across provider, platform, and protocol pages.
+
+| Level | Meaning |
 |---|---|
-| Designed | A current product decision exists. |
-| Implemented | Current source contains the named behavior. |
-| Packaged | A distributable artifact contains it. |
-| Signed | The exact artifact has release-signing evidence. |
-| Installed | It completed the supported lifecycle on a system. |
-| Deployed | A service is running. |
-| Demonstrated | A current end-to-end journey reached the stated boundary. |
-| Supported | Current evidence is strong enough for the public operation claim. |
-| Experimental | The path is useful but patch-sensitive or not fully re-demonstrated. |
-| Unsupported | Current code rejects it or no product path exists. |
+| Core | A primary everyday AxiOwl workflow with dedicated product ownership |
+| Extended | An optional coordination, network, server, or update capability |
+| Preview | A native experience available for exploration and continued expansion |
 
-These labels apply to an exact platform, provider surface, operation, artifact, and time. "Cursor send implemented" does not imply "Cursor rename supported on every Cursor release." "Cloud server deployed" does not imply "mobile encrypted messaging demonstrated."
+## Apply The Level To A Concrete Experience
 
-Use [Current Product Status](../reference/current-product-status.md) and the reference matrices for current claims.
+A useful capability statement names:
+
+- the platform;
+- the provider surface or protocol;
+- the operation;
+- the product role.
+
+For example, Windows provider messaging, Linux secure-device client, and iPhone approved-device companion describe three different experiences even though all are part of AxiOwl.
+
+## Why The Labels Help
+
+The labels let users choose the experience that fits their project:
+
+- start with **Core** for the broadest everyday workflow;
+- add **Extended** capabilities for A2A, self-hosting, approved devices, or signed pull updates;
+- explore **Preview** platforms as the AxiOwl product family expands.
+
+See [Product Capabilities](../reference/current-product-status.md) for the complete map.

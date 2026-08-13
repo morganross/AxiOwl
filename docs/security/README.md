@@ -5,47 +5,63 @@ slug: /security
 
 # Security And Trust
 
-AxiOwl crosses local provider applications, user sessions, machine services, network protocols, and cloud services. Its security model is based on narrow authority: no one credential, service, display name, or transport event should be able to impersonate all the others.
+AxiOwl is designed for useful coordination without turning one credential, server, display name, or transport event into universal authority.
 
-These pages explain the public model without publishing private infrastructure identifiers, credentials, secret key material, or a wire-format implementation recipe.
+The security model keeps important responsibilities separate and combines them only at the endpoint that is allowed to act.
 
-## Security Goals
+## Security In Plain English
 
-AxiOwl is designed to:
+For an approved-device workflow, AxiOwl asks several independent questions:
 
-- keep provider authentication under the provider's control;
-- use provider-owned session identity instead of guessing from titles;
-- protect remote message content between approved endpoints;
-- require device trust and receiver-owned authorization before a remote request reaches a provider;
-- reject duplicate, stale, malformed, revoked, or ambiguous actions;
-- keep licensing separate from identity and messaging authority;
-- constrain installer changes to selected features;
-- distinguish acceptance, routing, provider delivery, provider effect, and reply evidence.
+1. Is this the intended server connection?
+2. Which approved device is on the connection?
+3. Is the message protected for this destination?
+4. Is the sender allowed to request this action?
+5. Is the request fresh and unused?
+6. Which local provider target may receive it?
 
-## Security Is More Than Encryption
+The destination endpoint answers those questions before it gives work to a local provider integration.
 
-Encryption hides content from parties that only need to route it. Authentication identifies a transport or signer. Authorization decides whether that identity may request this action. Replay protection prevents reusing an old valid request. Provider proof shows what happened after authorization.
+## The Main Protection Layers
 
-A system can have encrypted transport and still authorize the wrong sender. It can have a valid signature and still replay an old action. AxiOwl therefore keeps these checks separate.
+### Provider-Owned Authentication
 
-## Current Evidence Boundary
+Provider accounts and model access remain under the provider's control. AxiOwl coordinates with an authenticated provider session rather than becoming the provider account.
 
-Current main contains substantial endpoint security source: protected XMPP messages, per-device identity, signed actions, trust transitions, receiver authorization, durable replay/dispatch state, one-shot provider handoff, and protected receipts. Windows and Linux packages and cloud server deployment evidence also exist.
+### Distinct Device Identity
 
-The public site does **not** yet claim a complete current end-to-end encrypted client-to-provider demonstration. Source completion, service health, and a complete user journey are different evidence levels. See [Current Product Status](../reference/current-product-status.md).
+Every approved device has its own identity and transport credential. A trusted coordinator can approve another device, and device membership can be managed individually.
+
+### Endpoint Content Protection
+
+The sending endpoint protects remote message content for the intended receiving endpoint. The routing service handles the information needed to deliver the protected envelope.
+
+### Receiver-Owned Authorization
+
+The destination decides whether the sender, target, operation, and current policy allow a provider handoff. A readable message becomes actionable only after that local decision.
+
+### Replay Protection
+
+The receiver records message and dispatch state so a previously accepted action cannot simply be presented as new work.
+
+### Protected Results
+
+Results and terminal receipts return through the authenticated endpoint session with correlation to the original action.
 
 ## Read By Topic
 
-| Page | Topic |
+| Page | What you will learn |
 |---|---|
-| [Encryption And Privacy](encryption-and-privacy.md) | What content protection covers and what metadata remains visible |
-| [Device Trust And Enrollment](device-trust-and-enrollment.md) | First device, later-device approval, revocation, and trust loss |
-| [Authorization And Replay](authorization-and-replay.md) | Why decryption does not automatically invoke a provider |
-| [Metadata And Identity](metadata-and-identity.md) | Session identity, routing metadata, aliases, and logs |
-| [Trust Boundaries](trust-boundaries.md) | Local user, installer, provider, service, A2A, XMPP, and licensing authority |
-| [Updates And Supply Chain](updates-and-supply-chain.md) | Signed artifacts, provider packages, and pull-update boundaries |
-| [Known Security Limits](known-limitations.md) | What the current product does not promise |
+| [Encryption And Privacy](encryption-and-privacy.md) | How endpoint protection and visible routing metadata differ |
+| [Device Trust And Enrollment](device-trust-and-enrollment.md) | How approved devices join and maintain distinct identity |
+| [Authorization And Replay](authorization-and-replay.md) | How the destination controls provider invocation |
+| [Metadata And Identity](metadata-and-identity.md) | How session identity and routing labels are handled |
+| [Trust Boundaries](trust-boundaries.md) | Which product component owns each decision |
+| [Updates And Supply Chain](updates-and-supply-chain.md) | How signed artifacts and provider packages reach users |
+| [Shared Security Responsibilities](known-limitations.md) | How users, providers, endpoints, and operators work together |
 
-## Reporting Sensitive Issues
+## Secure Coordination As A Product Benefit
 
-Do not place credentials, private keys, complete message bodies, private host details, or a working exploit in a public issue. Share the smallest useful redacted description first and use a private maintainer channel for sensitive evidence.
+The goal is not encryption as a badge. The goal is a useful remote workflow where protected content, device trust, action permission, replay protection, and provider delivery all preserve their own meaning.
+
+See [Work Securely Across Devices](../use-cases/secure-work-across-devices.md) for the user journey.

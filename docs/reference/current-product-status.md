@@ -1,72 +1,49 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
-# Current Product Status
+# Product Capabilities
 
-Last repository and public-site reconciliation: **August 12, 2026**.
+AxiOwl combines provider coordination, standards-based agent communication, approved-device messaging, and platform-specific applications in one product family.
 
-This page is the public baseline for interpreting every other status statement. AxiOwl changes quickly, and several older pages once treated source code, a signed package, and a completed live workflow as the same thing. They are not the same.
+## Capability Experiences
 
-## Evidence Vocabulary
-
-| Term | Meaning |
+| Experience | Meaning |
 |---|---|
-| Designed | A reviewed product direction exists, but current source may not implement it. |
-| Implemented | Current source contains the behavior at the named component boundary. |
-| Packaged | A distributable artifact contains the component. |
-| Signed | The inspected artifact has release-signing evidence. |
-| Installed | The artifact completed its supported installation lifecycle on a named class of system. |
-| Deployed | A service is running in an environment; this says nothing about an end-user journey by itself. |
-| Demonstrated | A current end-to-end workflow reached the stated final boundary with attributable evidence. |
-| Supported | The operation has current product, installation, and end-to-end evidence appropriate to its risk. |
-| Experimental | The path is usable for controlled work but remains sensitive to private provider behavior or incomplete release evidence. |
+| Core | A primary AxiOwl workflow with dedicated product ownership |
+| Extended | An optional capability that adds network, server, or advanced coordination features |
+| Preview | A native product experience intended for exploration and continued expansion |
 
-These terms are cumulative only when the evidence says so. "Implemented" does not imply "packaged." "Deployed" does not imply "demonstrated."
+## Capabilities At A Glance
 
-## Current High-Level Baseline
-
-| Product area | Strongest current evidence | Important remaining boundary |
+| Capability | Experience | What it enables |
 |---|---|---|
-| Windows desktop | Current main source, signed MSI evidence, eleven isolated provider packages, and internal Uninstall then Uninstall-install evidence | Not every provider operation has been re-demonstrated against the newest artifact |
-| Linux x86-64 desktop | Current main source, Debian packaging, detached-signature evidence, and an internal install | The protected client was not started without customer-authorized runtime/admission state |
-| macOS desktop | Native Swift source, an unsigned package, and local GUI launch evidence | No signed/notarized public release; several provider and network surfaces remain preview-level |
-| iPhone | Native SwiftUI source and simulator-build work | No App Store/public distribution; protected messaging remains unavailable until the full Apple runtime is linked |
-| Android | Native source, secure onboarding/storage work, and local build records | No public release; production protected connection remains fail-closed until all required native and live-server bindings are available |
-| A2A | Current main client/server source; Windows package contains separate server and user-broker features | Streaming subscriptions remain unimplemented; current external interoperability evidence is not universal |
-| Secure XMPP | Shared security library, Windows/Linux clients, Windows/Linux servers, and deployed cloud server evidence | The site does not claim a current complete encrypted endpoint-to-provider journey |
-| License entitlement | Purpose-separated licensing service and local entitlement verification | A license is optional feature state, not account, device, pool, or messaging authority |
-| Account/pool and device trust | Separate service source and device-trust deployment evidence | Current deployment and client-admission proof must be evaluated separately from source completion |
-| Updates | Signed Windows artifacts, provider packages, signed release metadata, and pull-check behavior | Automatic core download/stage/apply is not claimed |
+| Windows provider coordination | Core | Discover and coordinate supported editor, agent, and CLI sessions through isolated provider packages |
+| AxiOwl mailbox and local registry | Core | Keep a shared address book, receive messages, and follow replies |
+| MCP integration | Core | Let provider sessions use AxiOwl tools and return provider-owned identity metadata |
+| External A2A agents | Extended | Read Agent Cards, send messages, follow tasks, and collect results or artifacts |
+| A2A desktop endpoints | Extended | Present selected registered sessions as standards-based agent endpoints |
+| A2A between nodes | Extended | Coordinate explicit AxiOwl nodes directly or over operator-managed SSH |
+| Secure approved-device messaging | Extended | Protect remote actions, authorize them at the receiver, and return protected results |
+| Windows self-host XMPP server | Extended | Run the approved-device routing role on a Windows host |
+| Linux self-host or cloud XMPP server | Extended | Run the same routing model on Linux infrastructure |
+| Linux x86-64 client | Preview | Use the native C++ coordination and secure-device runtime on Linux |
+| macOS desktop | Preview | Explore the native Swift desktop experience |
+| iPhone and Android clients | Preview | Extend approved-device workflows to native mobile experiences |
+| Signed pull updates | Extended | Discover and verify core or provider-package releases through signed metadata |
 
-## Version Reality
+## Provider Family
 
-The repository contains more than one version-bearing file because core releases and provider packages are independently versioned, and build output can lag current source. At this review, the Windows release-identity ledger reaches `3.0.133`, while older signed artifacts and component version files remain in the workspace as evidence from earlier builds.
+The Windows product includes dedicated packages for Codex agents, Codex CLI, Codex Remote, VS Code Copilot-backed sessions, Cursor agents, Cursor Agent CLI, Antigravity agents, Antigravity CLI, Claude Code CLI, Copilot CLI, and OpenCode CLI.
 
-Therefore:
+Each package keeps discovery, metadata, delivery, and installation ownership specific to that provider surface.
 
-- use a release manifest to identify a Windows release;
-- use the provider package manifest to identify a provider package;
-- do not infer the newest signed installer from a development `version.json` alone;
-- do not infer deployment from a file existing in `release/` or `dist/`.
+## Platform Family
 
-## What Is Not Claimed
+Windows is the primary packaged desktop and server environment. Linux provides native client and server roles. macOS, iPhone, and Android extend the product through native platform implementations.
 
-The public site does not currently claim:
+Explore the [Platform Guide](../platforms/README.md) and [Provider Support Matrix](provider-support-matrix.md) for details.
 
-- universal provider support across every operation and operating system;
-- a public production release for macOS, iOS, or Android;
-- an end-to-end encrypted production journey merely because E2EE source exists;
-- invisible or automatic installation changes to unselected providers;
-- background polling as the normal local provider workflow;
-- unattended core updates;
-- that an acceptance receipt is provider completion proof.
+## The Product Direction
 
-## How To Use This Page
-
-Read the operation-specific matrices next. They refine this baseline but must not contradict it:
-
-- [Provider Support Matrix](provider-support-matrix.md)
-- [Platform Support Matrix](platform-support-matrix.md)
-- [Protocol Support Matrix](protocol-support-matrix.md)
-- [Installer Behavior Matrix](installer-behavior-matrix.md)
+AxiOwl is growing toward one consistent coordination experience across local sessions, standards-based agents, and approved devices. The common layer handles identity, routing, receipts, and trust while each platform and provider retains the implementation best suited to it.

@@ -1,8 +1,8 @@
 {
   "label": "Installer",
-  "position": 11,
+  "position": 14,
   "link": {
     "type": "generated-index",
-    "description": "Installer checkbox, provider discovery, patching, cleanup, and log behavior."
+    "description": "Choose provider integrations and optional A2A or secure-device features in one installer."
   }
 }

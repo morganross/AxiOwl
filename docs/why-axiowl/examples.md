@@ -4,60 +4,30 @@ sidebar_position: 6
 
 # Practical Examples
 
-These examples show how AxiOwl fits into real workflows.
+These short examples show how AxiOwl fits into everyday AI work.
 
-## Ask Another Provider For Review
+## Ask For A Second Opinion
 
-You implemented a change with one provider and want another provider to review it.
+A Codex session proposes an implementation. Send the proposal to a Claude Code or Cursor reviewer and ask for risks, alternatives, and a recommendation. Return the review to the coordinator for the final choice.
 
-```text
-Send to: Codebase review
-Message: Please review the current implementation and respond over AxiOwl MCP with risks and status.
-```
+## Divide A Large Project
 
-Why AxiOwl helps:
+Give separate sessions responsibility for architecture, implementation, security, documentation, and release coordination. Each session stays focused while the coordinator routes decisions and results between them.
 
-- target is explicit;
-- reply comes back through MCP;
-- logs show the path.
-- the provider-specific chat becomes a normalized AxiOwl target.
+## Compare Providers
 
-## Check Provider Health
+Send the same bounded question to several provider sessions. Use receipts and replies to collect the answers, then ask a synthesis session to compare assumptions and produce one final recommendation.
 
-You want to know which provider surfaces are currently working.
+## Use An External Specialist
 
-```text
-AxiOwl provider response test. Please respond over AxiOwl MCP with your current status and include: AXIOWL_PROVIDER_OK <run-id>
-```
+Import an external A2A Agent Card for research or document processing. Follow its task, collect the artifacts, and route the result to a local provider for analysis.
 
-Why AxiOwl helps:
+## Continue On Another Device
 
-- one run id ties the test together;
-- failures can be grouped by provider surface;
-- supported and target providers are not confused.
-- every provider is tested against the same proof model.
+Send protected work to an approved workstation that already owns the needed repository and provider session. The destination authorizes the request locally and returns a protected result.
 
-## Coordinate CLI And Editor Work
+## Keep A Persistent Review Panel
 
-You have one provider running in an editor and another running as a CLI. AxiOwl treats them as separate surfaces.
+Create stable Reviewer, Security, and Release sessions. Each new change can visit the same panel, allowing those sessions to accumulate role-specific context over time.
 
-Why this matters:
-
-- editor integrations may need extensions;
-- CLI integrations may need cwd, auth, and metadata;
-- a passing editor test does not prove CLI support.
-- AxiOwl normalizes the names and proof states while preserving those differences.
-
-## Diagnose A Failed Install
-
-The installer finished, but a provider does not reply.
-
-AxiOwl gives you places to look:
-
-- installer logs;
-- registry rows;
-- runtime handoff files;
-- provider bridge logs;
-- MCP reply logs.
-
-The diagnosis becomes a sequence instead of a guess.
+For complete walkthroughs, open [What You Can Do With AxiOwl](../use-cases/README.md).

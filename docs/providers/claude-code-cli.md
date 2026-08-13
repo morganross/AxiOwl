@@ -1,15 +1,23 @@
+---
+sidebar_position: 11
+---
+
 # Claude Code CLI
 
-Claude Code CLI uses provider session records and resume behavior with an AxiOwl MCP entry in Claude's user configuration.
+Claude Code CLI connects project-oriented Claude Code sessions to AxiOwl. It works well for architecture analysis, implementation reviews, and focused work tied to a project directory.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
-| MCP reply | Implemented |
+## Available Operations
 
-The Windows feature installs the provider worker and AxiOwl-owned configuration. It does not install Claude Code, authenticate Anthropic, or repair a missing project directory.
+| Discover | Send | Create | Rename | Reply through MCP |
+|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes |
 
-Historical response-backed evidence exists. A stale session whose working directory no longer exists can fail before MCP executes; that is provider-session state, not a message acceptance success.
+## What AxiOwl Installs
+
+The Windows feature installs the Claude Code provider worker and AxiOwl-owned MCP configuration in the user's Claude environment.
+
+## A Typical Workflow
+
+Create a Claude Code session for a stable role such as Architecture Reviewer. AxiOwl can discover that session, send it a concise handoff with file references, and receive its response through MCP.
+
+The provider keeps ownership of Claude authentication and project session data while AxiOwl supplies the coordination path.

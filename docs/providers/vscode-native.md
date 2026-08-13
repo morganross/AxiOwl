@@ -1,7 +1,11 @@
-# VS Code Native Compatibility Label
+---
+sidebar_position: 6
+---
 
-Older AxiOwl documentation described "VS Code native" and "VS Code Copilot-backed" as two separately installed providers. Current package inventory has one packaged provider: `vscode_copilot_backed`.
+# VS Code Integration Names
 
-Native bridge snapshots, `vscode` command aliases, and exact-window ownership logic still exist. They support the current VS Code/Copilot package rather than defining a second provider worker, VSIX, or MSI checkbox.
+AxiOwl presents one current VS Code provider package: **VS Code Copilot-Backed Sessions**.
 
-Use [VS Code Copilot-Backed Sessions](vscode-copilot.md) for current installation and capability status. Existing registry aliases may continue to resolve for compatibility, but documentation and new configuration should use the canonical packaged provider identity.
+Some existing registries and bridge data use the shorter `vscode` or `VS Code native` label. AxiOwl recognizes those compatibility names and resolves them to the same packaged VS Code integration.
+
+For installation, capabilities, and workflows, use [VS Code Copilot-Backed Sessions](vscode-copilot.md) as the canonical page.

@@ -1,15 +1,21 @@
+---
+sidebar_position: 12
+---
+
 # Copilot CLI
 
-Copilot CLI is the standalone GitHub Copilot command-line product, not a chat hosted by VS Code.
+Copilot CLI connects the standalone GitHub Copilot command-line experience to AxiOwl.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
-| MCP reply | Implemented |
+## Available Operations
 
-The Windows feature installs a session-metadata patch, runtime configuration, and isolated provider worker. The patch supplies provider-owned session identity to AxiOwl MCP calls. It does not install Copilot CLI or authenticate GitHub.
+| Discover | Send | Create | Rename | Reply through MCP |
+|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes |
 
-Older docs that marked rename unsupported are superseded by the current provider contract. Because the integration touches provider-private runtime behavior, it still requires post-update verification on the installed Copilot version.
+## What AxiOwl Installs
+
+The Windows feature installs the isolated Copilot CLI provider worker, runtime configuration, and session metadata integration used by AxiOwl MCP.
+
+## When To Use It
+
+Use Copilot CLI for terminal-centered requests that benefit from a GitHub Copilot session. It remains distinct from [VS Code Copilot-Backed Sessions](vscode-copilot.md), allowing the project to address the command-line and editor experiences independently.

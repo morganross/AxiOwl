@@ -1,86 +1,81 @@
+---
+sidebar_position: 2
+---
+
 # AxiOwl Architecture Overview
 
-AxiOwl is not one universal adapter. It is a common coordination core surrounded by provider-specific, protocol-specific, platform-specific, and authority-specific components.
+AxiOwl is a common coordination core surrounded by provider-specific, protocol-specific, platform-specific, and trust-specific components.
 
 ## System Layers
 
 | Layer | Responsibility |
 |---|---|
-| Local core | Registry, normalized addresses, sender identity, message and receipt IDs, MCP, mailbox, logs, and workflow results |
-| Provider packages | Discovery, installation, send, create, rename, and provider-specific verification for one concrete surface |
-| A2A | Standards-based Agent Cards, inbound/outbound tasks, external endpoints, and node transport |
-| Secure XMPP | Approved-device remote actions, endpoint encryption, exact-resource routing, receiver authorization, replay handling, and protected receipts |
-| Account and pool | Website account session and the account's current device pool/generation |
-| Device trust | Signed genesis, later-device admission, revocation, replacement, closure, and read-only trust projections |
-| Licensing | Optional entitlement for licensed product behavior; no account, device, pool, or messaging authority |
-| Packaging and update | Windows MSI, Linux Debian package, Apple/Android artifacts, provider packages, signatures, release manifests, and pull metadata |
+| Local core | Registry, normalized addresses, sender identity, messages, receipts, MCP, mailbox, and logs |
+| Provider packages | Discovery and delivery for one concrete provider surface |
+| A2A | Standards-based Agent Cards, messages, tasks, external endpoints, and inter-node agents |
+| Secure XMPP | Approved-device actions, endpoint protection, exact-resource routing, receiver authorization, replay state, and protected results |
+| Account and pool | Website account session and the customer's current device group |
+| Device trust | Signed genesis, later-device admission, device lifecycle, and trusted state |
+| Licensing | Optional entitlement for licensed product experiences |
+| Packaging and updates | Platform installers, provider packages, signatures, release metadata, and pull updates |
 
 ## Local Provider Flow
 
 ```text
 CLI, GUI, or MCP request
-  -> validate caller and operation
-  -> resolve exact target in the registry
+  -> resolve the registry target
   -> select one provider package
-  -> invoke that provider's native delivery method
-  -> record acceptance or rejection
-  -> correlate a later provider-owned MCP reply
+  -> use that provider's delivery method
+  -> record a receipt
+  -> correlate the provider reply
 ```
 
-Display names are for people. Provider session IDs and authenticated callback metadata are used for routing and proof.
+The core normalizes the request and evidence. The provider package preserves the destination's own session and delivery model.
 
 ## A2A Flow
 
 ```text
-external A2A caller
-  -> authenticated A2A route
-  -> scoped Agent Card or task target
-  -> interactive user broker when local user state is required
-  -> normal provider package
-  -> task state and correlated result
+A2A caller or client
+  -> Agent Card and scoped target
+  -> message or task
+  -> destination agent boundary
+  -> task state, result, and artifacts
 ```
 
-The Windows installer now has separate A2A server and A2A client/user-broker features. The old documentation claim that the broker was compiled but absent from the MSI is no longer true.
-
-Outbound A2A works in the other direction: an explicit external Agent Card is imported as a target and called through the A2A client. AxiOwl does not need to reimplement that endpoint's internals.
+Desktop provider sessions can appear as selected A2A agents through the interactive user broker. AxiOwl can also call external Agent Cards as part of a larger project workflow.
 
 ## Secure XMPP Flow
 
 ```text
 approved source device
-  -> endpoint encrypts content and signs the requested action
-  -> XMPP server authenticates transport and routes to an exact resource
-  -> destination endpoint decrypts and verifies sender/session binding
-  -> receiver checks device trust, permission, freshness, and replay state
-  -> one authorized request crosses the unchanged provider boundary
-  -> endpoint protects and returns the terminal receipt
+  -> protect the signed action
+  -> route to one exact destination resource
+  -> verify, decrypt, and authorize at the receiver
+  -> hand one request to the local provider package
+  -> protect and return the result
 ```
 
-The server routes; it does not decide that a provider action is permitted. Successful decryption is also not enough: receiver-owned authorization must succeed before provider invocation.
+The routing server moves the protected envelope. The destination endpoint owns device trust, action permission, replay state, and provider delivery.
 
-The selected protected path stores no offline message body. An unavailable exact destination reports that it is offline rather than silently queuing or switching transports.
-
-## Identity And Authority Separation
+## Identity And Authority
 
 ```text
-website login      -> account identity
-current pool       -> account's active device group
-device trust       -> admitted keys and lifecycle
-XMPP provisioning  -> per-device transport credential
-provider login     -> provider's own local authority
-license token      -> optional product entitlement only
+website account     -> account access
+device pool         -> current approved-device group
+device trust        -> admitted device identity
+XMPP credential     -> transport connection
+provider login      -> provider account and model access
+license entitlement -> optional licensed capability
 ```
 
-No arrow in this diagram means one credential can substitute for another. See [Accounts, Licensing, Pools, And Device Trust](../concepts/accounts-licensing-and-device-trust.md).
+Keeping these responsibilities separate gives AxiOwl a clear trust model and allows each service to remain focused.
 
 ## Platform Shape
 
-Windows and Linux consume the shared C++ secure-XMPP core. macOS and iOS are native Swift products that consume compatible contracts. Android is a native Kotlin/Compose product with native security bridges. Platform custody and UI differ, but a protected action must retain one security meaning.
+Windows and Linux use the shared C++ coordination and security core. macOS and iPhone use native Swift experiences. Android uses a native Kotlin/Compose application with native security integration. Each platform presents the product using its own lifecycle and protected storage conventions.
 
 ## Release Shape
 
-Core applications and provider packages are separately identifiable. Building, signing, publishing immutable bytes, promoting an update channel, checking for an update, and applying an update are separate operations. A later stage must not be inferred from an earlier one.
+Core applications and provider packages are independently identifiable. Signed artifacts, immutable publication, channel promotion, verified pull state, and explicit application form a traceable path from release authority to installed product.
 
-## Current Completion Boundary
-
-The named source components are broad and substantial. Windows and Linux packages exist; cloud service deployment evidence exists. The public site does not yet claim a complete current protected client-to-XMPP-to-provider-to-receipt demonstration. See [Current Product Status](current-product-status.md).
+Continue with [How AxiOwl Works](../how-it-works/README.md) for a user-centered tour.

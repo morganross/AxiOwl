@@ -4,71 +4,47 @@ sidebar_position: 3
 
 # Send Your First Message
 
-This guide explains the simplest AxiOwl message test.
+Your first AxiOwl message should be small, specific, and easy to recognize.
 
-## Step 1: Pick A Known Target
+## 1. Choose A Current Target
 
-Use a current provider chat/session that discovery found. Avoid stale old chats for first tests.
+Open the AxiOwl registry and select a provider session you can see in its provider product. Confirm the provider and surface match the session you intend to use.
 
-Good target:
+## 2. Use A Clear Request
 
-```text
-Current VS Code chat that is open and recently discovered
-```
-
-Weak target:
+For example:
 
 ```text
-Old chat name from a previous install with an unknown workspace path
+Please reply through AxiOwl MCP with exactly:
+AXIOWL_FIRST_REPLY_OK
 ```
 
-## Step 2: Send A Message
+This gives the destination one simple action and gives you an unmistakable response.
 
-Example:
+## 3. Send Through AxiOwl
 
-```powershell
-axiowl send --to "Experiment hardware setup" --body "Please respond over AxiOwl MCP with your current status."
-```
+Use the mailbox, CLI, or AxiOwl tool exposed in another provider session. The response includes a receipt or message identity that marks the handoff.
 
-The exact target name depends on what discovery found on the machine.
+## 4. Watch The Destination
 
-## Step 3: Read The Receipt
+The selected provider package delivers the message to the provider session. The provider can then respond through its AxiOwl MCP tool.
 
-AxiOwl may return a receipt such as `accepted_by_axiowl`.
+## 5. Match The Reply
 
-That means AxiOwl accepted the request. It does not prove the provider received it.
-
-## Step 4: Wait For Provider Reply
-
-The stronger proof is a provider reply over AxiOwl MCP.
-
-The reply should show:
-
-- provider/session identity;
-- run id or expected phrase when used;
-- message accepted by AxiOwl MCP;
-- no stale sender confusion.
-
-## Good Test Message
-
-Use a message that asks for a specific response:
+The returned message should include the expected phrase and correlation to the original handoff. You have now completed the basic AxiOwl loop:
 
 ```text
-AxiOwl provider response test. Please respond over AxiOwl MCP with your current status and include: AXIOWL_TEST_OK <run-id>
+discover -> address -> send -> receipt -> provider reply
 ```
 
-This makes the proof easier to audit later.
+## Build On The First Message
 
-## What Can Go Wrong
+Once the basic loop is familiar, try a real workflow:
 
-| Symptom | Likely area |
-|---|---|
-| Target not found | Discovery or registry. |
-| `accepted_by_axiowl` but no reply | Provider delivery or provider MCP. |
-| Provider says MCP tools are missing | Provider config or session restart. |
-| Reply comes from wrong old chat | Registry/discovery stale target. |
-| Provider references old cwd | Provider session state or stale config. |
+- ask one provider to review another provider's answer;
+- create a new specialist session;
+- route a result to an external A2A agent;
+- give stable sessions project roles;
+- coordinate an approved remote device.
 
-## Beginner Rule
-
-Do not treat the first receipt as the finish line. Treat the provider reply as the finish line.
+Explore [Delegate, Review, And Synthesize](../use-cases/delegate-review-and-synthesize.md) for a complete next step.

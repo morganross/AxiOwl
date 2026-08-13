@@ -1,8 +1,8 @@
 {
   "label": "Providers",
-  "position": 6,
+  "position": 8,
   "link": {
     "type": "generated-index",
-    "description": "Provider-surface pages for current package, operation, evidence, and risk boundaries."
+    "description": "Learn how AxiOwl works with each supported AI provider surface."
   }
 }

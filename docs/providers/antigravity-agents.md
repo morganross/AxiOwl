@@ -1,16 +1,23 @@
+---
+sidebar_position: 9
+---
+
 # Antigravity Agents
 
-Antigravity agents are sessions in the Antigravity/Gemini desktop agent surface. They are separate from Antigravity CLI sessions.
+Antigravity Agents connects AxiOwl to desktop agent sessions in the Antigravity experience.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
-| MCP reply | Implemented |
-| Status | Implemented |
+## Available Operations
 
-The Windows feature installs provider-scoped MCP configuration and the isolated worker. It does not install Antigravity or alter Google authentication.
+| Discover | Send | Create | Rename | Status | Reply through MCP |
+|---|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes | Yes |
 
-Historical roundtrip evidence exists. Planning text inside a provider turn is not an MCP reply, and a rename request still needs provider-visible readback.
+## What AxiOwl Installs
+
+The Windows feature installs provider-scoped MCP configuration and an isolated Antigravity worker.
+
+## A Typical Workflow
+
+Give an Antigravity session a specialist role, discover it into the AxiOwl registry, and send it work from another provider session. The provider session can return a correlated reply through AxiOwl MCP.
+
+Desktop agents and [Antigravity CLI](antigravity-cli.md) remain separate surfaces, giving the project a clear choice between graphical and terminal-centered work.

@@ -1,6 +1,6 @@
 {
   "label": "XMPP",
-  "position": 8,
+  "position": 11,
   "link": {
     "type": "generated-index",
     "description": "Protected approved-device messaging, exact-resource routing, receiver authorization, and self-hosted or cloud XMPP roles."

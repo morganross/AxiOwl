@@ -13,7 +13,7 @@ Remote routing uses an explicit transport plan. It does not try every mechanism 
 | `a2a` | Direct A2A over the configured HTTPS endpoint. |
 | `a2a-ssh` | A2A JSON-RPC over SSH standard input/output. |
 
-Current CLI node registration accepts these two modes. Existing records may still contain compatibility spellings, but the retired proprietary API and hosted relay server are not current public node transports.
+The CLI registers these two modes explicitly, keeping node setup aligned with the route the operator selected.
 
 ## Direct HTTPS A2A
 

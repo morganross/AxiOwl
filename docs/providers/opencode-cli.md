@@ -1,15 +1,21 @@
+---
+sidebar_position: 13
+---
+
 # OpenCode CLI
 
-OpenCode CLI is addressed through provider-owned session state and native command/configuration boundaries.
+OpenCode CLI brings OpenCode command-line sessions into AxiOwl as discoverable, addressable project specialists.
 
-| Operation | Source status |
-|---|---|
-| Discover | Implemented |
-| Send | Implemented |
-| Create | Implemented |
-| Rename | Implemented |
-| MCP reply | Implemented |
+## Available Operations
 
-The current Windows installer has a dedicated OpenCode feature and provider package. This replaces the older runtime-only/no-checkbox state.
+| Discover | Send | Create | Rename | Reply through MCP |
+|---|---|---|---|---|
+| Yes | Yes | Yes | Yes | Yes |
 
-Delivery must preserve the exact message bytes. AxiOwl should refuse a shell shim that corrupts multiline input rather than send altered content and report success.
+## What AxiOwl Installs
+
+The Windows feature installs OpenCode MCP and metadata configuration together with an isolated provider worker.
+
+## A Typical Workflow
+
+Use OpenCode CLI for a focused terminal role, then route its answer to a reviewer or coordinator in another provider. AxiOwl preserves the exact message content and the provider-owned session identity throughout the handoff.

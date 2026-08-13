@@ -4,47 +4,32 @@ sidebar_position: 6
 
 # Updates And Supply Chain
 
-Security depends on more than the running executable. It also depends on how an installer was built, which components it contains, and whether the bytes a user installs are the bytes that were reviewed and published.
+AxiOwl treats build, signing, publication, channel selection, download, and local application as distinct steps in a traceable release journey.
 
-## The trust chain
+## From Source To User
 
-A public release should have a traceable path from source to user:
+1. Select the intended source revision.
+2. Build the core and provider components as release artifacts.
+3. Sign the executable components with the release authority.
+4. Package the platform installer and provider revisions.
+5. Publish immutable release bytes and signed metadata.
+6. Promote a signed channel pointer when that release is ready for the channel.
+7. Let clients pull, verify, stage, and explicitly apply the selected update.
 
-1. Source is selected from the intended repository revision.
-2. The application and provider components are built as release artifacts.
-3. Release artifacts are signed by the project release authority.
-4. The installer records what it contains and where it came from.
-5. The published artifact is retrieved without silent replacement.
-6. A signed channel pointer deliberately makes one immutable release visible to clients.
-7. The installer applies only the selected features and reports the result.
+## Why Signing Matters
 
-This page describes the goal and the operator questions. It does not publish signing credentials, private storage details, internal object names, or deployment secrets.
+Signing lets a user or client verify the expected publisher and detect changes to the signed bytes. Component signatures, release metadata signatures, and device-action signatures serve different purposes and remain separate authorities.
 
-## What users should verify
+## Immutable Releases
 
-- Download from the project release location rather than an unknown mirror.
-- Confirm the artifact name and version match the release notes.
-- Keep the installer and its provenance information together.
-- Read the install result and retain the log if the installation matters.
-- Treat an unexpected signature, version, or publisher as a stop condition.
-- Do not treat a successful MSI exit code as proof that provider messaging works.
+Release objects are published as immutable bytes. Channel pointers select an approved release without rewriting that release. This creates a clear history and makes promotion a deliberate action.
 
-## Why signed artifacts matter
+## Provider Packages
 
-Signing helps answer whether an artifact came from the expected release authority and whether it changed after signing. It does not prove that the software is bug-free, that a provider will accept a message, or that the user's machine is uncompromised.
+Provider integrations have their own revisions. A provider package can evolve with its upstream provider while preserving independent ownership from the AxiOwl core and from other provider packages.
 
-Windows component signatures, signed release metadata, and signed XMPP actions are separate uses of cryptography. A valid installer signature cannot authorize a remote provider action, and a valid device action cannot publish a software release.
+## User Scope Is Preserved
 
-## Immutable Releases And Channels
+An update follows the same selected feature boundaries as installation. Provider applications continue to own accounts and conversations, while AxiOwl updates the integration assets it owns.
 
-AxiOwl publishes release bytes immutably and promotes signed channel pointers separately. This allows an internal release to be inspected before stable promotion. Clients verify the channel pointer, release description, component and provider-package metadata, and downloaded bytes before publishing verified local update state.
-
-Provider packages have their own revisions. A provider package can be pulled and explicitly applied without treating it as permission to overwrite another provider or silently replace the core product. See [Update Publication And Pull Updates](../release/update-publication-operator-guide.md).
-
-## Updates are not permission to widen scope
-
-An update should preserve feature selection and ownership boundaries. It should not silently enable an unchecked provider, copy provider credentials, or replace unrelated extensions. A complete [Uninstall then Uninstall-install](../installer/README.md) lifecycle is the documented product vocabulary for replacing an installation; public docs do not promise an invisible repair or downgrade mode.
-
-## Reporting a suspicious release
-
-Do not install an artifact that has a mismatched signature, unexpected publisher, or unexplained component. Preserve the release metadata and contact the maintainer through a private security channel.
+For the operator-level lifecycle, read [Update Publication And Pull Updates](../release/update-publication-operator-guide.md).

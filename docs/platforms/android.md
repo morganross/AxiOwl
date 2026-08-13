@@ -1,18 +1,24 @@
+---
+sidebar_position: 6
+---
+
 # Android
 
-The Android client is a native Kotlin/Compose application with a native security bridge. It has moved well beyond the original transport-only prototype, but it is still an engineering preview.
+The Android app is a native Kotlin and Compose approved-device companion preview.
 
-## Implemented Direction
+## The Product Direction
 
 - website account and pool onboarding;
-- join-only later-device admission;
-- protected signing and storage custody;
-- direct redemption of per-device XMPP transport credentials;
-- secure WebSocket XMPP transport and connection state;
-- sealed contact-directory consumption;
-- native trust-verifier and OMEMO integration work;
-- separate A2A client behavior.
+- later-device admission approved by a current trusted device;
+- protected key and signing custody;
+- per-device XMPP transport credentials;
+- secure WebSocket connection state;
+- protected contact-directory and trust information;
+- native trust and message-protection integration;
+- a separate A2A client experience.
 
-## Current Limit
+## Designed For Device-Level Trust
 
-No public Android release is claimed. Production connection and message success remain unavailable until the exact native verifier, protected session runtime, and live server-identity binding are all present. The app does not silently fall back to manual credentials or plaintext messaging when those requirements are absent.
+The Android client is designed to receive its own identity and permissions rather than reuse a desktop credential. That allows a customer to approve, identify, and manage the phone as one member of the trusted device set.
+
+The native application brings AxiOwl's secure coordination model into an Android experience while preserving the same endpoint-owned trust principles used by desktop clients.

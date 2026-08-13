@@ -2,35 +2,37 @@
 sidebar_position: 5
 ---
 
-# When Not To Use AxiOwl
+# Choose The Right AxiOwl Workflow
 
-AxiOwl is useful, but it is not the right tool for every situation.
+AxiOwl offers several coordination styles. Choosing the simplest one that matches your goal keeps the experience clear.
 
-## Do Not Use It If You Only Need One Chat
+## One Local Provider Session
 
-If you use one AI provider in one window and never need another session to respond, AxiOwl may be unnecessary.
+When all work happens in one provider conversation, use the provider directly. Add AxiOwl when you want that session to collaborate with another provider, agent, node, or approved device.
 
-## Do Not Use It If You Want Zero Local Integration
+## Several Local AI Tools
 
-AxiOwl works by installing local runtime files and selected provider integrations. Some providers need MCP config, extensions, or patches. If you do not want local integration, AxiOwl is not the right fit.
+Use provider packages and the local registry. This is the natural starting point for cross-provider delegation, review, and synthesis.
 
-## Do Not Use Unsupported Surfaces As If They Are Supported
+## External Agent Services
 
-If the provider matrix says a surface is experimental or unsupported, do not depend on it as though it were demonstrated support. Implemented source, packaged integration, historical evidence, and current support are different claims.
+Use A2A when the destination publishes an Agent Card and task interface. A2A gives the workflow task state, results, and artifacts.
 
-## Do Not Use It To Hide Provider Failures
+## Operator-Managed Nodes
 
-Remote routing or fallback paths should not make local provider failures look successful. If Cursor delivery fails, the correct response is to diagnose Cursor delivery, not hide it behind another path.
+Use direct A2A or A2A over SSH when you manage both AxiOwl installations and want explicit node-to-node agent access.
 
-## Do Use It When Coordination Matters
+## Approved Devices
 
-AxiOwl is worth using when you care about:
+Use secure XMPP when device identity, endpoint content protection, receiver-owned authorization, and protected results are central to the workflow.
 
-- multiple provider sessions;
-- explicit message routing;
-- provider replies;
-- local logs;
-- repeatable tests;
-- knowing which session actually responded.
+## A Helpful Decision
 
-That is the core use case.
+```text
+same machine and provider session -> local provider package
+external agent service            -> A2A
+managed AxiOwl node                -> A2A or A2A over SSH
+approved personal/team device      -> secure XMPP
+```
+
+Read [Choosing A Transport](../how-it-works/choosing-a-transport.md) for a detailed comparison.

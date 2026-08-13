@@ -1,47 +1,53 @@
 ---
 sidebar_position: 1
+slug: /xmpp
 ---
 
-# Secure XMPP Transport
+# Secure XMPP For Approved Devices
 
-Status: **implemented in current `main`, packaged by platform role, and deployed for the cloud server role. A complete current protected client-to-provider demonstration is not yet claimed.**
+XMPP gives AxiOwl a standards-based path for protected coordination between approved devices.
 
-XMPP gives AxiOwl a standards-based, long-lived remote transport for approved devices. It is separate from A2A and separate from local provider delivery.
+The source device protects a signed action for one destination. The XMPP service routes the protected envelope. The destination verifies trust and permission, gives the request to its local provider integration, and returns a protected result.
 
-## What Current Main Contains
+## The User Journey
 
-- secure WebSocket XMPP clients for Windows and Linux;
-- native mobile and Apple integration work;
-- a shared endpoint security library;
-- end-to-end protected message envelopes;
-- signed device trust and action authorization;
-- replay and dispatch state;
-- protected receipts;
-- an optional native Windows self-host server;
-- a Linux self-host server profile;
-- a cloud ARM64 Linux server deployment role;
-- per-device transport provisioning and exact-resource routing.
+```text
+approve a device
+  -> select its secure address
+  -> send protected work
+  -> authorize at the destination
+  -> use the local provider
+  -> return a protected result
+```
 
-## Security Boundary
+## What The XMPP Role Includes
 
-The XMPP server authenticates the connecting resource and routes encrypted endpoint data. It does not decide whether an action may invoke Codex, Cursor, Claude, or another provider. The receiving endpoint decrypts, verifies device trust and action authority, rejects replay, and only then hands one request to the unchanged local provider adapter.
+- secure WebSocket client connections;
+- distinct per-device transport identity;
+- endpoint content protection;
+- signed device and action information;
+- exact-resource routing;
+- receiver-owned authorization;
+- replay protection;
+- protected receipts and results;
+- Windows, Linux, and cloud server roles.
 
-## No Hidden Fallback
+## Endpoint-Owned Authority
 
-An XMPP target either uses its selected protected XMPP route or fails. It does not silently switch to A2A, SSH, a proprietary API, or plaintext provider delivery. This protects both security meaning and duplicate-delivery behavior.
+The server authenticates the connection and routes the protected envelope. The destination endpoint owns the decision to invoke a local provider. This keeps provider access close to the machine and user profile that already own the provider session.
 
-## Online-Only Protected Actions
+## Purposeful Online Delivery
 
-The selected action path targets one exact approved resource. It does not retain an offline message body, mirror to sibling devices, or use a message archive as a fallback. If that resource is unavailable, the sender receives an offline result.
+Protected actions target one exact approved resource. This creates a direct relationship between the device the user selected and the device expected to authorize the work.
 
-## A2A Remains Separate
+## Separate From A2A
 
-A2A exposes or calls standards-based agent endpoints over HTTP/JSON. XMPP carries protected device-to-device actions. Neither protocol is tunneled through the other, and a success on one is not evidence for the other.
+A2A is the standards-based agent protocol for Agent Cards, tasks, results, and artifacts. Secure XMPP is the approved-device transport for protected actions and results. AxiOwl offers both so users can choose the model that fits the destination.
 
 ## Read Next
 
+- [Work Securely Across Devices](../use-cases/secure-work-across-devices.md)
+- [Trust And Encryption](../how-it-works/trust-and-encryption.md)
 - [Session Routing And Delivery](session-routing-and-delivery.md)
 - [Deployment, Credentials, And Security](deployment-credentials-and-security.md)
-- [External Chat And Provider Authority](external-chat-gateway.md)
-- [Encryption And Privacy](../security/encryption-and-privacy.md)
-- [Authorization And Replay](../security/authorization-and-replay.md)
+- [Device Trust And Enrollment](../security/device-trust-and-enrollment.md)
