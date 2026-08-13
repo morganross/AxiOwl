@@ -1,27 +1,16 @@
 # Antigravity CLI
 
-Antigravity CLI is a separate provider edge from the Antigravity agent window.
+Antigravity CLI has its own provider identity, package, MCP configuration, discovery, and lifecycle.
 
-## Capabilities
-
-| Operation | Status |
+| Operation | Source status |
 |---|---|
-| Discovery | implemented |
-| Send | implemented |
-| Create | implemented |
-| Rename | unsupported |
-| MCP reply | implemented |
+| Discover | Implemented |
+| Send | Implemented |
+| Create | Implemented |
+| Rename | Implemented |
+| MCP reply | Implemented |
+| Status | Implemented |
 
-## Installer
+The current Windows installer has a dedicated Antigravity CLI feature. Older docs saying the CLI had no checkbox or did not support rename are superseded by the current package inventory.
 
-The runtime contains `antigravity_cli` discovery and provider code, but the primary MSI does not expose a dedicated Antigravity CLI provider contract. The Antigravity checkbox configures the agent surface MCP integration.
-
-## Evidence
-
-Antigravity CLI has produced a response-backed AxiOwl reply in earlier testing. The July 12 full suite declared CLI rename unsupported before dispatch. That is an intentional capability result, not a failed rename attempt.
-
-## Risks
-
-- installer support and runtime support are different;
-- provider authentication and CLI availability must be checked on each machine;
-- rename must remain visibly unsupported until a real provider contract exists.
+AxiOwl does not install the `agy` product or authenticate it. An installed package without an authenticated CLI is not a successful provider path.

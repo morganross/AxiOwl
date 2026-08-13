@@ -1,8 +1,8 @@
 {
   "label": "XMPP",
-  "position": 7,
+  "position": 8,
   "link": {
     "type": "generated-index",
-    "description": "The isolated XMPP remote transport and external chat gateway feature line."
+    "description": "Protected approved-device messaging, exact-resource routing, receiver authorization, and self-hosted or cloud XMPP roles."
   }
 }

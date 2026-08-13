@@ -10,14 +10,16 @@ Examples:
 
 - `codex:agents`
 - `codex:cli`
+- `codex:remote`
 - `cursor:agents`
-- `vscode:agents`
-- `copilot:vsix extension`
+- `cursor:agent-cli`
+- `vscode:copilot-backed`
+- `copilot:cli`
 - `claude-code:cli`
 
 ## Why Brand Name Is Not Enough
 
-“Codex works” is not precise enough. Codex agents and Codex CLI use different mechanics. “Cursor works” is not precise enough. Cursor Agent Window and a hypothetical Cursor CLI would be different surfaces.
+"Codex works" is not precise enough. Codex Agents, Codex CLI, and Codex Remote use different mechanics. "Cursor works" is not precise enough. Cursor Agents and Cursor Agent CLI are separately packaged surfaces.
 
 Plain English version: the app name is not the whole address. The surface matters.
 
@@ -33,6 +35,6 @@ Plain English version: the app name is not the whole address. The surface matter
 
 ## Why AxiOwl Separates Them
 
-Separating surfaces keeps the installer honest and the tests meaningful. A passing VS Code test should not mark Copilot CLI supported. A passing Cursor agent test should not imply any other Cursor surface exists.
+Separating surfaces keeps the installer honest and the evidence meaningful. A VS Code Copilot-backed roundtrip should not mark Copilot CLI supported. A Cursor Agents roundtrip should not imply Cursor Agent CLI used the same delivery method.
 
 This is also part of normalization. AxiOwl normalizes provider surfaces into a shared naming model, but it does not collapse different surfaces into one vague brand label.

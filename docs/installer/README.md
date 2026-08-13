@@ -1,76 +1,69 @@
 # AxiOwl Windows Installer
 
-The primary MSI installs the AxiOwl runtime, mailbox, selected provider integrations, and an optional A2A networking feature. It is one package with provider-scoped feature ownership.
+The Windows MSI is one user experience composed of independently owned core, provider, A2A, and XMPP features. The [Installer Behavior Matrix](../reference/installer-behavior-matrix.md) is the canonical feature list.
 
-The canonical contract is the [Installer Behavior Matrix](../reference/installer-behavior-matrix.md).
+## Before Installation
 
-## What The MSI Places
+The UI discovers installed provider products and uses that information only to recommend provider checkboxes. Review the selections. Detection means "this integration may be relevant," not "the provider is authenticated" or "a sendable chat exists."
 
-The MSI has two storage boundaries:
+Network features are separate choices:
 
-- a stable machine-owned backend under 64-bit Program Files, containing packaged payloads and MSI-owned components;
-- user-scoped runtime, registry, logs, bridge state, and configuration under `%LOCALAPPDATA%\AxiOwl`.
+- A2A Server;
+- A2A Client/user broker;
+- XMPP Client;
+- XMPP Server.
 
-Machine service state and elevated logs live under `%PROGRAMDATA%\AxiOwl`.
+## What The MSI Installs
 
-## Provider Selection
+The core installation includes the local runtime, MCP server, discovery, logs, manifest, and selected mailbox UI. Each provider feature adds its isolated worker and declared plugin, extension, MCP config, or patch assets.
 
-Checkboxes are real MSI controls. Detection supplies defaults, but the user remains the final selection authority.
+The current MSI graph includes all eleven provider packages listed in the [Provider Support Matrix](../reference/provider-support-matrix.md). This replaces the older design in which several CLI integrations had runtime code but no dedicated MSI ownership.
 
-The current provider selections cover:
+## A2A Features
 
-- Codex plugin, MCP, and skill;
-- VS Code Copilot bridge, MCP, and patch;
-- VS Code native bridge and MCP;
-- Antigravity MCP;
-- Claude Code CLI MCP;
-- Copilot CLI metadata patch;
-- Cursor bridge, MCP, patch, and discovery;
-- remote enrollment/deployment/discovery, unchecked by default.
+The A2A Server installs the machine service. The A2A Client installs the interactive user broker required to reach provider state owned by the signed-in user. The old public limitation that the broker existed in CMake but was absent from the MSI has been resolved in current source.
 
-Codex CLI, Antigravity CLI, OpenCode CLI, and Cursor Agent CLI have runtime code but do not currently have equivalent dedicated MSI provider contracts.
+The current package does not present the old general relay executable as part of the normal A2A feature payload. A2A-over-SSH remains a separate command/protocol path.
 
-## A2A Networking Checkbox
+## XMPP Features
 
-`A2A networking` is unchecked by default. Selecting it installs the automatic API Windows service and relay executable.
+The XMPP Client and XMPP Server are current MSI features, not a separate feature-branch product.
 
-This feature is not required to call an external A2A endpoint from the normal AxiOwl CLI. It is for hosting machine-scoped API/A2A routes and relay support.
+- XMPP Client installs the per-user client payload and trust/TLS support files. It does not create credentials during machine installation.
+- XMPP Server installs the optional native Windows self-host service and administration tool.
 
-Current limitation: the service expects an interactive user broker for protected provider delivery, while the current MSI does not package or start that broker executable. See [A2A Operations And Security](../a2a/operations-and-security.md).
+Installing either feature is not proof that a device has been admitted or that a protected message journey is complete.
 
 ## Patches And Extensions
 
-Provider-specific actions include:
+Provider integrations may install:
 
-- VS Code bridge extensions and Copilot metadata patching;
-- Cursor bridge extension and adaptive submit patching;
-- Copilot CLI metadata patching;
+- a Codex plugin and skill;
+- a VS Code or Cursor VSIX bridge;
 - provider MCP configuration;
-- Codex plugin and skill installation.
+- narrowly targeted metadata or delivery patches for Copilot, Cursor, or VS Code surfaces.
 
-Patch execution proves only that the installer action ran. Post-install provider behavior is the real test.
+Patch-sensitive providers can change private implementation details in an upstream update. AxiOwl should refuse an ambiguous patch rather than guess. Successful patch installation is weaker evidence than a provider-owned response.
 
 ## App Shutdown
 
-The installer closes an app only when a selected feature needs exclusive access to its files or loaded extension. Discovery alone must not close an application.
+The MSI closes only processes required by selected features and file replacement. Discovery alone does not authorize process shutdown. VS Code, Cursor, Codex, A2A services, and XMPP components have separate scopes.
 
-Cursor and VS Code shutdown scopes are separate. Codex is not closed because Cursor was selected. A2A service and relay processes have their own replacement/removal scope.
+## Supported Lifecycle
 
-## Repair, Upgrade, And Uninstall
+Use complete **Uninstall** or **Uninstall-install**. The public product does not promise a separate repair, in-place upgrade, downgrade, or rollback mode.
 
-Repair and upgrade preserve installed A2A state unless the public A2A property explicitly selects or deselects it. Provider cleanup remains scoped to the selected or removed provider feature.
-
-Uninstall removes MSI-owned payloads, AxiOwl services, AxiOwl extension folders, and AxiOwl configuration. It must not remove provider authentication, user chats, unrelated extensions, or unrelated settings.
+Unchecked provider features and provider-owned data must remain untouched. Uninstall removes AxiOwl-owned integrations, not provider accounts or conversations.
 
 ## Logs
 
-Collect both MSI and helper logs:
+Capture a verbose MSI log:
 
 ```powershell
-msiexec /i path\to\axiowl-activation-a2a-windows-installer.msi /l*v install.log
+msiexec /i path\to\axiowl-installer.msi /l*v install.log
 ```
 
-Then inspect:
+Useful AxiOwl locations include:
 
 ```text
 %LOCALAPPDATA%\AxiOwl\logs
@@ -79,15 +72,8 @@ Then inspect:
 %LOCALAPPDATA%\AxiOwl\runtime
 ```
 
-The release preflight JSON records the build commit, dirty worktree, MSI identity, payload hashes, and validation steps. A verified preflight is artifact proof, not clean-machine or provider-roundtrip proof.
+Do not post an entire unredacted log publicly. Preserve correlation IDs and status boundaries while removing tokens, credentials, private paths, and message content.
 
-## Common Symptoms
+## Interpreting Success
 
-| Symptom | Boundary to inspect |
-|---|---|
-| Missing provider checkbox default | Provider detection and default-selection evidence |
-| Unchecked app was closed | Feature/process-scope isolation |
-| Extension not found | Installed extension folder, extension ID, and stale provider cache |
-| A2A public card works but send returns `503` | Missing interactive user broker |
-| Install succeeded but provider did not answer | Provider discovery, delivery, and MCP reply evidence |
-| Repair removed another provider | MSI feature selection and provider uninstall scope |
+MSI success means Windows Installer completed the selected actions. It does not prove provider authentication, chat discovery, message delivery, XMPP admission, A2A interoperability, or a provider reply. Test the exact selected path after installation.

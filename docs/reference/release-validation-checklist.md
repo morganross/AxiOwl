@@ -1,132 +1,143 @@
-# Release Validation Checklist
+# Release Evidence Checklist
 
-This is the source of truth for release and QA validation. It prevents AxiOwl from presenting code presence, a local receipt, or an old method report as proof that the current artifact works on another computer.
+This checklist keeps public release claims tied to an exact artifact and observed boundary. It does not turn source presence, an old success report, or a local acceptance receipt into proof of a current release.
 
-## 1. Establish Provenance
+## 1. Identify The Artifact
 
-- Confirm the intended repository, workspace, and `main` branch.
-- Record the exact source commit and product version.
-- Review the working tree and include only intentional files.
-- Remove or isolate stale release artifacts that could be installed by mistake.
-- Compare product claims with the provider, installer, platform, and protocol matrices.
+- Record the repository, `main` revision, release identity, platform, architecture, and artifact digest.
+- Distinguish an allocated release identity from a successfully produced artifact.
+- Distinguish a signed artifact from an immutable published release.
+- Distinguish publication from internal or stable channel promotion.
+- Ignore stale files next to the current release unless their provenance is explicitly selected.
 
-## 2. Build And Test Current Source
+## 2. Confirm Package Contents
 
-- Configure and build the Windows Release targets.
-- Run the native test suite and installer safety checks.
-- Build through `apps/windows-desktop/installer/build-windows-msi.ps1`.
-- Confirm all runtime-referenced executables are staged and packaged.
-- Record MSI version, ProductCode, payload hashes, and source commit.
-- Verify the final release directory contains the intended flat artifacts, not stale subfolders.
+For Windows, reconcile the current MSI with its build record, signing proof, signed-component manifest, provider-package inventory, and WiX feature map.
 
-Compilation alone does not satisfy this gate. The produced MSI must contain the binaries from the recorded source commit.
+For Linux, reconcile the Debian package with its native executable, shared libraries, provider packages, service/user units, and detached signature when one is claimed.
 
-## 3. Clean Windows 11 Install
+For macOS, iOS, and Android, state whether the artifact is a local engineering build, signed development artifact, notarized/package-distributed artifact, or public store release. Do not collapse those stages.
 
-- Download or copy the exact candidate artifact to a clean VM.
-- Verify provider discovery occurs before checkbox defaults are chosen.
-- Verify only detected providers are preselected.
-- Verify manually selected missing providers fail with a useful explanation.
-- Verify unchecked providers are not patched, configured, closed, restarted, or removed.
-- Verify selected provider apps are closed only when their install action requires it and are restarted intentionally.
-- Verify per-user configuration is written for the interactive user, not the elevated installer account.
-- Verify logs name every helper phase and its result.
-- Verify installed binary and manifest hashes match provenance.
+## 3. Preserve Feature Ownership
 
-## 4. Core Runtime And Discovery
+On Windows, confirm that discovery chooses recommended defaults before the user reaches the final selection and that the package keeps these features independent:
 
-- Run `axiowl status` and record version, manifest, activation, service, and runtime state.
-- Run provider/session discovery.
-- Verify discovered registry rows retain provider-owned session ids.
-- Verify stale paths are not promoted to sendable rows.
-- Verify manual/protected rows survive discovery merges.
-- Verify absent providers remain absent rather than becoming optimistic successes.
+- each provider surface;
+- A2A Server;
+- A2A Client/user broker;
+- XMPP Client;
+- XMPP Server;
+- core runtime, CLI, mailbox, PATH, and discovery support.
 
-## 5. Provider Surface Validation
+Unchecked providers should not be patched, configured, closed, restarted, or removed merely because they were discovered.
 
-Test each supported surface independently, including separate agent-window, editor, extension, and CLI surfaces under the same brand.
+## 4. Lifecycle Evidence
 
-For every supported send path:
+AxiOwl's supported software lifecycle vocabulary is:
 
-1. Select or create a current session.
-2. Send a message containing a unique release run id.
-3. Record the AxiOwl acceptance receipt.
-4. Confirm provider-visible receipt of the complete message.
-5. Require a response through AxiOwl MCP.
-6. Verify sender provider/session metadata.
-7. Verify run and receipt correlation.
+- **Uninstall**;
+- **Uninstall-install**.
 
-For create and rename, test and record those operations independently. Authentication or quota blocks are not code failures, but they also do not supply support proof.
+Do not document repair, in-place upgrade, downgrade, or rollback as separate product modes.
 
-## 6. A2A Server Validation
+Evidence for an Uninstall-install should show that the prior AxiOwl-owned installation was removed and the selected new artifact installed, without relying on stale provider bridges or old binaries. Provider-owned conversations, accounts, and unrelated extensions remain outside AxiOwl ownership.
 
-- Fetch the public Agent Card and validate advertised URLs and capabilities.
-- Validate scoped-agent cards and authorization boundaries.
-- Test HTTP+JSON and JSON-RPC message send.
-- Test task get, list, cancel, and extended card behavior.
-- Test push configuration, retries, terminal failure, and dead-letter records.
-- Verify streaming routes continue to advertise `implemented=false` until implemented.
+## 5. Runtime Identity
 
-### Service/User Boundary
+Record the installed binary or package identity, effective user or service account, selected features, and runtime status. Do not treat an MSI exit code or package-manager success as proof that provider messaging or secure remote delivery works.
 
-- Install the optional `AxiOwlApi` feature and verify the LocalSystem service lifecycle.
-- Test public service routes separately from protected interactive-user provider routes.
-- Verify broker-required routes fail loudly with `503` when no user broker is available.
-- Do not mark protected service-backed desktop delivery complete until `axiowl-user-broker.exe` is packaged, launched, authenticated, and lifecycle-tested.
+## 6. Provider Operations
 
-## 7. External A2A Client Validation
+Treat every provider surface and operation independently.
 
-- Import an independent Agent Card.
-- Test unauthenticated, bearer, and OAuth client-credential modes as claimed.
-- Send and retrieve tasks through both supported A2A bindings.
-- Verify task state, artifacts, timeout, cancellation, and error mapping.
-- Confirm interoperability against an independent implementation, not only AxiOwl-to-AxiOwl.
+For a send claim, retain:
 
-## 8. Inter-Node Validation
+1. exact provider and surface;
+2. target provider session ID;
+3. AxiOwl request and receipt IDs;
+4. provider-visible delivery evidence;
+5. correlated MCP reply when reply support is part of the claim;
+6. sender metadata showing the correct session answered.
 
-Use two clean AxiOwl nodes and validate each claimed transport independently:
+Create and rename need their own evidence. Authentication, quota, or provider-version blocks should remain visible instead of being converted into a generic implementation failure or success.
 
-- direct HTTPS A2A;
-- hosted relay;
-- A2A over SSH;
-- guarded legacy migration path.
+## 7. A2A Evidence
 
-For each path, record node identity, selected transport, redacted credential source, preflight result, task id, destination result, and reply correlation. Disable or break one route at a time to prove fallback policy and verify that logs disclose every fallback.
+Separate:
 
-## 9. XMPP Branch Validation
+- Agent Card discovery;
+- client authentication;
+- A2A task acceptance;
+- interactive-user broker handoff;
+- destination provider effect;
+- task completion;
+- push callback delivery.
 
-XMPP is currently branch-only. Validation must occur from `feature/xmpp-remote-transport` with branch provenance and must cover WSS/TLS verification, SCRAM-SHA-256, session routing, result correlation, external chat gateway policy, Prosody integration, and branch-specific MSI behavior.
+Current Windows packages A2A Server and A2A Client separately. A public service route can work while an interactive provider route is unavailable, and neither result proves XMPP.
 
-Passing branch tests does not change current-main documentation. Merge, reconcile, package, clean-machine test, and then update the protocol matrix.
+## 8. Secure XMPP Evidence
 
-## 10. Uninstall, Repair, And Reinstall
+Secure XMPP is merged into current `main`. A current claim should state which roles participated:
 
-- Install a deliberate subset of provider features.
-- Prove those provider paths.
-- Run MSI repair and verify feature ownership remains granular.
-- Uninstall and verify only AxiOwl-owned state for installed features is removed.
-- Verify unrelated provider chats, extensions, settings, and credentials remain intact.
-- Reinstall with a different feature selection.
-- Repeat discovery and end-to-end provider tests.
+- Windows x86-64 Client;
+- Linux x86-64 Client;
+- Windows x86-64 self-host Server;
+- Linux x86-64 self-host Server;
+- cloud ARM64 Linux XMPP Server.
 
-The second install must not succeed only because the first install left a stale extension, patch, registry row, or config entry behind.
+Then distinguish:
 
-## 11. Platform Validation
+1. endpoint selection and TLS/hostname verification;
+2. per-device transport authentication;
+3. exact-resource ciphertext routing;
+4. endpoint decryption;
+5. device trust and signed action authorization;
+6. replay/dispatch decision;
+7. provider invocation;
+8. protected receipt return.
 
-- Run the complete Windows release sequence for Windows claims.
-- Validate the narrow Linux package only for the surfaces and functions it actually ships.
-- Keep parked Linux desktop code and macOS outside supported product claims.
+Server health is not proof of endpoint authorization or provider effect. Source-complete platform roles are not automatically an installed five-role journey.
 
-## 12. Documentation And GitHub
+## 9. Security And Privacy Claims
 
-- Build the Docusaurus website with `npm run build`.
-- Verify internal links and generated navigation.
-- Confirm provider pages agree with the provider support matrix.
-- Confirm protocol pages agree with the protocol support matrix.
-- Confirm installer pages agree with actual WiX and helper ownership.
-- Push the intended commit and verify GitHub Actions and GitHub Pages deployment.
-- Publish MSI assets only after their separate release validation passes.
+- Verify that license state, account membership, device trust, provider login, and transport credentials are described as separate authorities.
+- Confirm that public documentation does not expose tokens, private keys, cloud identifiers, internal object names, private addresses, or message bodies.
+- Describe endpoint encryption without claiming that routing metadata disappears.
+- Preserve fail-closed behavior and no cross-transport fallback for protected actions.
+- Treat logs and provider session metadata as sensitive operational data.
 
-## Release Decision
+## 10. Publication And Update Evidence
 
-A capability may be called supported only when its current artifact passes the applicable clean-machine, identity, delivery, reply, uninstall, and protocol gates. Implemented but unvalidated work remains implemented, target, experimental, or branch-only. Historical success guides engineering; current evidence governs the release claim.
+- Record the exact immutable release and provider-package manifests.
+- Derive component and provider counts from current evidence, not prose.
+- Confirm the public bytes match the signed sizes and digests.
+- Record release publication separately from channel promotion.
+- Record the channel and monotonic sequence followed by clients.
+- Treat update check, download, stage, and apply as separate states.
+- Confirm opportunistic checks did not retry the provider operation or auto-apply a package.
+
+## 11. Website Status
+
+Before changing a public support label, reconcile:
+
+- [Current Product Status](current-product-status.md)
+- [Provider Support Matrix](provider-support-matrix.md)
+- [Platform Support Matrix](platform-support-matrix.md)
+- [Protocol Support Matrix](protocol-support-matrix.md)
+- [Installer Behavior Matrix](installer-behavior-matrix.md)
+
+Historical plans remain useful context, but current source, package definitions, signed release evidence, and observed deployment state govern current wording.
+
+## Decision Language
+
+Use the narrowest accurate statement:
+
+- implemented in source;
+- packaged;
+- signed;
+- installed;
+- deployed;
+- demonstrated end to end;
+- supported for an exact provider/platform/operation.
+
+Do not substitute one label for another.

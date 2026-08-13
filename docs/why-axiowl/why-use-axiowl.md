@@ -60,8 +60,10 @@ You gain:
 - a repeatable way to send messages;
 - provider replies through MCP;
 - receipts and logs;
-- a clearer difference between “sent,” “received,” and “replied.”
+- a clearer difference between "sent," "received," and "replied";
 - normalized provider/session language across different tools.
+
+For approved remote devices, AxiOwl also adds a protected path where the routing server handles encrypted content, the destination verifies who requested the action, and only the receiver can authorize local provider handoff. Encryption is useful here because it is combined with device trust, action authorization, and replay rejection rather than treated as a generic security label.
 
 ## What You Do Not Gain
 

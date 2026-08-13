@@ -4,70 +4,93 @@ sidebar_position: 6
 
 # Troubleshooting A2A And Inter-Node Delivery
 
-Diagnose A2A by following the route in order. Do not jump from an acceptance receipt to a provider-patch theory, and do not use another transport to make a failing transport appear healthy.
+Diagnose the selected route in order. Do not switch transports merely to produce a success: an ambiguous failure may have occurred after the destination accepted the request.
 
 ## 1. Identify The Route
 
 Record whether the target is:
 
-- a public agent exposed by the local A2A server;
-- a protected desktop-provider agent requiring interactive user access;
-- an external Agent Card endpoint;
-- another AxiOwl node over direct HTTPS;
-- another node through relay;
-- another node through A2A over SSH;
-- an XMPP target on the feature branch.
+- a local Agent Card exposed by the A2A server;
+- a desktop-provider endpoint requiring the interactive user broker;
+- an imported external Agent Card;
+- another AxiOwl node over direct A2A HTTPS;
+- another AxiOwl node over A2A-over-SSH;
+- an exact approved XMPP device resource.
 
-The same target name can be misleading when registry state is stale. Record the agent id, node id, endpoint URL, transport, run id, and task id.
+Record the target's canonical ID, selected transport, run ID, message or task ID, and endpoint without copying credentials.
 
-## 2. Check Process Ownership
+## 2. Keep A2A And XMPP Separate
 
-The optional Windows `AxiOwlApi` service runs as LocalSystem. Desktop provider sessions belong to the interactive user. A public Agent Card may work while a protected provider-backed route returns `503` because the user broker is unavailable.
+A2A and XMPP have different evidence chains.
 
-Current main compiles a user-broker executable, but the MSI build and WiX packaging do not yet install and start it. Treat that `503` as a known packaging/runtime gap, not as proof that the Agent Card or provider is missing.
+For A2A, follow Agent Card discovery, client authentication, task acceptance, task state, destination delivery, and reply correlation.
 
-## 3. Verify The Agent Card
+For XMPP, follow endpoint selection, TLS/hostname verification, transport authentication, exact-resource routing, endpoint decryption, signed action authorization, replay decision, provider handoff, and protected receipt.
 
-Confirm that the card can be fetched, its URL is the URL actually used, the requested skill or capability is advertised, and authentication requirements match the client configuration. An imported card is discovery metadata; successful import does not prove the endpoint accepts tasks.
+A working A2A route does not prove XMPP works. A working XMPP connection does not prove an action was authorized or a provider was called.
 
-## 4. Follow The Task Lifecycle
+## 3. Check Windows Process Ownership
+
+The optional `AxiOwlApi` service runs as LocalSystem. Interactive provider sessions belong to the signed-in user. The current MSI packages the service and `axiowl-user-broker.exe` as separate A2A Server and A2A Client features.
+
+If a public Agent Card works but a provider-backed route does not, check:
+
+1. whether A2A Client was installed;
+2. whether an eligible interactive user session exists;
+3. whether the broker is running in that session;
+4. whether the service-to-user channel authenticated the intended user;
+5. whether the destination registry row is sendable.
+
+Do not copy provider credentials into the LocalSystem account to bypass this boundary.
+
+## 4. Verify The Agent Card
+
+Confirm that the card can be fetched, its advertised URL is the URL actually used, the requested operation is advertised, and authentication requirements match the client configuration. A successful import records discovery metadata; it does not prove task acceptance.
+
+## 5. Follow The A2A Task
 
 Record:
 
-1. local AxiOwl acceptance;
-2. HTTP or JSON-RPC request result;
-3. remote task id;
+1. local request acceptance;
+2. HTTP or JSON-RPC result;
+3. remote task ID;
 4. task state transitions;
-5. returned message or artifacts;
-6. cancellation, timeout, retry, or dead-letter outcome.
+5. destination provider handoff result;
+6. returned message or artifacts;
+7. push retry or terminal result when push is configured.
 
-A pending task is not a failed send, and an accepted send is not a completed task.
+A pending task is not a failed send, and an accepted task is not a provider answer.
 
-## 5. Check Authentication Without Printing Secrets
+## 6. Verify Authentication Without Printing Secrets
 
-Confirm that the selected route has the required bearer token, OAuth client credentials, node pairing record, relay credential, SSH host/user/key, or service policy. Log whether a credential source was found and which scheme was selected, but never print the secret.
+Confirm only the credential source and scheme:
 
-## 6. Check Transport Selection
+- A2A bearer or OAuth client credential;
+- AxiOwl node access policy;
+- SSH host/user/key reference;
+- XMPP per-device transport credential;
+- signed XMPP admission and local action-key state.
 
-The logs should show which transport was selected and why. Verify that direct HTTPS failure did not silently become relay, SSH, or legacy delivery. Guarded fallback must be visible. Diagnose the selected transport before testing another one.
+Never paste tokens, private keys, password verifiers, or protected device state into a support report.
 
-## 7. Check Replies And Push Delivery
+## 7. Check Transport Selection
 
-For MCP-correlated replies, confirm the reply carries the expected run and receipt identifiers. For A2A push notifications, inspect retry count, next attempt, terminal failure, and dead-letter records. A successful task with a failed push callback is different from a failed task.
+New A2A node records use direct `a2a` or `a2a-ssh`. The proprietary common `/v1/*` API and hosted relay server are retired. If an older registry row names a compatibility transport, identify it as stale or migration-era state rather than describing it as the normal current route.
 
-## 8. Separate Main From Branch-Only XMPP
+For XMPP, verify the exact WSS endpoint and full resource. Do not substitute A2A, SSH, or a provider-owned remote feature after a protected-route failure.
 
-Current main does not contain the XMPP implementation. XMPP logs and binaries belong to `feature/xmpp-remote-transport`. Confirm branch and artifact provenance before diagnosing XMPP. Do not infer XMPP support from an A2A or relay success.
+## 8. Check Replies And Receipts
+
+For provider MCP replies, confirm the reply carries the expected sender session, run, and receipt identity. For protected XMPP results, distinguish routing acceptance, endpoint acceptance, authorization, provider effect, and protected receipt. For A2A push, distinguish task completion from callback delivery.
 
 ## Evidence To Collect
 
-- AxiOwl version and source commit;
-- process owner and service state;
+- AxiOwl version and artifact provenance;
+- process owner and relevant service/process state;
 - route type and selected transport;
-- redacted Agent Card;
-- target agent/node identity;
-- run, receipt, message, and task ids;
-- HTTP/JSON-RPC status and task state;
-- retry/dead-letter entries;
-- broker availability and any `503` response;
-- relevant provider delivery log after the network route reached the destination.
+- redacted Agent Card or endpoint description;
+- target agent, node, or exact XMPP resource identity;
+- run, message, receipt, and task IDs;
+- protocol status and task or receipt state;
+- provider delivery log after the route reached the destination;
+- the first concrete error at the failed boundary.

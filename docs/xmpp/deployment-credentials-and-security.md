@@ -1,33 +1,52 @@
 ---
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 # Deployment, Credentials, And Security
 
-## Client Dependencies
+## Server Roles
 
-The feature branch vendors pinned source releases of libstrophe, libwebsockets, Mbed TLS, and Expat. The final transport adapter converts libstrophe's native stream opening and closing into RFC 7395 WebSocket framing while leaving ordinary XMPP stanzas as XML.
+| Role | Current evidence | Ownership |
+|---|---|---|
+| Windows x64 self-host | Native server and admin source, MSI feature, service install evidence | Customer machine and LocalSystem service boundary |
+| Linux x86-64 self-host | Prosody/nginx package source and install lifecycle | Customer Linux host |
+| Cloud ARM64 Linux | Deployed server and private provisioner health evidence | Hosted AxiOwl service boundary |
 
-## Server
+All three roles are intended to preserve the same security meaning even though their process and storage implementations differ.
 
-Prosody provides the central XMPP service. Its WebSocket endpoint is exposed through TLS on port 443. A custom route module handles account-scoped registration, discovery, hidden route ownership, deduplication, and delivery results.
+## Credential Types
 
-Federation, BOSH, offline storage, and direct client-to-install messaging are disabled in the documented deployment.
+Do not treat these values as interchangeable:
 
-## Credentials
+| Credential or identity | Purpose |
+|---|---|
+| Website account session | Account access |
+| License entitlement | Optional product feature |
+| Device trust key | Device admission and lifecycle |
+| XMPP transport credential | Authenticate one approved connecting resource |
+| Message/action key | Protect and authorize endpoint actions |
+| Provider credential | Authenticate the local provider account |
 
-The runtime credential boundary contains account ID, install ID, node ID, install JID, WSS endpoint, runtime token, and token expiry. The runtime token is protected for the current Windows user with DPAPI.
+Transport provisioning occurs only after an authorized trust decision. Possessing an XMPP password does not grant provider action authority.
 
-The runtime token must not be placed in:
+## TLS And Server Identity
 
-- registry rows;
-- command-line arguments;
-- evidence logs;
-- installer logs;
-- source control.
+Clients require a secure WebSocket endpoint with validated TLS and expected server identity. A user-entered URL, QR code, local discovery result, or DNS hint can identify where to connect, but it cannot override certificate and signed trust checks.
 
-Activation and XMPP runtime authentication are separate boundaries. An activation key should not remain the permanent XMPP password.
+## Server Data
 
-## Installer Status
+Servers may retain account verifiers, active resource bindings, bounded public messaging-key bundle state, route-directory state, and operational metadata. The selected protected action path does not require plaintext message bodies, an offline payload archive, or provider credentials on the server.
 
-The branch builds a separate XMPP MSI with its own product and upgrade identity. It does not currently participate in the main A2A MSI's feature ownership or current provider installer contract. Reintegration must preserve the XMPP logic while reconciling it with current-main changes instead of replacing either implementation wholesale.
+Public device/key bundle data is routing and encryption setup material, not device authority. Revocation must remove the corresponding active server state.
+
+## Deployment Evidence
+
+A healthy service proves that the server process and its immediate dependencies are available. It does not prove:
+
+- a customer device was admitted;
+- that device established the expected protected session;
+- a message was decrypted by the destination;
+- the receiver authorized a provider action;
+- the provider produced an effect or reply.
+
+Those boundaries need endpoint and provider evidence.

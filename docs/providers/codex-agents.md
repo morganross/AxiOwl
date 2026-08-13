@@ -1,35 +1,19 @@
 # Codex Agents
 
-Codex is the only provider that offers a full MCP runtime implmentation. Compiteror runtimes are in infancy stage of development and only barly quailfy supporting MCP. Codex sends session uuid metadata along with MCP requests.
-Codex supports local codex-to-codex create and send, and read, nativly out of the box, partially documented.
-Codex agents are Codex Desktop conversations discovered from provider-owned state and addressed through the local Codex provider edge.
+Codex agents are Codex Desktop conversations discovered from provider-owned thread state.
 
-See the canonical [Provider Support Matrix](../reference/provider-support-matrix.md).
+## Current Package Contract
 
-## Capabilities
-
-| Operation | Status | Method |
+| Operation | Source status | Method |
 |---|---|---|
-| Discovery | supported | Codex thread/session state |
-| Send | supported | Local Codex desktop transport |
-| Create | unsupported | Previous app-server spawn path was disabled as unreliable |
-| Rename | supported | Codex app-server rename plus provider-native verification |
-| MCP reply | supported | Codex plugin/MCP metadata |
+| Discover | Implemented | Codex thread/session state |
+| Send | Implemented | Exact-session Codex desktop transport |
+| Create | Implemented | Native thread creation, exact UUID enrollment, rename, then initial send |
+| Rename | Implemented | Native rename with provider-state readback |
+| MCP reply | Implemented | Codex plugin and session metadata |
 
-## Installer
+The Windows feature installs the AxiOwl Codex plugin, MCP configuration, marketplace entry, skill, and isolated provider worker. It does not patch a general editor binary.
 
-The Codex checkbox installs the AxiOwl Codex plugin, MCP configuration, marketplace entry, and skill. It does not patch an editor binary.
+Historical response and rename evidence exists. The current source now implements native create; older documentation that called desktop create deliberately unsupported is superseded.
 
-## Identity
-
-The thread/session ID is the routing identity. A display title is not sufficient because multiple threads can share similar titles and titles can change.
-
-## Evidence
-
-Response-backed delivery has worked. Provider-visible rename has also been proven through Codex app-server notification and native session-index persistence. Desktop create remains deliberately rejected rather than reporting a fragile spawn as success.
-
-## Risks
-
-- an already-open Codex session can retain a stale MCP transport until restarted;
-- plugin installation and active-session MCP initialization are separate boundaries;
-- AxiOwl acceptance does not prove Codex completed the turn.
+The thread ID is routing identity. A title is a mutable label and cannot distinguish two same-name conversations.

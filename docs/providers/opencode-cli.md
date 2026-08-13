@@ -1,31 +1,15 @@
 # OpenCode CLI
 
-OpenCode CLI is addressed through its native session ID and resume/create commands.
+OpenCode CLI is addressed through provider-owned session state and native command/configuration boundaries.
 
-## Capabilities
-
-| Operation | Status |
+| Operation | Source status |
 |---|---|
-| Discovery | implemented |
-| Send | implemented |
-| Create | implemented |
-| Rename | unsupported |
-| MCP reply | implemented |
+| Discover | Implemented |
+| Send | Implemented |
+| Create | Implemented |
+| Rename | Implemented |
+| MCP reply | Implemented |
 
-## Installer
+The current Windows installer has a dedicated OpenCode feature and provider package. This replaces the older runtime-only/no-checkbox state.
 
-The primary MSI does not currently expose a dedicated OpenCode provider contract. It therefore does not guarantee installation of a native OpenCode executable or MCP configuration on another computer.
-
-## Multiline Safety
-
-Current code refuses a Windows batch shim for multiline provider delivery. Earlier `%*` reparsing could truncate the message. Failing before dispatch is safer than sending corrupted content and reporting success.
-
-## Evidence
-
-OpenCode CLI has produced a response-backed AxiOwl reply in earlier testing. The July 12 full round failed because only an unsafe batch shim was available and no native executable passed the transport requirements. Rename is unsupported.
-
-## Risks
-
-- npm `.cmd` shims can alter quoting and multiline arguments;
-- runtime support currently exceeds MSI provisioning;
-- an imported session is not sendable without a content-preserving executable path.
+Delivery must preserve the exact message bytes. AxiOwl should refuse a shell shim that corrupts multiline input rather than send altered content and report success.

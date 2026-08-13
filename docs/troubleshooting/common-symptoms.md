@@ -31,4 +31,4 @@ Start with the symptom. Then identify the boundary that failed.
 7. Did provider reply over MCP?
 8. Did the reply identify the correct sender?
 
-Stop at the first “no.” That is where the real investigation starts.
+Stop at the first "no." That is where the real investigation starts.

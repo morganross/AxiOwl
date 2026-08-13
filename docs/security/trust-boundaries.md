@@ -1,79 +1,46 @@
 # Security, Privacy, And Trust Boundaries
 
-AxiOwl connects software that was not designed around one shared trust model. Its security goal is explicit authority: each component should read, write, patch, or transmit only what its selected feature and current operation require.
+## Local User
 
-Plain English: AxiOwl can access local provider state and, when enabled, remote agent endpoints. Users should know which boundary an operation crossed and which credentials made it possible. These public pages explain the model without publishing private keys, credentials, internal host details, or exact wire-level cryptographic parameters.
+The ordinary runtime operates as the interactive user. It may read the provider installation and session metadata required for selected discovery and delivery, plus AxiOwl registry, runtime, mailbox, and log state. It does not gain a general right to inspect unrelated workspaces, credentials, or conversations.
 
-## Local user boundary
+## Windows Installer
 
-The ordinary runtime operates in the interactive user's context. It may read provider session metadata, provider configuration, AxiOwl registry state, and provider installation paths required for discovery and delivery. It may write AxiOwl-owned runtime files and selected provider integration entries.
+The MSI has machine authority for installed components and delegates selected user-scoped work to the actual target user. Each checkbox owns its process, patch, extension, configuration, and cleanup scope. An unchecked provider should not be modified because discovery found it.
 
-Provider session data is used to address work. It is not a general license to inspect unrelated workspace content, credentials, or conversations.
+## Provider
 
-## Installer boundary
+The provider owns its account, authentication, session state, and final execution behavior. AxiOwl may install a plugin, MCP entry, extension, or narrow patch for a selected integration, but it does not copy provider credentials or become the provider account.
 
-The MSI has machine-level authority for components that require it and launches selected per-user configuration work in the actual interactive user context. Each provider feature owns its configuration, extension, patch, cleanup, app shutdown, and restart behavior.
+## Machine Service And User Broker
 
-Unchecked features should not modify or remove their provider. Uninstall should remove AxiOwl-owned state for installed features while preserving unrelated provider settings, chats, extensions, and authentication.
+Machine-facing A2A and server features run outside the interactive provider session. Work requiring user-owned provider state crosses the packaged user-broker boundary. The service authenticates and scopes the request; the broker does not let LocalSystem silently impersonate an arbitrary user.
 
-## Provider patch and extension boundary
+## A2A
 
-Some surfaces expose no stable public API for required delivery or identity behavior. Their integration may use an extension or a validated patch to provider-owned files. These are higher-risk operations because provider updates can change private implementation details.
+An Agent Card describes an endpoint. It does not establish trust by itself. Inbound clients need configured authentication and scopes. Outbound credentials are bound to the selected external endpoint and are not stored as public registry aliases.
 
-Patch-sensitive operations should discover the provider version, validate the expected boundary, make the smallest selected change, and fail loudly when the match is ambiguous. A provider patch is not proof that the provider path works.
+## Secure XMPP
 
-## A2A service boundary
+The server authenticates a device transport and routes an encrypted envelope to an exact resource. Endpoints own encryption/decryption, device trust, action signatures, authorization, replay state, provider handoff, and protected receipts. A routing success is not provider authorization.
 
-The optional AxiOwl API service is separate from interactive user provider sessions. Public Agent Cards and network A2A operations can be served there, while protected operations that need user-owned provider state use the user-broker boundary. A service endpoint is a separate trust domain; importing an Agent Card describes capabilities but does not make that endpoint trusted.
+## Account, Pool, Trust, Provisioning, And Licensing
 
-Bearer tokens and OAuth client credentials belong to the remote endpoint boundary. They should be scoped, protected, and never copied into public logs or method reports.
+These powers remain separate:
 
-## Network and node boundary
+- website account proves a user session;
+- pool state identifies the account's current device group;
+- device trust records admitted keys and lifecycle;
+- provisioning issues a per-device transport credential after an authorized decision;
+- licensing enables optional product behavior;
+- provider authentication authorizes the provider account.
 
-Inter-node communication can use direct HTTPS A2A, relay, or A2A over SSH. Each path needs explicit node identity, authenticated peer or endpoint configuration, bounded timeouts, and transport-specific logs. A guarded fallback must not silently reduce the trust guarantees of the selected route.
+A shared public gateway can route these services without merging their authority.
 
-## XMPP boundary
+## Updates
 
-The public XMPP documentation describes a separate transport boundary and its security responsibilities. It adds account credentials, certificate validation, authenticated routing, and gateway authorization. Those credentials and policies remain separate from local provider credentials. A branch implementation or design document does not by itself mean that XMPP is released support on the current main product.
+Build signing, immutable publication, channel promotion, client verification, and local application are separate. Provider packages can update independently of the core. No update stage authorizes an unselected provider integration or a wider security scope.
 
-## Data AxiOwl may read
+## Information AxiOwl May Store
 
-When a selected feature needs it, AxiOwl may read:
-
-- provider install and version information;
-- provider session indexes, databases, or process metadata needed for discovery;
-- selected provider MCP or configuration files;
-- AxiOwl registry, runtime, logs, manifests, and activation state;
-- configured Agent Cards and remote-node records.
-
-Discovery should read the smallest amount of provider state needed to find a usable session. A chat title or workspace folder is not a substitute for provider-owned identity.
-
-## Data AxiOwl may write
-
-AxiOwl may write its installed binaries, manifests, registry, runtime, logs, and configuration; selected MCP entries; selected bridge extensions or validated provider patches; and explicit remote-node or Agent Card records. A remote feature may also create task or correlation state needed to explain a remote handoff.
-
-It should not broadly rewrite unrelated extensions, settings, workspace files, provider chats, or authentication tokens.
-
-## Metadata and privacy
-
-Messages may carry sender and target names, provider and session identifiers, run or task identifiers, receipt identifiers, and reply-routing instructions. Network transports also reveal endpoint information needed for routing. Logs should record enough evidence to diagnose a route without dumping unrelated conversation content or secret values.
-
-Encryption protects content but does not make all routing metadata invisible. See [Metadata And Identity](metadata-and-identity.md) and [Encryption And Privacy](encryption-and-privacy.md).
-
-## License activation
-
-License activation is an explicit operation against the configured activation service. Activation state can be reported locally. License diagnostics should not conceal installation, transport, or provider failures, and credentials should never be copied into public logs.
-
-Licensing is not device authority. Device admission, revocation, and action authorization are separate decisions.
-
-## Public security rules
-
-1. Select features explicitly and keep ownership granular.
-2. Validate before modifying provider-owned files.
-3. Separate local user authority from service authority.
-4. Authenticate every network boundary.
-5. Redact secrets while preserving correlation evidence.
-6. Report the exact success boundary reached.
-7. Fail loudly when identity, ownership, or authorization is ambiguous.
-
-See [A2A Operations And Security](../a2a/operations-and-security.md), [Node Pairing And Trust](../inter-node/pairing-identity-and-trust.md), and [XMPP Deployment And Security](../xmpp/deployment-credentials-and-security.md).
+Depending on selected features, AxiOwl may store registry records, provider session identifiers, task and receipt correlation, selected provider-package state, patch journals, public Agent Card data, device-trust projections, and bounded logs. Credentials and private key material belong in platform-protected or service-secret storage, not public documentation or ordinary registry aliases.

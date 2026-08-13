@@ -82,7 +82,7 @@ export default function Footer() {
             <div className={styles.intro}>
               <h2>Get in touch</h2>
               <p>
-                Questions about AxiOwl CAM, hosting, or enterprise rollout? Reach us directly or send the form.
+                Questions about AxiOwl, provider integrations, secure deployment, or enterprise rollout? Reach us directly.
               </p>
             </div>
 

@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # A2A Operations And Security
 
-The safest default is a loopback listener with authentication enabled. Public network exposure needs explicit TLS termination, client enrollment, rate limits, replay controls, and firewall review.
+A2A is a standards boundary, not permission to expose every desktop chat to a network. The safest default is a loopback listener with authentication enabled. Any wider exposure needs an explicit endpoint, transport security, client authorization, rate limits, and firewall policy.
 
 ## Local Commands
 
@@ -35,14 +35,23 @@ The user-scoped A2A state includes task history, client registrations, imported 
 
 Authentication is required by default. Clients have stable IDs, sender identities, nodes, and scopes. No-auth mode is for bounded local development only.
 
-## Public Service
+## Windows Service Boundary
 
-The optional Windows MSI feature installs:
+The Windows installer separates the network and interactive halves:
 
-- `axiowl-api-service.exe` as the automatic `AxiOwlApi` Windows service;
-- `axiowl-relay.exe` as a separate relay-capable executable;
-- machine-scoped service configuration and feature markers.
+| Feature | Installed role |
+|---|---|
+| A2A Server | `axiowl-api-service.exe`, registered as the machine-scoped `AxiOwlApi` service. |
+| A2A Client | `axiowl-user-broker.exe`, running in the interactive user boundary. |
 
-The feature is unchecked by default. Installing the runtime alone does not enable an always-running public A2A listener.
+The service does not inherit provider credentials or user registry state. Provider-backed delivery crosses the authenticated broker boundary and remains subject to the destination registry and provider package.
 
-The current MSI does not package the interactive user broker required for protected provider delivery through the LocalSystem service. Treat direct `axiowl a2a serve` operation and public Agent Card routes separately from the incomplete service-to-user delivery path.
+The old proprietary hosted relay server is retired. A2A-over-SSH remains a separate standards-preserving transport for explicitly configured AxiOwl nodes; it is not a silent fallback for local provider failure.
+
+## Public Exposure
+
+Installing A2A components does not by itself authorize public Internet access. Operators still own TLS termination, endpoint naming, client enrollment, credential rotation, firewall rules, and log handling. Keep bearer credentials and OAuth client secrets out of command history and support reports.
+
+## Result Semantics
+
+An HTTP success or accepted task means the A2A boundary accepted work. It is not proof that the desktop provider displayed the message or answered. Use task state, provider delivery evidence, and a correlated MCP reply to describe those later boundaries.

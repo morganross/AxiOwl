@@ -1,51 +1,57 @@
 # Provider Support Matrix
 
-This is the source of truth for provider-surface capabilities. A single provider-wide status is insufficient because send, create, rename, discovery, installation, and MCP reply support can differ.
+A provider in AxiOwl is a brand plus a concrete surface. Codex Desktop, Codex CLI, and Codex Remote are separate integrations because they have different discovery, installation, delivery, and identity contracts.
 
-## Status terms
+Last source/package reconciliation: **August 12, 2026**.
+
+## Status Terms
 
 | Term | Meaning |
 |---|---|
-| `supported` | Current code and response-backed evidence satisfy the operation's support bar. |
-| `implemented` | Current code contains the operation, but current clean-machine or response-backed validation is incomplete. |
-| `experimental` | The operation exists but depends on patch-sensitive private behavior. |
-| `unsupported` | Current code deliberately rejects the operation or has no accepted product surface. |
-| `feature branch` | Implemented outside current `main`. |
+| Implemented | The current provider package declares and implements the operation. |
+| Packaged | The current Windows installer graph has an isolated feature and provider-package payload for the surface. |
+| Historical roundtrip | A provider response has been observed in an earlier test, but this is not certification of the newest artifact. |
+| Experimental | The path depends on provider-private editor or CLI behavior that may change between provider versions. |
 
-## Current Operation Matrix
+## Current Provider Packages
 
-| Provider surface | Discover | Send | Create | Rename | MCP reply | Installer coverage | Current evidence and limitation |
-|---|---|---|---|---|---|---|---|
-| Codex agents | supported | supported | unsupported | supported | supported | Plugin, MCP config, skill | Desktop create is deliberately disabled; send and provider-visible rename have response/native proof. |
-| Codex CLI | supported | supported | implemented | supported | supported | No separate provider checkbox | Historical response proof exists; latest full-round create did not finish its MCP reply turn. |
-| VS Code native | supported | experimental | implemented | implemented | supported | Bridge extension and MCP config | Earlier response proof exists; latest full round found bridge queue/ownership failures. |
-| VS Code Copilot-backed | supported | experimental | implemented | implemented | supported | Bridge extension, MCP config, metadata patch | Earlier response proof exists; latest full round found provider session corruption and no roundtrip. |
-| Cursor agents | supported | experimental | experimental | experimental | supported | Bridge extension, MCP config, submit patch, discovery | Response proof exists; private Cursor internals and title persistence remain patch-sensitive. |
-| Antigravity agents | supported | supported | implemented | implemented | supported | MCP config | Response proof exists; latest full-round create reached the provider but did not execute its MCP reply. |
-| Antigravity CLI | implemented | implemented | implemented | unsupported | implemented | No dedicated checkbox | Earlier response proof exists; rename is a deliberate unsupported stub. |
-| Claude Code CLI | implemented | implemented | implemented | implemented | implemented | MCP config | Current main includes readiness, MCP warm-up, create verification, and rename lifecycle fixes; post-merge clean-machine roundtrip proof remains required. |
-| Copilot CLI | implemented | implemented | implemented | unsupported | implemented | MCP metadata patch | Latest full round failed because Copilot CLI was unauthenticated; rename is unsupported. |
-| OpenCode CLI | implemented | implemented | implemented | unsupported | implemented | No dedicated checkbox | Latest full round refused unsafe multiline delivery through a batch shim because no native executable was available. |
-| Cursor Agent CLI | implemented | implemented | implemented | unsupported | implemented | No dedicated checkbox | Code recognizes the surface; latest full round was blocked by Cursor Agent authentication. |
-| External A2A endpoint | implemented | implemented | not applicable | not applicable | task/result model | A2A optional feature is not required for outbound client use | Agent Card import, bearer/OAuth delivery, and task persistence are implemented. Independent interop evidence remains part of release validation. |
-| AxiOwl remote node | implemented | implemented | unsupported | implemented | task/remote result model | Remote features retained unchecked | Direct A2A, relay, A2A-over-SSH, and legacy migration paths exist. Remote create is unsupported. |
-| AxiOwl Mailbox | built in | supported | unsupported | unsupported | local endpoint | Installed with core runtime | Singleton local endpoint used for messages, responses, GUI, and tests. |
-| XMPP remote transport | feature branch | feature branch | unsupported | not established | XMPP result stanzas | Separate branch MSI | Substantial implementation exists but is not merged into current main. |
+| Provider surface | Implemented operations | Windows installer action | Evidence and present limit |
+|---|---|---|---|
+| Antigravity agents | Discover, send, create, rename, status | MCP/provider worker package | Historical roundtrip evidence; provider state and execution behavior still vary by session |
+| Antigravity CLI | Discover, send, create, rename, status | CLI MCP/config and metadata package | Historical roundtrip evidence; authentication remains external |
+| Claude Code CLI | Discover, send, create, rename | User configuration and provider worker | Historical roundtrip evidence; stale working directories can block Claude before MCP starts |
+| Codex agents | Discover, send, create, rename, status | Codex plugin, MCP config, skill, and provider worker | Historical roundtrip evidence; current source now implements native create as well as send/rename |
+| Codex CLI | Discover, send, create, rename, status | CLI MCP/session package | Historical roundtrip evidence; desktop and CLI identities remain distinct |
+| Codex Remote | Discover, send, create, rename | Isolated Codex-owned Remote integration | Implemented/package-backed; remote project prerequisites remain provider-owned |
+| Copilot CLI | Discover, send, create, rename | Metadata patch and provider worker | Implemented/package-backed; GitHub authentication is not installed by AxiOwl |
+| Cursor agents | Discover, send, create, rename | Bridge extension, MCP config, adaptive integration, provider worker | Historical roundtrip evidence; editor-private behavior makes this experimental |
+| Cursor Agent CLI | Discover, send, create, rename | CLI session-metadata patch and provider worker | Implemented/package-backed; Cursor authentication is external |
+| OpenCode CLI | Discover, send, create, rename | MCP/native metadata config and provider worker | Historical roundtrip evidence; the native executable path must preserve message bytes |
+| VS Code Copilot-backed | Discover, send, create, rename, status | VSIX bridge, MCP config, metadata patch, provider worker | Historical roundtrip evidence; VS Code/Copilot private storage and extension updates remain experimental |
 
-## Installer Coverage Is Not Runtime Coverage
+Every row also carries AxiOwl-owned install, removal, and verification behavior where applicable. Internal package maintenance hooks do not create a public whole-product repair mode, and they do not install or authenticate the provider product itself.
 
-Current installer provider contracts exist for Codex agents, both VS Code surfaces, Antigravity agents, Claude Code CLI, Copilot CLI, Cursor agents, and remote features. The runtime also contains Codex CLI, Antigravity CLI, OpenCode CLI, and Cursor Agent CLI provider edges without equivalent dedicated MSI checkboxes.
+## Built-In And Protocol Targets
 
-The website must not imply that a runtime provider edge automatically means clean-machine installation is complete.
+| Surface | Status | Boundary |
+|---|---|---|
+| AxiOwl Mailbox | Built in | Local endpoint for messages, replies, status, and evidence |
+| External A2A agent | Implemented | Imported Agent Card and task-oriented delivery |
+| AxiOwl remote node | Implemented | Explicit A2A node transport and separate provider delivery on the destination |
+| Secure XMPP target | Implemented in source | Protected endpoint transport; end-to-end production proof remains incomplete |
 
-## Support Bar
+## VS Code Naming
 
-An operation is supported only when:
+Current package inventory contains one packaged `vscode_copilot_backed` provider. Older docs used "VS Code native" as if it were a separately packaged provider. Native bridge snapshots and compatibility aliases still exist, but they are part of the same packaged VS Code/Copilot integration, not a second MSI provider package.
 
-1. the provider and target session are discovered correctly;
-2. required installer/configuration work is repeatable on a clean machine;
-3. AxiOwl addresses the intended provider-owned session;
-4. the provider receives the full message;
-5. the expected provider-visible mutation or response occurs;
-6. replies carry provider-owned sender identity;
-7. logs distinguish AxiOwl acceptance from provider proof.
+## What Packaging Proves
+
+A package proves that AxiOwl owns a bounded worker and its declared integration assets. It does not prove that:
+
+- the provider is installed or authenticated;
+- a current session is discoverable;
+- the provider accepted the latest message;
+- the provider returned a correlated reply;
+- the next provider update will preserve a private patch boundary.
+
+Use the provider page for risks and [Receipts, Delivery, And Completion Proof](../concepts/receipts-vs-proof.md) for evidence interpretation.

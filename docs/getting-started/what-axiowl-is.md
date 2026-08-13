@@ -4,53 +4,67 @@ sidebar_position: 1
 
 # What AxiOwl Is
 
-AxiOwl is local software that helps AI provider sessions send messages to each other and gives those sessions a common local model.
+AxiOwl is software for addressing and coordinating AI work sessions across products that do not share one native messaging system.
 
-Think of it as a switchboard and normalization layer. Codex, Cursor, VS Code, Antigravity, Claude Code CLI, OpenCode CLI, and Copilot CLI all have different ways of storing sessions, exposing tools, receiving messages, and replying. AxiOwl gives them a shared local coordination layer and a shared vocabulary.
+## Plain English
 
-## Plain English Version
+Without AxiOwl, a Codex thread, Cursor Composer, VS Code Copilot chat, Claude Code session, or OpenCode session is mostly confined to its own product. AxiOwl gives supported surfaces a common directory and message vocabulary while still using the provider-specific method required by the destination.
 
-Without AxiOwl, each provider session is mostly trapped in its own app or command line. With AxiOwl, a supported provider session can be addressed by name, represented in a registry, receive a message, and reply back through AxiOwl MCP.
+It is both:
 
-The important phrase is “supported provider session.” AxiOwl does not make every possible app magically work. It supports specific provider surfaces that have been installed, discovered, tested, and proven.
+- a **normalization layer**, because names, session IDs, operations, receipts, and failures become comparable;
+- a **communication layer**, because local provider packages, MCP, A2A, and secure XMPP can move work across concrete boundaries.
 
-## What AxiOwl Does
+## What It Does
 
-AxiOwl:
+AxiOwl can:
 
-- installs local provider integrations;
-- discovers chats, sessions, and agents;
-- stores them in a local registry;
-- normalizes provider names, surfaces, sessions, receipts, and proof;
-- lets users or providers send messages to targets;
-- exposes MCP tools so providers can reply;
-- logs receipts and delivery evidence;
-- separates supported providers from targets and experiments.
+- install selected provider integrations;
+- discover provider-owned sessions;
+- keep a local registry of addressable targets;
+- send, create, or rename where the exact provider package implements that operation;
+- expose MCP tools so a provider session can identify itself and reply;
+- expose registered agents through A2A or call external A2A agents;
+- route protected remote actions between approved devices through secure XMPP;
+- retain receipts and evidence that explain how far an operation progressed.
 
-## What AxiOwl Does Not Do
+## What It Does Not Do
 
 AxiOwl does not:
 
-- replace the provider apps;
-- guarantee delivery just because a message was accepted;
-- make unsupported providers work;
-- use remote routing as a hidden fallback for local failures;
-- safely patch providers without install-time and post-install validation.
+- replace provider products or accounts;
+- turn a display title into secure identity;
+- guarantee provider completion because a request was accepted;
+- make every provider operation work on every operating system;
+- treat a license token as an account, device, or transport credential;
+- silently downgrade a protected XMPP action to plaintext or another transport;
+- automatically apply core updates in the background.
 
-## The Mental Model
+## The Local Mental Model
 
 ```text
-Provider app or CLI
-  -> has sessions/chats
-  -> AxiOwl discovers them
-  -> AxiOwl stores address records
-  -> user or provider sends a message
-  -> AxiOwl routes to the right provider surface
-  -> provider replies over MCP
+provider product
+  -> provider-owned sessions
+  -> AxiOwl discovery
+  -> normalized registry address
+  -> provider-specific operation
+  -> receipt and logs
+  -> provider-owned MCP reply
 ```
 
-## Why It Is Built This Way
+## The Remote Mental Model
 
-The providers are different. Cursor Agent Window is not VS Code Copilot. Codex CLI is not Codex agents. Claude Code CLI is not Antigravity agents. AxiOwl keeps those paths separate because separate paths make failures explainable.
+```text
+approved source endpoint
+  -> selected A2A or secure XMPP transport
+  -> destination AxiOwl boundary
+  -> destination registry and authorization
+  -> unchanged local provider package
+  -> correlated result or protected receipt
+```
 
-The architecture favors clear proof over broad claims. That is why the docs repeatedly distinguish receipts, provider acceptance, and MCP replies, and why provider surfaces are normalized without pretending they are identical.
+A2A and XMPP are separate transports. The destination provider still remains provider-specific.
+
+## Read Status Carefully
+
+"Implemented," "packaged," "installed," "deployed," and "demonstrated" mean different things. Start with [Current Product Status](../reference/current-product-status.md).

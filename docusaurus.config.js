@@ -5,7 +5,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AxiOwl',
-  tagline: 'Documentation for installing, connecting, and operating AxiOwl across providers and nodes.',
+  tagline: 'A normalization and messaging layer for AI sessions, A2A agents, and approved devices.',
   favicon: 'img/axiowl-owl-head.png',
 
   future: {
@@ -71,18 +71,18 @@ const config = {
             label: 'Docs',
           },
           {
+            to: '/docs/reference/current-product-status',
+            label: 'Status',
+            position: 'left',
+          },
+          {
             to: '/docs/reference/provider-support-matrix',
             label: 'Providers',
             position: 'left',
           },
           {
-            to: '/docs/reference/installer-behavior-matrix',
-            label: 'Installer',
-            position: 'left',
-          },
-          {
-            to: '/docs/reference/release-validation-checklist',
-            label: 'Release QA',
+            to: '/docs/reference/platform-support-matrix',
+            label: 'Platforms',
             position: 'left',
           },
           {
@@ -113,8 +113,8 @@ const config = {
                 to: '/docs/reference/provider-support-matrix',
               },
               {
-                label: 'Installer Matrix',
-                to: '/docs/reference/installer-behavior-matrix',
+                label: 'Current Product Status',
+                to: '/docs/reference/current-product-status',
               },
             ],
           },
@@ -126,8 +126,8 @@ const config = {
                 to: '/docs/support/forensics',
               },
               {
-                label: 'Release QA',
-                to: '/docs/release/qa-checklist',
+                label: 'Updates And Publication',
+                to: '/docs/release/update-publication-operator-guide',
               },
               {
                 label: 'Security And Trust',

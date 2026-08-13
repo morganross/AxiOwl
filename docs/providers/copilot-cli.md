@@ -1,27 +1,15 @@
 # Copilot CLI
 
-Copilot CLI is the standalone GitHub Copilot command-line product. It is not the Copilot-backed session inside VS Code.
+Copilot CLI is the standalone GitHub Copilot command-line product, not a chat hosted by VS Code.
 
-## Capabilities
-
-| Operation | Status |
+| Operation | Source status |
 |---|---|
-| Discovery | implemented |
-| Send | implemented |
-| Create | implemented |
-| Rename | unsupported |
-| MCP reply | implemented |
+| Discover | Implemented |
+| Send | Implemented |
+| Create | Implemented |
+| Rename | Implemented |
+| MCP reply | Implemented |
 
-## Installer
+The Windows feature installs a session-metadata patch, runtime configuration, and isolated provider worker. The patch supplies provider-owned session identity to AxiOwl MCP calls. It does not install Copilot CLI or authenticate GitHub.
 
-The Copilot CLI checkbox installs the metadata patch required for provider-owned session identity on MCP calls. The installer does not install Copilot CLI or authenticate GitHub.
-
-## Evidence
-
-The July 12 create and send tests stopped before provider delivery because the installed Copilot CLI had no authentication information. The failure proves the provider edge reached a real auth preflight; it does not prove successful delivery. Rename remains a deliberate unsupported operation.
-
-## Risks
-
-- clean-machine GitHub/Copilot authentication is an external prerequisite;
-- local request validation is not provider dispatch;
-- the provider patch must survive Copilot CLI updates and continue to attach real session metadata.
+Older docs that marked rename unsupported are superseded by the current provider contract. Because the integration touches provider-private runtime behavior, it still requires post-update verification on the installed Copilot version.

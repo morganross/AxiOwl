@@ -1,80 +1,71 @@
-# Release And QA Execution Guide
+# Release Review Guide
 
-The canonical gate is the [Release Validation Checklist](../reference/release-validation-checklist.md). This page explains how to execute it and retain evidence.
+The [Release Evidence Checklist](../reference/release-validation-checklist.md) defines the public evidence vocabulary. This page explains how to read a release candidate without confusing stages.
 
-## A Release Is A Chain Of Proof
+## A Release Is A Chain
 
-Source compilation proves that code can compile. Artifact provenance proves which source entered the package. Clean-machine installation proves the package can configure another computer. Provider and protocol tests prove the installed paths work. Uninstall and reinstall tests prove the result was not a stale-state accident.
-
-## Evidence Folder
-
-Create one run id for the release candidate and retain:
-
-- source commit and branch;
-- native test output;
-- MSI build log, manifest, ProductCode, version, and hashes;
-- clean VM install and uninstall logs;
-- discovery output and selected checkbox state;
-- provider send receipts and correlated replies;
-- A2A task ids, states, and results;
-- inter-node transport selection logs;
-- known failures and status decisions;
-- GitHub Actions run URLs.
-
-Secrets, tokens, and private message bodies must be redacted.
-
-## Build Sequence
-
-```powershell
-cmake --build apps\windows-desktop\build --config Release
-ctest --test-dir apps\windows-desktop\build -C Release --output-on-failure
-apps\windows-desktop\installer\build-windows-msi.ps1
+```text
+source identity
+  -> built components
+  -> signed components
+  -> platform package
+  -> signed package
+  -> immutable publication
+  -> signed channel promotion
+  -> installed or deployed runtime
+  -> demonstrated user journey
 ```
 
-Use the project's current configured build workflow when command details evolve. The required outcome is a fresh MSI with matching provenance, not merely an old release file next to a new log.
+Each arrow can fail independently. A later artifact should carry enough provenance to identify the earlier bytes it contains.
 
-## Windows Installer Sequence
+## Windows Review
 
-Test first install, selected-provider install, repair, uninstall, and reinstall on the development machine and a clean Windows 11 VM. Verify provider discovery before selection, selected-only app shutdown/restart, user-context config, AxiOwl-owned cleanup, and no stale payload substitution.
+The Windows release scripts produce the MSI, signing proof, build record, signed-component export, and provider-package exports. Review those records together.
 
-Test the optional A2A feature separately. Confirm service account, service startup, public Agent Card access, and the known broker-dependent protected-route behavior. Do not mark protected service-backed desktop delivery complete while the user broker is absent from the MSI.
+The MSI should describe current feature ownership:
 
-## Provider Sequence
+- eleven provider packages;
+- A2A Server and A2A Client;
+- XMPP Client and XMPP Server;
+- core CLI, mailbox, PATH, and discovery support.
 
-For every surface marked supported:
+Use a complete Uninstall followed by Uninstall-install when replacing a prior AxiOwl version. Do not call that process repair, upgrade, downgrade, or rollback.
 
-1. Create or select a current session.
-2. Send a request containing the release run id.
-3. Record the AxiOwl receipt.
-4. Require a reply through AxiOwl MCP.
-5. Verify sender provider and session identity.
-6. Verify run and receipt correlation.
-7. Repeat after reinstall.
+## Provider Review
 
-Test CLI, editor, extension, and agents-window surfaces as separate providers. Record auth and quota blocks separately from implementation defects, but do not turn an untested path into a supported claim.
+Use one current session per claimed provider surface. Record the exact provider ID, provider session ID, request, receipt, provider-visible result, and correlated MCP reply where applicable. A chat title is not sufficient identity, and one surface does not prove another surface under the same brand.
 
-## A2A Sequence
+## A2A Review
 
-Validate both AxiOwl roles:
+Review AxiOwl as both:
 
-- server: Agent Card, scoped-agent resolution, message send, task get/list/cancel, extended card, and authentication;
-- client: external Agent Card import, HTTP+JSON and JSON-RPC calls, bearer or OAuth credentials, task polling, and result mapping;
-- operations: push callback, retry, dead-letter, timeout, cancellation, and MCP reply correlation.
+- an A2A server exposing scoped Agent Cards and tasks;
+- an A2A client importing and calling external Agent Cards.
 
-Verify that advertised streaming capability remains false until streaming is implemented and tested.
+Keep service acceptance, user-broker handoff, provider effect, task completion, and push delivery separate.
 
-## Inter-Node Sequence
+## XMPP Review
 
-Use two clean nodes. Validate direct HTTPS A2A, relay, and A2A over SSH independently when each is claimed. Record selected transport, node identity, credential source, failure, fallback, task result, and reply. Disable one transport at a time to prove fallback policy rather than inferring it from a successful final result.
+XMPP is current-main source, not branch-only work. Review the exact client/server roles involved and follow the protected path from endpoint selection through transport authentication, decryption, authorization, replay decision, provider effect, and protected receipt.
 
-## XMPP Sequence
+The current source and platform packages are substantial, and cloud server deployment evidence exists. Public status still should not claim a complete five-role user journey unless that exact installed artifact journey is recorded.
 
-XMPP tests belong to `feature/xmpp-remote-transport` until merge. Build the branch artifact, run its unit/integration tests, validate TLS and SCRAM behavior, test session routing and the gateway, and then reconcile with current main. A passing branch test does not change the current-main protocol matrix.
+## Update Review
 
-## Documentation And Website
+An immutable release can exist before a channel points to it. Internal promotion and stable promotion are separate. Client check, package download, staging, and apply are also separate.
 
-Run `npm run build` in the Docusaurus repository. Check internal links, source-of-truth matrix consistency, and GitHub Pages deployment. Historical method reports may support an engineering decision, but they must not be indexed as current capability claims without a current matrix entry.
+Opportunistic Create/Send checks are detached one-shot checks. They do not delay or retry the provider operation and do not auto-apply an update.
 
-## Release Decision
+## Public Release Record
 
-Publish only the capabilities that passed the current run. Keep partially implemented, auth-blocked, branch-only, or fragile paths labeled accurately. A release may ship with documented target or experimental paths; it may not present them as supported.
+Retain a public-safe record of:
+
+- release identity and source revision;
+- artifact names, sizes, and digests;
+- publisher/signature identity without credentials;
+- package feature inventory;
+- publication and channel state;
+- exact platform/provider/protocol claims;
+- known limitations.
+
+Private cloud identifiers, tokens, keys, internal addresses, and unredacted provider content do not belong in public release documentation.

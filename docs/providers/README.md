@@ -1,32 +1,27 @@
 # Provider Surfaces
 
-A provider is a brand or protocol plus a concrete surface. Codex Desktop and Codex CLI are different providers in AxiOwl because discovery, installation, delivery, lifecycle, and proof differ.
+A provider is a brand plus a concrete surface. AxiOwl keeps those surfaces separate because each can have different session storage, MCP metadata, delivery APIs, patches, process ownership, and failure modes.
 
-Use the [Provider Support Matrix](../reference/provider-support-matrix.md) for operation-level status.
-
-## Local Desktop And Editor Surfaces
+## Current Windows Provider Packages
 
 - [Codex Agents](codex-agents.md)
-- [VS Code Native](vscode-native.md)
+- [Codex CLI](codex-cli.md)
+- [Codex Remote](codex-remote.md)
 - [VS Code Copilot-Backed](vscode-copilot.md)
 - [Cursor Agents](cursor-agents.md)
+- [Cursor Agent CLI](cursor-agent-cli.md)
 - [Antigravity Agents](antigravity-agents.md)
-
-## CLI Surfaces
-
-- [Codex CLI](codex-cli.md)
 - [Antigravity CLI](antigravity-cli.md)
 - [Claude Code CLI](claude-code-cli.md)
 - [Copilot CLI](copilot-cli.md)
 - [OpenCode CLI](opencode-cli.md)
-- [Cursor Agent CLI](cursor-agent-cli.md)
 
-## Protocol And Built-In Surfaces
+## Built-In And Protocol Surfaces
 
+- [AxiOwl Mailbox](axiowl-mailbox.md)
 - [External A2A Endpoints](external-a2a.md)
 - [AxiOwl Remote Nodes](remote.md)
-- [AxiOwl Mailbox](axiowl-mailbox.md)
 
-## Reading Status Correctly
+Current package inventory contains one packaged VS Code/Copilot integration. [VS Code Native](vscode-native.md) explains the compatibility label and bridge behavior; it is not a twelfth provider package.
 
-Do not infer create or rename support from send support. Do not infer installer coverage from the existence of a provider edge. Do not infer a provider response from an AxiOwl acceptance receipt.
+Use the [Provider Support Matrix](../reference/provider-support-matrix.md) for the current operation and packaging baseline.

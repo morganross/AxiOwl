@@ -11,7 +11,10 @@ Separate these events:
 | MSI install succeeded | Selected installer actions completed. |
 | `accepted_by_axiowl` | AxiOwl accepted and handed off the request. |
 | provider accepted | Provider edge claims delivery was accepted. |
-| MCP reply received | End-to-end provider response path worked. |
+| MCP reply received | The addressed provider session returned a correlated reply. |
+| A2A task completed | The A2A task reached a terminal result. |
+| XMPP routing accepted | The server accepted an exact-resource encrypted stanza. |
+| Protected XMPP receipt | The destination endpoint returned the signed result for the protected action. |
 
 Do not treat an earlier event as proof of a later event.
 
@@ -27,6 +30,8 @@ Most AxiOwl failures are boundary failures. The job is to find which boundary fa
 6. Provider received but could not reply.
 7. MCP tools were missing.
 8. MCP reply lacked sender metadata.
+9. A2A service could not cross to the interactive user broker.
+10. XMPP transport worked but endpoint trust, authorization, or replay checks rejected the action.
 
 This framing prevents circular debugging. Do not keep reinstalling when the failure is stale provider session metadata. Do not keep editing provider code when the MSI installed an old artifact.
 
@@ -38,6 +43,7 @@ Collect:
 %LOCALAPPDATA%\AxiOwl\logs
 %LOCALAPPDATA%\AxiOwl\registry
 %LOCALAPPDATA%\AxiOwl\runtime
+%PROGRAMDATA%\AxiOwl\logs
 ```
 
 Also collect:
@@ -50,6 +56,7 @@ Also collect:
 - exact MSI path and file timestamp;
 - `axiowl status` output;
 - unique run id used for tests.
+- A2A task ID or protected XMPP message/receipt ID when applicable.
 
 ## Failed Install
 
@@ -140,6 +147,37 @@ Check:
 6. Native session id maps to the intended target session.
 7. The bridge ownership check selected the right window.
 
+Current package inventory has one `vscode_copilot_backed` provider package. "VS Code native" is a compatibility label within that integration, not evidence that a second VS Code provider package was installed.
+
+## A2A Service Failures
+
+Check the two Windows features independently:
+
+1. A2A Server installed `axiowl-api-service.exe` and registered `AxiOwlApi`.
+2. A2A Client installed `axiowl-user-broker.exe` for the interactive-user boundary.
+3. The Agent Card advertises the route actually being called.
+4. Client authentication and scopes match the route.
+5. The interactive broker belongs to the intended user session.
+6. Task acceptance, provider handoff, task completion, and push delivery are not being conflated.
+
+The proprietary common `/v1/*` API and hosted relay server are retired; do not troubleshoot them as the current normal A2A route.
+
+## Secure XMPP Failures
+
+Work in this order:
+
+1. endpoint selection and TLS/hostname verification;
+2. per-device transport authentication;
+3. exact full-resource availability;
+4. endpoint decryption and authenticated sender binding;
+5. current device-trust projection;
+6. signed action and grant authorization;
+7. replay/dispatch state;
+8. one-shot provider handoff;
+9. protected receipt return.
+
+Do not use an A2A or SSH success to hide an XMPP failure. Never include private keys, transport secrets, or protected device state in a support attachment.
+
 ## Wrong Paths And Stale Chats
 
 When a provider reports an old cwd or missing workspace folder, do not assume the send path failed. Determine whether:
@@ -173,7 +211,7 @@ Run id:
 ## Non-causes ruled out
 ## Fix options
 ## Selected fix
-## Regression tests
+## Evidence after correction
 ```
 
 ## Support Opinion

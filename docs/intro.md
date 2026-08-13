@@ -5,54 +5,52 @@ slug: /intro
 
 # AxiOwl Documentation
 
-AxiOwl is a general-purpose normalization and communication layer for AI agents. It gives unlike provider surfaces a shared address book, message contract, identity model, receipt model, and set of diagnostic tools without pretending that every provider works the same way.
+AxiOwl is a communication and normalization layer for AI work sessions. It gives unlike provider surfaces a common address book, message contract, sender-identity model, receipt model, and diagnostic vocabulary while preserving the provider-specific method that actually performs each operation.
 
-Plain English: AxiOwl lets you find an AI work session, send work to it through the method that provider actually supports, and receive a reply whose origin can be checked. The session may be in a desktop agent window, an editor, a CLI, another AxiOwl node, or an external A2A system.
+In plain English: AxiOwl helps a user or agent find the intended AI session, send work through the integration for that exact surface, and receive a correlated response without pretending that Codex, Cursor, VS Code, Claude, Antigravity, Copilot, and OpenCode all behave alike.
 
-## Product Areas
+## What Exists Today
 
-| Area | What it does | Current boundary |
-|---|---|---|
-| Provider messaging | Discovers and addresses local provider sessions, then sends through provider-specific delivery edges. | Current Windows product; support varies by provider surface. |
-| MCP replies | Lets a provider return a message with sender, session, run, and receipt correlation. | Current main behavior. |
-| A2A | Exposes selected desktop agents as A2A endpoints and calls external Agent Card endpoints. | Implemented on current main; streaming routes are declared but not implemented. |
-| Inter-node | Connects AxiOwl nodes through direct HTTPS A2A, relay, or A2A over SSH. | Implemented on current main with explicit transport selection and guarded fallback. |
-| XMPP | Adds standards-based chat transport and external XMPP gateway behavior. | Implemented on `feature/xmpp-remote-transport`, not merged into current main. |
-| Installation | Installs the core runtime and selected provider-specific config, extensions, patches, or services. | Windows MSI is primary. Linux support is narrower; macOS is unsupported. |
+| Area | Current product reality |
+|---|---|
+| Local provider messaging | Implemented through eleven isolated Windows provider packages plus built-in mailbox and registry behavior. Operation support differs by surface. |
+| MCP | The common tool boundary for sender identity, listing, discovery, send, create, rename, status, and correlated replies where a provider exposes the needed metadata. |
+| A2A | A separate standards-based HTTP boundary for exposing registered sessions and calling external agent endpoints. The Windows package includes separate A2A server and interactive client/broker features. |
+| Secure XMPP | Merged into `main`. Shared endpoint security, Windows and Linux clients, Windows and Linux server implementations, and a cloud server role exist. A complete current encrypted client-to-provider journey is not yet claimed. |
+| Desktop platforms | Windows is the packaged primary desktop. Linux x86-64 has a Debian package and provider/XMPP source. macOS has a native Swift implementation and unsigned package evidence. |
+| Mobile platforms | Native Android and iPhone clients exist as engineering previews. They are not public production releases, and protected messaging remains fail-closed where required runtime pieces are unavailable. |
+| Licensing and trust | License entitlement, website account/pool state, device trust, and XMPP transport credentials are separate authorities. A license token is not a device identity or messaging credential. |
+| Updates | Signed Windows artifacts and isolated provider packages exist. Signed pull metadata and provider-package update machinery exist; unattended core replacement is not claimed. |
 
-The status statements above are summaries. Use the [Provider Support Matrix](reference/provider-support-matrix.md), [Protocol Support Matrix](reference/protocol-support-matrix.md), [Platform Support Matrix](reference/platform-support-matrix.md), and [Installer Behavior Matrix](reference/installer-behavior-matrix.md) for the exact current claims.
+Read [Current Product Status](reference/current-product-status.md) before interpreting any capability claim. It distinguishes source, package, signature, installation, deployment, and end-to-end evidence.
 
 ## Start Here
 
 New users:
 
 1. Read [What AxiOwl Is](getting-started/what-axiowl-is.md).
-2. Read [Install And First Run](getting-started/install-first-run.md).
-3. Follow [Send Your First Message](getting-started/send-your-first-message.md).
-4. Learn the difference between [Receipts And Proof](concepts/receipts-vs-proof.md).
+2. Check the [Platform Support Matrix](reference/platform-support-matrix.md).
+3. Check the [Provider Support Matrix](reference/provider-support-matrix.md).
+4. Follow [Install And First Run](getting-started/install-first-run.md).
+5. Follow [Send Your First Message](getting-started/send-your-first-message.md).
+6. Learn the difference between [Receipts And Proof](concepts/receipts-vs-proof.md).
 
-People evaluating the product should read [Why Use AxiOwl](why-axiowl/why-use-axiowl.md) and [AxiOwl As A Normalization Layer](concepts/normalization-layer.md).
+For security-sensitive use, read [Security And Trust](security/README.md), [Encryption And Privacy](security/encryption-and-privacy.md), and [Device Trust And Enrollment](security/device-trust-and-enrollment.md).
 
-Developers and operators should start with [Architecture Overview](reference/architecture-overview.md), [A2A](a2a/README.md), [Inter-Node Communication](inter-node/README.md), and [Release Validation](reference/release-validation-checklist.md).
-
-## Source Of Truth
-
-These documents govern current product claims:
+## Public Sources Of Truth
 
 | Document | Governs |
 |---|---|
-| [Provider Support Matrix](reference/provider-support-matrix.md) | Provider surface support and last validation status. |
-| [Installer Behavior Matrix](reference/installer-behavior-matrix.md) | What each MSI feature installs, patches, configures, and removes. |
-| [Protocol Support Matrix](reference/protocol-support-matrix.md) | A2A, inter-node, relay, SSH, streaming, and XMPP status. |
-| [Platform Support Matrix](reference/platform-support-matrix.md) | Windows, Linux, and macOS product boundaries. |
-| [Architecture Overview](reference/architecture-overview.md) | Runtime components and message flows. |
-| [Security And Trust](security/README.md) | Public encryption boundaries, device trust, authorization, metadata, and security limits. |
-| [Release Validation Checklist](reference/release-validation-checklist.md) | Evidence required before a capability is called release-ready. |
+| [Current Product Status](reference/current-product-status.md) | Review date, evidence vocabulary, and current maturity boundaries. |
+| [Provider Support Matrix](reference/provider-support-matrix.md) | Operations and installer ownership by concrete provider surface. |
+| [Installer Behavior Matrix](reference/installer-behavior-matrix.md) | Windows feature ownership and what each selection changes. |
+| [Protocol Support Matrix](reference/protocol-support-matrix.md) | MCP, A2A, XMPP, and legacy transport status. |
+| [Platform Support Matrix](reference/platform-support-matrix.md) | Windows, Linux, macOS, iOS, Android, and server maturity. |
+| [Architecture Overview](reference/architecture-overview.md) | Runtime, provider, network, trust, and release boundaries. |
+| [Security And Trust](security/README.md) | Public protection goals, limits, and trust boundaries. |
 
-Historical reports explain how a method was discovered. They do not override these current matrices.
-
-Public security pages explain the protection goals and limits without publishing credentials, internal deployment identifiers, or exact cryptographic wire formats.
+Historical reports remain useful evidence, but they do not override these pages. A dated plan can show what engineers intended; current source and current artifact evidence decide what the website claims.
 
 ## One Rule To Remember
 
-An AxiOwl acceptance receipt proves that AxiOwl accepted responsibility for a request. It does not prove the target consumed the message. The strongest ordinary proof is a correlated response from the intended provider session over AxiOwl MCP or the corresponding completed A2A task result.
+An AxiOwl acceptance receipt proves that AxiOwl accepted responsibility for a request. It does not by itself prove that the provider displayed the message, completed the work, or returned a response. The strongest normal proof is a correlated response from the intended provider-owned session or a completed protocol task bound to that response.

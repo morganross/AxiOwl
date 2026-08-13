@@ -6,7 +6,7 @@ sidebar_position: 4
 
 ## Enrollment And Inspection
 
-The CLI provides node add, enroll, list, show, verify, disable, enable, and removal operations. Verification checks the selected transport's actual boundary, such as an A2A Agent Card or relay health endpoint.
+The CLI provides node add, list, show, verify, disable, enable, and removal operations for explicit A2A nodes. Verification checks the selected transport boundary, such as an A2A Agent Card or an A2A-over-SSH session.
 
 ## Failure Diagnosis
 
@@ -15,7 +15,7 @@ Read evidence in this order:
 1. node lookup and enabled state;
 2. selected transport plan;
 3. required address and credential availability;
-4. Agent Card or relay preflight;
+4. Agent Card or SSH preflight;
 5. network response;
 6. remote A2A task result;
 7. destination provider delivery evidence;
@@ -23,10 +23,10 @@ Read evidence in this order:
 
 This ordering distinguishes DNS, TLS, authentication, node routing, target discovery, provider delivery, and reply failures.
 
-## Linux Remote Boundary
+## Linux Boundary
 
-The current Linux remote package is a narrow Codex CLI deployment target. The Linux desktop tree contains labs and parked reference code, not a general released desktop product. Do not describe all Windows provider surfaces as remotely supported on Linux.
+Linux x86-64 now has a compiled native client and Debian packaging, including the shared secure XMPP runtime and provider packages. It remains an engineering preview: package presence does not establish that every Windows provider method or a complete protected-device journey is demonstrated on Linux.
 
-## Legacy Transports
+## XMPP Operations
 
-Legacy API and legacy SSH paths remain migration tools. They are explicit modes or tightly guarded fallbacks, not the product's primary network architecture.
+XMPP endpoint selection, device admission, transport credentials, and protected action receipts belong to the XMPP/device-trust model, not the A2A node registry. Diagnose them with the [XMPP documentation](../xmpp/README.md) and do not copy A2A access tokens into XMPP configuration.

@@ -16,7 +16,7 @@ AxiOwl works by installing local runtime files and selected provider integration
 
 ## Do Not Use Unsupported Surfaces As If They Are Supported
 
-If the provider matrix says a surface is `target` or `unsupported`, do not depend on it for important work. Target means “we want this” or “part of this exists,” not “this is ready.”
+If the provider matrix says a surface is experimental or unsupported, do not depend on it as though it were demonstrated support. Implemented source, packaged integration, historical evidence, and current support are different claims.
 
 ## Do Not Use It To Hide Provider Failures
 

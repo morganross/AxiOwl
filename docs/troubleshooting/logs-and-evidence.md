@@ -33,6 +33,9 @@ Logs are useful only when they answer a concrete question.
 | Send receipt | AxiOwl accepted the message. |
 | Provider result file | Provider edge reported result. |
 | MCP reply | End-to-end response proof. |
+| A2A task result | The task reached the recorded protocol state and result. |
+| XMPP routing result | The server accepted or rejected the exact-resource stanza. |
+| Protected XMPP receipt | The endpoint returned the correlated protected action result. |
 
 ## What To Save In Reports
 
@@ -46,3 +49,5 @@ Logs are useful only when they answer a concrete question.
 - exact error text;
 - relevant log excerpts;
 - final conclusion.
+
+For remote paths, also record the selected protocol, endpoint identity without private addresses, and the exact boundary reached. Redact access tokens, transport credentials, private keys, cloud identifiers, and message bodies that are not required for diagnosis.

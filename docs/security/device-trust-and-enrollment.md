@@ -4,39 +4,43 @@ sidebar_position: 3
 
 # Device Trust And Enrollment
 
-AxiOwl treats a device as a security principal, not just as a browser window or a chat title. A device must be associated with an approved account or trust domain before it can request protected work.
+Device trust answers a narrow question: **which device keys belong to this customer-controlled trust domain right now?** It is separate from website login, license entitlement, XMPP password issuance, and provider authentication.
 
-## The public lifecycle
+## First Device
 
-1. **Initial activation** establishes the first trusted authority for the installation.
-2. **Enrollment** creates a new device identity and presents it to an already trusted device or coordinator.
-3. **Admission** requires an explicit approval decision. The new device does not become trusted merely because it can reach the server.
-4. **Binding** connects the admitted device to its authenticated transport and provider-facing session identity.
-5. **Use** is limited by the current membership, policy, and authorization state.
-6. **Revocation** removes a device from the active set and blocks its future requests.
+The first eligible desktop creates a new trust domain and signs the initial trust record with keys held by that endpoint. The service stores and projects the signed result, but service acceptance is not a substitute for endpoint signature verification.
 
-The exact local storage and wire representation are intentionally kept out of this public page. The security property is the important part: possession of a network connection or a copied display name is not enough to join the trusted set.
+## Later Devices
 
-## Human confirmation matters
+A later device:
 
-Enrollment is an ownership decision. A customer should be able to recognize the device being admitted and compare a human-readable confirmation value before accepting it. Discovery hints, QR codes, deep links, or DNS records may help locate a service, but location information is not authority by itself.
+1. creates its own local signing and messaging identity;
+2. sends a signed enrollment request for the existing account pool;
+3. waits for a currently trusted coordinator to inspect and approve it;
+4. receives a signed admission bound to that exact request, device, endpoint, and trust domain;
+5. verifies the admission before committing membership locally;
+6. obtains its own transport credential rather than copying another device's private credential.
 
-## Removal and loss
+Out-of-band confirmation can use a direct scan or a full fingerprint comparison on both devices. The server relays evidence; it does not become the coordinator.
 
-Revocation should fail closed. A removed device must not continue to receive protected traffic, submit actions, or appear active merely because an old cache still contains its name.
+## Revocation And Replacement
 
-If every trusted authority for a trust domain is lost, the safe recovery direction is to create a new trust domain rather than silently reconstructing the old authority from a server backup or support channel. This protects against a backup becoming an invisible master key.
+Revocation removes the device from active membership and causes transport and public routing/key state to be retracted through their owning services. A revoked device must not regain authority merely because it still has old local files or a previously valid transport credential.
 
-## Why this is separate from licensing
+Replacement or ownership transfer works only while a trusted coordinator can sign the required change.
 
-Licensing answers whether a product may run. Device trust answers which installation may act. Activation can provide an initial bootstrap, but it should not become a permanent substitute for customer-owned device approval or action authorization.
+## Total Trust Loss
 
-## User-facing warning signs
+If all trusted coordinator devices and keys are lost, AxiOwl does not let licensing, support, the XMPP server, or a backup reopen the old trust domain. The safe outcome is a new trust domain with new keys, credentials, grants, and membership.
 
-Stop and investigate when:
+This is less convenient than a universal recovery key, but it prevents central infrastructure from silently becoming the customer's device authority.
 
-- a new device becomes active without a visible approval step;
-- a revoked device still appears sendable;
-- a copied or stale chat name can authorize an action;
-- a server backup is described as able to recreate customer trust;
-- a device changes identity after reinstall without an explicit customer decision.
+## Device Limit
+
+The current trust model enforces a bounded active-device set. The limit protects routing, public key-bundle state, and administrative clarity. It is not a licensing seat count.
+
+## Service Boundary
+
+The device-trust service stores signed trust evidence and produces bounded projections. Endpoints and the shared verifier remain responsible for the cryptographic meaning. The account/pool service decides which pool is current; the XMPP provisioner issues transport credentials only after an authorized decision; the Activation service handles optional licensing only.
+
+See [Accounts, Licensing, Pools, And Device Trust](../concepts/accounts-licensing-and-device-trust.md).

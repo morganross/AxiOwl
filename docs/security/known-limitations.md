@@ -4,32 +4,38 @@ sidebar_position: 7
 
 # Known Security Limits
 
-Good security documentation includes the boundaries of the protection. AxiOwl reduces several classes of risk, but it cannot make an untrusted computer or provider trustworthy by itself.
+## End-To-End Demonstration Is Incomplete
 
-## AxiOwl cannot protect a compromised host
+Secure XMPP source, packages, and cloud service evidence exist. A current complete admitted-client, encrypted-message, provider-effect, and protected-receipt journey is not yet a public support claim.
 
-If malware controls the operating system, provider process, user account, or trusted device, it may read content before encryption or after decryption. Protect the host, user account, and provider account separately.
+## Metadata Remains
 
-## Provider behavior still matters
+Content encryption does not hide connection timing, endpoint availability, routing identifiers, message size, provider state, or all local logs.
 
-AxiOwl can normalize discovery, delivery, identity, and receipts, but it cannot force a provider to preserve history, display content, keep a session alive, or expose reliable metadata. Provider support is therefore surface-specific.
+## Providers Are External Trust Domains
 
-## Private integrations can be fragile
+Once a local provider receives an authorized message, that provider applies its own privacy, retention, account, model, and execution policies. AxiOwl cannot make an external provider zero knowledge.
 
-Some editor integrations depend on provider extension or workbench behavior that is not a stable public API. A provider update can invalidate a patch or change discovery. The installer should report that boundary rather than silently claiming success.
+## Patch-Sensitive Integrations Can Break
 
-## Encryption does not hide everything
+Cursor, VS Code/Copilot, and selected CLI identity paths depend on provider behavior that is not always a stable public API. Upstream updates can invalidate a patch or change discovery. The safe result is a visible refusal, not an unverified guess.
 
-Content protection does not automatically hide routing metadata, timing, endpoint state, local logs, provider history, or the fact that a connection exists.
+## Device Loss Has A Hard Boundary
 
-## Remote services add trust boundaries
+If every trusted coordinator is lost, central services cannot recover the old trust domain. A new domain is required. This prevents server-side recovery power but increases the importance of keeping at least one trusted device available during normal transfer.
 
-A remote server can route protected content without being the customer's device authority, but it still has operational visibility and availability power. Operators should review server access, logs, backups, network policy, and credential rotation.
+## No Offline Protected Action Queue
 
-## Support status can change
+The selected secure action path rejects an offline exact destination instead of retaining message bodies for later delivery.
 
-The [Provider Support Matrix](../reference/provider-support-matrix.md) is the current public status page. A target or experimental surface may be useful for evaluation without being suitable for an unattended or security-sensitive workflow.
+## No Universal Exactly-Once Provider Effect
 
-## What to do when evidence is ambiguous
+AxiOwl can prevent a second authorized local handoff for the same request. It cannot always prove whether an external provider performed an effect immediately before a crash or disconnection.
 
-Stop at the last known boundary. A receipt is not delivery proof, a display name is not identity proof, and an installed bridge is not provider support proof. Preserve the relevant log excerpt, redact secrets, and use the troubleshooting documentation to classify the failure.
+## No Unattended Core Update Claim
+
+Signed metadata and provider-package update machinery exist, but automatic core download, staging, and replacement are not presented as production behavior.
+
+## Release Evidence Is Artifact-Specific
+
+A newer source revision does not retroactively change an older signed MSI or package. Always identify the exact manifest, artifact, and installation under investigation.

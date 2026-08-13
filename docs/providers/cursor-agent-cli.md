@@ -1,27 +1,15 @@
 # Cursor Agent CLI
 
-Cursor Agent CLI is a command-line provider surface recognized by current runtime code. It is separate from Cursor Composer in the desktop editor.
+Cursor Agent CLI is separate from Cursor Composer in the desktop editor.
 
-## Capabilities
-
-| Operation | Status |
+| Operation | Source status |
 |---|---|
-| Discovery | implemented |
-| Send | implemented |
-| Create | implemented |
-| Rename | unsupported |
-| MCP reply | implemented |
+| Discover | Implemented |
+| Send | Implemented |
+| Create | Implemented |
+| Rename | Implemented |
+| MCP reply | Implemented |
 
-## Installer
+The Windows MSI now has a dedicated Cursor CLI feature and isolated package. It applies the provider-specific session-metadata integration needed for exact MCP identity. Older docs saying there was no checkbox or no rename support are stale.
 
-The primary MSI has no dedicated Cursor Agent CLI checkbox. The Cursor checkbox configures and patches the editor/Composer surface.
-
-## Evidence
-
-The July 12 full test found `agent.cmd` but stopped because the Cursor Agent CLI was not authenticated. No provider session was created and no message was dispatched. That is a prerequisite failure, not successful CLI support on the tested machine.
-
-## Risks
-
-- product authentication is external to the AxiOwl installer;
-- editor and CLI sessions require separate discovery and delivery;
-- runtime code should not be presented as clean-machine installer coverage.
+Cursor authentication remains external. Editor and CLI sessions must not be merged by name or assumed to share one delivery method.

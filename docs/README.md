@@ -1,36 +1,32 @@
 # AxiOwl Docs
 
-Start with [reference](reference/README.md). Those files are the source of truth for current product behavior.
+The public documentation describes the current repository and the strongest current artifact or deployment evidence without exposing credentials, private infrastructure identifiers, or cryptographic secret material.
 
-## Current Documentation Set
+## Reading Order
+
+1. [AxiOwl Documentation](intro.md)
+2. [Current Product Status](reference/current-product-status.md)
+3. [What AxiOwl Is](getting-started/what-axiowl-is.md)
+4. [Provider Surfaces](concepts/provider-surfaces.md)
+5. [Accounts, Licensing, Pools, And Device Trust](concepts/accounts-licensing-and-device-trust.md)
+6. [Provider Support Matrix](reference/provider-support-matrix.md)
+7. [Platform Support Matrix](reference/platform-support-matrix.md)
+8. [Security And Trust](security/README.md)
+
+## Documentation Areas
 
 | Audience | Folder |
 |---|---|
-| Why use it | [why-axiowl](why-axiowl/why-use-axiowl.md) |
-| Beginner path | [getting-started](getting-started/what-axiowl-is.md) |
-| Concepts | [concepts](concepts/provider-surfaces.md) |
-| Source of truth | [reference](reference/README.md) |
-| Users | [user](user/README.md) |
-| Installer behavior | [installer](installer/README.md) |
-| Providers | [providers](providers/README.md) |
-| Troubleshooting | [troubleshooting](troubleshooting/common-symptoms.md) |
-| Operations | [operations](operations/provider-test-round.md) |
-| Developers | [developer](developer/README.md) |
-| Support and forensics | [support](support/forensics.md) |
-| Release and QA | [release](release/qa-checklist.md) |
-| Security and trust | [security](security/README.md) |
+| New users | [Getting started](getting-started/what-axiowl-is.md) |
+| Product evaluation | [Why AxiOwl](why-axiowl/why-use-axiowl.md) |
+| Core concepts | [Concepts](concepts/normalization-layer.md) |
+| Current product contract | [Reference](reference/README.md) |
+| Platforms | [Platforms](platforms/README.md) |
+| Provider details | [Providers](providers/README.md) |
+| Installation | [Installer](installer/README.md) |
+| Protocols | [A2A](a2a/README.md), [XMPP](xmpp/README.md), and [Inter-node](inter-node/README.md) |
+| Security | [Security and trust](security/README.md) |
+| Troubleshooting | [Troubleshooting](troubleshooting/common-symptoms.md) and [Support](support/forensics.md) |
+| Development and release | [Developer](developer/README.md), [Release](release/qa-checklist.md), and [Operations](operations/docs-release.md) |
 
-Historical reports, dated plans, and regression writeups remain useful evidence, but they are not the current product contract unless the source-of-truth docs refer to them.
-
-## Reading Order For New Users
-
-1. [Why Use AxiOwl](why-axiowl/why-use-axiowl.md)
-2. [Who AxiOwl Is For](why-axiowl/who-it-is-for.md)
-3. [What AxiOwl Is](getting-started/what-axiowl-is.md)
-4. [Provider Surfaces](concepts/provider-surfaces.md)
-5. [AxiOwl As A Normalization Layer](concepts/normalization-layer.md)
-6. [Install And First Run](getting-started/install-first-run.md)
-7. [Send Your First Message](getting-started/send-your-first-message.md)
-8. [Receipts Versus Proof](concepts/receipts-vs-proof.md)
-9. [Provider Support Matrix](reference/provider-support-matrix.md)
-10. [Security And Trust](security/README.md)
+Historical reports and dated plans explain decisions and experiments. They are not automatically current product claims.

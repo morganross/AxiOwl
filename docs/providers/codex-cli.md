@@ -1,27 +1,18 @@
 # Codex CLI
 
-Codex CLI is a separate provider surface from Codex Desktop even though both use Codex session concepts.
+Codex CLI is a separate surface from Codex Desktop even when both expose similar thread identifiers.
 
-## Capabilities
+| Operation | Source status |
+|---|---|
+| Discover | Implemented |
+| Send | Implemented |
+| Create | Implemented |
+| Rename | Implemented |
+| MCP reply | Implemented |
+| Status | Implemented |
 
-| Operation | Status | Method |
-|---|---|---|
-| Discovery | supported | Codex CLI session metadata |
-| Send | supported | Resume the exact native session |
-| Create | implemented | Start a new Codex CLI session with the initial message |
-| Rename | supported | Provider-visible native rename |
-| MCP reply | supported | Codex MCP metadata and plugin path |
+The current Windows MSI has a dedicated Codex CLI feature and provider package. It configures AxiOwl MCP/session support but does not install Codex CLI or authenticate the user.
 
-## Installer
+Historical response-backed evidence exists. A current package still needs a real authenticated CLI session and a correlated reply to establish current end-to-end proof.
 
-The primary MSI has one Codex checkbox for the Codex plugin/MCP/skill integration. It does not expose a separate Codex CLI checkbox, even though the runtime has a distinct `codex_cli` provider edge.
-
-## Evidence
-
-Codex CLI has returned response-backed AxiOwl messages and provider-visible rename proof. In the July 12 full round, create reached and named the correct session but the provider turn ended before a complete MCP reply. Current documentation therefore distinguishes implemented create from fully validated create.
-
-## Risks
-
-- desktop and CLI sessions must not be merged solely because they share a UUID format;
-- a partial transcript is not a completed reply;
-- the installer/runtime coverage difference matters on a clean machine.
+Desktop and CLI registry rows remain separate. A shared UUID shape or working directory is not enough to merge them.

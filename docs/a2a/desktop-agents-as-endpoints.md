@@ -37,10 +37,19 @@ A scoped agent endpoint enforces the agent named by its URL. A caller cannot use
 
 Provider factories describe AxiOwl surfaces that can create a new provider session. Their endpoints use the provider create workflow and return an A2A task representing the operation.
 
-Provider factory availability is narrower than provider send support. For example, current Codex Desktop create is deliberately disabled even though delivery and rename are implemented. The [Provider Support Matrix](../reference/provider-support-matrix.md) records those differences.
+Provider factory availability is evaluated independently from send and rename. The [Provider Support Matrix](../reference/provider-support-matrix.md) records the current operation-level claims instead of assuming that a provider with send support can also create a chat.
 
 ## Interactive User Boundary
 
-Provider state normally belongs to the signed-in Windows user, while the optional API service runs as LocalSystem. Current code defines a named-pipe user broker so the service can forward protected A2A work into the active interactive session without copying user registry state into the service account.
+Provider state normally belongs to the signed-in Windows user, while the optional A2A server runs as LocalSystem. A named-pipe user broker forwards eligible work into the interactive session without moving provider registry state or provider credentials into the service account.
 
-The checked-in MSI currently does not package or start `axiowl-user-broker.exe`. The automatic API service can expose public routes, but protected routes that require interactive provider access return a service-unavailable response until the broker is separately running. This is a known packaging gap, not a protocol success.
+The current Windows MSI packages this boundary as two explicit features:
+
+- **A2A Server** installs `axiowl-api-service.exe` as the `AxiOwlApi` service;
+- **A2A Client** installs `axiowl-user-broker.exe` for the interactive user.
+
+Installing only the server can expose service-owned protocol routes, but it does not make an interactive desktop provider available. A broker-dependent request must fail visibly when no eligible interactive broker is present.
+
+## What A Card Proves
+
+An Agent Card proves that an A2A endpoint advertises a capability. It does not prove that a specific provider session is currently logged in, sendable, or able to answer. A complete journey still needs provider delivery evidence and, where expected, a correlated MCP reply.

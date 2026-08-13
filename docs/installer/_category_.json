@@ -1,6 +1,6 @@
 {
   "label": "Installer",
-  "position": 10,
+  "position": 11,
   "link": {
     "type": "generated-index",
     "description": "Installer checkbox, provider discovery, patching, cleanup, and log behavior."

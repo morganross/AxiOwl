@@ -1,93 +1,86 @@
 # AxiOwl Architecture Overview
 
-AxiOwl is a normalization, identity, discovery, messaging, and protocol gateway for AI provider sessions. The primary runtime runs locally on Windows. It can also expose those sessions through A2A and route work to external A2A services or another AxiOwl node.
+AxiOwl is not one universal adapter. It is a common coordination core surrounded by provider-specific, protocol-specific, platform-specific, and authority-specific components.
 
-Plain English version: AxiOwl gives unlike AI products a shared address book and message contract without pretending they work the same way. Provider-specific code handles the difficult last mile. A2A and inter-node transports provide standard boundaries around that local capability.
+## System Layers
 
-## Architectural Layers
+| Layer | Responsibility |
+|---|---|
+| Local core | Registry, normalized addresses, sender identity, message and receipt IDs, MCP, mailbox, logs, and workflow results |
+| Provider packages | Discovery, installation, send, create, rename, and provider-specific verification for one concrete surface |
+| A2A | Standards-based Agent Cards, inbound/outbound tasks, external endpoints, and node transport |
+| Secure XMPP | Approved-device remote actions, endpoint encryption, exact-resource routing, receiver authorization, replay handling, and protected receipts |
+| Account and pool | Website account session and the account's current device pool/generation |
+| Device trust | Signed genesis, later-device admission, revocation, replacement, closure, and read-only trust projections |
+| Licensing | Optional entitlement for licensed product behavior; no account, device, pool, or messaging authority |
+| Packaging and update | Windows MSI, Linux Debian package, Apple/Android artifacts, provider packages, signatures, release manifests, and pull metadata |
+
+## Local Provider Flow
 
 ```text
-user, provider MCP tool, CLI, A2A client, or remote node
-  -> command or protocol boundary
-  -> authenticated sender identity
-  -> registry and target resolution
-  -> normalized message request
-  -> local, A2A, or inter-node routing
-  -> provider-specific delivery edge
-  -> provider session
-  -> provider MCP reply
-  -> receipt or A2A task completion
+CLI, GUI, or MCP request
+  -> validate caller and operation
+  -> resolve exact target in the registry
+  -> select one provider package
+  -> invoke that provider's native delivery method
+  -> record acceptance or rejection
+  -> correlate a later provider-owned MCP reply
 ```
 
-## Core Local Runtime
+Display names are for people. Provider session IDs and authenticated callback metadata are used for routing and proof.
 
-| Component | Responsibility |
-|---|---|
-| `cli.cpp` | Human and automation commands for discovery, send, create, rename, A2A, nodes, API, relay, and diagnostics. |
-| `mcp_server.cpp` | AxiOwl MCP tools, sender metadata validation, reply receipts, and A2A reply correlation. |
-| `registry.cpp` | Durable agent names, aliases, provider session IDs, node ownership, sendability, and verification state. |
-| `discovery*.cpp` | Provider-specific and A2A discovery, enrollment, and registry refresh. |
-| `message_pipeline.cpp` | Sender resolution, target repair, visible-body construction, receipt boundaries, and provider dispatch. |
-| `provider_edges.cpp` | Explicit send, create, and rename dispatch by provider surface. |
-| `provider_*.cpp` | Provider-native delivery and proof logic. |
-| `delivery_worker.cpp` | Isolated provider delivery work and final provider result logging. |
-| mailbox components | Local message inbox, GUI, test orchestration, and a built-in addressable endpoint. |
+## A2A Flow
 
-## A2A Boundary
+```text
+external A2A caller
+  -> authenticated A2A route
+  -> scoped Agent Card or task target
+  -> interactive user broker when local user state is required
+  -> normal provider package
+  -> task state and correlated result
+```
 
-The A2A implementation has two roles:
+The Windows installer now has separate A2A server and A2A client/user-broker features. The old documentation claim that the broker was compiled but absent from the MSI is no longer true.
 
-- expose eligible registry sessions and provider factories as A2A agents;
-- import and send to external A2A Agent Cards as `provider=a2a` targets.
+Outbound A2A works in the other direction: an explicit external Agent Card is imported as a target and called through the A2A client. AxiOwl does not need to reimplement that endpoint's internals.
 
-Inbound A2A tasks enter the normal message pipeline. A provider reply carrying the original receipt can complete the task. Outbound A2A targets also use the normal provider dispatch table, which means external endpoints participate in the same names, evidence, and receipt vocabulary as local providers.
+## Secure XMPP Flow
 
-See [A2A In AxiOwl](../a2a/README.md).
+```text
+approved source device
+  -> endpoint encrypts content and signs the requested action
+  -> XMPP server authenticates transport and routes to an exact resource
+  -> destination endpoint decrypts and verifies sender/session binding
+  -> receiver checks device trust, permission, freshness, and replay state
+  -> one authorized request crosses the unchanged provider boundary
+  -> endpoint protects and returns the terminal receipt
+```
 
-## Machine API And Interactive User Broker
+The server routes; it does not decide that a provider action is permitted. Successful decryption is also not enough: receiver-owned authorization must succeed before provider invocation.
 
-The optional API executable can run as a LocalSystem Windows service. Provider registries and app sessions belong to the interactive user. A named-pipe user broker is therefore designed to forward authenticated protected requests from the service into the active user session.
+The selected protected path stores no offline message body. An unavailable exact destination reports that it is offline rather than silently queuing or switching transports.
 
-The broker accepts only a LocalSystem caller and does not poll. The current primary MSI does not package or start the broker executable, so this service-to-user path is not yet complete in the shipped installer.
+## Identity And Authority Separation
 
-## Inter-node Routing
+```text
+website login      -> account identity
+current pool       -> account's active device group
+device trust       -> admitted keys and lifecycle
+XMPP provisioning  -> per-device transport credential
+provider login     -> provider's own local authority
+license token      -> optional product entitlement only
+```
 
-Remote nodes are durable registry records with transport policy and credentials. Current transport choices include direct HTTPS A2A, hosted A2A relay, A2A JSON-RPC over SSH, and explicit legacy migration modes.
+No arrow in this diagram means one credential can substitute for another. See [Accounts, Licensing, Pools, And Device Trust](../concepts/accounts-licensing-and-device-trust.md).
 
-Fallback is allowed only when an earlier transport is known to be unavailable or migration-safe. Ambiguous failure blocks fallback to prevent duplicate delivery.
+## Platform Shape
 
-See [Axi-To-Axi And Chat-To-Chat Communication](../inter-node/README.md).
+Windows and Linux consume the shared C++ secure-XMPP core. macOS and iOS are native Swift products that consume compatible contracts. Android is a native Kotlin/Compose product with native security bridges. Platform custody and UI differ, but a protected action must retain one security meaning.
 
-## XMPP Feature Line
+## Release Shape
 
-The XMPP implementation is isolated on `feature/xmpp-remote-transport`. It provides RFC 7395 transport, Prosody routing, receiver-agent behavior, and an ordinary XMPP chat gateway. It is not currently merged into `main` and is not part of the primary MSI.
+Core applications and provider packages are separately identifiable. Building, signing, publishing immutable bytes, promoting an update channel, checking for an update, and applying an update are separate operations. A later stage must not be inferred from an earlier one.
 
-See [XMPP Transport](../xmpp/README.md).
+## Current Completion Boundary
 
-## Identity And Registry Model
-
-| Field | Meaning |
-|---|---|
-| `display_name` | Human-facing address. |
-| `aliases` | Additional lookup names and retained protocol metadata. |
-| `provider` | Delivery edge, such as `codex`, `cursor`, `a2a`, or `remote`. |
-| `provider_session_id` | Provider-owned local session address or external A2A service URL. |
-| `agent_id` | Strong normalized identity used by scoped A2A endpoints where present. |
-| `node_id` | Machine or routing owner. |
-| `sendable` | Current eligibility for delivery, not proof of a future response. |
-| `last_verified_at` | Stronger proof timestamp. |
-| `last_error` | Retained diagnostic state. |
-
-Human names can change. Provider and protocol IDs are used for routing and verification.
-
-## Receipt Model
-
-AxiOwl keeps request acceptance, provider delivery, provider response, and A2A task completion separate. This rule applies locally and across network boundaries.
-
-See [Receipts Versus Proof](../concepts/receipts-vs-proof.md).
-
-## Installer Ownership
-
-The MSI is one user experience with separately owned provider features. An unchecked provider should not be closed, patched, configured, or removed. The optional A2A feature owns its API service, relay payload, service configuration, and machine feature marker.
-
-See [Installer Behavior Matrix](installer-behavior-matrix.md).
+The named source components are broad and substantial. Windows and Linux packages exist; cloud service deployment evidence exists. The public site does not yet claim a complete current protected client-to-XMPP-to-provider-to-receipt demonstration. See [Current Product Status](current-product-status.md).

@@ -1,27 +1,21 @@
----
-sidebar_position: 7
----
-
 # Local, Remote, And External Endpoints
 
-AxiOwl uses the same normalized address and task ideas across several trust boundaries, but the transports are not interchangeable.
+## Local Provider
 
-## Local Provider Delivery
+A local target belongs to a provider product on the same machine. AxiOwl resolves the registry record and invokes that provider's package. No network transport should appear merely because local delivery failed.
 
-Local delivery reaches a provider surface on the same user machine. It may use a provider CLI, MCP configuration, an extension, a command-file watcher, or a validated patch. Local discovery can inspect provider-owned files and processes that are not available to a remote service.
+## External A2A Agent
 
-## AxiOwl Node Delivery
+An external A2A target is described by an explicit Agent Card. AxiOwl acts as an A2A client and retains task state separately from local provider receipts.
 
-Inter-node delivery reaches another AxiOwl installation. Current main can choose direct HTTPS A2A, a configured relay, or A2A over SSH. The selected path has its own identity, pairing, credential, timeout, and evidence requirements.
+## AxiOwl Remote Node
 
-Remote transport is not a fallback that hides broken local delivery. A local provider failure remains a local provider failure. Inter-node routing is selected because the target belongs to another node.
+An AxiOwl node target uses explicit node identity and a selected A2A transport. The destination node then performs local provider delivery with its own registry and provider package.
 
-## External A2A Delivery
+## Secure XMPP Endpoint
 
-External A2A delivery imports an Agent Card and sends standards-based A2A requests to a non-AxiOwl endpoint. AxiOwl acts as the client and does not assume the external server shares AxiOwl's local registry or provider mechanics.
+An XMPP target belongs to an approved endpoint/resource. The source protects the action for that destination, the server routes it, and the destination verifies and authorizes it before local provider handoff.
 
-## XMPP Transport
+## No Cross-Transport Guessing
 
-The XMPP transport is implemented on `feature/xmpp-remote-transport`, not current main. It adds an additional network boundary with XMPP identities, TLS, SCRAM authentication, routing, and gateway policy. It must not be documented as a main-branch release feature until merged and revalidated.
-
-See [Inter-Node Communication](../inter-node/README.md), [External A2A Endpoints](../a2a/external-endpoints.md), and the [Protocol Support Matrix](../reference/protocol-support-matrix.md).
+A2A and XMPP are separate. XMPP does not carry A2A, and neither silently falls back to SSH or the removed proprietary common API. A failed path remains visible so the system does not hide a downgrade or create a duplicate provider call.

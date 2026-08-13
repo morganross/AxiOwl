@@ -1,30 +1,30 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
-# External XMPP Chat Gateway
+# External Chat And Provider Authority
 
-The external gateway lets an ordinary XMPP application communicate with AxiOwl-managed provider chats.
+Earlier AxiOwl designs described an ordinary XMPP chat gateway that could turn plaintext chat into provider work. That is not the current secure action contract.
 
-## User Model
+## Current Rule
 
-Each AxiOwl account can have a normal XMPP user account. Registered same-account AxiOwl chats appear as roster contacts in an `AxiOwl Chats` group.
+Ordinary XMPP chat and protected AxiOwl actions are different message classes. A normal chat client does not gain provider authority merely by sending text to an AxiOwl address.
 
-Sending a normal chat message to one of those contacts creates an AxiOwl delivery envelope at the server and routes it to the installation that owns the provider session.
+An actionable remote request must arrive through the selected protected endpoint path and pass:
 
-## Replies
+- approved-device identity;
+- endpoint encryption and sender binding;
+- signed action validation;
+- current permission and policy checks;
+- replay rejection;
+- exact local target resolution.
 
-The first external message creates an account-scoped virtual AxiOwl route representing the external XMPP user. A provider chat can reply to that route through the normal AxiOwl MCP tool. The gateway turns the reply into a normal XMPP chat message.
+Only then can it cross the provider boundary.
 
-The external user receives plain reply text. Provider-facing AxiOwl helper instructions are not copied into the external XMPP reply.
+## Why This Matters
 
-## Current Limits
+Without this separation, anyone who could reach an XMPP account might be able to trigger local provider work, and the routing server could synthesize or modify actionable messages. The current model keeps the server an untrusted router for action content and keeps provider authorization at the receiving endpoint.
 
-- no federation;
-- no cross-account contacts;
-- no offline delivery queue;
-- no OMEMO or other end-to-end encryption;
-- transport protection is TLS only;
-- the target install must be online to receive the message.
+## Compatibility
 
-These are feature-branch limits, not promises made by the current-main A2A service.
+A deployment may allow ordinary human chat for its own purpose, but that chat is non-actionable unless it independently enters the protected authorization path. There is no plaintext duplicate or silent downgrade for an AxiOwl action.

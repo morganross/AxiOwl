@@ -15,7 +15,8 @@ A public release should have a traceable path from source to user:
 3. Release artifacts are signed by the project release authority.
 4. The installer records what it contains and where it came from.
 5. The published artifact is retrieved without silent replacement.
-6. The installer applies only the selected features and reports the result.
+6. A signed channel pointer deliberately makes one immutable release visible to clients.
+7. The installer applies only the selected features and reports the result.
 
 This page describes the goal and the operator questions. It does not publish signing credentials, private storage details, internal object names, or deployment secrets.
 
@@ -31,6 +32,14 @@ This page describes the goal and the operator questions. It does not publish sig
 ## Why signed artifacts matter
 
 Signing helps answer whether an artifact came from the expected release authority and whether it changed after signing. It does not prove that the software is bug-free, that a provider will accept a message, or that the user's machine is uncompromised.
+
+Windows component signatures, signed release metadata, and signed XMPP actions are separate uses of cryptography. A valid installer signature cannot authorize a remote provider action, and a valid device action cannot publish a software release.
+
+## Immutable Releases And Channels
+
+AxiOwl publishes release bytes immutably and promotes signed channel pointers separately. This allows an internal release to be inspected before stable promotion. Clients verify the channel pointer, release description, component and provider-package metadata, and downloaded bytes before publishing verified local update state.
+
+Provider packages have their own revisions. A provider package can be pulled and explicitly applied without treating it as permission to overwrite another provider or silently replace the core product. See [Update Publication And Pull Updates](../release/update-publication-operator-guide.md).
 
 ## Updates are not permission to widen scope
 

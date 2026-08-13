@@ -60,8 +60,11 @@ The public security docs intentionally omit private keys, credentials, internal 
 Start with the [AxiOwl documentation site](https://morganross.github.io/AxiOwl/docs/intro), then use:
 
 - [Provider Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/provider-support-matrix)
+- [Current Product Status](https://morganross.github.io/AxiOwl/docs/reference/current-product-status)
+- [Platform Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/platform-support-matrix)
 - [Installer Behavior Matrix](https://morganross.github.io/AxiOwl/docs/reference/installer-behavior-matrix)
 - [Security And Trust](https://morganross.github.io/AxiOwl/docs/security)
+- [Update Publication And Pull Updates](https://morganross.github.io/AxiOwl/docs/release/update-publication-operator-guide)
 - [Architecture Overview](https://morganross.github.io/AxiOwl/docs/reference/architecture-overview)
 
 ## Contributing

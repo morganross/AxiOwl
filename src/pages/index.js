@@ -14,16 +14,34 @@ const cards = [
     to: '/docs/intro',
   },
   {
-    label: 'Compatibility',
-    title: 'Check provider support',
-    body: 'Compare supported, target, experimental, removed, and unsupported provider surfaces in one maintained matrix.',
+    label: 'Current reality',
+    title: 'Read product status',
+    body: 'Separate source, package, signature, installation, deployment, and end-to-end evidence before relying on a claim.',
+    to: '/docs/reference/current-product-status',
+  },
+  {
+    label: 'Providers and platforms',
+    title: 'Check exact support',
+    body: 'Compare the eleven Windows provider packages and the current Windows, Linux, macOS, iPhone, Android, and server boundaries.',
     to: '/docs/reference/provider-support-matrix',
   },
   {
-    label: 'Operations',
-    title: 'Install and validate',
-    body: 'Review installer behavior, discovery, selected provider features, cleanup, logs, and release validation.',
+    label: 'Security',
+    title: 'Understand protected messaging',
+    body: 'Learn how encryption, device trust, receiver authorization, replay rejection, and protected receipts remain separate.',
+    to: '/docs/security',
+  },
+  {
+    label: 'Installer',
+    title: 'Choose what AxiOwl changes',
+    body: 'Review provider discovery, selected-only ownership, A2A and XMPP features, cleanup, and lifecycle behavior.',
     to: '/docs/reference/installer-behavior-matrix',
+  },
+  {
+    label: 'Protocols',
+    title: 'Compare A2A and XMPP',
+    body: 'See how standards A2A tasks and endpoint-protected XMPP actions solve different remote coordination problems.',
+    to: '/docs/reference/protocol-support-matrix',
   },
 ];
 
@@ -58,7 +76,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="AxiOwl documentation for provider messaging, installer behavior, support, release QA, and security boundaries.">
+      description="AxiOwl documentation for provider messaging, A2A, secure XMPP, platform packages, installer ownership, updates, and security boundaries.">
       <HomepageHeader />
       <main className={styles.main}>
         <section className="container">

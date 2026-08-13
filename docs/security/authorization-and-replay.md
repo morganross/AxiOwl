@@ -4,41 +4,36 @@ sidebar_position: 4
 
 # Authorization And Replay Protection
 
-AxiOwl separates receiving a message from authorizing an action. The provider should not be called merely because an encrypted envelope arrived or because a local process recognized a familiar name.
+Decryption answers "could this endpoint read the message?" Authorization answers "may this request invoke this provider action now?" AxiOwl performs both.
 
-## Authorization before provider delivery
+## Receiver-Owned Decision
 
-Before a protected action reaches a provider boundary, the receiving side should establish:
+Before a remote request reaches a provider, the receiving endpoint checks:
 
-- the sender is an admitted device;
-- the target is the intended provider session;
-- the request belongs to the current trust and policy state;
-- the request has not already been consumed;
-- the exact provider-visible content is the content that was authorized.
+- the authenticated sending device;
+- current device membership and revocation state;
+- the intended destination endpoint and provider target;
+- the requested operation and grant;
+- policy freshness and trust-chain continuity;
+- message ordering and prior use;
+- exact binding between signed bytes and the provider-visible request.
 
-If those conditions cannot be established, the safe result is rejection before provider invocation. A failure should not be hidden by retrying a request that may already have been accepted.
+The XMPP server cannot grant provider permission. The sender cannot authorize itself merely by choosing a target name. A license token cannot authorize an action.
 
-## Replay protection in plain English
+## One-Shot Provider Handoff
 
-Replay protection prevents a previously valid request from being treated as a new request. AxiOwl keeps enough durable state to distinguish a new request, a duplicate, a rejected request, and a request whose final outcome is already known.
+An authorized request becomes a move-only, one-shot handoff to the existing local provider boundary. The provider adapter still applies its normal provider-specific rules. Authorization does not rewrite provider behavior or create a second provider API.
 
-This matters for more than attackers. Network retries, process restarts, duplicate command files, stale provider sessions, and interrupted handoffs can all produce the same request twice.
+The state transition is recorded before or with the handoff so an ambiguous process interruption does not lead to an automatic second provider call.
 
-## One-shot handoff
+## Replay Protection In Plain English
 
-The handoff into a provider is intentionally narrow. Once a request is consumed, it should be moved into the provider boundary rather than copied into multiple competing paths. A provider failure does not automatically mean the action is safe to retry; the system must preserve the original outcome and make the uncertainty visible.
+A correctly signed message can still be dangerous if an attacker can submit it twice. AxiOwl records sender ordering, message identity, receiver-run ownership, and dispatch state. Repeated, stale, forked, or already-terminal requests fail closed.
 
-## Receipts are not authorization proof
+Exactly-once provider effect cannot be promised across every external provider. The practical guarantee is **at most one authorized handoff from AxiOwl for the recorded request**, with an indeterminate state preserved when the process cannot prove what the provider did.
 
-A receipt tells the caller where the request stopped. It does not grant permission and it does not prove that a provider displayed or acted on the message. See [Receipts Versus Proof](../concepts/receipts-vs-proof.md) for the user-facing evidence model.
+## Receipts
 
-## Fail-closed behavior
+Protected receipts distinguish rejection before provider handoff, provider-ingress rejection, dispatch started, terminal provider result, and reply correlation. A receipt is signed and returned through the authenticated endpoint session; the platform may choose fresh transport metadata but may not reconstruct the recipient or signer from untrusted input.
 
-The following are security outcomes, not unusual edge cases:
-
-- malformed protected data is rejected;
-- unknown or revoked devices are rejected;
-- stale policy or trust state is rejected;
-- duplicate requests are not invoked twice;
-- an uncertain handoff is reported instead of guessed;
-- provider-visible bytes are not silently changed after authorization.
+See [Receipts, Delivery, And Completion Proof](../concepts/receipts-vs-proof.md).

@@ -72,6 +72,6 @@ AxiOwl separates:
 - provider delivery attempted;
 - provider reply received.
 
-That makes failure easier to talk about. “AxiOwl accepted it but Cursor did not reply” is much more useful than “it failed somehow.”
+That makes failure easier to talk about. "AxiOwl accepted it but Cursor did not reply" is much more useful than "it failed somehow."
 
-The same is true for normalization. “This row is `cursor:agents` and has a stale provider session id” is much more useful than “Cursor is weird today.”
+The same is true for normalization. "This row is `cursor:agents` and has a stale provider session ID" is much more useful than "Cursor is weird today."

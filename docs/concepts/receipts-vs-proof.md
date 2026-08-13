@@ -13,6 +13,8 @@ One request crosses several boundaries. AxiOwl reports those boundaries separate
 | Provider MCP reply | A provider session called AxiOwl back with correlated identity. | That every claim inside the reply is correct. |
 | A2A task state | The remote A2A server reported the task's current lifecycle state. | Completion until the state and result actually say completed. |
 | Completed A2A result | The task reached completion and returned its result/artifacts. | Independent validation of the result's content. |
+| XMPP routing receipt | The routing boundary accepted or rejected an exact-resource stanza. | Endpoint decryption, authorization, or provider invocation. |
+| Protected XMPP receipt | The destination endpoint returned a signed, encrypted result tied to the action. | Independent correctness of provider-generated content. |
 
 ## Why Receipts Exist
 
@@ -24,4 +26,4 @@ A reply should carry the identifiers needed to connect it to the original operat
 
 ## Support Rule
 
-Use acceptance receipts to diagnose the beginning of a route. Use provider replies or completed A2A tasks to claim end-to-end behavior. Record both when validating a release.
+Use acceptance receipts to diagnose the beginning of a route. Use provider replies, completed A2A tasks, or the applicable protected XMPP receipt to describe the later boundary. State exactly what completed instead of calling every receipt an end-to-end success.
