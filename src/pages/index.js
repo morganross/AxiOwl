@@ -32,10 +32,10 @@ const cards = [
     to: '/docs/providers',
   },
   {
-    label: 'Secure coordination',
-    title: 'Work across approved devices',
-    body: 'Combine endpoint encryption, distinct device identity, local authorization, replay protection, and protected results.',
-    to: '/docs/use-cases/secure-work-across-devices',
+    label: 'Mobile control',
+    title: 'Take your desktop agents with you',
+    body: 'Pair an Android phone or iPhone, open an existing host session, send turns, and follow the live timeline.',
+    to: '/docs/mobile',
   },
   {
     label: 'A2A',
@@ -76,7 +76,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="Bring AI sessions, coding agents, approved devices, and A2A services into one coordinated workflow with AxiOwl.">
+      description="Coordinate desktop AI agents locally or from a paired mobile app through AxiOwl hosts, provider integrations, and A2A services.">
       <HomepageHeader />
       <main className={styles.main}>
         <section className="container">

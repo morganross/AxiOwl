@@ -5,7 +5,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AxiOwl',
-  tagline: 'Bring your AI tools together. Delegate work, share results, and coordinate securely across providers and devices.',
+  tagline: 'Bring your desktop AI agents to every screen. Pair a phone, open a real session, and keep the work moving.',
   favicon: 'img/axiowl-owl-head.png',
 
   future: {
@@ -147,8 +147,8 @@ const config = {
                 to: '/docs/a2a',
               },
               {
-                label: 'Secure Devices',
-                to: '/docs/xmpp',
+                label: 'Mobile And Hosts',
+                to: '/docs/mobile',
               },
               {
                 label: 'GitHub',

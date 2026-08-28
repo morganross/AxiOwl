@@ -19,8 +19,8 @@ AxiOwl Remote Nodes let one installation coordinate selected A2A agents owned by
 
 The destination node owns its registry and provider packages. The source asks for an advertised agent; the destination performs the local provider delivery appropriate to that agent.
 
-## Choose The Right Remote Model
+## Choose The Right Connected Model
 
-Use Remote Nodes for A2A agent endpoints across AxiOwl installations. Use [Secure XMPP Transport](../xmpp/README.md) for approved-device actions with endpoint content protection and receiver-owned authorization.
+Use Remote Nodes for A2A agent endpoints across AxiOwl installations. Use [Mobile And Connected Hosts](../mobile/README.md) when a phone or connected client should open projects, agents, sessions, and timelines from one daemon host.
 
 Read [Axi-To-Axi And Chat-To-Chat Communication](../inter-node/README.md) for setup concepts.

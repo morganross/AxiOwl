@@ -1,34 +1,25 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 ---
 
-# Transport Selection And Fallback
+# Transport Selection
 
-Remote routing uses an explicit transport plan. It does not try every mechanism until something appears successful, because an ambiguous failure may occur after the destination accepted the request.
-
-## Current Node Transports
-
-| Configuration | Transport |
+| Destination | Route |
 |---|---|
-| `a2a` | Direct A2A over the configured HTTPS endpoint. |
-| `a2a-ssh` | A2A JSON-RPC over SSH standard input/output. |
+| Provider session on this computer | Local provider package |
+| Paired AxiOwl host across networks | Encrypted relay |
+| Paired AxiOwl host on a private route | Direct daemon connection |
+| Standards-based external agent | Direct A2A |
+| Operator-managed AxiOwl node over SSH | A2A-over-SSH |
 
-The CLI registers these two modes explicitly, keeping node setup aligned with the route the operator selected.
+## Mobile Route Selection
 
-## Direct HTTPS A2A
+A host profile can contain relay and direct connection methods under one host ID. The app can prefer a route and reconnect to the same host without duplicating its agents.
 
-Before sending, AxiOwl fetches the remote Agent Card. The node must have an HTTPS API URL and a durable access token. A one-time enrollment code is not accepted as a long-running bearer token.
+## A2A Route Selection
 
-## A2A Over SSH
+A2A nodes declare direct HTTPS or SSH transport when they are registered. The request retains A2A message and task semantics on either route.
 
-SSH mode starts `axiowl a2a-relay-session --stdio` on the remote node and exchanges one JSON-RPC request and response over the encrypted SSH stream. This preserves A2A request semantics while using SSH for transport and machine authentication.
+## Explicit Meaning
 
-## XMPP Is Separate
-
-Secure XMPP routing does not appear in this fallback list. It uses approved device identity, endpoint encryption, signed action authorization, and exact resource delivery. A failed A2A request is never retried through XMPP, and a failed protected XMPP action is never retried through A2A.
-
-## Duplicate-Delivery Protection
-
-A failed transport is not automatically safe to retry through another path. A connection may fail after the remote side accepted the message.
-
-When a node has both a direct A2A address and SSH information, the plan can select the next eligible A2A transport only at a boundary where retry is known not to duplicate provider delivery. Ambiguous provider failures stop the plan and remain visible.
+The route remains visible in status and logs. Local provider delivery, mobile daemon sessions, A2A, and SSH each retain their own identity, authentication, and completion model.

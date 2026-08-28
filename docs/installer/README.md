@@ -5,21 +5,19 @@ slug: /installer
 
 # Install The AxiOwl Experience You Want
 
-The Windows MSI brings the AxiOwl core, provider integrations, and optional network features into one guided setup.
+The Windows MSI brings the AxiOwl core, provider integrations, optional agent protocols, and a selectable mobile daemon into one guided setup.
 
 ## Provider-Aware Selection
 
-Before presenting the feature choices, AxiOwl looks for supported provider products on the machine. Detected products can be recommended in the installer, and the user makes the final selection.
-
-This keeps setup focused: choose the provider surfaces you use today and add others later through the normal AxiOwl lifecycle.
+AxiOwl looks for supported provider products on the machine and recommends matching integrations. The user reviews and confirms the final selection.
 
 ## Core Features
 
 The core experience provides:
 
 - the AxiOwl runtime and MCP server;
-- the local registry and discovery foundation;
-- the mailbox and tray experience;
+- local registry and discovery;
+- mailbox and desktop interface;
 - logs and diagnostics;
 - the local CLI;
 - AxiOwl-owned lifecycle and cleanup.
@@ -30,16 +28,21 @@ Each provider feature installs its own bounded integration package. Depending on
 
 The provider application continues to own its account, model access, authentication, and conversations.
 
-## Optional Connected Features
+## Agent And Node Features
 
-The MSI offers separate choices for:
+- **A2A Server** exposes selected standards-based agent endpoints.
+- **A2A Client** installs the interactive user broker used for provider-backed A2A work.
+- **SSH Command Dispatch** enables configured command-line node routes.
 
-- **A2A Server**, which exposes selected standards-based agent endpoints;
-- **A2A Client**, which adds the interactive user broker for provider-backed A2A work;
-- **XMPP Client**, which joins the signed-in user to approved-device workflows;
-- **XMPP Server**, which adds a customer-controlled Windows self-host service.
+## Mobile Daemon Choice
 
-These choices let one installation act as a local coordinator, an A2A endpoint, an approved device, a self-hosted server, or a combination.
+| Choice | What it installs |
+|---|---|
+| AxiOwl Node daemon | Recommended broad daemon runtime and Windows service host using the installed Node environment |
+| AxiOwl native C++ daemon | Native Windows service, transport, core, and provider runtime processes |
+| No mobile daemon | Local provider, mailbox, CLI, A2A, and SSH features without mobile host access |
+
+The daemon gives Android and iPhone clients access to host-owned projects, provider agents, sessions, and timelines through relay or direct connections.
 
 ## A Clear Lifecycle
 
@@ -55,7 +58,7 @@ Provider conversations, provider accounts, and unrelated user files remain under
 1. Open or restart the selected provider product.
 2. Start a current provider session.
 3. Run AxiOwl discovery.
-4. Choose the session in the registry.
-5. Follow [Send Your First Message](../getting-started/send-your-first-message.md).
+4. Follow [Send Your First Message](../getting-started/send-your-first-message.md).
+5. If a daemon is selected, follow [Pair A Mobile Device](../mobile/pair-a-device.md).
 
 For a detailed feature map, see the [Installer Behavior Matrix](../reference/installer-behavior-matrix.md).

@@ -5,63 +5,55 @@ slug: /security
 
 # Security And Trust
 
-AxiOwl is designed for useful coordination without turning one credential, server, display name, or transport event into universal authority.
-
-The security model keeps important responsibilities separate and combines them only at the endpoint that is allowed to act.
+AxiOwl keeps provider accounts, host identity, mobile pairing, relay routing, direct network access, A2A credentials, and licensing as separate responsibilities.
 
 ## Security In Plain English
 
-For an approved-device workflow, AxiOwl asks several independent questions:
+For mobile control, AxiOwl asks:
 
-1. Is this the intended server connection?
-2. Which approved device is on the connection?
-3. Is the message protected for this destination?
-4. Is the sender allowed to request this action?
-5. Is the request fresh and unused?
-6. Which local provider target may receive it?
-
-The destination endpoint answers those questions before it gives work to a local provider integration.
+1. Which daemon host created this pairing offer?
+2. Which mobile installation is presenting itself?
+3. Did the desktop user approve that device during the pairing window?
+4. Is the client using the expected encrypted relay or configured direct route?
+5. Which host-owned agent session is being controlled?
+6. Which provider permission or result is currently visible in the timeline?
 
 ## The Main Protection Layers
 
-### Provider-Owned Authentication
+### Provider Authentication Stays On The Host
 
-Provider accounts and model access remain under the provider's control. AxiOwl coordinates with an authenticated provider session rather than becoming the provider account.
+Codex, Claude Code, OpenCode, Cursor, and other providers continue to authenticate and run on the computer. The phone controls an agent through the daemon rather than receiving provider credentials.
 
-### Distinct Device Identity
+### Stable Host And Client Identity
 
-Every approved device has its own identity and transport credential. A trusted coordinator can approve another device, and device membership can be managed individually.
+The daemon has a stable host identity. Every mobile installation has its own client identity. Friendly host names can change without changing the paired host.
 
-### Endpoint Content Protection
+### Local Pairing Approval
 
-The sending endpoint protects remote message content for the intended receiving endpoint. The routing service handles the information needed to deliver the protected envelope.
+The host generates a fresh, time-limited offer. The phone presents its identity through that offer, and the desktop user approves or rejects the pending device locally.
 
-### Receiver-Owned Authorization
+### End-To-End Relay Encryption
 
-The destination decides whether the sender, target, operation, and current policy allow a provider handoff. A readable message becomes actionable only after that local decision.
+The hosted relay carries encrypted application frames between the paired phone and daemon. It routes connections without needing provider prompts, transcripts, or account tokens in plaintext.
 
-### Replay Protection
+### Explicit Direct Connections
 
-The receiver records message and dispatch state so a previously accepted action cannot simply be presented as new work.
+Direct routes use an address and security configuration chosen by the operator. Private-network, VPN, and Tailscale deployments keep reachability under the user's control.
 
-### Protected Results
+### Provider Permissions Stay Visible
 
-Results and terminal receipts return through the authenticated endpoint session with correlation to the original action.
+The daemon forwards provider permission requests and decisions as part of the agent timeline. The provider runtime on the host remains the authority for the action it requested.
 
 ## Read By Topic
 
 | Page | What you will learn |
 |---|---|
-| [Encryption And Privacy](encryption-and-privacy.md) | How endpoint protection and visible routing metadata differ |
-| [Device Trust And Enrollment](device-trust-and-enrollment.md) | How approved devices join and maintain distinct identity |
-| [Authorization And Replay](authorization-and-replay.md) | How the destination controls provider invocation |
-| [Metadata And Identity](metadata-and-identity.md) | How session identity and routing labels are handled |
-| [Trust Boundaries](trust-boundaries.md) | Which product component owns each decision |
-| [Updates And Supply Chain](updates-and-supply-chain.md) | How signed artifacts and provider packages reach users |
-| [Shared Security Responsibilities](known-limitations.md) | How users, providers, endpoints, and operators work together |
+| [Encryption And Privacy](encryption-and-privacy.md) | What the relay protects and which metadata remains visible |
+| [Pairing And Device Trust](device-trust-and-enrollment.md) | How phones join, reconnect, and are removed |
+| [Permissions And Session Control](authorization-and-replay.md) | How mobile turns and provider permissions remain tied to a host agent |
+| [Metadata And Identity](metadata-and-identity.md) | Host, client, connection, agent, and provider identifiers |
+| [Trust Boundaries](trust-boundaries.md) | What the phone, daemon, relay, provider, A2A service, and installer own |
+| [Updates And Supply Chain](updates-and-supply-chain.md) | Signed artifacts, provider packages, and release channels |
+| [Shared Security Responsibilities](known-limitations.md) | How users, hosts, providers, and operators work together |
 
-## Secure Coordination As A Product Benefit
-
-The goal is not encryption as a badge. The goal is a useful remote workflow where protected content, device trust, action permission, replay protection, and provider delivery all preserve their own meaning.
-
-See [Work Securely Across Devices](../use-cases/secure-work-across-devices.md) for the user journey.
+See [Mobile Connection Security](../mobile/security-and-privacy.md) for the connected-client view.

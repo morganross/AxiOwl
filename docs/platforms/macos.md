@@ -4,23 +4,26 @@ sidebar_position: 4
 
 # macOS
 
-AxiOwl for macOS is a native Swift desktop preview designed around the same account, registry, MCP, provider, and trust concepts as the rest of the product family.
+AxiOwl for macOS is a native Swift desktop experience with a bundled AxiOwl daemon runtime.
 
 ## Native Experience
 
-The macOS implementation includes foundations for:
+The macOS application includes foundations for:
 
-- a Swift CLI and SwiftUI application;
-- browser-based account sign-in;
-- Keychain-held account and entitlement state;
-- provider discovery and selection;
-- MCP configuration and server operations;
-- Codex CLI and Claude Code CLI workflows;
-- mailbox and provider views;
-- secure-device lifecycle integration.
+- a Swift CLI and SwiftUI desktop app;
+- account and entitlement state in platform-protected storage;
+- provider discovery and configuration;
+- MCP tools and provider workflows;
+- mailbox and local coordination;
+- daemon lifecycle and connected-client status;
+- signed package publication through the AxiOwl release system.
 
-## Why A Native App
+## Bundled Daemon
 
-A native Swift implementation can use the security, lifecycle, and user-interface conventions of macOS directly. The result is an AxiOwl experience shaped for the platform rather than a copy of the Windows application.
+The macOS package includes an AxiOwl-branded daemon asset tree and launches it as part of the desktop product. The daemon exposes the same host, project, provider, agent, and timeline concepts used by the mobile apps.
 
-The macOS preview is a place to explore how AxiOwl provider coordination and approved-device workflows feel in a native Apple desktop product.
+## Mobile Pairing
+
+A paired phone can connect through the relay or a direct route and control agents running on the Mac. Provider credentials and project files stay on macOS.
+
+The native Swift app remains the user-facing desktop while the bundled daemon provides the connected agent runtime.

@@ -3,6 +3,6 @@
   "position": 9,
   "link": {
     "type": "generated-index",
-    "description": "Understand endpoint encryption, device trust, local authorization, replay protection, and secure updates."
+    "description": "Understand mobile pairing, encrypted relay traffic, host identity, provider permissions, direct connections, and secure updates."
   }
 }

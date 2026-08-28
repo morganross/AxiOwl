@@ -9,26 +9,17 @@ AxiOwl uses three simple experience levels across provider, platform, and protoc
 | Level | Meaning |
 |---|---|
 | Core | A primary everyday AxiOwl workflow with dedicated product ownership |
-| Extended | An optional coordination, network, server, or update capability |
+| Extended | An optional coordination, daemon, network, or update capability |
 | Preview | A native experience available for exploration and continued expansion |
 
 ## Apply The Level To A Concrete Experience
 
-A useful capability statement names:
-
-- the platform;
-- the provider surface or protocol;
-- the operation;
-- the product role.
-
-For example, Windows provider messaging, Linux secure-device client, and iPhone approved-device companion describe three different experiences even though all are part of AxiOwl.
+A useful capability statement names the platform, provider or protocol, operation, and product role. Windows provider messaging, a Linux daemon host, and an iPhone mobile client are different experiences inside the same product family.
 
 ## Why The Labels Help
 
-The labels let users choose the experience that fits their project:
-
-- start with **Core** for the broadest everyday workflow;
-- add **Extended** capabilities for A2A, self-hosting, approved devices, or signed pull updates;
-- explore **Preview** platforms as the AxiOwl product family expands.
+- Start with **Core** for the broadest everyday workflow.
+- Add **Extended** capabilities for A2A, daemon hosts, mobile pairing, relay connectivity, SSH, or signed pull updates.
+- Explore **Preview** platforms as the product family expands.
 
 See [Product Capabilities](../reference/current-product-status.md) for the complete map.

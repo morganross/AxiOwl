@@ -5,27 +5,28 @@ slug: /platforms
 
 # AxiOwl Across Platforms
 
-AxiOwl is a product family designed to bring the same coordination ideas to desktop, server, and mobile environments.
-
-Each platform uses the native implementation that fits it best while sharing the same concepts: provider sessions, registry targets, trusted devices, messages, receipts, and explicit transports.
+AxiOwl combines desktop agent hosts, mobile clients, provider integrations, and standards-based agent protocols in one product family.
 
 | Platform | Product experience |
 |---|---|
-| [Windows](windows.md) | Primary desktop, full provider package family, installer, A2A, and optional XMPP client/server roles |
-| [Linux](linux.md) | Native x86-64 client and Debian package plus self-hosted XMPP server |
-| [macOS](macos.md) | Native Swift desktop preview with account, provider, mailbox, and secure-device foundations |
-| [iPhone](ios.md) | Native SwiftUI approved-device companion preview |
-| [Android](android.md) | Native Kotlin/Compose approved-device companion preview |
+| [Windows](windows.md) | Primary desktop, provider package family, A2A, SSH, and selectable Node or native daemon |
+| [Linux](linux.md) | Native desktop and Debian package with an AxiOwl-branded daemon host |
+| [macOS](macos.md) | Native Swift desktop with a bundled AxiOwl daemon and provider workflows |
+| [iPhone](ios.md) | Native SwiftUI mobile client for paired AxiOwl hosts |
+| [Android](android.md) | Native mobile client for paired hosts, agents, timelines, and controls |
 
-## One Product Language
+## Host And Client Roles
 
-Across platforms, AxiOwl aims to preserve:
+Windows, Linux, and macOS can run host-side provider agents through the AxiOwl daemon. Android and iPhone connect as mobile clients through the encrypted relay or a direct route.
 
-- exact provider and session identity;
-- clear local and remote routing choices;
-- customer-controlled device enrollment;
-- endpoint-owned action authorization;
-- receipts that identify the stage of a handoff;
-- provider authentication under provider ownership.
+Across platforms, AxiOwl preserves:
 
-Start with [Windows](windows.md) for the broadest packaged experience or explore [Work Securely Across Devices](../use-cases/secure-work-across-devices.md) for the multi-device vision.
+- stable host and agent identity;
+- provider processes on the host;
+- QR/link pairing and local approval;
+- encrypted relay connectivity;
+- optional direct connections;
+- ordered agent timelines and reconnect behavior;
+- separate A2A and SSH node workflows.
+
+Start with [Windows](windows.md) for the broadest installer experience or [Mobile And Connected Hosts](../mobile/README.md) for the phone-to-agent workflow.

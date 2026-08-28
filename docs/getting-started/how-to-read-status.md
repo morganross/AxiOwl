@@ -12,7 +12,7 @@ AxiOwl status is designed to show where a handoff is in its journey.
 |---|---|
 | Accepted | AxiOwl created the operation and assigned correlation identity |
 | Target resolved | The registry selected the concrete provider, agent, node, or device |
-| Route selected | The operation chose local provider, A2A, SSH, or secure XMPP |
+| Route selected | The operation chose local provider, A2A, SSH, relay, or direct daemon connection |
 | Destination accepted | The provider boundary, task service, or approved endpoint received the handoff |
 | Result returned | A provider reply, task result, or protected terminal result came back |
 
@@ -28,7 +28,7 @@ Ask three questions:
 2. Which route carried the request?
 3. Which destination result came back?
 
-Those questions provide a clear mental model for local provider messages, A2A tasks, and approved-device actions.
+Those questions provide a clear mental model for local provider messages, A2A tasks, and mobile-to-host agent sessions.
 
 ## A Useful Project Record
 

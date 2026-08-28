@@ -7,7 +7,7 @@ slug: /use-cases
 
 AxiOwl turns separate AI sessions into an intentional working group. You can give each session a role, send work to the right specialist, collect replies, and keep the human in control of the overall direction.
 
-The same model scales from two local chats to approved devices and standards-based external agents.
+The same model scales from two local chats to paired mobile clients, connected AxiOwl hosts, and standards-based external agents.
 
 ## Choose A Workflow
 
@@ -15,7 +15,7 @@ The same model scales from two local chats to approved devices and standards-bas
 |---|---|
 | Ask one agent to build and another to review | [Delegate, Review, And Synthesize](delegate-review-and-synthesize.md) |
 | Combine the strengths of several AI providers | [Create A Cross-Provider Project Team](cross-provider-project-team.md) |
-| Continue work securely from another approved device | [Work Securely Across Devices](secure-work-across-devices.md) |
+| Continue a desktop agent from your phone | [Control Desktop Agents From A Phone](secure-work-across-devices.md) |
 | Connect AxiOwl to a standards-based agent service | [Connect External A2A Agents](connect-external-a2a-agents.md) |
 | Organize specialist handoffs for a team | [Coordinate Specialists And Team Handoffs](specialists-and-team-handoffs.md) |
 | Reduce repeated prompts and manual copying | [Keep Context Moving](keep-context-moving.md) |

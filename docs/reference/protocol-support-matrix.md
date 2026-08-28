@@ -4,26 +4,22 @@ sidebar_position: 5
 
 # Protocol And Transport Support Matrix
 
-AxiOwl uses explicit protocols for different coordination jobs.
-
 | Boundary | Product role | Identity and security model | Best fit |
 |---|---|---|---|
-| MCP | Provider sessions call AxiOwl tools and return replies | Provider configuration plus provider-owned session metadata | Local provider coordination |
-| A2A HTTP and JSON | Expose or call standards-based agents | Agent Card, endpoint authentication, scoped task identity, and correlation | External agent services |
-| A2A JSON-RPC | Message and task interoperability | Same A2A endpoint and task boundaries | A2A clients using JSON-RPC conventions |
-| A2A over SSH | Carry A2A between configured nodes | SSH host/user/key policy plus A2A request semantics | Operator-managed inter-node links |
-| Secure XMPP over WebSocket | Protected actions and results between approved devices | Verified TLS, device transport identity, endpoint encryption, signed authorization, and replay protection | Device-to-device coordination |
-| Windows self-host XMPP | Customer-controlled routing service | Provisioned resources and endpoint-owned action authority | Windows-hosted secure device network |
-| Linux self-host XMPP | Customer-controlled routing service | Common approved-device routing contract | Linux-hosted secure device network |
-| Cloud XMPP | Hosted routing service | Same endpoint-owned trust model with managed infrastructure | Hosted secure device network |
+| Local provider package | Provider-specific discovery and delivery | Provider-owned session identity and local user authentication | Same-computer provider coordination |
+| MCP | Provider sessions call AxiOwl tools and return replies | Provider configuration plus provider-owned sender metadata | Agent-to-agent local coordination |
+| Daemon client protocol | Projects, providers, agents, timelines, turns, permissions, and reconnect | Host ID, client ID, agent ID, ordered timeline state | Mobile and desktop clients of an AxiOwl host |
+| Encrypted relay | Carries daemon client frames across networks | Paired host/client identity, end-to-end encrypted application frames, relay route IDs | Mobile access without inbound port forwarding |
+| Direct daemon connection | Connects a client to a reachable daemon endpoint | Operator-selected network security and optional daemon authentication | LAN, VPN, Tailscale, or managed networks |
+| A2A HTTP/JSON | Exposes or calls standards-based agents | Agent Card, endpoint authentication, task identity, and correlation | External agent services |
+| A2A-over-SSH | Carries A2A between configured nodes | SSH host/user/key policy plus A2A semantics | Operator-managed node links |
+| SSH command dispatch | Runs explicit AxiOwl CLI commands on configured nodes | SSH identity and command policy | Administrative or scripted remote operations |
 
 ## Choosing A Route
 
-- Use a **local provider package** for a session on the same machine.
-- Use **A2A** for a standards-based agent endpoint.
-- Use **A2A over SSH** for an explicitly managed node connection.
-- Use **secure XMPP** for approved-device actions with endpoint content protection.
-
-Each request selects one route, making both the security model and the resulting receipts easy to understand.
-
-Read [Choosing A Transport](../how-it-works/choosing-a-transport.md) for examples.
+- Use a **local provider package** for a provider session on the same computer.
+- Use the **daemon client protocol** for a paired phone or connected desktop client.
+- Use the **encrypted relay** when the phone and host are on different networks.
+- Use a **direct daemon connection** on a controlled network route.
+- Use **A2A** for a standards-based external agent.
+- Use **A2A-over-SSH** for an explicitly managed AxiOwl node.

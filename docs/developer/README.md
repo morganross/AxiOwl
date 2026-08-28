@@ -1,164 +1,112 @@
 # AxiOwl Developer Guide
 
-AxiOwl is a monorepo with a normalized core and deliberately specialized edges. The safest way to change it is to identify which boundary owns the behavior before editing.
+AxiOwl is a monorepo with a local coordination core, provider packages, daemon runtimes, mobile clients, A2A, SSH transports, installers, and release services.
 
-The public [Architecture Overview](../reference/architecture-overview.md) describes the product. This page maps that product model to the current repository.
-
-## Core Engineering Rule
-
-A target name, network connection, provider receipt, and provider answer are different facts.
-
-The core owns normalized addresses, registry records, sender identity, request correlation, receipts, and result vocabulary. Provider packages own one provider surface. A2A owns standards agent/task exchange. Secure XMPP owns protected approved-device delivery. None of those edges may silently reinterpret another edge's authority or failure.
+The public [Architecture Overview](../reference/architecture-overview.md) describes the product. This page maps that model to the repository.
 
 ## Monorepo Map
 
-| Repository area | Current responsibility |
+| Repository area | Responsibility |
 |---|---|
-| `apps/windows-desktop` | Main C++ Windows runtime, CLI, MCP, mailbox, registry, provider orchestration, A2A client/server, user broker, XMPP client integration, lifecycle helpers, and MSI builder. |
-| `apps/linux-desktop/axiowl-linux-x86_64` | Native Linux x86-64 client, provider packages, XMPP client integration, Debian packaging, and user setup. |
-| `apps/macos-desktop` | Native Swift macOS application, shared native bridge, provider integration, and `.pkg` authoring. |
-| `apps/ios-native` | Join-only SwiftUI iPhone client and Apple native bridge. |
-| `apps/android-xmpp-client` | Native Kotlin/Compose Android client and native security bridge. |
-| `providers` | Provider package manifests, workers, assets, and shared provider-package contracts. |
-| `protocol/xmpp/secure` | Shared protected XMPP profile, OMEMO/SCE codec boundary, signed action authorization, trust projection, replay/dispatch state, and protected receipts. |
-| `services/xmpp-windows-server` | Native Windows self-hosted XMPP server core. |
-| `server/xmpp` | Linux/OCI Prosody profile, server modules, provisioning wrapper, packaging, and operations material. |
-| `services/activation` | Purpose-separated licensing and optional licensed body-append authority. |
-| `services/auth-pool` | Website account, provider-pool, and related membership services. |
-| `services/device-trust` | Signed device lifecycle event relay/projection; it does not become endpoint action authority. |
-| `services/update` | Pull-update schemas, publication tools, and release/channel metadata handling. |
-| `release` | Generated release evidence, release identities, signed artifacts, and lifecycle scripts. |
+| `apps/windows-desktop` | Main C++ Windows runtime, GUI, CLI, MCP, mailbox, discovery, provider orchestration, A2A client/server, pairing UI, and installer integration |
+| `apps/linux-desktop` | Native Linux desktop, provider assets, Debian packaging, and vendored AxiOwl daemon |
+| `apps/macos-desktop` | Native Swift desktop, provider integration, bundled daemon, and macOS release pipeline |
+| `apps/mobile_shared` | Shared Android/iPhone application, host registry, pairing links, relay/direct connections, agent UI, and timelines |
+| `apps/android-copper-wombat` | Android application workspace and platform packaging |
+| `apps/iphone` | Native iPhone application and Xcode project |
+| `providers` | Local provider package manifests, workers, assets, and package contracts |
+| `remote_transport/paseo/node_daemon` | Broad TypeScript daemon, protocol, client, CLI, provider runtimes, relay support, persistence, pairing, and service host |
+| `remote_transport/paseo/windows_daemon` | Native C++ Windows service, transport, core, persistence, pairing, and isolated provider runtimes |
+| `remote_transport/paseo/prelay_server` | Hosted relay service for paired client-to-daemon connections |
+| `remote_transport/ssh` | SSH transport implementation |
+| `services/activation` | Purpose-separated licensing and optional licensed feature authority |
+| `services/update` | Pull-update schemas, publication tools, and release/channel metadata |
+| `installer/windows` | WiX source, feature map, daemon payloads, build, signing, and publication scripts |
+| `release` | Release identities, signed artifacts, manifests, receipts, and lifecycle scripts |
 
 ## Local Provider Flow
 
 ```text
 CLI, mailbox, or MCP request
-  -> validate request and sender
   -> resolve exact registry target
-  -> invoke the target provider package
-  -> record normalized handoff result
-  -> correlate any later MCP reply
+  -> invoke provider package
+  -> record normalized handoff
+  -> correlate provider reply
 ```
 
-Provider packages implement `discover`, `send`, `create`, and `rename` independently. A manifest entry or source function proves implementation, not support on every provider version. Public provider status must name the exact surface and operation.
-
-## A2A Flow
+## Daemon Client Flow
 
 ```text
-A2A request
-  -> authenticate and resolve scoped Agent Card
-  -> create or update durable task
-  -> cross the interactive-user broker when required
-  -> invoke destination registry/provider package
-  -> correlate provider result or MCP reply
-  -> update task and optional push delivery
+mobile or desktop client
+  -> relay or direct daemon connection
+  -> host/session handshake
+  -> provider/project/workspace/agent discovery
+  -> agent turn and timeline commands
+  -> provider runtime
+  -> ordered events back to client
 ```
 
-`axiowl-api-service.exe` runs as the machine-scoped `AxiOwlApi` service. `axiowl-user-broker.exe` owns the interactive-user crossing. Both are current MSI payloads under separate A2A Server and A2A Client features.
+The daemon owns host identity, paired devices, projects, workspaces, agents, provider processes, timeline sequencing, acknowledgements, and reconnect state.
 
-Standards A2A, A2A-over-SSH, local CLI/MCP, secure XMPP, and provider-owned behavior remain distinct integration boundaries.
+## Pairing Flow
 
-## Secure XMPP Flow
+The Node daemon exposes a pairing-offer request through its local daemon session. Creating an offer opens a bounded approval window and returns a host identity, daemon public identity, challenge, relay route, expiry, and QR representation.
 
-```text
-sender endpoint protects action for exact approved resource
-  -> XMPP server authenticates and routes ciphertext
-  -> receiver verifies endpoint encryption and signed action
-  -> receiver checks device trust, grant, policy, and replay state
-  -> one-shot provider handoff
-  -> receiver signs and encrypts the resulting receipt
-```
+The mobile client imports the offer, establishes the encrypted relay session, presents its stable client ID, and waits for local desktop approval. Approved clients are persisted individually, and more than one device can be trusted.
 
-The shared code is in `protocol/xmpp/secure` and is consumed by platform clients and both server families. The server owns transport authentication, exact-resource routing, public bundle state, and route limits. It does not grant provider action authority and must not synthesize plaintext actions.
+## Daemon Runtime Choices
 
-A2A and XMPP are separate transports. Do not tunnel one through the other or add cross-transport fallback.
+The Windows feature map uses `AXIOWL_DAEMON_RUNTIME`:
 
-## Account, License, And Trust Boundaries
+- `NODE` selects `FeatureNodePaseoDaemon` and the `AxiOwlDaemon` service host.
+- `NATIVE` selects `FeaturePaseoDaemon` and the `AxiOwlService` native process family.
+- `NONE` installs neither daemon runtime.
 
-Keep these authorities separate:
+The Node daemon is the recommended broad implementation. The native daemon is a separate C++ architecture with service, transport, core, and provider runtime boundaries.
 
-- website account and pool membership;
-- optional licensed body-append entitlement;
-- provider login and provider credentials;
-- XMPP transport credentials;
-- device admission and authorization-domain membership;
-- signed action authorization.
+## A2A And SSH
 
-The activation service may issue license-derived capability for its narrow feature. It must not become a provider login, device coordinator, XMPP server authority, or old-domain recovery service.
+A2A remains separate from the daemon client protocol. `AxiOwlApi` exposes machine-scoped A2A routes, and the interactive broker crosses into user-owned provider state. A2A-over-SSH retains A2A semantics through an SSH connection. SSH Command Dispatch is an independently selected installer feature.
 
-## Registry And Identity
+## Identity
 
-Registry aliases are lookup conveniences. Authorization requires provider-owned or cryptographically verified identity fields.
+Preserve these values as distinct:
 
-Preserve these as distinct values:
-
-- provider and surface;
-- provider session ID;
-- A2A agent and task IDs;
-- AxiOwl node ID;
-- XMPP bare JID and exact full resource;
-- OMEMO device ID;
-- authorization domain and admitted action key;
+- provider and provider session ID;
+- local registry target;
+- daemon host ID and friendly label;
+- mobile client ID;
+- relay route and live connection ID;
+- project, workspace, and agent ID;
+- timeline sequence and acknowledgement state;
+- A2A node, agent, message, and task IDs;
 - run, message, and receipt IDs.
-
-Discovery may repair a missing registry row from provider-owned evidence. It must not invent sender identity from a display title, current working directory, or convenient process.
-
-## Provider Packages
-
-The current Windows release inventory contains isolated packages for Codex Agents, Codex Remote, Codex CLI, Antigravity Agents, Antigravity CLI, VS Code Copilot-backed chats, Copilot CLI, Cursor Agents, Cursor Agent/CLI, Claude Code CLI, and OpenCode CLI.
-
-One brand can expose multiple surfaces with different discovery, delivery, patching, and metadata behavior. Do not collapse them into one implementation because their names share a vendor.
 
 ## Installer Ownership
 
-The Windows MSI is generated from the current WiX source and provider package inventory. It has independent provider, A2A Server, A2A Client, XMPP Client, and XMPP Server features.
+The current Windows MSI has:
 
-Installer changes must preserve:
+- required core, mailbox, CLI, PATH, and discovery features;
+- eleven isolated provider features;
+- A2A Server and A2A Client;
+- SSH Command Dispatch;
+- one daemon-runtime selection of Node, native, or none.
 
-1. provider discovery before default selection;
-2. selected-feature-only app shutdown and restart;
-3. interactive-user configuration at the interactive-user boundary;
-4. AxiOwl-owned removal without deleting provider-owned conversations or accounts;
-5. one installed version and the documented `Uninstall` / `Uninstall-install` lifecycle;
-6. artifact provenance that identifies the bytes actually placed in the package.
-
-The Windows build entry point is:
+The build entry point is:
 
 ```powershell
-apps\windows-desktop\installer\build-windows-msi.ps1
+installer\windows\build-windows-msi.ps1
 ```
 
-Linux packaging is driven by:
-
-```bash
-apps/linux-desktop/installer/build-linux-deb.sh
-```
-
-macOS has its own Swift/CMake and package scripts under `apps/macos-desktop`. Android and iOS retain platform-native build systems.
-
-## Release Evidence
-
-Do not infer a release from a version string alone. AxiOwl has several related but separate records:
-
-- source revision and release identity;
-- compiled inner components;
-- provider package manifests and archives;
-- platform installer or package;
-- signing evidence;
-- publication receipt;
-- promoted update channel pointer;
-- installed or deployed runtime evidence.
-
-The newest release identity can be newer than a signed installer in a release folder, and a published immutable release can exist before a channel points to it. Public status must describe the exact artifact and boundary.
+Linux packaging is under `apps/linux-desktop/installer`. macOS package and OCI publication scripts are under `apps/macos-desktop/installer` and `release`.
 
 ## Documentation Discipline
 
-When behavior changes, update the smallest applicable source-of-truth pages:
+When behavior changes, update:
 
 - [Provider Support Matrix](../reference/provider-support-matrix.md)
 - [Platform Support Matrix](../reference/platform-support-matrix.md)
 - [Protocol Support Matrix](../reference/protocol-support-matrix.md)
 - [Installer Behavior Matrix](../reference/installer-behavior-matrix.md)
 - [Product Capabilities](../reference/current-product-status.md)
-
-Plans and method reports provide engineering context. The product reference pages define the public vocabulary used by the current documentation.
+- [Mobile And Connected Hosts](../mobile/README.md)

@@ -1,41 +1,41 @@
 # AxiOwl User Guide
 
-AxiOwl gives AI sessions a shared address book and communication layer. You choose a target; AxiOwl resolves the exact surface and uses that provider's integration.
+AxiOwl gives local provider sessions, connected hosts, paired phones, and A2A agents a shared coordination layer.
 
-## Normal Workflow
+## Local Workflow
 
-1. Install only the provider and network features you intend to use.
+1. Install the provider features you use.
 2. Discover provider sessions.
-3. Inspect the provider, surface, and session identity of the target.
+3. Choose the exact provider and session target.
 4. Send a message.
-5. Read the receipt as a handoff status, not a provider answer.
-6. Confirm the provider transcript or receive a correlated MCP reply.
+5. Follow the receipt and correlated provider reply.
 
-## Local And Remote Targets
+## Mobile Workflow
 
-Local targets use provider packages on the same machine. External A2A targets use an imported Agent Card. AxiOwl remote nodes use explicit A2A node transport. Secure XMPP targets use approved-device protected routing. AxiOwl does not silently switch among those paths after a failure.
+1. Install the recommended Node daemon or native C++ daemon on the host.
+2. Open **Mobile App** in the desktop interface.
+3. Generate a pairing QR code or link.
+4. Scan or import it on Android or iPhone.
+5. Approve the pending phone on the host.
+6. Open the paired host in the app.
+7. Choose a project, provider, workspace, and agent.
+8. Send a turn and follow the live timeline.
 
-## Account And License
+## Connected Targets
 
-Website account state, pool membership, device trust, XMPP transport credentials, provider login, and license entitlement are separate. Activating an optional licensed feature does not admit a device or sign in to a provider.
-
-## Platform Expectations
-
-- Windows x64 is the primary packaged desktop.
-- Linux x86-64 is a packaged engineering preview.
-- macOS is a native engineering preview, not "unsupported."
-- iPhone and Android are native previews, not public production releases.
-
-## Reading A Result
-
-| Result | Meaning |
+| Target | Route |
 |---|---|
-| Installed | Selected installer action completed |
-| Discovered | A provider or session record was found |
-| Accepted | AxiOwl accepted the request |
-| Delivered | The provider edge reported delivery |
-| Provider-visible | The provider transcript or title changed |
-| Replied | The target returned an attributable response |
-| Completed task | The protocol task contains a correlated terminal result |
+| Provider session on this computer | Local provider package |
+| Agent on a paired AxiOwl host | Encrypted relay or direct daemon connection |
+| External standards-based agent | A2A |
+| Operator-managed AxiOwl node | Direct A2A or A2A-over-SSH |
 
-See [How To Read Status And Logs](../getting-started/how-to-read-status.md) and [Receipts Versus Proof](../concepts/receipts-vs-proof.md).
+## Account And Provider Boundaries
+
+Website login, license entitlement, mobile pairing, relay connection, daemon host identity, and provider authentication are separate. Pairing a phone does not copy provider credentials from the computer.
+
+## Reading A Mobile Result
+
+The host daemon publishes the authoritative agent timeline. User text, assistant output, reasoning, tool calls, permissions, usage, errors, and completion arrive as ordered events for the selected agent.
+
+See [Mobile And Connected Hosts](../mobile/README.md), [Follow A Message Through AxiOwl](../getting-started/how-to-read-status.md), and [Receipts, Delivery, And Completion](../concepts/receipts-vs-proof.md).

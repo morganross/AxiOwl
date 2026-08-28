@@ -20,7 +20,7 @@ Instead of repeatedly copying content between applications, send a focused reque
 
 ## Extend Beyond One Machine
 
-AxiOwl can coordinate standards-based A2A agents and approved devices in addition to local provider sessions. The same project can combine a local coding agent, an external research service, and a protected remote workstation.
+AxiOwl can coordinate standards-based A2A agents and paired mobile clients in addition to local provider sessions. The same project can combine a local coding agent, an external research service, and an agent running on a connected workstation.
 
 ## Keep The Human At The Center
 
@@ -32,7 +32,7 @@ The human chooses the roles, the routes, and the final decision. AxiOwl provides
 - focused delegation across tools;
 - provider replies through MCP;
 - task-oriented A2A integration;
-- protected approved-device coordination;
+- mobile control of agents running on paired hosts;
 - receipts and correlation for each handoff;
 - a workflow that can grow without becoming a manual copy-and-paste chain.
 

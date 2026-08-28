@@ -16,4 +16,4 @@ AxiOwl Mailbox is the built-in local coordination endpoint. It gives users a fam
 
 The mailbox is a single core endpoint, so it is always easy to find and does not require provider sign-in.
 
-It is useful as a home base for cross-provider workflows and as a visible destination for messages returned from agents or approved devices.
+It is useful as a home base for cross-provider workflows and as a visible destination for messages returned from local agents, A2A tasks, or connected hosts.

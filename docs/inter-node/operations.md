@@ -1,32 +1,37 @@
 ---
-sidebar_position: 4
+sidebar_position: 2
 ---
 
-# Inter-node Operations
+# Inter-Node Operations
 
-## Enrollment And Inspection
+## A2A Node Operations
 
-The CLI provides node add, list, show, verify, disable, enable, and removal operations for explicit A2A nodes. Verification checks the selected transport boundary, such as an A2A Agent Card or an A2A-over-SSH session.
+An operator registers a remote AxiOwl node with either a direct A2A endpoint or an A2A-over-SSH route. Agent Cards describe the agents that node exposes. Messages and tasks retain A2A task identity and results.
 
-## Failure Diagnosis
+Useful status includes:
 
-Read evidence in this order:
+- node identity and selected transport;
+- Agent Card discovery;
+- authentication state;
+- task ID and lifecycle state;
+- destination agent result or artifact.
 
-1. node lookup and enabled state;
-2. selected transport plan;
-3. required address and credential availability;
-4. Agent Card or SSH preflight;
-5. network response;
-6. remote A2A task result;
-7. destination provider delivery evidence;
-8. correlated provider reply.
+## Mobile Host Operations
 
-This ordering distinguishes DNS, TLS, authentication, node routing, target discovery, provider delivery, and reply failures.
+A mobile client pairs to a daemon host rather than registering an A2A node. Operational status includes:
 
-## Linux Boundary
+- host ID and friendly label;
+- daemon availability;
+- relay and direct connection routes;
+- paired and pending devices;
+- provider catalog;
+- projects, workspaces, and agents;
+- timeline connection and acknowledgement state.
 
-Linux x86-64 provides a native client and Debian packaging, including provider packages and the shared secure XMPP runtime. Use the Linux platform guide to choose the client and server roles for a deployment.
+## Linux And macOS Hosts
 
-## XMPP Operations
+Linux and macOS packages include AxiOwl-branded daemon runtimes. They participate in the same host/client model while using their platform-specific service and package lifecycle.
 
-XMPP endpoint selection, device admission, transport credentials, and protected action receipts belong to the XMPP/device-trust model, not the A2A node registry. Diagnose them with the [XMPP documentation](../xmpp/README.md) and do not copy A2A access tokens into XMPP configuration.
+## Keep Credentials In Their Boundary
+
+A2A access tokens belong to A2A endpoints. SSH keys belong to SSH routes. Mobile pairing state belongs to the daemon and phone. Provider credentials stay on the host.

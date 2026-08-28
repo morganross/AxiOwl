@@ -15,8 +15,8 @@ AxiOwl makes AI sessions easy to name without confusing a friendly label with th
 | Provider | The product brand, such as Codex or Cursor |
 | Surface | The concrete product experience, such as agents, editor, or CLI |
 | Provider session ID | The provider-owned address for one conversation or agent session |
-| Node or device ID | The AxiOwl endpoint that owns the destination integration |
-| Protocol address | The exact A2A endpoint, XMPP resource, or local provider route |
+| Host or client ID | The daemon host or paired mobile installation in the connected workflow |
+| Protocol address | The exact A2A endpoint, relay route, direct daemon route, or local provider route |
 
 ## Friendly Names, Exact Delivery
 

@@ -4,25 +4,27 @@ sidebar_position: 3
 
 # Linux
 
-AxiOwl for Linux x86-64 combines a native C++ client, Debian packaging, provider integration assets, and secure-device capabilities.
+AxiOwl for Linux x86-64 combines a native desktop application, Debian packaging, provider integrations, and an AxiOwl-branded daemon host.
 
-## Native Client Experience
+## Native Desktop Experience
 
 The Linux package can provide:
 
-- the native AxiOwl executable;
+- the native AxiOwl application and CLI;
 - provider package management and MCP configuration;
-- supported CLI and editor integration assets;
-- the secure XMPP client runtime;
-- shared trust-verification components;
-- per-user service templates and onboarding helpers.
+- provider integration assets;
+- an installed daemon runtime and service unit;
+- per-user configuration and local state;
+- AxiOwl-owned uninstall lifecycle.
 
-## Linux As A Project Node
+## Daemon Host
 
-Linux is a natural fit for development workstations, build machines, self-hosted environments, and long-running specialist sessions. It can participate in local provider coordination and approved-device workflows using the same project vocabulary as Windows.
+Linux now uses the same broad daemon-centered model as the connected product family. The daemon owns projects, workspaces, provider agents, timelines, permissions, and client connections.
 
-## Self-Hosted XMPP Server
+The package stages the AxiOwl-branded daemon under the normal AxiOwl installation root and runs it through the platform service lifecycle.
 
-The Linux server profile combines Prosody with a secure WebSocket front end and the AxiOwl server modules used for approved-device routing. It supports exact-resource delivery, provisioned connection identity, public encryption-bundle state, and customer-controlled deployment.
+## Connected Use
 
-Use Linux when you want a native client, a self-hosted server, or both roles in one infrastructure family.
+A mobile client can pair to a Linux host and access the provider agents made available by that daemon. Direct and relay connectivity use the same host-profile model as other platforms.
+
+Linux is a natural fit for development workstations, build machines, and long-running agent hosts.

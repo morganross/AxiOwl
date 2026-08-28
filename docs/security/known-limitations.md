@@ -4,41 +4,37 @@ sidebar_position: 7
 
 # Shared Security Responsibilities
 
-AxiOwl provides security boundaries for coordination, and the surrounding products and operators each keep an important role.
-
 ## The User
 
-The user chooses which provider integrations to install, which sessions to address, which devices to approve, and which results to trust. Device approval and provider sign-in remain deliberate user actions.
+The user chooses provider integrations, opens pairing windows, approves mobile devices, selects hosts and agents, and reviews provider permission requests.
+
+## The Host Operator
+
+The host operator controls machine access, daemon lifecycle, direct network exposure, VPN or Tailscale configuration, firewall rules, and log retention.
 
 ## The Provider
 
-Each AI provider owns its account authentication, model access, conversation store, and provider-side behavior. AxiOwl uses the selected integration around that boundary.
+Each provider owns account authentication, model access, conversation semantics, tools, and provider-side behavior.
 
-## The Endpoint
+## The Mobile Device
 
-The AxiOwl endpoint owns local keys, trusted-device state, authorization policy, replay state, the provider registry, and the final provider handoff decision.
+The phone protects its local application state and stable client identity. Device-level access controls remain part of the mobile platform's security.
 
-## The Routing Service
+## The Relay Operator
 
-An XMPP routing service authenticates provisioned connections and moves protected envelopes to exact resources. An A2A service exposes declared agent capabilities and task operations. Each service stays within its selected protocol role.
+The relay operator maintains availability, routing, TLS endpoints, abuse controls, and operational logs while application content remains encrypted between client and daemon.
 
-## The Operator
+## The Installer And Release Authority
 
-An operator who runs network services owns domain configuration, TLS certificates, host access, firewall policy, credential rotation, service availability, and appropriate log retention.
-
-## The Installer And Updater
-
-The installer owns AxiOwl files and selected integrations. Signed update metadata and artifact verification help users understand the origin and intended channel of an update.
+The installer owns AxiOwl components selected by the user. The release authority signs and publishes identifiable core, provider, daemon, and platform artifacts.
 
 ## The Shared Goal
 
-Security works best when each boundary keeps its own authority:
+Security remains understandable when each boundary keeps its own authority:
 
-- a provider login remains provider authority;
-- a license remains entitlement authority;
-- a device identity remains device authority;
-- a routing service remains transport authority;
-- a receiver policy remains action authority;
-- a receipt remains evidence for the stage that produced it.
-
-This separation gives AxiOwl a clear and durable trust model as the product expands across providers and platforms.
+- provider login remains provider authority;
+- pairing remains mobile-to-host trust;
+- the relay remains encrypted transport routing;
+- direct networking remains operator-controlled reachability;
+- the daemon remains agent and timeline authority;
+- licensing remains product entitlement.

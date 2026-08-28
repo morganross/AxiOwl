@@ -4,46 +4,34 @@ sidebar_position: 2
 
 # Product Capabilities
 
-AxiOwl combines provider coordination, standards-based agent communication, approved-device messaging, and platform-specific applications in one product family.
-
-## Capability Experiences
-
-| Experience | Meaning |
-|---|---|
-| Core | A primary AxiOwl workflow with dedicated product ownership |
-| Extended | An optional capability that adds network, server, or advanced coordination features |
-| Preview | A native product experience intended for exploration and continued expansion |
+AxiOwl combines local provider coordination, mobile control of desktop agents, standards-based A2A, explicit SSH routes, and native platform applications.
 
 ## Capabilities At A Glance
 
 | Capability | Experience | What it enables |
 |---|---|---|
-| Windows provider coordination | Core | Discover and coordinate supported editor, agent, and CLI sessions through isolated provider packages |
-| AxiOwl mailbox and local registry | Core | Keep a shared address book, receive messages, and follow replies |
-| MCP integration | Core | Let provider sessions use AxiOwl tools and return provider-owned identity metadata |
-| External A2A agents | Extended | Read Agent Cards, send messages, follow tasks, and collect results or artifacts |
-| A2A desktop endpoints | Extended | Present selected registered sessions as standards-based agent endpoints |
-| A2A between nodes | Extended | Coordinate explicit AxiOwl nodes directly or over operator-managed SSH |
-| Secure approved-device messaging | Extended | Protect remote actions, authorize them at the receiver, and return protected results |
-| Windows self-host XMPP server | Extended | Run the approved-device routing role on a Windows host |
-| Linux self-host or cloud XMPP server | Extended | Run the same routing model on Linux infrastructure |
-| Linux x86-64 client | Preview | Use the native C++ coordination and secure-device runtime on Linux |
-| macOS desktop | Preview | Explore the native Swift desktop experience |
-| iPhone and Android clients | Preview | Extend approved-device workflows to native mobile experiences |
-| Signed pull updates | Extended | Discover and verify core or provider-package releases through signed metadata |
+| Windows provider coordination | Core | Discover and coordinate eleven packaged provider surfaces |
+| Mailbox, MCP, and local registry | Core | Address sessions, send work, collect replies, and inspect results |
+| AxiOwl Node daemon | Core connected runtime | Host projects, providers, agents, sessions, timelines, pairing, and mobile connections |
+| Native C++ Windows daemon | Extended runtime | Native service, relay transport, host core, and isolated provider runtimes |
+| Android mobile app | Connected client | Pair to hosts, browse agents, send turns, and follow live timelines |
+| iPhone mobile app | Connected client | Native host pairing and mobile agent control |
+| Encrypted relay | Connected transport | Reach paired hosts across networks without inbound port forwarding |
+| Direct daemon connection | Connected transport | Reach hosts through local, VPN, Tailscale, or managed network routes |
+| Multiple approved mobile devices | Connected trust | Manage several stable mobile client identities per host |
+| External A2A agents | Extended | Discover Agent Cards, send messages, follow tasks, and collect artifacts |
+| A2A desktop endpoints | Extended | Present selected registered sessions as standards-based agents |
+| A2A-over-SSH | Extended | Carry A2A operations through an operator-managed SSH route |
+| Linux x86-64 host | Native platform | Desktop package and bundled AxiOwl daemon |
+| macOS host | Native platform | Swift desktop application and bundled AxiOwl daemon |
+| Signed pull updates | Extended | Verify core and provider-package releases through signed metadata |
 
 ## Provider Family
 
-The Windows product includes dedicated packages for Codex agents, Codex CLI, Codex Remote, VS Code Copilot-backed sessions, Cursor agents, Cursor Agent CLI, Antigravity agents, Antigravity CLI, Claude Code CLI, Copilot CLI, and OpenCode CLI.
+The Windows installer contains dedicated local packages for Codex agents, Codex CLI, Codex Remote, VS Code Copilot-backed sessions, Cursor agents, Cursor Agent CLI, Antigravity agents, Antigravity CLI, Claude Code CLI, Copilot CLI, and OpenCode CLI.
 
-Each package keeps discovery, metadata, delivery, and installation ownership specific to that provider surface.
+The daemon separately publishes the provider catalog available for connected agent creation and session control on that host.
 
-## Platform Family
+## Product Direction
 
-Windows is the primary packaged desktop and server environment. Linux provides native client and server roles. macOS, iPhone, and Android extend the product through native platform implementations.
-
-Explore the [Platform Guide](../platforms/README.md) and [Provider Support Matrix](provider-support-matrix.md) for details.
-
-## The Product Direction
-
-AxiOwl is growing toward one consistent coordination experience across local sessions, standards-based agents, and approved devices. The common layer handles identity, routing, receipts, and trust while each platform and provider retains the implementation best suited to it.
+AxiOwl is centered on host-owned agents available locally and from paired mobile clients. The host keeps provider authentication, repositories, provider processes, and authoritative timelines; the phone provides a focused remote control surface.

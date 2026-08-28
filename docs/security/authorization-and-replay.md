@@ -2,38 +2,28 @@
 sidebar_position: 4
 ---
 
-# Authorization And Replay Protection
+# Permissions And Session Control
 
-Decryption answers "could this endpoint read the message?" Authorization answers "may this request invoke this provider action now?" AxiOwl performs both.
+The mobile app controls an agent that already belongs to an AxiOwl host. The daemon keeps every turn tied to the selected host, provider, workspace, agent ID, and active provider session.
 
-## Receiver-Owned Decision
+## Agent Ownership
 
-Before a remote request reaches a provider, the receiving endpoint checks:
+The daemon owns creation, import, resume, update, cancellation, and completion for the agents it manages. The phone selects one of those agents and sends protocol commands to that host-owned session.
 
-- the authenticated sending device;
-- current device membership and revocation state;
-- the intended destination endpoint and provider target;
-- the requested operation and grant;
-- policy freshness and trust-chain continuity;
-- message ordering and prior use;
-- exact binding between signed bytes and the provider-visible request.
+## Provider Permissions
 
-The XMPP server cannot grant provider permission. The sender cannot authorize itself merely by choosing a target name. A license token cannot authorize an action.
+When a provider asks for approval to use a tool or perform an action, the request appears in the agent timeline. The user's answer returns to the provider runtime that issued it.
 
-## One-Shot Provider Handoff
+The relay does not approve provider tools, and pairing alone does not grant a provider account new operating-system permissions.
 
-An authorized request becomes a move-only, one-shot handoff to the existing local provider boundary. The provider adapter still applies its normal provider-specific rules. Authorization does not rewrite provider behavior or create a second provider API.
+## Ordered Timeline
 
-The state transition is recorded before or with the handoff so an ambiguous process interruption does not lead to an automatic second provider call.
+The daemon publishes ordered events for user text, assistant output, reasoning, tools, permissions, usage, and turn completion. Acknowledgement and reconnect state let the client reconcile the same timeline rather than starting a duplicate conversation.
 
-## Replay Protection In Plain English
+## Stable Intent
 
-A correctly signed message can still be dangerous if an attacker can submit it twice. AxiOwl records sender ordering, message identity, receiver-run ownership, and dispatch state. Repeated, stale, forked, or already-terminal requests fail closed.
+Create and send operations use stable request and agent identity so reconnect recovery can return the existing operation instead of silently creating another agent or turn.
 
-Exactly-once provider effect cannot be promised across every external provider. The practical guarantee is **at most one authorized handoff from AxiOwl for the recorded request**, with an indeterminate state preserved when the process cannot prove what the provider did.
+## Completion
 
-## Receipts
-
-Protected receipts distinguish rejection before provider handoff, provider-ingress rejection, dispatch started, terminal provider result, and reply correlation. A receipt is signed and returned through the authenticated endpoint session; the platform may choose fresh transport metadata but may not reconstruct the recipient or signer from untrusted input.
-
-See [Receipts, Delivery, And Completion Proof](../concepts/receipts-vs-proof.md).
+The mobile UI reads completion from the daemon's authoritative provider timeline. A network send confirms transmission; the terminal timeline event confirms what the host provider session reported.

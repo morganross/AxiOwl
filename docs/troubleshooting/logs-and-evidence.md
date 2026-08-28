@@ -4,50 +4,39 @@ sidebar_position: 2
 
 # Logs And Evidence
 
-Logs are useful only when they answer a concrete question.
-
 ## Core Locations
 
 ```text
 %LOCALAPPDATA%\AxiOwl\logs
 %LOCALAPPDATA%\AxiOwl\registry
 %LOCALAPPDATA%\AxiOwl\runtime
+%PROGRAMDATA%\AxiOwl\logs
 ```
 
-## Provider Logs
-
-| Provider | Where to look |
-|---|---|
-| VS Code | AxiOwl Bridge output channel and VS Code extension logs. |
-| Cursor | AxiOwl Cursor Bridge output channel, command/result files, patch logs. |
-| Codex | Codex plugin/MCP logs and AxiOwl MCP logs. |
-| CLI providers | CLI stdout/stderr, generated MCP config, session files. |
+The selected daemon also has its own AxiOwl-managed state and service logs.
 
 ## Evidence Levels
 
-| Evidence | Strength |
+| Evidence | What it tells you |
 |---|---|
-| MSI exit code | Install action finished or failed. |
-| Manifest hash | Installed binary matches artifact. |
-| Registry row | Discovery found or recorded a target. |
-| Send receipt | AxiOwl accepted the message. |
-| Provider result file | Provider edge reported result. |
-| MCP reply | End-to-end response proof. |
-| A2A task result | The task reached the recorded protocol state and result. |
-| XMPP routing result | The server accepted or rejected the exact-resource stanza. |
-| Protected XMPP receipt | The endpoint returned the correlated protected action result. |
+| Installer log | Which features and daemon runtime were selected and installed |
+| Provider registry row | Which local provider session was discovered |
+| MCP reply | Which provider session returned a correlated response |
+| Daemon status | Which host is running and which clients are connected |
+| Pairing state | Which devices are pending, approved, connected, or removed |
+| Host registry | Which relay and direct routes belong to one host ID |
+| Agent timeline | Which provider events and terminal state the daemon reported |
+| A2A task result | Which standards-based task state and artifacts were returned |
 
-## What To Save In Reports
+## What To Save
 
-- machine name;
-- AxiOwl version;
-- MSI path;
-- selected checkboxes;
-- run id;
-- target name;
-- provider surface;
-- exact error text;
-- relevant log excerpts;
-- final conclusion.
+- machine and platform;
+- AxiOwl version and package identity;
+- selected installer features and daemon runtime;
+- host ID and client ID in redacted form;
+- relay or direct route type;
+- provider, project, workspace, agent, and session identity;
+- relevant timeline or task IDs;
+- exact error text and the first boundary that stopped progressing.
 
-For remote paths, also record the selected protocol, endpoint identity without private addresses, and the exact boundary reached. Redact access tokens, transport credentials, private keys, cloud identifiers, and message bodies that are not required for diagnosis.
+Redact access tokens, pairing keys, provider credentials, private network addresses, and message content not needed for diagnosis.

@@ -4,40 +4,37 @@ sidebar_position: 2
 
 # Encryption And Privacy
 
-AxiOwl's secure-device path protects message content at the sending endpoint for the intended receiving endpoint. The routing service moves the protected envelope; the destination endpoint opens it and decides whether the requested local action is allowed.
+The hosted relay connects a paired mobile app to its AxiOwl daemon without requiring the relay to understand provider prompts or agent timelines.
 
-## Content Journey
+## Relay Content Path
 
 ```text
-source endpoint
-  -> protect content for an approved destination
-  -> route the protected envelope
-  -> verify and open it at the destination
-  -> authorize the action locally
-  -> deliver the final message to the selected provider
+mobile app
+  -> encrypt daemon-protocol frame
+  -> relay routes opaque frame
+  -> host daemon decrypts frame
+  -> daemon works with the selected provider agent
+  -> encrypted timeline event returns to the phone
 ```
 
-The selected provider sees the final provider message because it performs the requested work. Endpoint protection is designed to protect the network journey, not to hide the request from its intended local processor.
+The host daemon and mobile app see the content required for the user experience. The relay sees routing and operational metadata needed to connect them.
 
 ## Separate Protection Layers
 
-- **TLS** protects and authenticates the server connection.
-- **Per-device transport identity** identifies the approved resource on that connection.
-- **Endpoint encryption** protects message content between devices.
-- **Signed action data** binds the operation and relevant identities.
-- **Receiver authorization** controls the local provider handoff.
-- **Replay protection** keeps one accepted action from becoming repeated new work.
+- **Pairing** establishes which mobile identity the host trusts.
+- **Transport security** protects the network connection to the relay or direct endpoint.
+- **End-to-end relay encryption** protects daemon-protocol content across the hosted relay.
+- **Host user context** keeps provider processes and credentials on the computer.
+- **Provider permissions** remain part of the provider session controlled by the daemon.
 
-Together, these layers create a secure coordination path with clear responsibility at every stage.
+## Direct Connections
 
-## Exact Online Delivery
+Direct mode bypasses the hosted relay. The operator chooses the reachable daemon address and configures the route's network protection and authentication. Private networks, VPNs, and Tailscale are common choices.
 
-Protected actions target one approved destination resource. Exact online delivery keeps the route purposeful and allows the sender to know which device is expected to receive the work.
+## Visible Metadata
 
-## Privacy And Metadata
+Connection infrastructure can observe metadata such as connection timing, route identifiers, availability, and encrypted frame size. The daemon stores host, agent, project, timeline, and pairing state needed for the product. The mobile app stores paired host profiles and connection methods.
 
-Content protection and metadata privacy are different concerns. A routing service can observe information needed to operate the route, such as connection timing, routing identifiers, destination availability, and envelope size.
+## Provider Visibility
 
-Local endpoints and the selected provider see the information required to process the action. AxiOwl logs focus on correlation and status, and sensitive operational data belongs in protected local or service storage.
-
-Read [What Each Boundary Owns](trust-boundaries.md) for the wider privacy model.
+The provider on the host sees the turns delivered to its session and produces the resulting timeline. Encryption protects the route to the host; it is not intended to hide the request from the provider selected to perform the work.

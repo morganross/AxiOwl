@@ -24,8 +24,8 @@ find the right target
 | [Identity And Addressing](identity-and-addressing.md) | Names, providers, surfaces, sessions, and exact targets |
 | [Discovery And The Registry](discovery-and-registry.md) | How AxiOwl finds sessions and keeps a shared address book |
 | [Provider Packages](provider-packages.md) | Why every provider surface has its own integration package |
-| [Choosing A Transport](choosing-a-transport.md) | Local messaging, A2A, A2A-over-SSH, and secure XMPP |
-| [Trust And Encryption](trust-and-encryption.md) | How approved-device messaging protects content and authority |
+| [Choosing A Transport](choosing-a-transport.md) | Local messaging, A2A, A2A-over-SSH, relay, and direct host connections |
+| [Trust And Encryption](trust-and-encryption.md) | How mobile pairing and encrypted host connections protect the session |
 | [Receipts And Observability](receipts-and-observability.md) | How a workflow follows acceptance, delivery, and replies |
 
 ## Normalize The Boundary, Preserve The Provider

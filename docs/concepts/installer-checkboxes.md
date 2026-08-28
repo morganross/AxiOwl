@@ -2,36 +2,34 @@
 sidebar_position: 6
 ---
 
-# Installer Checkboxes
+# Installer Choices
 
-The Windows MSI is a feature selector, not a list of hard drives and not a promise that every integration uses the same technique. Each checkbox owns a concrete set of AxiOwl files and configuration.
+The Windows MSI is a feature selector. Each choice owns a concrete set of AxiOwl files and configuration.
 
 ## Provider Features
 
-The current package has one feature for each packaged provider surface. A selected provider feature can install an MCP definition, skill, extension, bridge, patch, worker, discovery support, or a combination of those items. The label should say what the provider needs; it should not hide every integration behind the word "support."
+The package has one feature for each packaged provider surface. A selected provider feature can install an MCP definition, skill, extension, bridge, metadata integration, worker, discovery support, or a combination of those items.
 
-Provider discovery runs before defaults are chosen. A detected product can be recommended, while an undetected product should normally remain unchecked. Discovery is evidence about an installed provider product, not proof that a usable chat already exists.
+Provider discovery runs before defaults are chosen. A detected product can be recommended, and the user confirms the final selection.
 
-## Network And Runtime Features
+## Connected Features
 
-The MSI also has independent features for:
+The MSI also has independent choices for:
 
-- **A2A Server:** the LocalSystem HTTP service;
-- **A2A Client:** the interactive-user broker used to reach user-owned provider state;
-- **XMPP Client:** the per-user protected remote-action receiver;
-- **XMPP Server:** the self-hosted Windows XMPP service and administration tool;
+- **A2A Server:** the machine-scoped standards-based agent service;
+- **A2A Client:** the interactive-user broker for provider-backed A2A work;
+- **SSH Command Dispatch:** optional command-line node routes;
+- **AxiOwl Node daemon:** the recommended mobile host runtime using the computer's Node environment;
+- **AxiOwl native C++ daemon:** the native multi-process Windows mobile host runtime;
+- **No mobile daemon:** local provider, A2A, and SSH features without a mobile host runtime;
 - core runtime, mailbox, command-line, PATH, and discovery support.
 
-These are not provider checkboxes. Selecting Cursor, for example, does not silently enable a network listener.
+Only one mobile daemon choice is active for an installation.
 
 ## Selected Means Owned
 
 When checked, a feature authorizes the installer to apply that feature's AxiOwl-owned files and configuration. It may need to close and restart the exact provider application it changes.
 
-When unchecked, the installer should not patch, configure, close, restart, or remove that provider merely because it was discovered. Uninstall removes AxiOwl-owned state for installed features; it does not own provider conversations, accounts, or unrelated extensions.
+When unchecked, the installer leaves that provider integration outside the selected scope. Provider conversations, accounts, and unrelated extensions remain owned by the provider and user.
 
-## Why This Matters
-
-Different providers require different integration methods, and some methods are sensitive to provider version changes. Granular ownership makes failures diagnosable and lets users install A2A or XMPP independently of local provider integrations.
-
-See the [Installer Behavior Matrix](../reference/installer-behavior-matrix.md) for the current feature inventory.
+See the [Installer Behavior Matrix](../reference/installer-behavior-matrix.md) for the complete feature inventory.

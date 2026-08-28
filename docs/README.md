@@ -1,6 +1,6 @@
 # AxiOwl Documentation
 
-Welcome to the public guide for coordinating AI providers, standards-based agents, and approved devices with AxiOwl.
+Welcome to the public guide for coordinating AI providers, standards-based agents, AxiOwl hosts, and paired mobile clients.
 
 ## Start With The Outcome
 
@@ -8,7 +8,8 @@ Welcome to the public guide for coordinating AI providers, standards-based agent
 2. See [How AxiOwl Works](how-it-works/README.md).
 3. Follow [Install And First Run](getting-started/install-first-run.md).
 4. Choose a destination from [Provider Surfaces](providers/README.md).
-5. Learn about [Security And Trust](security/README.md).
+5. Pair a phone with [Mobile And Connected Hosts](mobile/README.md).
+6. Learn about [Security And Trust](security/README.md).
 
 ## Popular Paths
 
@@ -16,7 +17,7 @@ Welcome to the public guide for coordinating AI providers, standards-based agent
 - [Create A Cross-Provider Project Team](use-cases/cross-provider-project-team.md)
 - [Keep Context Moving](use-cases/keep-context-moving.md)
 - [Connect External A2A Agents](use-cases/connect-external-a2a-agents.md)
-- [Work Securely Across Devices](use-cases/secure-work-across-devices.md)
+- [Control Desktop Agents From A Phone](use-cases/secure-work-across-devices.md)
 
 ## Product Maps
 

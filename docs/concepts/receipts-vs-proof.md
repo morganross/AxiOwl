@@ -2,28 +2,26 @@
 sidebar_position: 3
 ---
 
-# Receipts, Delivery, And Completion Proof
+# Receipts, Delivery, And Completion
 
-One request crosses several boundaries. AxiOwl reports those boundaries separately so an early success cannot be mistaken for an end-to-end success.
+One request can cross several boundaries. AxiOwl reports those boundaries separately so the workflow can follow the real destination result.
 
-| Evidence | What it proves | What it does not prove |
-|---|---|---|
-| AxiOwl acceptance receipt | AxiOwl validated and accepted the request for processing. | The provider received, displayed, or acted on it. |
-| Delivery-edge acceptance | The provider-specific transport accepted the operation. | The intended agent completed the work. |
-| Provider MCP reply | A provider session called AxiOwl back with correlated identity. | That every claim inside the reply is correct. |
-| A2A task state | The remote A2A server reported the task's current lifecycle state. | Completion until the state and result actually say completed. |
-| Completed A2A result | The task reached completion and returned its result/artifacts. | Independent validation of the result's content. |
-| XMPP routing receipt | The routing boundary accepted or rejected an exact-resource stanza. | Endpoint decryption, authorization, or provider invocation. |
-| Protected XMPP receipt | The destination endpoint returned a signed, encrypted result tied to the action. | Independent correctness of provider-generated content. |
-
-## Why Receipts Exist
-
-Receipts make asynchronous work observable. They give support and automation a stable message id or task id to follow through later logs and replies. They are useful evidence, but each receipt names only the boundary that produced it.
+| Evidence | What it establishes |
+|---|---|
+| AxiOwl acceptance receipt | The local coordination request was accepted for processing |
+| Provider delivery state | The provider-specific integration accepted the operation |
+| Provider MCP reply | A provider session returned a correlated response |
+| A2A task state | The external A2A endpoint reported task progress |
+| Completed A2A result | The task returned its final result and artifacts |
+| Daemon connection state | The phone is connected to the intended AxiOwl host through a selected route |
+| Agent timeline result | The host daemon returned ordered provider events for the selected agent |
 
 ## Correlation
 
-A reply should carry the identifiers needed to connect it to the original operation, such as a run id, receipt or message id, sender provider/session id, or A2A task id. Missing correlation turns a plausible reply into weak proof because it could belong to another test or stale session.
+Run IDs, receipt IDs, task IDs, host IDs, agent IDs, and provider session IDs connect later events to the original operation. These identifiers let several agents work at once without confusing their results.
 
-## Support Rule
+## Reading A Mobile Result
 
-Use acceptance receipts to diagnose the beginning of a route. Use provider replies, completed A2A tasks, or the applicable protected XMPP receipt to describe the later boundary. State exactly what completed instead of calling every receipt an end-to-end success.
+The mobile app follows the host daemon's authoritative agent timeline. A turn is complete when the timeline reports the provider's terminal state, not merely when the phone transmitted the text.
+
+Use acceptance receipts to describe the beginning of a route. Use provider replies, completed A2A tasks, or the host daemon's agent timeline to describe completion.

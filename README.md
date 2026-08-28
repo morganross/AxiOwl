@@ -8,7 +8,7 @@
   </p>
 
   <p>
-    Coordinate provider sessions, A2A agents, and approved devices through one clear messaging and normalization layer.
+    Coordinate provider sessions, A2A agents, AxiOwl hosts, and paired mobile clients through one clear messaging and normalization layer.
   </p>
 </div>
 
@@ -21,7 +21,7 @@ AxiOwl helps people and AI agents find the right session, send focused work thro
 It works as both:
 
 - a **normalization layer** for providers, surfaces, sessions, targets, receipts, and replies;
-- a **communication layer** for local provider packages, MCP, A2A agents, configured nodes, and approved devices.
+- a **communication layer** for local provider packages, MCP, A2A agents, configured nodes, and paired mobile clients.
 
 Documentation site: [morganross.github.io/AxiOwl](https://morganross.github.io/AxiOwl/)
 
@@ -32,7 +32,7 @@ Documentation site: [morganross.github.io/AxiOwl](https://morganross.github.io/A
 - reusable specialist sessions;
 - external A2A agent integrations;
 - AxiOwl-to-AxiOwl task handoffs;
-- protected coordination between approved devices;
+- mobile access to agent sessions running on paired AxiOwl hosts;
 - observable workflows with receipts and correlated replies.
 
 ## How It Fits Together
@@ -54,6 +54,7 @@ AxiOwl normalizes the boundary while each provider keeps its own authentication,
 - [See how AxiOwl works](https://morganross.github.io/AxiOwl/docs/how-it-works)
 - [Install and send a first message](https://morganross.github.io/AxiOwl/docs/getting-started/install-first-run)
 - [Browse provider surfaces](https://morganross.github.io/AxiOwl/docs/providers)
+- [Pair a mobile device](https://morganross.github.io/AxiOwl/docs/mobile/pair-a-device)
 - [Understand security and trust](https://morganross.github.io/AxiOwl/docs/security)
 
 ## Product Reference
@@ -66,6 +67,6 @@ AxiOwl normalizes the boundary while each provider keeps its own authentication,
 
 ## Security
 
-AxiOwl's approved-device model combines verified connections, distinct device identity, endpoint content protection, receiver-owned authorization, replay protection, and protected results. Provider credentials stay under provider ownership on the destination machine.
+AxiOwl pairs each mobile client to a host daemon with its own identity. Relay traffic is encrypted between the phone and host, while provider credentials and provider processes remain on the computer that owns the agent session.
 
 Sensitive security reports should be shared privately with the maintainer rather than placed in a public issue.

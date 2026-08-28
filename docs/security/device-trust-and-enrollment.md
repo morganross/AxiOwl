@@ -2,45 +2,34 @@
 sidebar_position: 3
 ---
 
-# Device Trust And Enrollment
+# Pairing And Device Trust
 
-Device trust answers a narrow question: **which device keys belong to this customer-controlled trust domain right now?** It is separate from website login, license entitlement, XMPP password issuance, and provider authentication.
+Pairing answers a narrow question: **which mobile client identities may open a session with this AxiOwl host?**
 
-## First Device
+It is separate from website login, license entitlement, relay operations, and provider authentication.
 
-The first eligible desktop creates a new trust domain and signs the initial trust record with keys held by that endpoint. The service stores and projects the signed result, but service acceptance is not a substitute for endpoint signature verification.
+## Pairing Flow
 
-## Later Devices
+1. The desktop asks the running daemon to open a pairing window.
+2. The daemon creates a fresh challenge and pairing offer.
+3. The desktop displays the daemon-generated QR code or pairing link.
+4. The phone connects and presents its stable client identity.
+5. The daemon lists the phone as pending.
+6. The desktop user approves or rejects it.
+7. An approved identity becomes part of the host's trusted-device list.
 
-A later device:
+## Multiple Paired Devices
 
-1. creates its own local signing and messaging identity;
-2. sends a signed enrollment request for the existing account pool;
-3. waits for a currently trusted coordinator to inspect and approve it;
-4. receives a signed admission bound to that exact request, device, endpoint, and trust domain;
-5. verifies the admission before committing membership locally;
-6. obtains its own transport credential rather than copying another device's private credential.
+The daemon stores paired devices as individual records. More than one phone or tablet can be paired to the same host. Connection status and active connection count can be reported per device.
 
-Out-of-band confirmation can use a direct scan or a full fingerprint comparison on both devices. The server relays evidence; it does not become the coordinator.
+## Reconnection
 
-## Revocation And Replacement
+Relay encryption can use fresh transport material for a new connection while the daemon continues to recognize the stable mobile client identity established during pairing. This lets a trusted phone reconnect without becoming a new device every time.
 
-Revocation removes the device from active membership and causes transport and public routing/key state to be retracted through their owning services. A revoked device must not regain authority merely because it still has old local files or a previously valid transport credential.
+## Removal And Reset
 
-Replacement or ownership transfer works only while a trusted coordinator can sign the required change.
+The desktop can reject a pending device, remove a paired device, or reset paired-device state. Active connections for removed devices are closed, and the device must complete pairing again before opening another daemon session.
 
-## Total Trust Loss
+## Pairing Does Not Copy Provider Credentials
 
-If all trusted coordinator devices and keys are lost, AxiOwl does not let licensing, support, the XMPP server, or a backup reopen the old trust domain. The safe outcome is a new trust domain with new keys, credentials, grants, and membership.
-
-This is less convenient than a universal recovery key, but it prevents central infrastructure from silently becoming the customer's device authority.
-
-## Device Limit
-
-The current trust model enforces a bounded active-device set. The limit protects routing, public key-bundle state, and administrative clarity. It is not a licensing seat count.
-
-## Service Boundary
-
-The device-trust service stores signed trust evidence and produces bounded projections. Endpoints and the shared verifier remain responsible for the cryptographic meaning. The account/pool service decides which pool is current; the XMPP provisioner issues transport credentials only after an authorized decision; the Activation service handles optional licensing only.
-
-See [Accounts, Licensing, Pools, And Device Trust](../concepts/accounts-licensing-and-device-trust.md).
+An approved phone gains access to the daemon protocol exposed by the host. Provider account tokens, project files, and provider processes remain on the host computer.

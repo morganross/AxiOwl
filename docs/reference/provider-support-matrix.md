@@ -29,9 +29,10 @@ Blank cells mean the public workflow focuses on the operations shown for that su
 | Surface | What it adds |
 |---|---|
 | AxiOwl Mailbox | A built-in local inbox and coordination endpoint |
+| AxiOwl daemon host | Provider catalog, projects, agents, sessions, permissions, and live timelines for connected clients |
+| Paired mobile app | Android or iPhone access to host-owned agents through relay or direct connection |
 | External A2A agent | Agent Card discovery, tasks, results, and artifacts |
 | AxiOwl Remote Node | Explicit A2A coordination across installations |
-| Secure XMPP target | Protected actions and results between approved devices |
 
 ## How To Read The Matrix
 

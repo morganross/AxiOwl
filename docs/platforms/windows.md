@@ -4,28 +4,32 @@ sidebar_position: 2
 
 # Windows
 
-Windows x64 is the primary packaged AxiOwl desktop experience.
+Windows x64 is the primary packaged AxiOwl desktop and mobile-host experience.
 
 ## What You Can Install
 
-- the AxiOwl runtime and MCP server;
-- mailbox, tray, discovery, registry, and diagnostics;
+- the AxiOwl runtime, CLI, MCP server, mailbox, and discovery;
 - eleven isolated provider packages;
-- an optional A2A server;
-- an optional interactive A2A client and user broker;
-- an optional per-user secure XMPP client;
-- an optional native self-hosted XMPP server and administration tool.
+- an optional A2A server and interactive A2A client;
+- optional SSH command dispatch;
+- the recommended AxiOwl Node daemon;
+- the alternative native C++ daemon;
+- or no mobile daemon for a local-only installation.
 
-The MSI presents those capabilities as separate features, allowing each installation to match the providers and network roles the user wants.
+## Mobile App Tab
 
-## Designed For Interactive Provider Work
+The desktop interface asks the selected daemon for a real pairing offer and displays the daemon-generated QR code. The phone presents its identity through that offer, and the Windows user approves the pending device.
 
-Provider sessions normally belong to the signed-in Windows user. AxiOwl keeps that user context available to interactive provider integrations while machine services stay within their own service identity.
+After pairing, the phone can connect to the host, discover provider agents, open an existing session, send turns, and follow the live timeline.
 
-## Secure Device Roles
+## Daemon Runtime Choices
 
-The per-user XMPP client keeps device identity and protected state under the interactive user. The optional server runs as a separate machine role. This separation supports both everyday desktop use and a customer-controlled self-hosted deployment.
+The Node daemon is the recommended broad runtime and uses the computer's installed Node environment. The native C++ daemon splits Windows service management, relay transport, host core, and provider runtimes into separate processes.
 
-## Best Starting Point
+Both occupy the same product role: they make the computer an AxiOwl host for connected clients. Only one daemon runtime is selected at a time.
 
-Windows offers the broadest provider package selection and the complete installer experience. Follow [Install And First Run](../getting-started/install-first-run.md), then choose a provider from [Provider Surfaces](../providers/README.md).
+## User Context
+
+Provider sessions normally belong to the signed-in Windows user. The service host manages lifecycle, while the daemon and provider runtimes operate with the interactive user's projects, provider configuration, and credentials.
+
+Follow [Install And First Run](../getting-started/install-first-run.md), then [Pair A Mobile Device](../mobile/pair-a-device.md).

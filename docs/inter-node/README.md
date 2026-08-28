@@ -2,46 +2,29 @@
 sidebar_position: 1
 ---
 
-# Axi-To-Axi And Chat-To-Chat Communication
+# Connected AxiOwl Systems
 
-Inter-node communication lets one AxiOwl installation address work owned by another installation. There are two deliberately separate remote models:
+AxiOwl supports two distinct ways to work beyond one local provider session:
 
-- **A2A node routing** carries standards A2A requests to another AxiOwl node, which may then perform local provider delivery.
-- **Secure XMPP routing** carries an endpoint-protected AxiOwl action to one exact approved device resource, which verifies and authorizes the action before provider handoff.
+- **Mobile-to-host connections** let a paired phone control agents through an AxiOwl daemon.
+- **A2A node connections** let one AxiOwl installation call standards-based agents exposed by another installation.
 
-They do not tunnel through each other and they do not silently substitute for one another.
+## Mobile-To-Host
 
-This creates a useful separation:
+The phone connects through the encrypted relay or a direct route. The host daemon owns projects, provider processes, agents, timelines, permissions, and reconnect state.
 
-- **A2A** supplies Agent Cards, tasks, messages, and external-agent interoperability.
-- **AxiOwl node routing** supplies explicit node identity and either direct A2A HTTPS or A2A over SSH.
-- **XMPP** supplies protected approved-device routing without giving the routing server provider authority.
-- **Provider delivery** remains local to the destination machine.
-- **MCP replies** preserve the identity of the destination chat and can complete the originating task.
+## A2A Node-To-Node
 
-## Normal Flow
+An A2A node publishes Agent Cards and task routes. Another AxiOwl installation can call those agents through direct HTTPS A2A or A2A-over-SSH.
 
-```text
-source chat
-  -> local AxiOwl registry target
-  -> remote node transport plan
-  -> remote AxiOwl A2A endpoint
-  -> destination registry
-  -> destination provider adapter
-  -> destination chat
-  -> correlated reply
-```
+## Why The Models Stay Separate
 
-The source does not need the destination provider's private installation details. The destination AxiOwl instance owns provider discovery and delivery on its own machine.
-
-## Current Status
-
-AxiOwl provides standards A2A server/client behavior, direct A2A node delivery, A2A-over-SSH, and separate secure XMPP client/server roles. Provider-owned remote experiences remain within their own provider packages.
-
-The current Windows installer has separate A2A Server, A2A Client, XMPP Client, and XMPP Server features. Linux packages the native client and shared security runtime. See the [XMPP section](../xmpp/README.md) for the different identity and authorization model.
+The mobile protocol provides an interactive view of one host and its agent workspace. A2A provides standards-based messages, tasks, results, and artifacts. Keeping both models explicit lets a workflow choose the right abstraction.
 
 ## Read Next
 
-- [Transport Selection And Fallback](transport-selection-and-fallback.md)
+- [Inter-Node Operations](operations.md)
 - [Pairing, Identity, And Trust](pairing-identity-and-trust.md)
-- [Inter-node Operations](operations.md)
+- [Transport Selection](transport-selection-and-fallback.md)
+- [Mobile And Connected Hosts](../mobile/README.md)
+- [A2A In AxiOwl](../a2a/README.md)

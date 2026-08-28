@@ -124,7 +124,7 @@ Provider packages do not own another provider's files, config scope, process sco
 The production Windows builder follows this order:
 
 1. establish a release identity and source revision;
-2. compile the root Windows targets and separate Windows XMPP server targets;
+2. compile the root Windows targets and the selected Node or native daemon payloads;
 3. stage the exact files selected for release;
 4. sign first-party PE files that require platform signing;
 5. produce signing proof and provider-package exports;

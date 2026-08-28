@@ -2,57 +2,44 @@
 sidebar_position: 7
 ---
 
-# Why Secure Remote Coordination Matters
+# Why Mobile Agent Control Matters
 
-Local multi-provider messaging solves one problem: getting work to the right session on one computer. Remote coordination introduces a harder question: how can another approved device request work without turning the routing server into a master key for every provider?
-
-## The Ordinary Shortcut
-
-A simple remote system can put a bearer token in front of an HTTP endpoint and let the server forward plaintext instructions. That is easy to understand, but it gives the server broad power. A stolen token or compromised routing service can become provider authority.
-
-AxiOwl's secure XMPP direction separates those powers.
+Desktop AI agents are valuable because they can stay close to repositories, terminals, provider credentials, and long-running project context. AxiOwl lets the user take the agent experience with them without moving that host environment onto the phone.
 
 ## The AxiOwl Model
 
 ```text
-approved sending device
-  -> encrypts content for one approved destination device
-  -> signs the exact requested action
-  -> routing server carries the encrypted envelope
-  -> destination decrypts and checks current device trust
-  -> destination authorizes operation, target, policy, and replay state
-  -> one request reaches the local provider boundary
-  -> protected receipt returns to the sender
+paired phone
+  -> encrypted relay or direct route
+  -> AxiOwl daemon on the computer
+  -> existing provider agent and project
+  -> live timeline back to the phone
 ```
-
-The server is important, but it is not enough. A valid server connection does not grant provider permission. A readable message is not automatically actionable. A display name is not a device identity.
 
 ## Practical Benefits
 
-### A Compromised Router Has Less Power
+### The Repository Stays On The Host
 
-The routing service can still disrupt delivery and observe routing metadata, but the design aims to prevent it from reading protected instructions or inventing an authorized provider action.
+The phone controls an agent that works in the host's real project and workspace. Large repositories and local tools do not need to move to mobile storage.
 
-### Old Messages Cannot Simply Be Reused
+### Provider Credentials Stay On The Host
 
-The receiver keeps replay and dispatch state. A previously valid action should not become a reusable command just because an attacker captured it.
+Provider authentication remains with the provider runtime on the computer. Pairing does not copy account tokens to the phone or relay.
 
-### Each Device Can Be Revoked
+### The Relay Sees Encrypted Frames
 
-Approved devices have distinct identities and transport credentials. Removing one device does not require pretending that every device was the same login.
+The hosted relay connects networks without needing plaintext provider prompts or timelines.
 
-### Provider Behavior Stays Local
+### Pairing Is Human-Approved
 
-After authorization, the request enters the same local provider package used by ordinary local messaging. The network layer does not create a second hidden provider API.
+The daemon creates a fresh pairing offer, the phone presents its client identity, and the desktop user approves the pending device.
 
-### Failure Is Visible
+### Several Devices Can Be Managed
 
-If the exact destination is offline, trust state is unavailable, a signature is wrong, or the action is no longer allowed, the protected path fails. It does not silently send plaintext or switch to A2A or SSH.
+Each mobile installation has its own identity. A host can trust multiple phones and remove one independently.
 
-## Honest Limits
+### The Timeline Is The Product
 
-Endpoint encryption does not hide connection timing, routing identifiers, message size, or endpoint availability. The selected local provider sees the final message because it must process it. AxiOwl also does not claim a current complete protected journey merely because source and server components exist.
+The mobile app receives user text, assistant output, tools, permissions, usage, and completion as one ordered agent timeline. Reconnection returns to the same host and session.
 
-The value is narrower and more useful: the route, device, action, replay decision, provider handoff, and receipt have distinct security meanings. That makes remote AI coordination safer to reason about than a single all-powerful relay token.
-
-Read [Encryption And Privacy](../security/encryption-and-privacy.md), [Device Trust And Enrollment](../security/device-trust-and-enrollment.md), and [Authorization And Replay](../security/authorization-and-replay.md) for the public security model.
+Read [Mobile And Connected Hosts](../mobile/README.md), [Pairing And Device Trust](../security/device-trust-and-enrollment.md), and [Encryption And Privacy](../security/encryption-and-privacy.md).

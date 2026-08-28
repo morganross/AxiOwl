@@ -7,7 +7,7 @@ slug: /intro
 
 AxiOwl helps your AI tools work together.
 
-It gives provider sessions, coding agents, approved devices, and standards-based A2A services a shared coordination layer. You can discover the right session, send it focused work, follow the handoff, and receive a correlated result while each provider keeps its own identity and strengths.
+It gives provider sessions, coding agents, AxiOwl hosts, paired phones, and standards-based A2A services a shared coordination layer. You can discover the right session, send it focused work, follow the handoff, and receive a correlated result while each provider keeps its own identity and strengths.
 
 ## One Project, Many Specialists
 
@@ -39,11 +39,11 @@ Receipts show that a handoff was accepted. Correlated provider replies, A2A task
 
 ### Local And Remote Coordination
 
-Use local provider packages on one machine, connect standards-based A2A services, link operator-managed nodes over A2A and SSH, or coordinate approved devices through secure XMPP.
+Use local provider packages on one machine, connect standards-based A2A services, link operator-managed nodes over A2A and SSH, or pair the mobile app to an AxiOwl host through the encrypted relay or a direct route.
 
-### Security With Narrow Authority
+### Your Agents On Every Screen
 
-Protected device messaging combines encryption, distinct device identities, receiver-owned authorization, replay protection, and protected results. Provider credentials remain with the provider on the destination machine.
+The phone connects to the daemon on your computer, opens real provider sessions, sends ordinary turns, and follows the live timeline. Provider credentials and provider processes stay on the host.
 
 ## Find Your Starting Point
 
@@ -51,6 +51,7 @@ Protected device messaging combines encryption, distinct device identities, rece
 - See [How AxiOwl Works](how-it-works/README.md).
 - Follow [Install And First Run](getting-started/install-first-run.md).
 - Browse [Provider Surfaces](providers/README.md).
+- Pair a phone with [Mobile And Connected Hosts](mobile/README.md).
 - Learn about [Security And Trust](security/README.md).
 
 ## The AxiOwl Philosophy

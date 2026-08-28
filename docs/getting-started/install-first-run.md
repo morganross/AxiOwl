@@ -21,7 +21,8 @@ Review the list and choose:
 - the provider integrations you want;
 - the built-in mailbox experience;
 - optional A2A features;
-- optional XMPP client or server roles.
+- one mobile daemon choice: recommended Node daemon, native C++ daemon, or no mobile daemon;
+- optional A2A and SSH command-dispatch features.
 
 Each provider remains a separate feature, so the selection can match your actual workflow.
 
@@ -48,8 +49,12 @@ Give important sessions simple project roles such as:
 
 Continue to [Send Your First Message](send-your-first-message.md). A small request with an explicit reply phrase is an easy way to learn the receipt and response flow.
 
+## 7. Pair The Mobile App
+
+If you installed a daemon runtime, open the **Mobile App** tab and follow [Pair A Mobile Device](../mobile/pair-a-device.md). The daemon generates the QR code and waits for local approval of the phone.
+
 ## Optional Next Steps
 
 - [Connect External A2A Agents](../use-cases/connect-external-a2a-agents.md)
-- [Work Securely Across Devices](../use-cases/secure-work-across-devices.md)
+- [Control Desktop Agents From A Phone](../use-cases/secure-work-across-devices.md)
 - [Create A Cross-Provider Project Team](../use-cases/cross-provider-project-team.md)

@@ -2,47 +2,44 @@
 sidebar_position: 4
 ---
 
-# Work Securely Across Devices
+# Control Desktop Agents From A Phone
 
-AxiOwl can connect approved devices so work can move between locations while provider access remains local to the destination machine.
+AxiOwl connects the mobile app to the daemon running on your computer, so a provider session can continue without moving its repository, credentials, or process to the phone.
 
-For example, a laptop can ask a workstation to deliver a task to a provider session that already has the right repository, account, and local context. The provider credentials stay with the provider on that workstation.
+For example, you can leave a Codex, Claude Code, OpenCode, or other configured agent running on a workstation, open that exact session from the phone, send the next turn, review tool output, and follow the result.
 
 ## The Experience
 
 ```text
-approved source device
-  -> protected message
-  -> secure routing service
-  -> approved destination device
-  -> local authorization
-  -> destination provider session
-  -> protected result
+paired mobile app
+  -> encrypted relay or direct connection
+  -> AxiOwl daemon on the host
+  -> existing provider agent
+  -> live timeline back to the phone
 ```
 
 ## Why This Is Different From Remote Desktop
 
-Remote desktop gives one device visual control over another. AxiOwl sends a structured action to an approved endpoint and receives a structured result. The destination continues to own its local provider integration and authorization decision.
+Remote desktop streams an entire screen. AxiOwl presents the agent itself: projects, sessions, turns, reasoning, tools, permissions, and results. The computer continues to own the repository and provider runtime.
 
 This is useful when:
 
 - the destination machine has a large repository or specialized environment;
 - a long-running provider session already has valuable context;
 - a team wants a narrow message path instead of a full interactive desktop;
-- a self-hosted or cloud XMPP server is the preferred routing point.
+- a phone should reconnect to the same authoritative agent timeline.
 
 ## Security By Layers
 
 Protected device workflows combine several responsibilities:
 
-- verified connection security;
-- a distinct identity for each approved device;
-- endpoint protection for message content;
-- signed action details;
-- receiver-owned permission checks;
-- replay protection;
-- a protected result path.
+- a time-limited pairing offer;
+- local approval on the host;
+- a distinct identity for each mobile installation;
+- end-to-end encryption across the hosted relay;
+- provider credentials retained on the host;
+- ordered session and timeline state during reconnect.
 
-These layers let the routing service move the message while the destination endpoint remains responsible for local provider access.
+These layers let the relay move encrypted frames while the daemon remains responsible for agents, sessions, and provider access.
 
-Read [Trust And Encryption](../how-it-works/trust-and-encryption.md) and [Secure XMPP Transport](../xmpp/README.md) for more detail.
+Read [Pair A Mobile Device](../mobile/pair-a-device.md), [Relay And Direct Connections](../mobile/relay-and-direct-connections.md), and [Mobile Connection Security](../mobile/security-and-privacy.md) for more detail.

@@ -4,21 +4,27 @@ sidebar_position: 6
 
 # Android
 
-The Android app is a native Kotlin and Compose approved-device companion preview.
+The Android app is a native mobile client for paired AxiOwl hosts.
 
-## The Product Direction
+## Connected Agent Experience
 
-- website account and pool onboarding;
-- later-device admission approved by a current trusted device;
-- protected key and signing custody;
-- per-device XMPP transport credentials;
-- secure WebSocket connection state;
-- protected contact-directory and trust information;
-- native trust and message-protection integration;
-- a separate A2A client experience.
+- scan a daemon-generated QR code or paste a pairing link;
+- wait for local approval on the host;
+- connect through the encrypted relay or a direct route;
+- maintain a registry of paired hosts and connection methods;
+- browse providers, projects, workspaces, and agents;
+- open existing session history and live timelines;
+- send normal user turns;
+- respond to provider permission requests;
+- follow tools, reasoning, usage, and terminal results;
+- reconnect without creating a duplicate host or conversation.
 
-## Designed For Device-Level Trust
+## Host Profiles
 
-The Android client is designed to receive its own identity and permissions rather than reuse a desktop credential. That allows a customer to approve, identify, and manage the phone as one member of the trusted device set.
+The app groups relay and direct connection methods under one immutable host identity. A friendly label can change without changing the host that owns the agent sessions.
 
-The native application brings AxiOwl's secure coordination model into an Android experience while preserving the same endpoint-owned trust principles used by desktop clients.
+## Mobile Security
+
+Each Android installation presents its own stable client identity during pairing. Provider processes and provider credentials remain on the paired computer.
+
+Read [Mobile And Connected Hosts](../mobile/README.md) for the complete workflow.

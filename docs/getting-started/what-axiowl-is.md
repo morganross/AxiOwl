@@ -16,7 +16,7 @@ AxiOwl gives different tools a shared vocabulary:
 
 - provider and surface;
 - session and target;
-- local node and approved device;
+- local host and paired mobile client;
 - message and task;
 - receipt and reply.
 
@@ -30,7 +30,7 @@ AxiOwl moves work through several explicit routes:
 - MCP tools and provider replies;
 - standards-based A2A endpoints and tasks;
 - A2A between configured nodes;
-- secure XMPP between approved devices.
+- encrypted relay or direct connections between the mobile app and an AxiOwl host.
 
 ## A Local Workflow
 
@@ -60,7 +60,7 @@ source session or device
 - keep long-running expert sessions available by name;
 - expose selected desktop sessions as A2A agents;
 - call external A2A services from the same project;
-- coordinate protected work across approved devices;
+- open and continue desktop agent sessions from a paired phone;
 - retain receipts and replies that make the handoff visible.
 
 ## Your Providers Stay Yours

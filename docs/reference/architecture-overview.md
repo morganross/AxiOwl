@@ -4,78 +4,77 @@ sidebar_position: 2
 
 # AxiOwl Architecture Overview
 
-AxiOwl is a common coordination core surrounded by provider-specific, protocol-specific, platform-specific, and trust-specific components.
+AxiOwl is a coordination core surrounded by provider packages, a host daemon, mobile clients, network transports, standards-based A2A, and platform release systems.
 
 ## System Layers
 
 | Layer | Responsibility |
 |---|---|
-| Local core | Registry, normalized addresses, sender identity, messages, receipts, MCP, mailbox, and logs |
-| Provider packages | Discovery and delivery for one concrete provider surface |
-| A2A | Standards-based Agent Cards, messages, tasks, external endpoints, and inter-node agents |
-| Secure XMPP | Approved-device actions, endpoint protection, exact-resource routing, receiver authorization, replay state, and protected results |
-| Account and pool | Website account session and the customer's current device group |
-| Device trust | Signed genesis, later-device admission, device lifecycle, and trusted state |
-| Licensing | Optional entitlement for licensed product experiences |
-| Packaging and updates | Platform installers, provider packages, signatures, release metadata, and pull updates |
+| Local core | Registry, normalized addresses, MCP, mailbox, messages, receipts, discovery, and local provider operations |
+| Provider packages | Installation, discovery, metadata, and delivery for one concrete provider surface |
+| AxiOwl daemon | Host identity, projects, workspaces, agents, provider processes, timelines, permissions, pairing, and client sessions |
+| Mobile apps | Paired host registry, relay/direct connections, agent views, turns, permissions, and timeline rendering |
+| Hosted relay | Routes encrypted frames between paired mobile clients and host daemons |
+| Direct connections | Reach a daemon through an operator-controlled network route |
+| A2A | Agent Cards, standards-based messages, tasks, results, artifacts, and AxiOwl node endpoints |
+| SSH dispatch | A2A-over-SSH and optional ordinary command-line node operations |
+| Packaging and update | Windows MSI, Linux package, macOS package, mobile artifacts, provider revisions, signatures, and release channels |
 
 ## Local Provider Flow
 
 ```text
 CLI, GUI, or MCP request
-  -> resolve the registry target
-  -> select one provider package
-  -> use that provider's delivery method
-  -> record a receipt
-  -> correlate the provider reply
+  -> resolve local provider target
+  -> select provider package
+  -> use provider-specific delivery
+  -> record receipt
+  -> correlate provider reply
 ```
 
-The core normalizes the request and evidence. The provider package preserves the destination's own session and delivery model.
+## Mobile Host Flow
+
+```text
+paired mobile app
+  -> encrypted relay or direct connection
+  -> AxiOwl daemon
+  -> selected host-owned agent
+  -> provider runtime and existing session
+  -> ordered timeline back to the phone
+```
+
+The daemon is authoritative for projects, provider processes, agent identity, and timeline state. The phone is a client of that host.
+
+## Pairing Flow
+
+```text
+desktop requests fresh offer
+  -> daemon opens bounded pairing window
+  -> phone scans QR or imports link
+  -> phone presents stable client identity
+  -> desktop approves pending device
+  -> daemon stores approved client
+```
+
+The daemon supports multiple approved mobile clients.
 
 ## A2A Flow
 
 ```text
-A2A caller or client
-  -> Agent Card and scoped target
+A2A caller
+  -> Agent Card and scoped endpoint
   -> message or task
   -> destination agent boundary
   -> task state, result, and artifacts
 ```
 
-Desktop provider sessions can appear as selected A2A agents through the interactive user broker. AxiOwl can also call external Agent Cards as part of a larger project workflow.
+A2A and mobile daemon sessions remain separate product protocols.
 
-## Secure XMPP Flow
+## Windows Daemon Choices
 
-```text
-approved source device
-  -> protect the signed action
-  -> route to one exact destination resource
-  -> verify, decrypt, and authorize at the receiver
-  -> hand one request to the local provider package
-  -> protect and return the result
-```
+The MSI selects one of:
 
-The routing server moves the protected envelope. The destination endpoint owns device trust, action permission, replay state, and provider delivery.
+- recommended Node daemon using the installed Node environment;
+- native C++ daemon with separate service, transport, core, and provider runtimes;
+- no mobile daemon.
 
-## Identity And Authority
-
-```text
-website account     -> account access
-device pool         -> current approved-device group
-device trust        -> admitted device identity
-XMPP credential     -> transport connection
-provider login      -> provider account and model access
-license entitlement -> optional licensed capability
-```
-
-Keeping these responsibilities separate gives AxiOwl a clear trust model and allows each service to remain focused.
-
-## Platform Shape
-
-Windows and Linux use the shared C++ coordination and security core. macOS and iPhone use native Swift experiences. Android uses a native Kotlin/Compose application with native security integration. Each platform presents the product using its own lifecycle and protected storage conventions.
-
-## Release Shape
-
-Core applications and provider packages are independently identifiable. Signed artifacts, immutable publication, channel promotion, verified pull state, and explicit application form a traceable path from release authority to installed product.
-
-Continue with [How AxiOwl Works](../how-it-works/README.md) for a user-centered tour.
+Linux and macOS packages include AxiOwl-branded daemon runtimes with platform-specific lifecycle integration.

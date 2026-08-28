@@ -11,7 +11,7 @@ Receipts make an AI handoff visible. They tell the workflow which boundary accep
 | Stage | Useful evidence |
 |---|---|
 | Request accepted | AxiOwl receipt and message identifier |
-| Route selected | Provider, A2A, SSH, or XMPP route identity |
+| Route selected | Provider, A2A, SSH, relay, or direct daemon route identity |
 | Destination accepted | Provider handoff, A2A task, or protected endpoint receipt |
 | Work completed | Provider reply, completed task result, or protected terminal result |
 
@@ -23,7 +23,7 @@ This supports workflows such as:
 
 - comparing several independent answers;
 - waiting for a long-running A2A task;
-- returning a remote protected result to the source device;
+- reconciling a mobile timeline after the phone reconnects;
 - preserving a concise project record;
 - diagnosing where a handoff currently sits.
 

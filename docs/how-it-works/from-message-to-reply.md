@@ -24,13 +24,13 @@ The target can be a friendly registered name, a provider session, an external A2
 
 ## 2. AxiOwl Chooses The Declared Route
 
-Local provider messaging uses the provider package. External agent work uses A2A. Approved device-to-device work can use secure XMPP. Explicit inter-node configurations can use A2A directly or over SSH.
+Local provider messaging uses the provider package. External agent work uses A2A. A paired mobile app uses the encrypted relay or a direct connection to its host daemon. Explicit inter-node configurations can use A2A directly or over SSH.
 
 The route is part of the request, which keeps the workflow understandable.
 
 ## 3. The Destination Integration Takes Over
 
-At the destination, AxiOwl uses the integration for that exact provider surface. Provider authentication and conversation state remain with the provider product. For a protected remote action, the destination also applies device trust and local authorization before provider delivery.
+At the destination, AxiOwl uses the integration for that exact provider surface. Provider authentication and conversation state remain with the provider product. For mobile control, the paired daemon owns the agent process, session identity, permissions, and timeline.
 
 ## 4. A Receipt Makes The Handoff Visible
 
@@ -42,7 +42,7 @@ The result may be:
 
 - a provider MCP reply;
 - a completed A2A task and artifacts;
-- a protected receipt from an approved device;
+- a live daemon timeline and terminal provider result returned to the paired phone;
 - a status update that the coordinating session can use for the next decision.
 
 This creates a practical loop: delegate, observe, receive, and continue.
