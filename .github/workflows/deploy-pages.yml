@@ -20,6 +20,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Checkout canonical AxiOwl theme tokens
+        uses: actions/checkout@v4
+        with:
+          repository: morganross/Axiowl4
+          ref: main
+          path: .axiowl-theme-source
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -30,7 +37,7 @@ jobs:
         run: npm ci
 
       - name: Generate web theme variables
-        run: node scripts/generate-theme.mjs theme/axiowl-theme.tokens.json src/css/generated-theme.css
+        run: node scripts/generate-theme.mjs .axiowl-theme-source/shared/design/axiowl-theme.tokens.json src/css/generated-theme.css
 
       - name: Build website
         run: npm run build
