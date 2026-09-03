@@ -80,10 +80,6 @@ export default function Home() {
       <HomepageHeader />
       <main className={styles.main}>
         <section className="container">
-          <div className={styles.sectionHeading}>
-            <p>One coordination layer</p>
-            <Heading as="h2">Choose what you want to accomplish</Heading>
-          </div>
           <div className={styles.cardGrid}>
             {cards.map((card) => (
               <Link className={styles.card} to={card.to} key={card.title}>
