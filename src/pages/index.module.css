@@ -60,7 +60,7 @@
 
 .main {
   padding: 3.5rem 0 4rem;
-  background: var(--axiowl-white);
+  background: var(--axiowl-page);
 }
 
 .sectionHeading {
@@ -99,7 +99,7 @@
   border-radius: 6px;
   color: inherit;
   text-decoration: none;
-  background: color-mix(in srgb, var(--axiowl-paper) 34%, var(--axiowl-white));
+  background: var(--axiowl-surface);
   box-shadow: 0 12px 28px color-mix(in srgb, var(--axiowl-shell) 10%, transparent);
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
@@ -121,7 +121,7 @@
 
 .card p {
   margin: 0;
-  color: color-mix(in srgb, var(--axiowl-ink) 62%, var(--axiowl-white));
+  color: var(--axiowl-muted);
   line-height: 1.65;
 }
 

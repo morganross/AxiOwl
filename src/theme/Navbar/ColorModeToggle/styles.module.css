@@ -67,6 +67,10 @@
 .current[data-palette='ocean-ink'] .swatch { background: linear-gradient(135deg, #2f78b7 0 50%, #ea6a5f 50% 100%); }
 .current[data-palette='hero-midnight'] .swatch { background: linear-gradient(135deg, #233f7d 0 33%, #ff625f 33% 68%, #d86cc4 68%); }
 .current[data-palette='hero-twilight'] .swatch { background: linear-gradient(135deg, #413c91 0 33%, #ff7268 33% 68%, #c86bd9 68%); }
+.current[data-palette='night-ocean'] .swatch { background: linear-gradient(135deg, #56c7dd 0 50%, #e56b65 50% 100%); }
+.current[data-palette='night-orchid'] .swatch { background: linear-gradient(135deg, #ff6f91 0 50%, #c16ce5 50% 100%); }
+.current[data-palette='night-forest'] .swatch { background: linear-gradient(135deg, #78d5ac 0 50%, #f2b45b 50% 100%); }
+.current[data-palette='night-ember'] .swatch { background: linear-gradient(135deg, #ff7a63 0 50%, #68d9d1 50% 100%); }
 
 .screenOnly {
   position: absolute;

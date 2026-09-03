@@ -8,6 +8,9 @@
   --axiowl-paper: #fff0f4;
   --axiowl-ink: #111429;
   --axiowl-white: #ffffff;
+  --axiowl-page: color-mix(in srgb, var(--axiowl-paper) 42%, var(--axiowl-white));
+  --axiowl-surface: color-mix(in srgb, var(--axiowl-paper) 24%, var(--axiowl-white));
+  --axiowl-muted: color-mix(in srgb, var(--axiowl-ink) 64%, var(--axiowl-white));
   --ifm-color-primary: #4954de;
   --ifm-color-primary-dark: #3f49c9;
   --ifm-color-primary-darker: #3b44be;
@@ -41,6 +44,10 @@ html[data-axiowl-palette='forest-gold'] { --axiowl-shell: #10241c; --axiowl-shel
 html[data-axiowl-palette='ocean-ink'] { --axiowl-shell: #071a2b; --axiowl-shell-2: #153754; --axiowl-primary: #ea6a5f; --axiowl-secondary: #f39480; --axiowl-cool: #51c5d7; --axiowl-accent: #2f78b7; --axiowl-paper: #edf5f8; --axiowl-ink: #0d2435; }
 html[data-axiowl-palette='hero-midnight'] { --axiowl-shell: #111429; --axiowl-shell-2: #233f7d; --axiowl-primary: #ff625f; --axiowl-secondary: #d86cc4; --axiowl-cool: #71d5ff; --axiowl-accent: #5d7ee7; --axiowl-paper: #f4f6ff; --axiowl-ink: #121b3b; }
 html[data-axiowl-palette='hero-twilight'] { --axiowl-shell: #17142d; --axiowl-shell-2: #413c91; --axiowl-primary: #ff7268; --axiowl-secondary: #c86bd9; --axiowl-cool: #7ed8ff; --axiowl-accent: #726bf5; --axiowl-paper: #f7f3ff; --axiowl-ink: #211842; }
+html[data-axiowl-palette='night-ocean'] { --axiowl-shell: #071824; --axiowl-shell-2: #123a50; --axiowl-primary: #56c7dd; --axiowl-secondary: #e56b65; --axiowl-cool: #8bdeef; --axiowl-accent: #4d9ec8; --axiowl-paper: #0b1d2b; --axiowl-ink: #eaf7f5; --axiowl-page: #0b1d2b; --axiowl-surface: #122b3b; --axiowl-muted: #b5ccce; }
+html[data-axiowl-palette='night-orchid'] { --axiowl-shell: #170f2d; --axiowl-shell-2: #3e235e; --axiowl-primary: #ff6f91; --axiowl-secondary: #c16ce5; --axiowl-cool: #72d8ff; --axiowl-accent: #8e6bff; --axiowl-paper: #1a122d; --axiowl-ink: #f6efff; --axiowl-page: #1a122d; --axiowl-surface: #281a42; --axiowl-muted: #cdbedf; }
+html[data-axiowl-palette='night-forest'] { --axiowl-shell: #0c211a; --axiowl-shell-2: #1b4636; --axiowl-primary: #f2b45b; --axiowl-secondary: #e58466; --axiowl-cool: #78d5ac; --axiowl-accent: #3fa582; --axiowl-paper: #10251d; --axiowl-ink: #eef9f2; --axiowl-page: #10251d; --axiowl-surface: #18372b; --axiowl-muted: #bedac9; }
+html[data-axiowl-palette='night-ember'] { --axiowl-shell: #211118; --axiowl-shell-2: #541b2c; --axiowl-primary: #ff7a63; --axiowl-secondary: #ffbe66; --axiowl-cool: #68d9d1; --axiowl-accent: #d44b63; --axiowl-paper: #28141c; --axiowl-ink: #fff1ed; --axiowl-page: #28141c; --axiowl-surface: #3b1c27; --axiowl-muted: #edc5bd; }
 
 [data-theme='dark'] {
   --ifm-color-primary: #9fa6ff;
@@ -265,10 +272,10 @@ html[data-theme='dark'] {
   --ifm-color-primary-light: color-mix(in srgb, var(--axiowl-accent) 86%, var(--axiowl-white));
   --ifm-color-primary-lighter: color-mix(in srgb, var(--axiowl-accent) 70%, var(--axiowl-white));
   --ifm-color-primary-lightest: color-mix(in srgb, var(--axiowl-accent) 54%, var(--axiowl-white));
-  --ifm-background-color: var(--axiowl-white);
-  --ifm-background-surface-color: var(--axiowl-white);
+  --ifm-background-color: var(--axiowl-page);
+  --ifm-background-surface-color: var(--axiowl-surface);
   --ifm-font-color-base: var(--axiowl-ink);
-  --ifm-font-color-secondary: color-mix(in srgb, var(--axiowl-ink) 64%, var(--axiowl-white));
+  --ifm-font-color-secondary: var(--axiowl-muted);
   --ifm-heading-color: var(--axiowl-ink);
   --ifm-navbar-background-color: var(--axiowl-shell);
   --ifm-footer-background-color: var(--axiowl-shell);
@@ -294,7 +301,7 @@ html[data-theme='dark'] {
 
 .theme-doc-sidebar-container {
   border-right-color: color-mix(in srgb, var(--axiowl-ink) 15%, transparent) !important;
-  background: color-mix(in srgb, var(--axiowl-paper) 58%, var(--axiowl-white)) !important;
+  background: var(--axiowl-surface) !important;
 }
 
 .menu__link:hover,
@@ -319,7 +326,7 @@ html[data-theme='dark'] {
 
 .theme-doc-markdown thead,
 .theme-doc-markdown tr:nth-child(2n) {
-  background: color-mix(in srgb, var(--axiowl-paper) 64%, var(--axiowl-white)) !important;
+  background: var(--axiowl-surface) !important;
 }
 
 .pagination-nav__link:hover {

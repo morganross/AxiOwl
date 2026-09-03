@@ -18,6 +18,10 @@ const palettes = [
   {id: 'ocean-ink', name: 'Ocean Ink', number: '10'},
   {id: 'hero-midnight', name: 'Hero Midnight + Coral', number: '11'},
   {id: 'hero-twilight', name: 'Hero Twilight + Violet', number: '12'},
+  {id: 'night-ocean', name: 'Night Ocean', number: '13'},
+  {id: 'night-orchid', name: 'Night Orchid', number: '14'},
+  {id: 'night-forest', name: 'Night Forest', number: '15'},
+  {id: 'night-ember', name: 'Night Ember', number: '16'},
 ];
 
 function applyPalette(palette) {
