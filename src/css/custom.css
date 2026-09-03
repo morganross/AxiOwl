@@ -8,8 +8,8 @@
   --axiowl-paper: #fff0f4;
   --axiowl-ink: #111429;
   --axiowl-white: #ffffff;
-  --axiowl-page: color-mix(in srgb, var(--axiowl-paper) 42%, var(--axiowl-white));
-  --axiowl-surface: color-mix(in srgb, var(--axiowl-paper) 24%, var(--axiowl-white));
+  --axiowl-page: color-mix(in srgb, var(--axiowl-paper) 70%, var(--axiowl-white));
+  --axiowl-surface: color-mix(in srgb, var(--axiowl-paper) 50%, var(--axiowl-white));
   --axiowl-muted: color-mix(in srgb, var(--axiowl-ink) 64%, var(--axiowl-white));
   --ifm-color-primary: #4954de;
   --ifm-color-primary-dark: #3f49c9;
