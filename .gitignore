@@ -7,7 +7,6 @@
 # Generated files
 .docusaurus
 .cache-loader
-src/css/generated-theme.css
 
 # Misc
 .DS_Store
