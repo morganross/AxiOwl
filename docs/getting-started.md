@@ -79,6 +79,6 @@ The phone controls the agent through the daemon. Provider credentials, provider 
 - [Use Cases](use-cases.md)
 - [How AxiOwl Works](how-it-works.md)
 - [Providers](providers.md)
-- [Mobile And Hosts](mobile.md)
+- [AxiOwl Mobile](mobile/README.md)
 - [A2A And Connected Systems](a2a.md)
 - [Installer](installer.md)

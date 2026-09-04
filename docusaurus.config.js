@@ -86,6 +86,11 @@ const config = {
             position: 'left',
           },
           {
+            to: '/docs/mobile',
+            label: 'AxiOwl Mobile',
+            position: 'left',
+          },
+          {
             to: '/docs/security',
             label: 'Security',
             position: 'left',
@@ -147,7 +152,7 @@ const config = {
                 to: '/docs/a2a',
               },
               {
-                label: 'Mobile And Hosts',
+                label: 'AxiOwl Mobile',
                 to: '/docs/mobile',
               },
               {

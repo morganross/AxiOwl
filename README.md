@@ -51,6 +51,7 @@ AxiOwl normalizes the boundary while each provider keeps its own authentication,
 ## Start Here
 
 - [Explore use cases](https://morganross.github.io/AxiOwl/docs/use-cases)
+- [Understand AxiOwl and AxiOwl Mobile](https://morganross.github.io/AxiOwl/docs/intro)
 - [See how AxiOwl works](https://morganross.github.io/AxiOwl/docs/how-it-works)
 - [Install and send a first message](https://morganross.github.io/AxiOwl/docs/getting-started)
 - [Browse provider surfaces](https://morganross.github.io/AxiOwl/docs/providers)
@@ -60,7 +61,7 @@ AxiOwl normalizes the boundary while each provider keeps its own authentication,
 ## Product Guides
 
 - [Providers](https://morganross.github.io/AxiOwl/docs/providers)
-- [Mobile And Hosts](https://morganross.github.io/AxiOwl/docs/mobile)
+- [AxiOwl Mobile](https://morganross.github.io/AxiOwl/docs/mobile)
 - [Platforms](https://morganross.github.io/AxiOwl/docs/platforms)
 - [Windows Installer](https://morganross.github.io/AxiOwl/docs/installer)
 - [Developer Guide](https://morganross.github.io/AxiOwl/docs/developer)
