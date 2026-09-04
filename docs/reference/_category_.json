@@ -1,8 +1,0 @@
-{
-  "label": "Reference",
-  "position": 20,
-  "link": {
-    "type": "generated-index",
-    "description": "Detailed product capabilities, architecture, provider support, installer behavior, protocols, and release guidance."
-  }
-}

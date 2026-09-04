@@ -114,7 +114,7 @@ const config = {
               },
               {
                 label: 'Getting Started',
-                to: '/docs/getting-started/install-first-run',
+                to: '/docs/getting-started',
               },
             ],
           },

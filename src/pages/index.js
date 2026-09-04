@@ -23,7 +23,7 @@ const cards = [
     label: 'Get started',
     title: 'Send your first message',
     body: 'Install the integrations you want, discover a current session, send a focused request, and receive a reply.',
-    to: '/docs/getting-started/install-first-run',
+    to: '/docs/getting-started',
   },
   {
     label: 'Providers',
@@ -41,7 +41,7 @@ const cards = [
     label: 'A2A',
     title: 'Connect standards-based agents',
     body: 'Call external A2A services, expose selected agent endpoints, and combine task results with local provider work.',
-    to: '/docs/use-cases/connect-external-a2a-agents',
+    to: '/docs/a2a',
   },
 ];
 
@@ -62,7 +62,7 @@ function HomepageHeader() {
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/getting-started/install-first-run">
+            to="/docs/getting-started">
             Get started
           </Link>
         </div>

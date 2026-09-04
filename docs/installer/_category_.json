@@ -1,8 +1,0 @@
-{
-  "label": "Installer",
-  "position": 14,
-  "link": {
-    "type": "generated-index",
-    "description": "Choose provider integrations and optional A2A or secure-device features in one installer."
-  }
-}

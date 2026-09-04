@@ -1,8 +1,0 @@
-{
-  "label": "Inter-node",
-  "position": 12,
-  "link": {
-    "type": "generated-index",
-    "description": "Connected AxiOwl systems across mobile host connections, direct A2A nodes, and A2A-over-SSH."
-  }
-}

@@ -47,12 +47,12 @@ The phone connects to the daemon on your computer, opens real provider sessions,
 
 ## Find Your Starting Point
 
-- Explore [What You Can Do With AxiOwl](use-cases/README.md).
-- See [How AxiOwl Works](how-it-works/README.md).
-- Follow [Install And First Run](getting-started/install-first-run.md).
-- Browse [Provider Surfaces](providers/README.md).
-- Pair a phone with [Mobile And Connected Hosts](mobile/README.md).
-- Learn about [Security And Trust](security/README.md).
+- Explore [Why AxiOwl And What You Can Do With It](use-cases.md).
+- See [How AxiOwl Works](how-it-works.md).
+- Follow [Getting Started](getting-started.md).
+- Browse [Providers](providers.md).
+- Use [Mobile And AxiOwl Hosts](mobile.md).
+- Learn about [Security And Trust](security.md).
 
 ## The AxiOwl Philosophy
 

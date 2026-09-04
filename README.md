@@ -52,18 +52,18 @@ AxiOwl normalizes the boundary while each provider keeps its own authentication,
 
 - [Explore use cases](https://morganross.github.io/AxiOwl/docs/use-cases)
 - [See how AxiOwl works](https://morganross.github.io/AxiOwl/docs/how-it-works)
-- [Install and send a first message](https://morganross.github.io/AxiOwl/docs/getting-started/install-first-run)
+- [Install and send a first message](https://morganross.github.io/AxiOwl/docs/getting-started)
 - [Browse provider surfaces](https://morganross.github.io/AxiOwl/docs/providers)
-- [Pair a mobile device](https://morganross.github.io/AxiOwl/docs/mobile/pair-a-device)
+- [Use AxiOwl Mobile](https://morganross.github.io/AxiOwl/docs/mobile)
 - [Understand security and trust](https://morganross.github.io/AxiOwl/docs/security)
 
-## Product Reference
+## Product Guides
 
-- [Product Capabilities](https://morganross.github.io/AxiOwl/docs/reference/current-product-status)
-- [Provider Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/provider-support-matrix)
-- [Platform Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/platform-support-matrix)
-- [Protocol Support Matrix](https://morganross.github.io/AxiOwl/docs/reference/protocol-support-matrix)
-- [Architecture Overview](https://morganross.github.io/AxiOwl/docs/reference/architecture-overview)
+- [Providers](https://morganross.github.io/AxiOwl/docs/providers)
+- [Mobile And Hosts](https://morganross.github.io/AxiOwl/docs/mobile)
+- [Platforms](https://morganross.github.io/AxiOwl/docs/platforms)
+- [Windows Installer](https://morganross.github.io/AxiOwl/docs/installer)
+- [Developer Guide](https://morganross.github.io/AxiOwl/docs/developer)
 
 ## Security
 
