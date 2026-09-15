@@ -394,14 +394,17 @@ body {
 
 .navbar {
   min-height: 69px;
-  border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 28%, transparent);
-  background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 30%, transparent);
+  background: color-mix(in srgb, var(--axiowl-shell) 94%, transparent) !important;
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--axiowl-shell) 24%, transparent);
+  backdrop-filter: blur(18px);
 }
 
 .navbar__inner {
   min-height: 69px;
   max-width: 1440px;
-  padding-inline: 0;
+  gap: 22px;
+  padding: 0 28px;
 }
 
 .navbar__link,
@@ -414,6 +417,53 @@ body {
 .navbar__link {
   min-height: 38px;
   padding: 0 12px;
+  border-radius: 8px;
+  color: color-mix(in srgb, var(--axiowl-white) 82%, transparent) !important;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.navbar__items {
+  gap: 4px;
+}
+
+.navbar__items--left {
+  margin-left: clamp(8px, 1.2vw, 22px);
+}
+
+.navbar__link:hover,
+.navbar__link:focus,
+.navbar__link--active {
+  color: var(--axiowl-white) !important;
+  background: color-mix(in srgb, var(--axiowl-white) 10%, transparent);
+}
+
+.navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: max-content;
+  color: var(--axiowl-white) !important;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.navbar__logo {
+  position: relative;
+  width: 102px;
+  height: 69px;
+  margin-right: 0;
+  overflow: visible;
+}
+
+.navbar__logo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 102px;
+  height: 102px;
+  max-height: none;
+  object-fit: contain;
 }
 
 .navbar__logo,
@@ -524,7 +574,7 @@ body {
 @media screen and (max-width: 996px) {
   .navbar-sidebar__brand {
     min-height: 69px;
-    background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
+    background: color-mix(in srgb, var(--axiowl-shell) 94%, transparent) !important;
   }
 
   .navbar-sidebar__items {
