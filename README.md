@@ -23,7 +23,7 @@ It works as both:
 - a **normalization layer** for providers, surfaces, sessions, targets, receipts, and replies;
 - a **communication layer** for local provider packages, MCP, A2A agents, configured nodes, and paired mobile clients.
 
-Documentation site: [morganross.github.io/AxiOwl](https://morganross.github.io/AxiOwl/)
+Documentation site: [axiowl.com/docs](https://axiowl.com/docs/)
 
 ## What You Can Build
 
@@ -50,21 +50,21 @@ AxiOwl normalizes the boundary while each provider keeps its own authentication,
 
 ## Start Here
 
-- [Explore use cases](https://morganross.github.io/AxiOwl/docs/use-cases)
-- [Understand AxiOwl and AxiOwl Mobile](https://morganross.github.io/AxiOwl/docs/intro)
-- [See how AxiOwl works](https://morganross.github.io/AxiOwl/docs/how-it-works)
-- [Install and send a first message](https://morganross.github.io/AxiOwl/docs/getting-started)
-- [Browse provider surfaces](https://morganross.github.io/AxiOwl/docs/providers)
-- [Use AxiOwl Mobile](https://morganross.github.io/AxiOwl/docs/mobile)
-- [Understand security and trust](https://morganross.github.io/AxiOwl/docs/security)
+- [Explore use cases](https://axiowl.com/docs/use-cases/)
+- [Understand AxiOwl and AxiOwl Mobile](https://axiowl.com/docs/intro/)
+- [See how AxiOwl works](https://axiowl.com/docs/how-it-works/)
+- [Install and send a first message](https://axiowl.com/docs/getting-started/)
+- [Browse provider surfaces](https://axiowl.com/docs/providers/)
+- [Use AxiOwl Mobile](https://axiowl.com/docs/mobile/)
+- [Understand security and trust](https://axiowl.com/docs/security/)
 
 ## Product Guides
 
-- [Providers](https://morganross.github.io/AxiOwl/docs/providers)
-- [AxiOwl Mobile](https://morganross.github.io/AxiOwl/docs/mobile)
-- [Platforms](https://morganross.github.io/AxiOwl/docs/platforms)
-- [Windows Installer](https://morganross.github.io/AxiOwl/docs/installer)
-- [Developer Guide](https://morganross.github.io/AxiOwl/docs/developer)
+- [Providers](https://axiowl.com/docs/providers/)
+- [AxiOwl Mobile](https://axiowl.com/docs/mobile/)
+- [Platforms](https://axiowl.com/docs/platforms/)
+- [Windows Installer](https://axiowl.com/docs/installer/)
+- [Developer Guide](https://axiowl.com/docs/developer/)
 
 ## Security
 

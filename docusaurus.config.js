@@ -2,6 +2,8 @@
 
 import {themes as prismThemes} from 'prism-react-renderer';
 
+const selfHosted = process.env.AXIOWL_SELF_HOSTED === '1';
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AxiOwl',
@@ -12,11 +14,11 @@ const config = {
     v4: true,
   },
 
-  url: 'https://morganross.github.io',
-  baseUrl: '/AxiOwl/',
+  url: selfHosted ? 'https://axiowl.com' : 'https://morganross.github.io',
+  baseUrl: selfHosted ? '/docs/' : '/AxiOwl/',
   organizationName: 'morganross',
   projectName: 'AxiOwl',
-  trailingSlash: false,
+  trailingSlash: selfHosted,
 
   onBrokenLinks: 'throw',
   markdown: {
@@ -36,6 +38,7 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: selfHosted ? '/' : 'docs',
           sidebarPath: './sidebars.js',
           editUrl: 'https://github.com/morganross/AxiOwl/tree/main/',
         },
