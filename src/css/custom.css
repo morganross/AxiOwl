@@ -369,6 +369,11 @@ html[data-theme='dark'] {
 }
 
 /* Keep document pages on the same visual system as the hosted site. */
+:root {
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --ifm-line-height-base: 1.5;
+}
+
 html,
 body,
 #__docusaurus {
@@ -388,14 +393,27 @@ body {
 }
 
 .navbar {
-  min-height: 78px;
+  min-height: 69px;
   border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 28%, transparent);
   background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
 }
 
 .navbar__inner {
-  min-height: 78px;
+  min-height: 69px;
   max-width: 1440px;
+  padding-inline: 0;
+}
+
+.navbar__link,
+.navbar__item,
+.navbar__brand {
+  font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+}
+
+.navbar__link {
+  min-height: 38px;
+  padding: 0 12px;
 }
 
 .navbar__logo,
@@ -505,7 +523,7 @@ body {
 
 @media screen and (max-width: 996px) {
   .navbar-sidebar__brand {
-    min-height: 78px;
+    min-height: 69px;
     background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
   }
 
