@@ -438,6 +438,42 @@ body {
   background: color-mix(in srgb, var(--axiowl-white) 10%, transparent);
 }
 
+.navbar__link svg,
+.dropdown__link svg {
+  display: none;
+}
+
+.navbar__item.dropdown {
+  position: relative;
+}
+
+.navbar__item.dropdown .dropdown__menu {
+  top: calc(100% + 8px);
+  min-width: 220px;
+  margin: 0;
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--axiowl-white) 12%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, #0a0e20 98%, transparent);
+  box-shadow: 0 18px 48px color-mix(in srgb, #000 32%, transparent);
+}
+
+.navbar__item.dropdown .dropdown__link {
+  min-height: 36px;
+  padding: 0 11px;
+  border-radius: 7px;
+  color: color-mix(in srgb, var(--axiowl-white) 84%, transparent);
+  font-family: Inter, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.navbar__item.dropdown .dropdown__link:hover,
+.navbar__item.dropdown .dropdown__link:focus {
+  color: var(--axiowl-white);
+  background: color-mix(in srgb, var(--axiowl-white) 10%, transparent);
+}
+
 .navbar__brand {
   display: inline-flex;
   align-items: center;
