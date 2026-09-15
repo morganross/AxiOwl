@@ -112,7 +112,8 @@ body {
   object-fit: contain;
 }
 
-.navbar__github-link {
+.navbar__github-link,
+.navbar__download-link {
   margin-left: 0.4rem;
   padding: 0.55rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -123,6 +124,20 @@ body {
   border-color: #fff;
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
+}
+
+.navbar__download-link {
+  border-color: var(--axiowl-primary);
+  color: var(--axiowl-shell) !important;
+  background: var(--axiowl-primary);
+  font-weight: 700;
+}
+
+.navbar__download-link:hover,
+.navbar__download-link:focus {
+  border-color: var(--axiowl-secondary);
+  color: var(--axiowl-shell) !important;
+  background: var(--axiowl-secondary);
 }
 
 .navbar__toggle,
@@ -373,20 +388,20 @@ body {
 }
 
 .navbar {
-  min-height: 70px;
+  min-height: 78px;
   border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 28%, transparent);
   background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
 }
 
 .navbar__inner {
-  min-height: 70px;
+  min-height: 78px;
   max-width: 1440px;
 }
 
 .navbar__logo,
 .navbar__logo img {
-  width: 56px;
-  height: 56px;
+  width: 62px;
+  height: 62px;
 }
 
 .navbar__title {
@@ -490,7 +505,7 @@ body {
 
 @media screen and (max-width: 996px) {
   .navbar-sidebar__brand {
-    min-height: 70px;
+    min-height: 78px;
     background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
   }
 
