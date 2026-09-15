@@ -352,3 +352,149 @@ html[data-theme='dark'] {
     background: #0e1020;
   }
 }
+
+/* Keep document pages on the same visual system as the hosted site. */
+html,
+body,
+#__docusaurus {
+  background: var(--axiowl-page) !important;
+  color: var(--axiowl-ink);
+}
+
+body {
+  min-width: 320px;
+}
+
+.main-wrapper,
+.theme-doc-main-container,
+.theme-doc-sidebar-container,
+.theme-doc-toc-desktop {
+  background: var(--axiowl-page) !important;
+}
+
+.navbar {
+  min-height: 70px;
+  border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 28%, transparent);
+  background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
+}
+
+.navbar__inner {
+  min-height: 70px;
+  max-width: 1440px;
+}
+
+.navbar__logo,
+.navbar__logo img {
+  width: 56px;
+  height: 56px;
+}
+
+.navbar__title {
+  color: var(--axiowl-white) !important;
+  letter-spacing: 0;
+}
+
+.navbar__link,
+.navbar__brand {
+  color: var(--axiowl-white) !important;
+}
+
+.navbar__link:hover,
+.navbar__link--active,
+.navbar__brand:hover {
+  color: var(--axiowl-cool) !important;
+}
+
+.heroBanner {
+  border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 26%, transparent);
+  background:
+    radial-gradient(circle at 18% 14%, color-mix(in srgb, var(--axiowl-cool) 28%, transparent), transparent 30%),
+    linear-gradient(118deg, var(--axiowl-shell) 0%, var(--axiowl-shell-2) 56%, color-mix(in srgb, var(--axiowl-primary) 58%, var(--axiowl-shell)) 100%);
+}
+
+.hero .button--primary,
+.hero .button--secondary {
+  border-radius: 6px;
+}
+
+.theme-doc-sidebar-container {
+  border-right-color: color-mix(in srgb, var(--axiowl-ink) 15%, transparent) !important;
+}
+
+.menu__link {
+  color: var(--axiowl-muted) !important;
+}
+
+.menu__link:hover,
+.menu__link--active,
+.menu__link--active:hover {
+  color: var(--axiowl-primary) !important;
+  background: color-mix(in srgb, var(--axiowl-primary) 10%, transparent) !important;
+}
+
+.theme-doc-markdown h1 {
+  color: var(--axiowl-ink);
+  font-weight: 400;
+}
+
+.theme-doc-markdown h2,
+.theme-doc-markdown h3 {
+  color: var(--axiowl-primary) !important;
+  font-weight: 600;
+}
+
+.theme-doc-markdown h2 {
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--axiowl-primary) 28%, transparent);
+}
+
+.theme-doc-markdown a,
+.breadcrumbs__link,
+.table-of-contents__link--active,
+.table-of-contents__link:hover,
+.pagination-nav__link:hover {
+  color: var(--axiowl-primary) !important;
+}
+
+.theme-doc-markdown table,
+.theme-doc-markdown table th,
+.theme-doc-markdown table td,
+.pagination-nav__link {
+  border-color: color-mix(in srgb, var(--axiowl-ink) 18%, transparent) !important;
+}
+
+.theme-doc-markdown thead,
+.theme-doc-markdown tr:nth-child(2n) {
+  background: var(--axiowl-surface) !important;
+}
+
+.theme-doc-markdown code {
+  border-color: color-mix(in srgb, var(--axiowl-primary) 22%, transparent);
+  background: color-mix(in srgb, var(--axiowl-primary) 8%, var(--axiowl-surface));
+}
+
+.theme-code-block,
+.theme-code-block pre {
+  border-color: color-mix(in srgb, var(--axiowl-ink) 18%, transparent) !important;
+  background: var(--axiowl-surface) !important;
+}
+
+.footer--dark {
+  border-top: 1px solid color-mix(in srgb, var(--axiowl-cool) 28%, transparent);
+  background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
+}
+
+.footer__link-item:hover {
+  color: var(--axiowl-cool) !important;
+}
+
+@media screen and (max-width: 996px) {
+  .navbar-sidebar__brand {
+    min-height: 70px;
+    background: linear-gradient(110deg, var(--axiowl-shell), var(--axiowl-shell-2)) !important;
+  }
+
+  .navbar-sidebar__items {
+    background: var(--axiowl-page) !important;
+  }
+}
