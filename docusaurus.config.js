@@ -80,8 +80,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://axiowl.com/docs/',
-            target: '_self',
+            to: '/',
             label: 'Docs',
             position: 'left',
           },
