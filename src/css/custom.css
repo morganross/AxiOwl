@@ -374,6 +374,25 @@ html[data-theme='dark'] {
   --ifm-line-height-base: 1.5;
 }
 
+html[data-axiowl-theme] {
+  --axiowl-shell: var(--ax-shell);
+  --axiowl-shell-2: var(--ax-shell-2);
+  --axiowl-primary: var(--ax-primary);
+  --axiowl-secondary: var(--ax-secondary);
+  --axiowl-cool: var(--ax-cool);
+  --axiowl-accent: var(--ax-accent);
+  --axiowl-paper: var(--ax-paper);
+  --axiowl-ink: var(--ax-ink);
+  --axiowl-white: var(--ax-white);
+  --axiowl-page: var(--ax-page, var(--ax-paper));
+  --axiowl-surface: var(--ax-surface, color-mix(in srgb, var(--ax-paper) 72%, var(--ax-white)));
+  --axiowl-muted: var(--ax-muted, color-mix(in srgb, var(--ax-ink) 64%, var(--ax-white)));
+}
+
+.axiowl-shared-chrome-host {
+  display: contents;
+}
+
 html,
 body,
 #__docusaurus {
