@@ -4,6 +4,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import heroOwl from '@site/static/img/axiowl-hero-owl.webp';
+import {docsContentPath} from '../embedded/profile.mjs';
 import styles from './index.module.css';
 
 const cards = [
@@ -11,39 +12,43 @@ const cards = [
     label: 'Use cases',
     title: 'Put your AI tools to work together',
     body: 'Build cross-provider teams, delegate to specialists, compare results, and keep project context moving.',
-    to: '/docs/use-cases',
+    slug: 'use-cases',
   },
   {
     label: 'How it works',
     title: 'Follow a message from start to reply',
     body: 'See how discovery, identity, provider packages, transports, receipts, and replies fit into one clear journey.',
-    to: '/docs/how-it-works',
+    slug: 'how-it-works',
   },
   {
     label: 'Get started',
     title: 'Send your first message',
     body: 'Install the integrations you want, discover a current session, send a focused request, and receive a reply.',
-    to: '/docs/getting-started',
+    slug: 'getting-started',
   },
   {
     label: 'Providers',
     title: 'Bring your preferred AI products',
     body: 'Coordinate Codex, Cursor, VS Code Copilot, Claude Code, Antigravity, OpenCode, Copilot CLI, and A2A agents.',
-    to: '/docs/providers',
+    slug: 'providers',
   },
   {
     label: 'Mobile control',
     title: 'Take your desktop agents with you',
     body: 'Pair an Android phone or iPhone, open an existing host session, send turns, and follow the live timeline.',
-    to: '/docs/mobile',
+    slug: 'mobile',
   },
   {
     label: 'A2A',
     title: 'Connect standards-based agents',
     body: 'Call external A2A services, expose selected agent endpoints, and combine task results with local provider work.',
-    to: '/docs/a2a',
+    slug: 'a2a',
   },
 ];
+
+function docsTo(siteConfig, slug) {
+  return docsContentPath(siteConfig.customFields?.docsRouteBasePath ?? 'docs', slug);
+}
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -57,12 +62,12 @@ function HomepageHeader() {
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
-          <Link className="button button--primary button--lg" to="/docs/use-cases">
+          <Link className="button button--primary button--lg" to={docsTo(siteConfig, 'use-cases')}>
             Explore use cases
           </Link>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/getting-started">
+            to={docsTo(siteConfig, 'getting-started')}>
             Get started
           </Link>
         </div>
@@ -82,7 +87,7 @@ export default function Home() {
         <section className="container">
           <div className={styles.cardGrid}>
             {cards.map((card) => (
-              <Link className={styles.card} to={card.to} key={card.title}>
+              <Link className={styles.card} to={docsTo(siteConfig, card.slug)} key={card.title}>
                 <span className={styles.cardLabel}>{card.label}</span>
                 <h2>{card.title}</h2>
                 <p>{card.body}</p>

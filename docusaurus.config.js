@@ -1,8 +1,10 @@
 // @ts-check
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import {createDocsProfile} from './src/embedded/profile.mjs';
+import axiowlEmbeddedPlugin from './src/embedded/plugin.mjs';
 
-const selfHosted = process.env.AXIOWL_SELF_HOSTED === '1';
+const profile = createDocsProfile(process.env);
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -14,11 +16,16 @@ const config = {
     v4: true,
   },
 
-  url: selfHosted ? 'https://axiowl.com' : 'https://morganross.github.io',
-  baseUrl: selfHosted ? '/docs/' : '/AxiOwl/',
+  url: profile.url,
+  baseUrl: profile.baseUrl,
   organizationName: 'morganross',
   projectName: 'AxiOwl',
-  trailingSlash: selfHosted,
+  trailingSlash: profile.trailingSlash,
+  customFields: {
+    axiowlDocsEmbedded: profile.embedded,
+    docsRouteBasePath: profile.docsRouteBasePath,
+  },
+  plugins: [axiowlEmbeddedPlugin],
 
   onBrokenLinks: 'throw',
   markdown: {
@@ -38,13 +45,13 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: selfHosted ? '/' : 'docs',
+          routeBasePath: profile.docsRouteBasePath,
           sidebarPath: './sidebars.js',
           editUrl: 'https://github.com/morganross/AxiOwl/tree/main/',
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: profile.customCss,
         },
       }),
     ],
@@ -57,6 +64,7 @@ const config = {
       colorMode: {
         defaultMode: 'light',
         respectPrefersColorScheme: false,
+        disableSwitch: profile.omitColorModeToggle,
       },
       navbar: {
         title: 'AxiOwl',

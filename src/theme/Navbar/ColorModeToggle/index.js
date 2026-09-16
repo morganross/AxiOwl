@@ -3,40 +3,44 @@ import {useColorMode} from '@docusaurus/theme-common';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-const STORAGE_KEY = 'axiowl-docs-palette-v1';
+const EMBEDDED = process.env.AXIOWL_DOCS_EMBEDDED === '1';
 
-const palettes = [
-  {id: 'signal-red', name: 'Signal Red + Cyan', number: '01'},
-  {id: 'coral-pop', name: 'Coral Pop', number: '02'},
-  {id: 'hot-pink', name: 'Hot Pink + Navy', number: '03'},
-  {id: 'red-gold', name: 'Red + Gold', number: '04'},
-  {id: 'neon-product', name: 'Neon Product', number: '05'},
-  {id: 'axiowl-classic', name: 'AxiOwl Classic', number: '06'},
-  {id: 'mobile-blue', name: 'Mobile Blue + Amber', number: '07'},
-  {id: 'meter-mint', name: 'Usage Meter Mint + Coral', number: '08'},
-  {id: 'forest-gold', name: 'Forest + Gold', number: '09'},
-  {id: 'ocean-ink', name: 'Ocean Ink', number: '10'},
-  {id: 'hero-midnight', name: 'Hero Midnight + Coral', number: '11'},
-  {id: 'hero-twilight', name: 'Hero Twilight + Violet', number: '12'},
-  {id: 'night-ocean', name: 'Night Ocean', number: '13'},
-  {id: 'night-orchid', name: 'Night Orchid', number: '14'},
-  {id: 'night-forest', name: 'Night Forest', number: '15'},
-  {id: 'night-ember', name: 'Night Ember', number: '16'},
-];
-
-function applyPalette(palette) {
-  document.documentElement.dataset.axiowlPalette = palette.id;
-  window.localStorage.setItem(STORAGE_KEY, palette.id);
+export default function ColorModeToggle(props) {
+  if (EMBEDDED) {
+    return null;
+  }
+  return <StandalonePaletteToggle {...props} />;
 }
 
-export default function ColorModeToggle({className}) {
+function StandalonePaletteToggle({className}) {
+  const STORAGE_KEY = 'axiowl-docs-palette-v1';
+  const palettes = [
+    {id: 'signal-red', name: 'Signal Red + Cyan', number: '01'},
+    {id: 'coral-pop', name: 'Coral Pop', number: '02'},
+    {id: 'hot-pink', name: 'Hot Pink + Navy', number: '03'},
+    {id: 'red-gold', name: 'Red + Gold', number: '04'},
+    {id: 'neon-product', name: 'Neon Product', number: '05'},
+    {id: 'axiowl-classic', name: 'AxiOwl Classic', number: '06'},
+    {id: 'mobile-blue', name: 'Mobile Blue + Amber', number: '07'},
+    {id: 'meter-mint', name: 'Usage Meter Mint + Coral', number: '08'},
+    {id: 'forest-gold', name: 'Forest + Gold', number: '09'},
+    {id: 'ocean-ink', name: 'Ocean Ink', number: '10'},
+    {id: 'hero-midnight', name: 'Hero Midnight + Coral', number: '11'},
+    {id: 'hero-twilight', name: 'Hero Twilight + Violet', number: '12'},
+    {id: 'night-ocean', name: 'Night Ocean', number: '13'},
+    {id: 'night-orchid', name: 'Night Orchid', number: '14'},
+    {id: 'night-forest', name: 'Night Forest', number: '15'},
+    {id: 'night-ember', name: 'Night Ember', number: '16'},
+  ];
+
   const {colorMode, setColorMode} = useColorMode();
   const [palette, setPalette] = useState(palettes[0]);
 
   useEffect(() => {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     const selected = palettes.find((item) => item.id === saved) || palettes[0];
-    applyPalette(selected);
+    document.documentElement.dataset.axiowlPalette = selected.id;
+    window.localStorage.setItem(STORAGE_KEY, selected.id);
     setPalette(selected);
   }, []);
 
@@ -49,7 +53,8 @@ export default function ColorModeToggle({className}) {
   function move(direction) {
     const index = palettes.findIndex((item) => item.id === palette.id);
     const next = palettes[(index + direction + palettes.length) % palettes.length];
-    applyPalette(next);
+    document.documentElement.dataset.axiowlPalette = next.id;
+    window.localStorage.setItem(STORAGE_KEY, next.id);
     setPalette(next);
   }
 

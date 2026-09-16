@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './styles.module.css';
 
+const EMBEDDED = process.env.AXIOWL_DOCS_EMBEDDED === '1';
+
 const socialLinks = [
   {
     label: 'Facebook',
@@ -74,6 +76,10 @@ function SocialLink({label, href, viewBox, path, external}) {
 }
 
 export default function Footer() {
+  if (EMBEDDED) {
+    return null;
+  }
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
