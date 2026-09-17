@@ -392,6 +392,17 @@ body {
   background: var(--axiowl-page) !important;
 }
 
+@media screen and (min-width: 997px) {
+  .theme-doc-sidebar-container .menu__list::after {
+    display: block;
+    width: 100%;
+    height: 210px;
+    margin: 28px auto 12px;
+    background: url('https://axiowl.com/docs/assets/images/axiowl-owl-book-57189f3d3b1bf33e4f6c65f4e131fab7.png') center / contain no-repeat;
+    content: "";
+  }
+}
+
 .navbar {
   min-height: 69px;
   border-bottom: 1px solid color-mix(in srgb, var(--axiowl-cool) 30%, transparent);
