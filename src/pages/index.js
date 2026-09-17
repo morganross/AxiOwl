@@ -3,7 +3,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
-import heroOwl from '@site/static/img/axiowl-hero-owl.webp';
+import heroOwl from '@site/static/img/axiowl-owl-book.png';
 import {docsContentPath} from '../embedded/profile.mjs';
 import styles from './index.module.css';
 
@@ -55,7 +55,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className={clsx('container', styles.heroInner)}>
-        <img className={styles.logo} src={heroOwl} alt="AxiOwl owl mascot" />
+        <img className={styles.logo} src={heroOwl} alt="AxiOwl owl reading a book" />
         <p className={styles.eyebrow}>Product documentation</p>
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
