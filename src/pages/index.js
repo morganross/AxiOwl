@@ -55,7 +55,6 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className={clsx('container', styles.heroInner)}>
-        <p className={styles.eyebrow}>Product documentation</p>
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
