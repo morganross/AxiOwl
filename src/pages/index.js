@@ -55,12 +55,11 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className={clsx('container', styles.heroInner)}>
-        <img className={styles.logo} src={heroOwl} alt="AxiOwl owl reading a book" />
         <p className={styles.eyebrow}>Product documentation</p>
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <img className={styles.logo} src={heroOwl} alt="AxiOwl owl reading a book" />
         <div className={styles.buttons}>
           <Link className="button button--primary button--lg" to={docsTo(siteConfig, 'use-cases')}>
             Explore use cases
