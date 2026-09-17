@@ -12,7 +12,7 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "test": "node --test src/embedded/profile.test.mjs src/embedded/chrome.test.mjs src/embedded/manifest.test.mjs src/embedded/theme-contract.test.mjs",
+    "test": "node --test src/embedded/profile.test.mjs src/embedded/chrome.test.mjs src/embedded/manifest.test.mjs src/embedded/theme-contract.test.mjs src/embedded/scope-css.test.mjs src/embedded/color-mode.test.mjs src/embedded/docs-sidebar.test.mjs",
     "check:standalone-build": "node scripts/check-docs-builds.mjs --mode=standalone",
     "check:embedded-manifest": "node scripts/check-docs-builds.mjs --mode=embedded"
   },
@@ -23,6 +23,8 @@
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
+    "postcss": "^8.5.6",
+    "postcss-selector-parser": "^6.1.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

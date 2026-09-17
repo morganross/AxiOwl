@@ -32,9 +32,21 @@ html[data-axiowl-theme] #__docusaurus,
   color: var(--ax-ink);
 }
 
-html,
-body {
-  background: transparent !important;
-  color: unset;
-  min-width: 0;
+@media screen and (max-width: 996px) {
+  #__docusaurus :has(> .theme-doc-sidebar-container) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #__docusaurus .theme-doc-sidebar-container {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    max-height: min(50vh, 24rem);
+    overflow: auto;
+    margin-top: 0 !important;
+    clip-path: none !important;
+    border-right: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--ax-ink) 15%, transparent);
+  }
 }

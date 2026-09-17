@@ -1,6 +1,11 @@
-import {readdir} from 'node:fs/promises';
+import {readdir, readFile, writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
-import {readSourceCommit, writeEmbeddedManifest} from './manifest.mjs';
+import {fileURLToPath} from 'node:url';
+import {stripColorModeBootstrap} from './color-mode.mjs';
+import {EMBEDDED_MANIFEST_FILENAME, readSourceCommit, writeEmbeddedManifest} from './manifest.mjs';
+import {scopeGeneratedCss} from './scope-css.mjs';
+
+const COLOR_MODE_STUB = fileURLToPath(new URL('./color-mode-stub.js', import.meta.url));
 
 export default function axiowlEmbeddedPlugin() {
   const embedded = process.env.AXIOWL_DOCS_EMBEDDED === '1';
@@ -13,6 +18,7 @@ export default function axiowlEmbeddedPlugin() {
           new currentBundler.instance.DefinePlugin({
             'process.env.AXIOWL_DOCS_EMBEDDED': JSON.stringify(embedded ? '1' : ''),
           }),
+          ...(embedded ? [createColorModeReplacementPlugin()] : []),
         ],
       };
     },
@@ -32,8 +38,32 @@ export default function axiowlEmbeddedPlugin() {
         builtAt,
         buildId: `${sourceCommit}-${builtAt.replace(/\.\d+Z$/, 'Z').replace(/[-:]/g, '')}`,
       });
+
+      const manifest = JSON.parse(await readFile(join(outDir, EMBEDDED_MANIFEST_FILENAME), 'utf8'));
+      const cssFiles = await listCssFiles(outDir, manifest.styles);
+      for (const file of cssFiles) {
+        const css = await readFile(file, 'utf8');
+        await writeFile(file, await scopeGeneratedCss(css));
+      }
+      for (const htmlFile of htmlFiles) {
+        const html = await readFile(htmlFile, 'utf8');
+        await writeFile(htmlFile, stripColorModeBootstrap(html));
+      }
     },
   };
+}
+
+async function listCssFiles(outDir, manifestStyles = []) {
+  const entries = await readdir(outDir, {recursive: true});
+  const files = new Set(
+    entries
+      .filter((entry) => entry.endsWith('.css'))
+      .map((entry) => join(outDir, entry)),
+  );
+  for (const style of manifestStyles) {
+    files.add(join(outDir, style.replace(/^\/docs\//, '')));
+  }
+  return [...files];
 }
 
 async function listHtmlFiles(outDir) {
@@ -50,4 +80,24 @@ async function listHtmlFiles(outDir) {
     return left.localeCompare(right);
   });
   return files;
+}
+
+function createColorModeReplacementPlugin() {
+  return {
+    name: 'axiowl-color-mode-stub',
+    apply(compiler) {
+      compiler.hooks.normalModuleFactory.tap('axiowl-color-mode-stub', (factory) => {
+        factory.hooks.beforeResolve.tap('axiowl-color-mode-stub', (data) => {
+          if (!data) {
+            return;
+          }
+          const context = String(data.context ?? '').replace(/\\/g, '/');
+          const request = String(data.request ?? '').replace(/\\/g, '/');
+          if (context.includes('/theme-common/lib') && /contexts\/colorMode/.test(request)) {
+            data.request = COLOR_MODE_STUB;
+          }
+        });
+      });
+    },
+  };
 }

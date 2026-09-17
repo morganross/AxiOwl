@@ -7,6 +7,7 @@ import {
   readSourceCommit,
   validateManifest,
 } from '../src/embedded/manifest.mjs';
+import {findUnscopedRuleSelectors} from '../src/embedded/scope-css.mjs';
 
 const DOC_ROUTES = ['intro', 'use-cases', 'providers', 'mobile', 'security'];
 const mode = parseMode(process.argv);
@@ -58,6 +59,15 @@ if (mode === 'standalone') {
   if (!existsSync(join(rootDir, 'docs', 'providers.html')) && !existsSync(join(rootDir, 'docs', 'providers', 'index.html'))) {
     fail('standalone build is missing the providers docs route');
   }
+  const standaloneCss = listFiles(join(rootDir, 'assets', 'css'), '.css')
+    .map((file) => readFileSync(file, 'utf8'))
+    .join('\n');
+  if (findUnscopedRuleSelectors(standaloneCss).length === 0) {
+    fail('standalone CSS was unexpectedly fully scoped under #__docusaurus');
+  }
+  if (!/html\s*,\s*body|html\s*\{|body\s*\{/.test(standaloneCss)) {
+    fail('standalone CSS is missing native document selectors');
+  }
   console.log('ok standalone build chrome and docs routes');
   process.exit(0);
 }
@@ -101,6 +111,15 @@ if (home.includes('/docs/docs/')) {
 if (home.includes('wp-content')) {
   fail('embedded HTML must not be addressable under wp-content');
 }
+if (/document\.documentElement\.setAttribute\(\s*['"]data-theme/.test(home)) {
+  fail('embedded index.html still bootstraps Docusaurus color-mode on documentElement');
+}
+if (/localStorage\.getItem\(\s*['"]theme/.test(home)) {
+  fail('embedded index.html still reads color-mode localStorage');
+}
+if (/<html\b[^>]*\bdata-theme(?:-choice)?=/.test(home)) {
+  fail('embedded index.html still writes data-theme onto the document element');
+}
 
 for (const route of DOC_ROUTES) {
   const routeFile = join(rootDir, route, 'index.html');
@@ -123,6 +142,9 @@ for (const route of DOC_ROUTES) {
   if (!html.includes('theme-doc-sidebar')) {
     fail(`${route} SSR is missing the docs sidebar`);
   }
+  if (/document\.documentElement\.setAttribute\(\s*['"]data-theme/.test(html)) {
+    fail(`${route} SSR still bootstraps Docusaurus color-mode on documentElement`);
+  }
 }
 
 if (existsSync(join(rootDir, 'not-a-real-doc', 'index.html'))) {
@@ -140,14 +162,27 @@ for (const file of listFiles(rootDir)) {
   if (text.includes('/wp-content/axiowl-docs/')) {
     fail(`embedded build contains wp-content docs path in ${relative(rootDir, file)}`);
   }
+  if (/\.(html|js)$/i.test(file) && /document\.documentElement\.setAttribute\(\s*['"]data-theme/.test(text)) {
+    fail(`embedded build still writes data-theme on documentElement in ${relative(rootDir, file)}`);
+  }
+  if (/\.(html|js)$/i.test(file) && /(?:localStorage|sessionStorage)\.(?:getItem|setItem|removeItem)\(\s*['"]theme['"]/.test(text)) {
+    fail(`embedded build still uses color-mode storage in ${relative(rootDir, file)}`);
+  }
 }
 
 for (const style of manifest.styles) {
   const css = readFileSync(join(rootDir, style.replace(/^\/docs\//, '')), 'utf8');
+  const unscoped = findUnscopedRuleSelectors(css);
+  if (unscoped.length > 0) {
+    fail(`embedded CSS has unscoped selectors that can reach WordPress chrome: ${unscoped.slice(0, 8).join(', ')}`);
+  }
   for (const name of WORDPRESS_THEME_VARS) {
     if (!css.includes(`var(${name})`)) {
       fail(`missing WordPress theme variable ${name} in ${style}`);
     }
+  }
+  if (!/(?:max-width:\s*996px|width\s*<=\s*996px)/.test(css) || !/theme-doc-sidebar-container/.test(css)) {
+    fail('embedded CSS is missing the mobile in-flow docs sidebar override');
   }
   if (css.includes('header') && /header[^{]*\{[^}]*display:\s*none/.test(css)) {
     fail('embedded CSS hides header chrome');
