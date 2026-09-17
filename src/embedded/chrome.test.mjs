@@ -8,6 +8,7 @@ import {
   shouldRenderGlobalFooter,
   shouldRenderGlobalNavbar,
   shouldUseInFlowDocsSidebar,
+  shouldUseTocHighlight,
   STANDALONE_PALETTE_STORAGE_KEY,
 } from './chrome.mjs';
 
@@ -18,6 +19,7 @@ test('standalone mode keeps native chrome and the existing palette storage key',
   assert.equal(getPaletteStorageKey(false), STANDALONE_PALETTE_STORAGE_KEY);
   assert.equal(shouldOmitColorModeProvider(false), false);
   assert.equal(shouldUseInFlowDocsSidebar(false), false);
+  assert.equal(shouldUseTocHighlight(false), true);
 });
 
 test('embedded mode omits navbar, footer, palette storage, and ColorModeProvider', () => {
@@ -27,6 +29,7 @@ test('embedded mode omits navbar, footer, palette storage, and ColorModeProvider
   assert.equal(getPaletteStorageKey(true), null);
   assert.equal(shouldOmitColorModeProvider(true), true);
   assert.equal(shouldUseInFlowDocsSidebar(true), true);
+  assert.equal(shouldUseTocHighlight(true), false);
 });
 
 test('embedded docs sidebar stays in-flow on mobile instead of using a navbar drawer', () => {

@@ -24,6 +24,10 @@ export function shouldUseInFlowDocsSidebar(embedded) {
   return embedded === true;
 }
 
+export function shouldUseTocHighlight(embedded) {
+  return embedded !== true;
+}
+
 export function chooseDocsSidebarSurface(embedded, windowSize) {
   if (shouldUseInFlowDocsSidebar(embedded)) {
     return 'in-flow-desktop';
