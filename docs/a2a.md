@@ -1,58 +1,63 @@
 ---
 sidebar_position: 7
 slug: /a2a
+title: Connected Computers And A2A
 ---
 
-# A2A And Connected Systems
+# Connected Computers And A2A
 
-AxiOwl supports the Agent2Agent protocol as a separate standards-based boundary for discovering agents, sending messages, following tasks, and collecting results or artifacts.
+AxiOwl can reach work beyond the current computer. Choose the connection according to what the destination is: another enrolled computer, a provider-owned remote session, or a standards-based agent endpoint.
 
-## A2A Roles
+## Choose A Route
 
-| Role | Purpose |
+| You want to reach | Use |
 |---|---|
-| A2A Server | Exposes selected AxiOwl agents through Agent Cards and task routes |
-| A2A Client | Imports and calls external Agent Cards |
-| A2A user broker | Connects the machine service to provider state owned by the interactive user |
-| A2A-over-SSH | Carries A2A operations through an operator-managed SSH connection |
+| A paired computer's interactive agent sessions from a phone | AxiOwl Mobile with relay or direct connection |
+| Agents enrolled on another AxiOwl computer | The configured AxiOwl Relay messaging route |
+| An AxiOwl node accessible through your SSH setup | SSH Command Dispatch or A2A-over-SSH, as configured |
+| A standards-based agent service | A2A Client and its Agent Card |
+| Codex's remote projects and conversations | The Codex Remote provider integration |
 
-## Desktop Agents As Endpoints
+These routes retain their own authentication and target identity. Select the route explicitly rather than treating every remote destination as the same type of host.
 
-An AxiOwl registry target can be exposed as an A2A agent. The Agent Card advertises identity, URL, operations, and authentication requirements. A request to that endpoint crosses the A2A boundary and then uses the destination's normal provider integration.
+## Computer-To-Computer Messaging
 
-The machine service does not inherit arbitrary interactive-user provider authority. Provider-backed delivery crosses the packaged user-broker boundary into the intended user session.
+AxiOwl Relay supports reciprocal registry synchronization and messaging between configured AxiOwl installations. Each computer retains its local provider sessions. The source resolves a remote target, and the destination uses its local integration to deliver the message.
 
-## Calling External Agents
+The relay supplies reachability. The destination still needs the appropriate provider, account, session, and workspace. A message naming a source file does not transfer the repository to the other computer.
 
-An explicit external Agent Card can be imported into the registry. AxiOwl records its URL, advertised capabilities, and configured authentication, then uses the A2A client for messages and tasks.
+## What A2A Adds
 
-External endpoints can participate in a larger workflow: an A2A research agent can return an artifact, a local provider can analyze it, and another provider can review the result.
+A2A, or Agent2Agent, gives agent services a standard interface. An **Agent Card** describes the endpoint, capabilities, and authentication requirements. A request can return a message, start a task, or produce an artifact.
 
-## Tasks And Results
+Use it when you want a specialist service to participate without requiring the caller to know its internal provider runtime. The returned result can then become input to another agent.
 
-An A2A task has its own ID and lifecycle. Useful states include working, input required, completed, canceled, rejected, and failed. A completed task can return messages and artifacts.
+## Expose A Local Agent
 
-Task identity remains separate from the provider session that may perform work behind an AxiOwl endpoint.
+Enable the A2A components appropriate to the computer, then expose the intended registered target. Provider-backed work crosses into the user session that owns the provider environment. A machine service does not automatically gain access to every signed-in user's provider state.
 
-## Authentication
+Limit exposure to the endpoints you intend to offer, and configure their authentication. Publishing an Agent Card makes the service discoverable; it does not grant permission to call it.
 
-A2A endpoint authentication can use configured bearer credentials or OAuth client credentials. Credentials are bound to the selected endpoint rather than stored in public registry aliases.
+## Call An External Agent
 
-## A2A Nodes
+Import the endpoint's actual Agent Card, review its supported operations, and configure the required credentials. Address that registered A2A target when sending work.
 
-One AxiOwl installation can register another as a node through direct A2A or A2A-over-SSH. The destination owns its provider registry and local delivery. The source addresses the advertised A2A agent.
+The endpoint controls task semantics. Follow its state and results rather than interpreting the initial request receipt as completed work. Artifacts can include files or structured results returned by the service.
 
-## Transport Comparison
+## Follow Tasks And Results
 
-| Destination | Route |
-|---|---|
-| External agent service | Direct A2A |
-| Reachable AxiOwl agent endpoint | Direct A2A |
-| Operator-managed AxiOwl machine | A2A-over-SSH |
-| Paired phone controlling a host workspace | Daemon relay or direct connection |
+A task has its own identifier and can report working, input required, completed, canceled, rejected, or failed states. If more information is requested, continue the same task through the endpoint's supported interaction.
 
-The mobile daemon protocol is an interactive host/session/timeline experience. A2A is a standards-based agent/task experience. They intentionally remain separate.
+Keep an A2A task ID separate from any provider session used behind it. This avoids losing the relationship between the external request and the internal conversation.
 
-## Operational Evidence
+## SSH Connections
 
-Follow Agent Card discovery, client authentication, task acceptance, destination handoff, task state, result and artifacts, and optional callback delivery as distinct stages.
+SSH routes use the host, user, key configuration, and permissions selected by the operator. **SSH Command Dispatch** invokes explicit AxiOwl commands remotely. **A2A-over-SSH** retains the A2A task interface while using SSH for the connection.
+
+The remote user must have access to the intended AxiOwl installation and provider environment. Credentials and project access follow that remote account, not the friendly name shown in the registry.
+
+## Network And Data Ownership
+
+An encrypted connection protects traffic along that path. The receiving agent still needs access to the content you send and may use its own model provider. Consider the destination's permissions and provider policy when sharing private project material.
+
+Read [Security and privacy](security.md) and [Messaging workflows](messaging-workflows.md) before connecting a broader agent team.

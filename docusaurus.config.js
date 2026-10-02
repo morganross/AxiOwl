@@ -9,7 +9,7 @@ const profile = createDocsProfile(process.env);
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'AxiOwl',
-  tagline: 'Bring your desktop AI agents to every screen. Pair a phone, open a real session, and keep the work moving.',
+  tagline: 'Guides for agent messaging, desktop workspaces, mobile control, subscription usage, and cloud costs.',
   favicon: 'img/axiowl-owl-head.png',
 
   future: {
@@ -102,13 +102,12 @@ const config = {
             label: 'Products',
             position: 'left',
             items: [
-              {label: 'AxiOwl IDE', href: 'https://axiowl.com/axiowl-ide/', target: '_self'},
-              {label: 'Downloads', href: 'https://axiowl.com/downloads/', target: '_self'},
-              {label: 'AxiOwl', href: 'https://axiowl.com/axiowl-desktop/', target: '_self'},
               {label: 'AxiOwl Messaging', href: 'https://axiowl.com/axiowl-messaging/', target: '_self'},
-              {label: 'AxiOwl Cloud Cost Meter', href: 'https://axiowl.com/axiowl-cloud-cost-meter/', target: '_self'},
+              {label: 'Axiom Messaging', href: 'https://axiowl.com/axiom-messaging/', target: '_self'},
               {label: 'AxiOwl Mobile', href: 'https://axiowl.com/axiowl-mobile-apps/', target: '_self'},
               {label: 'AxiOwl Usage Meter', href: 'https://axiowl.com/axiowl-usage-quota-limit-meter/', target: '_self'},
+              {label: 'AxiOwl IDE', href: 'https://axiowl.com/axiowl-ide/', target: '_self'},
+              {label: 'Downloads', href: 'https://axiowl.com/downloads/', target: '_self'},
             ],
           },
           {
@@ -130,7 +129,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://objectstorage.us-sanjose-1.oraclecloud.com/n/ax0jy7uvkwdy/b/axiowl-update-channel-prod/o/stable%2Fwindows%2FAxiOwl.msi',
+            href: 'https://axiowl.com/downloads/',
             target: '_self',
             label: 'Download',
             position: 'right',

@@ -1,113 +1,71 @@
 ---
 sidebar_position: 4
 slug: /how-it-works
+title: How The Products Work Together
 ---
 
-# How AxiOwl Works
+# How The Products Work Together
 
-AxiOwl is a normalization and communication layer around provider sessions, daemon-hosted agents, mobile clients, and A2A endpoints.
+The AxiOwl family connects several kinds of work: messages between agents, direct interaction with a session, and visibility into account usage. Each has a clear owner for its data and permissions.
 
-## One Common Journey
+## Messaging: Address A Real Session
 
-```text
-choose target
-  -> resolve exact identity
-  -> select declared route
-  -> use destination integration
-  -> record correlation
-  -> return provider reply, task result, or agent timeline
-```
+A caller chooses a registry target. AxiOwl resolves its provider, surface, session identity, and route, then hands the request to that integration. The target's response returns through its configured AxiOwl tools with sender and correlation information.
 
-## Identity And Addressing
+The common interface saves the caller from knowing every provider's delivery mechanism. Provider workers still handle the details of their own applications.
 
-| Identity | Purpose |
+Names help you navigate. Session IDs address conversations. A renamed chat can remain the same destination, while two chats with identical names remain distinct.
+
+## Mobile: Interact With A Paired Host
+
+AxiOwl Mobile connects to a host runtime on your computer. Pairing establishes which device may connect. The host exposes its available projects, agents, provider catalog, and controls.
+
+The phone sends a turn to the selected agent and receives a timeline of the provider's work. Tool output, permissions, and completion events stay associated with that agent. The host continues to run the tools and own the project files.
+
+Relay connections provide reachability across networks through encrypted application traffic. Direct connections use a route chosen by the operator. The host identity remains the same when the network path changes.
+
+## IDE: Resolve Account, Model, And Brain
+
+The IDE resolves three selections into one execution route:
+
+| Selection | What it controls |
 |---|---|
-| Display name | Human-readable label |
-| Alias | Convenient lookup name |
-| Provider and surface | Exact product experience, such as Codex agents or Codex CLI |
-| Provider session ID | Provider-owned conversation address |
-| Host ID | Immutable identity of one AxiOwl daemon |
-| Mobile client ID | Stable identity of one paired app installation |
-| Project/workspace ID | Host-owned working context |
-| Agent ID | One daemon-managed agent lifecycle |
-| A2A agent/task ID | Standards-based endpoint and task identity |
+| Billed to | The account or configured connection supplying model access |
+| Model | The model selected from that account's available catalog |
+| Brain | The provider client or AxiCode runtime running the agent loop |
 
-Friendly names can change. Delivery continues to use the concrete provider, host, client, agent, or task identity required by the selected route.
+A provider CLI can run its own agent loop. AxiCode can run a local loop using a configured provider connection, either directly or through its supported local proxy route. These choices affect credentials, billing, tools, and session ownership, so the IDE keeps them visible.
 
-## Discovery And Registry
+## Usage Meter: Observe Capacity
 
-Provider surfaces store sessions differently. Their AxiOwl packages discover through the provider-specific state available to that product and normalize useful fields into the local registry.
+Usage Meter collects readings from the provider method assigned to an account. It preserves the account identity, source, observation time, allowance windows, and reset times.
 
-A registry record can include display name, aliases, provider, surface, provider session ID, local or remote ownership, supported operations, sendable state, and recent observation information.
+Cloud Costs uses a separate set of cloud-account bindings and provider-reported monetary periods. A quota percentage, a reset time, and a cloud-cost amount have different meanings and remain separate.
 
-The daemon maintains a related connected view of providers, projects, workspaces, agents, and active client sessions on its host.
+A Usage Meter companion receives an approved, limited snapshot from the desktop. It displays usage information without obtaining provider credentials or control of the desktop's agents.
 
-## Provider Packages
+## A2A: Connect Standard Agent Services
 
-Each local provider surface has its own package because discovery, MCP metadata, delivery, patching, process ownership, and cleanup differ by product.
+An A2A Agent Card describes an endpoint and its capabilities. A caller sends a message or task to that service and follows the task's result and artifacts. AxiOwl can call external agents and expose selected local targets.
 
-A package may contain an isolated worker, MCP configuration, provider plugin or skill, VSIX bridge, metadata integration, and installer ownership. Provider authentication and conversation data remain with the provider.
+A2A task identity is separate from a provider conversation. A task may use a provider session behind the endpoint, but its public lifecycle belongs to the A2A service.
 
-Provider packages can update independently from the AxiOwl core and from other providers.
+## Read Completion In Context
 
-## Local Provider Flow
-
-```text
-CLI, mailbox, or MCP caller
-  -> local registry target
-  -> selected provider package
-  -> provider-owned session
-  -> receipt and correlated MCP reply
-```
-
-## Daemon And Mobile Flow
-
-```text
-paired mobile app
-  -> encrypted relay or direct connection
-  -> AxiOwl daemon
-  -> selected project, workspace, and agent
-  -> provider runtime
-  -> ordered timeline back to the client
-```
-
-The daemon owns host identity, pairing, provider processes, projects, workspaces, agents, permissions, timeline sequencing, acknowledgements, and reconnect state.
-
-## A2A Flow
-
-```text
-A2A client
-  -> Agent Card and authenticated endpoint
-  -> message or task
-  -> destination agent
-  -> state, result, and artifacts
-```
-
-Desktop provider sessions can be exposed as selected A2A agents through the interactive user boundary. AxiOwl can also call external Agent Cards.
-
-## Route Selection
-
-| Destination | Route |
+| Product event | Meaning |
 |---|---|
-| Provider session on this computer | Local provider package |
-| Paired host across networks | Encrypted relay |
-| Paired host on a controlled network | Direct daemon connection |
-| External standards-based agent | A2A |
-| Managed AxiOwl node | A2A-over-SSH |
-| Explicit remote CLI operation | SSH Command Dispatch |
+| Messaging acceptance | AxiOwl accepted the request |
+| Messaging reply | The selected agent answered |
+| Mobile connection | The phone reached its paired host |
+| Provider turn complete | The provider reported completion of that turn |
+| IDE route selected | An account, model, and brain are selected |
+| Usage observation current | A provider reading is available within its freshness rules |
+| A2A task complete | The endpoint reported a terminal result |
 
-## Receipts And Completion
+A connection can be healthy while a provider waits for permission. A usage reading can be old while the phone connection is current. Keeping these states distinct makes the software easier to use.
 
-| Evidence | Meaning |
-|---|---|
-| Acceptance receipt | AxiOwl accepted the operation |
-| Provider delivery state | The provider integration accepted the handoff |
-| MCP reply | The provider session returned a correlated response |
-| A2A task state | The external endpoint reported task progress |
-| A2A terminal result | The task returned its result and artifacts |
-| Daemon connection state | The client is connected to the intended host |
-| Agent timeline terminal event | The host provider turn reached its reported terminal state |
+## Shared Infrastructure, Separate Permissions
 
-## Account And Authority Boundaries
+Products may reuse a relay or connection library. Their device approvals, credentials, and allowed operations remain product-specific. Approving a Usage Meter reader does not approve terminal access in Mobile.
 
-Website account, license entitlement, host identity, mobile pairing, relay routing, direct network access, A2A credentials, SSH keys, and provider authentication remain separate. One credential does not silently become authority for another subsystem.
+See [Security and privacy](security.md) for the responsibilities at each boundary.

@@ -1,61 +1,58 @@
 ---
 sidebar_position: 2
+title: Install, Pair, And Connect
 ---
 
 # Install, Pair, And Connect
 
-AxiOwl Mobile needs an AxiOwl host with a running daemon. Pairing gives one mobile installation an approved relationship with that host.
+Prepare the computer that will run the agents, then pair the phone you want to use. Keep both devices available during setup so you can approve the intended connection.
 
 ## Prepare The Host
 
-On Windows, select one daemon runtime during AxiOwl installation:
+Install the appropriate AxiOwl host components on the computer. On Windows, the current connected-runtime selection is **AxiOwl Remote Connections**. Shared-runtime packages own their connection components independently of individual Messaging provider selections.
 
-| Choice | Use |
-|---|---|
-| AxiOwl Node daemon | Recommended broad connected-agent runtime using the installed Node environment |
-| AxiOwl native C++ daemon | Native Windows service, transport, core, and provider process architecture |
-| No mobile daemon | Local provider, mailbox, A2A, and SSH use without AxiOwl Mobile access |
+Open the desktop connection or mobile-device area and confirm the host runtime is available. Use the normal Windows user session that owns the provider tools and project files.
 
-Linux and macOS packages include an AxiOwl-branded daemon through their normal platform lifecycle.
+Sign in to the providers you intend to use on that host. AxiOwl pairing does not authenticate a model account or grant access to a repository the host user cannot read.
 
-Open the provider products you want to use and confirm that their provider runtimes can operate on the host.
+macOS and Linux packages have their own daemon lifecycle and supported provider catalog. Choose the host release intended for your platform.
 
-## Install AxiOwl Mobile
+## Install The Phone App
 
-Install the AxiOwl mobile application for Android or iPhone. The application creates and protects its own mobile client identity.
+Use the **AxiOwl Mobile** download for Android or the listed Apple distribution channel. Keep it distinct from the Usage Meter companion.
 
-## Create A Pairing Offer
+The app maintains its own client identity and saved host profiles. Retain that app state when updating through the supported installation path if you want to keep the same pairing relationship.
 
-1. Open the **Mobile App** area in AxiOwl on the host.
-2. Select **Pair a device**.
-3. The desktop asks the running daemon for a fresh pairing offer.
-4. The daemon opens a time-limited pairing window and returns the QR image and pairing link.
+## Create An Offer On The Computer
 
-The offer identifies the daemon host and the relay route needed to begin the connection.
+Open the host's mobile or connected-device controls and create a fresh pairing offer. The host supplies the QR code or pairing link.
 
-## Scan Or Import
+The offer identifies the host connection. It starts setup; approval determines whether the new device may join.
 
-On the phone:
+## Import And Approve
 
-1. Choose **Scan QR code**, or choose **Paste pairing link**.
-2. Import the offer.
-3. The app opens the offered relay connection.
-4. The mobile client presents its stable identity to the daemon.
+1. Scan the offer or paste its pairing link in Mobile.
+2. Keep the app open while the host receives the request.
+3. Review the pending device on the computer.
+4. Approve the phone you intended to connect.
+5. Open the saved host in Mobile.
 
-## Approve On The Host
+Reject an unexpected request. If you no longer intend to pair, close the offer through the host's controls.
 
-The phone appears as a pending device in the desktop interface. Review the intended device and approve it locally.
+## Open A Session
 
-The daemon stores approved mobile identities individually. A host can pair more than one phone or tablet.
+Select the host, then browse its available projects, workspaces, providers, and agents. Choose an existing conversation when you need its history, or create a new one through a provider that offers that operation.
 
-## Open The Host
-
-After approval, the mobile app stores the host profile and available connection route. Open that host to load its provider catalog, projects, workspaces, and agents.
+Read the workspace and provider identity before sending the next instruction. The operation runs on the host, under its provider environment.
 
 ## Add A Direct Route
 
-A paired host can also receive a direct connection entry for a local network, VPN, Tailscale, or managed address. The app associates that route with the existing immutable host ID rather than creating a duplicate host.
+Where the host and client offer direct connections, add the actual daemon address on your controlled network or VPN. Keep it associated with the correct host identity.
 
-## Remove A Device
+The operator is responsible for endpoint exposure and connection protection. A friendly hostname does not authorize a device.
 
-Removing a paired client closes its active daemon sessions. The device must receive a new pairing offer and local approval before connecting again.
+## Return Later
+
+Open the saved host to reconnect. The app and daemon retain the agent identity and reconcile the timeline, so returning to a host does not mean starting a new conversation.
+
+If the computer sleeps or shuts down, its provider sessions are not reachable through the phone until the host is available again. Read [Hosts and connections](hosts-and-connections.md) for network and session behavior.

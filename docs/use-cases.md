@@ -1,84 +1,63 @@
 ---
 sidebar_position: 3
 slug: /use-cases
+title: Workflows And Benefits
 ---
 
-# Why AxiOwl And What You Can Do With It
+# Workflows And Benefits
 
-AxiOwl is useful when work is bigger than one isolated AI conversation. It gives different providers and agent systems a shared way to identify targets, exchange work, and return results while preserving the provider-specific method behind each destination.
+AxiOwl is useful when your work spans more than one conversation, account, or device. The family gives you ways to coordinate specialists, keep an agent workspace close, and make better use of the capacity you already have.
 
-## Turn Separate Sessions Into A Working Group
+## Build And Review In Separate Conversations
 
-One agent can implement, another can review, another can research, and another can coordinate. Those roles can live in Codex, Cursor, VS Code Copilot, Claude Code, Antigravity, Copilot CLI, OpenCode, an external A2A service, or an agent running on another AxiOwl host.
+Let one agent own the implementation and another examine the result. Use Messaging to give the reviewer the exact change, relevant files, and question.
 
-```text
-plan -> delegate -> reply -> compare -> decide -> act
-```
+The reviewer keeps an independent context. Its response can return to the builder or coordinator, where the decision and next action remain visible. This works across supported provider surfaces rather than requiring all participants to use the same app.
 
-The human remains responsible for the objective and final decision. AxiOwl handles more of the routing, identity, and correlation work between agents.
+## Keep A Coordinator Focused
 
-## Delegate, Review, And Synthesize
+A coordinator needs the objective, constraints, decisions, and results. It rarely needs every line of every specialist's command output.
 
-Use a small specialist panel:
+Focused messages can reduce repeated context and leave detailed exploration with the agent doing the work. This can lower the amount of material processed by the coordinator, though actual token use and cost still depend on the models, providers, and workflow.
 
-| Role | Responsibility |
-|---|---|
-| Builder | Produce the implementation or first draft |
-| Reviewer | Find risks, omissions, and alternatives |
-| Synthesizer | Reconcile the strongest ideas into one recommendation |
-| Human owner | Approve the direction and next action |
+Keep durable knowledge in files or repositories and send accessible references when the recipient can use them.
 
-Send each participant a focused handoff with the objective, current decision, relevant files, constraints, and requested response. A correlated reply makes it clear which session answered.
+## Choose Capacity Before Starting
 
-## Create A Cross-Provider Project Team
+Open Usage Meter before assigning a long task. Compare the relevant account's current allowance windows and reset times. Pick a provider suitable for the work with room to carry it.
 
-Different AI products offer different context and interaction styles. A desktop agent may understand a repository, an editor chat may see the open workspace, a CLI agent may be ideal for terminal work, and an A2A service may provide a specialized external capability.
+The meter informs that choice. It does not move a task automatically or change the provider's quota. Account identity and observation time help you avoid choosing from a reading that belongs to another subscription or period.
 
-AxiOwl normalizes the coordination boundary without flattening those differences. The project can use stable role names while retaining the exact provider surface and session identity underneath.
+## Choose The Agent Loop As Well As The Model
 
-## Keep Context Moving
+In AxiOwl IDE, **Billed to**, **Model**, and **Brain** let you distinguish account access, inference, and the software using tools.
 
-A good handoff is usually smaller than a complete transcript. Include:
+Use a provider CLI when you want its native agent behavior. Use AxiCode with a configured connection when you want the local Goose agent loop. Keep the working directory and permissions aligned with the task.
 
-- the current objective;
-- the decision already made;
-- the minimum supporting evidence;
-- the exact question for the next agent;
-- the requested response format.
+## Stay Involved Away From The Desk
 
-This reduces repeated prompts and keeps exploratory dead ends out of downstream context. Durable source material stays in files or repositories; messages point the next specialist to what it needs.
+Pair AxiOwl Mobile with the computer doing the work. Open the same host session, read progress, and send the next instruction. Answer permissions or inspect the available file and terminal views when the host supports them.
 
-## Control Desktop Agents From A Phone
+The repository and provider tools keep running on the computer. The phone provides an interactive view of that environment rather than another detached conversation.
 
-The AxiOwl mobile app pairs with a daemon host. The phone can open an existing host-owned agent, read its timeline, send a normal provider turn, respond to permission requests, and follow the result.
+## See Usage Without Agent Control
 
-The repository, provider credentials, and provider process stay on the computer. The phone receives an interactive agent view rather than a streamed remote desktop.
+Use a Usage Meter companion when you need account readings in your pocket. It carries a narrower permission: display the desktop's approved usage snapshots.
 
-## Connect External A2A Agents
+This is useful for deciding what to start next without exposing project files, terminals, or provider logins to the phone.
 
-Import an external Agent Card, send a message or create a task, follow task state, collect results and artifacts, and pass the result to a local provider session. A2A task identity remains distinct from provider session identity.
+## Connect A Specialist Service
 
-## Coordinate Across AxiOwl Nodes
+Import an A2A Agent Card for a service you intend to use. Send the request, follow the task, and collect its result or artifacts. Another local agent can then work with that output.
 
-Use direct A2A for a reachable agent endpoint, A2A-over-SSH for an operator-managed node, or SSH Command Dispatch for explicit remote CLI operations. These routes complement the mobile daemon protocol rather than replacing it.
+The endpoint owns its task lifecycle, while AxiOwl provides the connection to your broader workflow.
 
-## Who It Is For
+## Understand Cloud Spending
 
-- software teams using several coding agents;
-- researchers comparing independent analyses;
-- product leads coordinating specialist sessions;
-- operators connecting desktops, build machines, and agent services;
-- individual developers maintaining long-running expert agents;
-- teams exposing or consuming A2A-compatible services.
+Use Cloud Costs to inspect provider-reported amounts and service breakdowns alongside subscription capacity. Keep time period and currency attached to every comparison.
 
-## Choose The Simplest Route
+An hourly cloud observation, a daily total, and a subscription percentage answer different questions. Reading them together is useful precisely because they remain clearly labeled.
 
-```text
-one provider conversation       -> use the provider directly
-several local provider sessions -> AxiOwl local coordination
-paired phone and desktop agent  -> daemon relay or direct connection
-external agent service          -> A2A
-managed AxiOwl node             -> A2A or A2A-over-SSH
-```
+## Start With The Part You Need
 
-The value appears when AxiOwl removes manual copying, keeps agent identity clear, or makes a connected workflow observable.
+Begin with [Messaging](getting-started.md), [IDE](ide/README.md), [Mobile](mobile/README.md), or [Usage Meter](usage-meter/README.md). Add other products when they serve the work you are actually doing.

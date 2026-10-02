@@ -1,75 +1,63 @@
 ---
 sidebar_position: 5
 slug: /providers
+title: Providers And Surfaces
 ---
 
-# Providers
+# Providers And Surfaces
 
-AxiOwl keeps a provider brand and concrete surface together because desktop agents, editor chats, and command-line sessions can use different discovery, metadata, and delivery methods.
+A provider is both a brand and a surface. Codex Desktop, Codex CLI, and Codex Remote have different session lifecycles. Cursor's desktop agent and Cursor Agent CLI also need separate integrations. AxiOwl keeps these distinctions so a message reaches the conversation you selected.
 
-## Local Windows Provider Packages
+## Messaging Integrations
 
-| Provider surface | Discover | Send | Create | Rename | Status | MCP reply | Integration |
-|---|---:|---:|---:|---:|---:|---:|---|
-| Antigravity agents | Yes | Yes | Yes | Yes | Yes | Yes | Desktop MCP and isolated worker |
-| Antigravity CLI | Yes | Yes | Yes | Yes | Yes | Yes | CLI MCP, metadata, and worker |
-| Claude Code CLI | Yes | Yes | Yes | Yes | | Yes | User MCP configuration and worker |
-| Codex agents | Yes | Yes | Yes | Yes | Yes | Yes | Plugin, MCP, skill, and worker |
-| Codex CLI | Yes | Yes | Yes | Yes | Yes | Yes | CLI MCP and session package |
-| Codex Remote | Yes | Yes | Yes | Yes | | | Codex-owned SSH Remote worker |
-| Copilot CLI | Yes | Yes | Yes | Yes | | Yes | Session metadata and worker |
-| Cursor agents | Yes | Yes | Yes | Yes | | Yes | Bridge extension, MCP, and worker |
-| Cursor Agent CLI | Yes | Yes | Yes | Yes | | Yes | CLI metadata and worker |
-| OpenCode CLI | Yes | Yes | Yes | Yes | | Yes | MCP/native metadata and worker |
-| VS Code Copilot-backed | Yes | Yes | Yes | | Yes | Yes | VSIX bridge, MCP, metadata, and worker |
+The current Windows package inventory contains the following thirteen provider packages. This table describes their purpose and integration; the operations available for a particular session come from the installed provider's capabilities.
 
-Blank cells mean the public local-provider contract does not define that operation for the surface.
+| Provider surface | What it connects | Integration installed by AxiOwl |
+|---|---|---|
+| Antigravity agents | Desktop agent conversations | Desktop MCP configuration and provider worker |
+| Antigravity CLI | Command-line conversations | CLI configuration, session identity, and worker |
+| Claude Code CLI | Claude Code terminal sessions | User MCP configuration and provider worker |
+| Claude Desktop Code | Code conversations in Claude Desktop | Desktop integration, MCP configuration, and managed bridge |
+| Codex agents | Codex desktop threads | AxiOwl Codex plugin, MCP tools, skill, and worker |
+| Codex CLI | Codex terminal sessions | CLI MCP configuration and session integration |
+| Codex Remote | Codex-owned SSH Remote conversations | Local support for Codex's remote projects and sessions |
+| Copilot CLI | Standalone GitHub Copilot CLI sessions | MCP session metadata integration and worker |
+| Cursor agents | Desktop Agent/Composer conversations | Bridge extension, MCP configuration, and desktop integration |
+| Cursor Agent CLI | Cursor's command-line agent | CLI discovery, session metadata, and worker |
+| OpenCode CLI | OpenCode terminal sessions | MCP configuration and provider worker |
+| OpenCode Desktop | Native OpenCode desktop sessions | Desktop plugin and provider integration |
+| VS Code Copilot-backed | Copilot Agent Host conversations in VS Code | VSIX bridge, MCP metadata, and worker |
 
-## Codex
+Claude Desktop here means its **Code** surface. Selecting that integration does not make every Claude web or desktop conversation an interchangeable target.
 
-**Codex agents** addresses Codex desktop conversations through provider-owned thread identity. The package installs the AxiOwl Codex plugin, MCP configuration, skill, and worker.
+## Understand The Operations
 
-**Codex CLI** is a separate terminal surface with its own registry identity and MCP/session integration.
+**Discover** reads the provider state needed to identify sessions. **Send** addresses an existing session. **Create** starts a provider session and registers it for subsequent work. **Rename** changes the provider title where supported. **Status** exposes the state the provider makes available.
 
-**Codex Remote** addresses Codex-owned SSH Remote projects and conversations. It is distinct from an AxiOwl A2A node or mobile daemon host.
+AxiOwl MCP supplies the return path for an agent's message. Session metadata identifies who made the tool call. An agent title is a convenient label, while the exact provider session identity remains the address.
 
-## Cursor And VS Code
+Operations vary by surface and platform. The installed capability view is the practical authority for a session. In particular, a provider listed in the installer is not a promise that every operation is enabled for every release of that provider.
 
-**Cursor agents** uses the AxiOwl bridge, MCP configuration, and exact Composer-session integration. **Cursor Agent CLI** remains a separate command-line surface.
+## Windows, macOS, And Linux
 
-**VS Code Copilot-backed** uses an in-host VSIX bridge, MCP configuration, provider metadata, and an isolated worker. Existing `vscode` or “VS Code native” labels refer to this same packaged integration rather than a second provider package.
+Windows uses isolated provider workers and provider-specific integration assets. macOS and Linux have their own discovery, configuration, and delivery implementations. Use the platform package to install the integrations appropriate to that operating system.
 
-## Antigravity
+Some desktop integrations operate on an AxiOwl-managed local copy of a provider application. Where that is the selected platform method, the publisher's application remains the original source and you use the prepared copy for the integrated session. The macOS package prepares managed copies locally from user-installed applications; provider applications are not shipped inside the AxiOwl package.
 
-**Antigravity agents** connects desktop agent sessions. **Antigravity CLI** connects command-line sessions. They remain separate registry surfaces with their own package ownership.
+Provider sign-in remains separate. Open the selected provider environment and complete its normal authentication before asking it to perform work.
 
-## Claude Code, Copilot CLI, And OpenCode
+## Three Catalogs With Different Jobs
 
-**Claude Code CLI** uses provider session records and resume behavior with AxiOwl MCP configuration in the user's Claude environment.
+| Catalog | What its entries mean |
+|---|---|
+| Messaging provider registry | Existing provider sessions and the local or remote route used to address them |
+| Connected host catalog | Providers, models, agents, and controls exposed to AxiOwl Mobile by that computer |
+| IDE model/account/brain choices | Compatible execution routes configured inside AxiOwl IDE |
 
-**Copilot CLI** is the standalone command-line product, separate from VS Code Copilot-backed sessions.
+A model appearing in the IDE does not add a Messaging package. A Messaging package does not grant mobile control of every provider action. Each product exposes the capabilities supplied by its own integration.
 
-**OpenCode CLI** uses provider-owned session state and native command/configuration boundaries while preserving exact message content.
+## External Agents And The Mailbox
 
-## AxiOwl Mailbox
+The **AxiOwl Mailbox** is a built-in local destination for messages and results. An **A2A agent** is a standards-based endpoint discovered through an Agent Card. Both can participate in coordination without being another installed model provider.
 
-The mailbox is the built-in local coordination endpoint. It provides a stable inbox for messages, receipts, and provider results without requiring an external provider account.
-
-## Daemon Provider Catalog
-
-The AxiOwl daemon publishes the providers, models, modes, and capabilities available for connected agent creation and session control on that host. This runtime catalog is separate from the local Windows installer package list.
-
-The mobile client reads the host catalog, then creates, imports, opens, or controls an agent through the daemon. The provider process and credentials remain on the host.
-
-## External A2A Agents
-
-An external Agent Card can be imported as an A2A target. AxiOwl can send messages, create and follow tasks, and collect results or artifacts from the external service.
-
-## Reading Operations
-
-- **Discover** finds existing sessions.
-- **Send** delivers a request to an existing target.
-- **Create** starts a new session or agent through the selected integration.
-- **Rename** changes the provider-visible title when supported.
-- **Status** returns provider-specific state.
-- **MCP reply** lets the provider session return correlated identity and content.
+See [Messaging setup](getting-started.md), [IDE accounts](ide/models-and-accounts.md), or [Mobile agents](mobile/agents-and-workspaces.md) for the next step in your chosen product.

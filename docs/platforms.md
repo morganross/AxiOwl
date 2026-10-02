@@ -1,48 +1,58 @@
 ---
 sidebar_position: 8
 slug: /platforms
+title: Products And Platforms
 ---
 
-# Platforms
+# Products And Platforms
 
-AxiOwl uses native platform packaging around a shared product model of providers, daemon hosts, mobile clients, A2A agents, and explicit routes.
+Choose both the product and operating system on [Downloads](https://axiowl.com/downloads/). AxiOwl's applications have separate packaging and release channels, even when they share provider names or connection components.
 
-## Windows
+## Product Map
 
-Windows x64 is the primary packaged desktop. The MSI can install:
+| Product | Desktop role | Phone role |
+|---|---|---|
+| AxiOwl Messaging | Windows, macOS, and Linux coordination and provider integrations | Use Mobile for the connected host experience |
+| AxiOwl IDE | Desktop conversation and project workspace; choose the listed platform package | Do not substitute a Mobile package for the IDE |
+| AxiOwl Mobile | Requires a compatible host runtime on the computer | Android and iPhone client distributions |
+| AxiOwl Usage Meter | Local subscription and cloud-account collection | Separate native companions display compatible desktop readings |
 
-- core runtime, CLI, MCP, mailbox, and discovery;
-- eleven local provider packages;
-- A2A Server and A2A Client;
-- SSH Command Dispatch;
-- the recommended Node daemon, native C++ daemon, or no mobile daemon.
+Use the release actually offered for the platform. Source for an operating system and an installable release are different parts of product distribution.
 
-The desktop **Mobile App** area displays a daemon-generated pairing QR/link and pending-device approval. Provider runtimes operate in the interactive user's environment.
+## Windows Messaging
 
-## Linux
+The MSI combines core components with selected provider integrations. The current catalog includes thirteen provider packages, and connected features include AxiOwl Remote Connections, relay messaging, A2A, and SSH.
 
-Linux x86-64 combines a native desktop/CLI, provider integration assets, Debian packaging, and an AxiOwl-branded daemon service. It can act as a local coordination environment and a host for connected clients.
+Provider processes use the intended user's environment. Open and authenticate the provider there before asking AxiOwl to deliver into its sessions.
 
-## macOS
+## macOS Messaging
 
-macOS uses a native Swift desktop and CLI around a bundled AxiOwl daemon. It includes provider discovery and configuration, MCP operations, mailbox/local coordination, daemon lifecycle, connected-client status, and platform package publication.
+The native application provides provider setup, discovery, registry, mailbox, and daemon controls. Managed provider integrations prepare local copies from user-installed publisher applications where required.
 
-## Android
+Routine package behavior follows the platform's ownership rules. Provider sign-in and managed-app identity matter independently of an application's visible name or path. Use the supported preparation and update flow for that provider.
 
-The Android application uses the shared AxiOwl mobile product. It can scan or import pairing offers, maintain host profiles, use relay or direct routes, browse providers/projects/workspaces/agents, open timelines, send turns, answer permissions, and reconnect.
+## Linux Messaging
 
-## iPhone
+Linux has its own native desktop/CLI, provider integration, package lifecycle, and connected runtime. Desktop-provider operations require the corresponding graphical user environment; CLI availability alone does not create a desktop session.
 
-The iPhone application packages the shared mobile experience for iOS. It connects to the same daemon protocol and host registry model as Android rather than implementing a separate provider runtime on the phone.
+Use the architecture and package format listed for the release and the capabilities exposed by the installed provider.
 
-## Hosted Relay
+## Mobile Distribution
 
-The relay joins paired client and daemon connections and forwards encrypted application frames. It provides reachability across networks without becoming the provider or agent host.
+Android and iPhone share the connected-host model, while platform packaging and protected storage differ.
 
-## Shared Rules
+Android downloads can be direct packages. Apple releases can use registered-device delivery, TestFlight, or store distribution as identified by the release. A signed registered-device IPA is usable only under that distribution's device rules.
 
-- desktop systems own provider processes and project files;
-- mobile systems are clients of a paired daemon;
-- host, client, agent, and provider-session identities remain distinct;
-- A2A and SSH retain separate protocol roles;
-- packaging and protected storage follow platform conventions.
+The website's current Android-and-Windows workflow is a concrete starting path. Other host/client combinations should use their matching published releases and advertised capabilities.
+
+## Usage Meter Platforms
+
+Desktop meters collect locally. Phone companions receive readings from an approved desktop source. The earlier standalone Android collector is a different application from the newer companion.
+
+The Windows/Android and Mac/iPhone companion paths have distinct snapshot capabilities. Use the combination documented by the specific release, especially for cloud-cost views.
+
+## Updates
+
+Versions belong to products and components. A new Messaging release does not update the IDE or Usage Meter automatically. Provider integration packages can also have revisions separate from the Messaging core.
+
+Read [Releases and updates](release/update-publication-operator-guide.md) for channel and distribution details.

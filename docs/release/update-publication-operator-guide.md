@@ -1,110 +1,74 @@
 ---
 sidebar_position: 1
 slug: /release
+title: Releases And Updates
 ---
 
-# Releases And Pull Updates
+# Releases And Updates
 
-AxiOwl separates artifact creation, publication, channel promotion, download, staging, and application. This keeps each release identifiable and lets provider integrations update independently from the core product.
+AxiOwl products have independent versions, platform packages, and channels. Choose the product you are updating before comparing version numbers.
 
-## Release Flow
+## Use The Product's Download Entry
 
-```text
-source revision
-  -> platform artifacts
-  -> platform signatures and manifests
-  -> immutable publication
-  -> Preview or Internal channel
-  -> deliberate Stable promotion
-  -> client download and application
-```
+The [Downloads page](https://axiowl.com/downloads/) identifies the product, platform, and available channel. Messaging, IDE, Mobile, Usage Meter, and a Usage Meter companion are different artifacts.
 
-Publishing an artifact does not automatically make it Stable. Channel promotion is a separate decision.
+Keep the application identity and distribution method in view. Installing a Usage Meter companion does not update AxiOwl Mobile. A Messaging provider-package revision does not update the provider's own account or model subscription.
 
-## Platform Entry Points
+## Preview And Stable
 
-| Platform | Release entry point |
-|---|---|
-| Windows | `release/Invoke-AxiOwlWindowsRelease.ps1` |
-| Linux | `release/Invoke-AxiOwlLinuxRelease.ps1` |
-| macOS | `release/Invoke-AxiOwlMacOSRelease.ps1` |
-| Android | `release/Invoke-AxiOwlAndroidRelease.ps1` |
-| iPhone | `release/Invoke-AxiOwlIosRelease.ps1` |
+**Preview** makes a product revision available through its Preview channel. **Stable** is selected through a separate promotion decision.
 
-Windows package construction is owned by `installer/windows/build-windows-msi.ps1`.
+Publication and promotion are distinct. A newly uploaded artifact does not automatically replace Stable, and a platform's Preview availability does not imply another platform has the same release.
 
-## Release Artifacts
+Windows provider hot updates also use an **Internal** channel for that component path. Internal provider-package metadata is separate from public platform Preview distribution.
 
-| Artifact | Purpose |
-|---|---|
-| Windows MSI | Installs core, providers, A2A, SSH, and the selected daemon runtime |
-| Linux package | Installs the native Linux product and branded daemon service |
-| macOS package | Installs the Swift desktop and bundled daemon |
-| Android package | Delivers the Android mobile client |
-| iPhone package | Delivers the iOS mobile client |
-| Provider package | Delivers one isolated local provider integration revision |
-| Component manifest | Identifies included files, ownership, sizes, and digests |
-| Release envelope | Identifies one immutable product release and its channel |
-| Channel pointer | Selects the release currently offered by a channel |
+## What A Release Identifies
 
-## Windows Packaging
+A release record ties together the product, version, platform, source revision, artifact, size, digest, and signing information. The published bytes remain identifiable after a channel selects them.
 
-The Windows release builds the core, eleven provider packages, A2A components, SSH support, and daemon payloads. The MSI feature map keeps provider selection and the Node/native/none daemon choice explicit.
+Operating-system signatures and package metadata help establish publisher and artifact identity. They do not authorize a new device, grant provider access, or prove that every configured account is signed in.
 
-Executable components are signed before they are packaged. The final MSI is signed after its contents are final.
+## Provider Integrations
 
-## Provider Packages
+Messaging provider packages have their own IDs and revisions. A provider update changes the integration's owned files and assets, independently of unrelated provider packages.
 
-Provider packages have their own IDs and revisions. A package owns one provider's worker, integration assets, and install strategy. It does not own another provider's files, account, credentials, or process scope.
+When update code uses the word **generation**, it means an installed package revision. It does not refer to AI-generated content.
 
-The current provider inventory is defined in `providers/provider-package-inventory.json`.
+Update status, discovery, download, staging, and application are separate steps. A downloaded package is not necessarily applied.
 
-In update code, a **generation** means an installed provider-package revision. It does not mean AI-generated content.
+## Messaging Update Commands
 
-## Immutable Publication
-
-Release components and package archives are published as immutable objects. Their manifests bind the expected size and digest. A release description binds those objects to one product version and channel.
-
-Existing immutable objects are not rewritten when a channel changes.
-
-## Preview, Internal, And Stable
-
-- **Preview** makes a platform package available before Stable promotion.
-- **Internal** is used for the Windows provider hot-update path before Stable promotion.
-- **Stable** is the deliberately promoted public channel.
-
-The channel identity is part of signed release metadata. Moving the same component bytes to another channel creates channel-specific release metadata rather than relabeling the existing record.
-
-## Client Pull Commands
+The installed Messaging CLI exposes update status and provider-package operations. The non-mutating starting commands are:
 
 ```text
 axiowl update status
-axiowl update check [--channel <channel>] [--endpoint <url>]
-axiowl update provider status <provider-id>
-axiowl update provider pull <provider-id> [--channel <channel>] [--endpoint <url>]
-axiowl update provider apply <provider-id> --package-root <directory>
+axiowl update check
 ```
 
-The client checks signed channel and release metadata, confirms component identity, and records accepted local update state before application.
+Use the installed command's help for its provider ID, channel, endpoint, and package-root arguments. Select values from the actual installed provider and published channel rather than reusing another computer's private paths.
 
-Downloading a package does not grant it permission to overwrite another provider or change an unselected installer feature.
+Common Create and Send workflows can trigger a one-shot update lookup when local channel information is old. That lookup retains the provider operation's own result; it does not repeat the user request or automatically apply a new package.
 
-## Opportunistic Update Checks
+## Installation And State
 
-Common Create and Send workflows can launch a detached one-shot update check when the existing channel state is missing or old.
+Messaging's whole-product lifecycle is **Uninstall** or **Uninstall-install**. Its ownership is separate from provider conversations, provider accounts, and user repositories.
 
-The provider operation keeps its own result. The update check does not retry the provider operation and does not automatically apply a provider package or MSI. The checker exits after publishing the current local update state.
+Usage Meter has its own update and state-preservation behavior for account cards, cloud bindings, and device pairings. Mobile package identity and signer continuity also matter when retaining an existing app's state.
 
-This is event-driven pull behavior rather than an always-running polling service.
+Follow the product's supported installation path. Removing an app to work around a signing or package mismatch can remove local state, so use the release's distribution instructions.
 
-## Hold And Previous Releases
+## Apple And Android Delivery
 
-A signed channel pointer can place a channel on hold. A later pointer can select a previously published immutable release while the channel sequence continues forward. The original release bytes remain unchanged.
+Android distribution can provide a signed APK through the release catalog. Apple delivery can use a registered-device IPA, TestFlight, or a store release. These are distinct channels with different device requirements.
 
-## Documentation Site
+A registered-device package is not a universal public installer. An App Store Connect upload is an Apple delivery action, not the publication of a raw IPA for arbitrary devices.
 
-The public documentation is released separately. A push to the documentation repository's `main` branch invokes its GitHub Pages workflow, builds Docusaurus in GitHub, and deploys the resulting static site.
+## Documentation Releases
 
-## Public Release Record
+The docs are self-hosted at **axiowl.com/docs/** through the website's Docusaurus bridge. GitHub stores the Markdown and application source.
 
-A useful release record names the source revision, platform, version, artifact name, size, digest, publisher identity, channel, and promotion state. Private credentials and infrastructure identifiers remain outside public documentation.
+Publishing the docs means producing the embedded documentation build and selecting it on the website. A push to the documentation repository alone is not proof that the public site changed. The former GitHub Pages workflow is no longer the current publishing route.
+
+## Keep A Useful Record
+
+For support, retain the product name, platform, version, channel, and artifact identity shown by the release. Keep private credentials, signing material, and internal infrastructure configuration outside public reports.

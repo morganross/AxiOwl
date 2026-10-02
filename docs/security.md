@@ -1,84 +1,69 @@
 ---
 sidebar_position: 10
 slug: /security
+title: Security And Privacy
 ---
 
-# Security And Trust
+# Security And Privacy
 
-AxiOwl keeps provider authentication, host identity, mobile pairing, relay routing, direct networking, A2A credentials, SSH keys, licensing, and software publication as separate authorities.
+AxiOwl products work with different kinds of sensitive information: provider accounts, project files, conversations, paired devices, and usage readings. Each product gives those relationships a specific purpose and scope.
 
-## Mobile Pairing
+## Know Which Product Has Access
 
-The host daemon creates a fresh, time-limited pairing offer. The phone uses the offer to connect and present its stable client identity. The desktop user approves or rejects the pending device locally.
+| Product | What it needs | What the user controls |
+|---|---|---|
+| Messaging | Session discovery, registry state, message delivery, and MCP replies | Selected integrations, targets, and remote routes |
+| IDE | Chosen workspace, provider connection, conversation, and agent tools | Account, model, brain, workspace, and permissions |
+| Mobile | Approved connection to a host and its advertised controls | Device approval, host selection, and requested actions |
+| Usage Meter | Selected account methods and provider-reported readings | Account binding, refresh, cloud-query consent, and companion access |
+| Hosted relay | Routing and connection metadata plus encrypted traffic | Which endpoints are paired and allowed to connect |
 
-Approved mobile identities are stored individually. A host can pair several phones or tablets and remove one without changing the others.
+Sharing infrastructure does not merge product permissions. A Usage Meter companion is a reader of approved snapshots, not a terminal client.
 
-## Relay Encryption
+## Encryption And Device Approval
 
-```text
-mobile app
-  -> encrypted daemon-protocol frame
-  -> relay routes opaque frame
-  -> host daemon opens frame
-  -> provider agent runs on host
-  -> encrypted timeline event returns
-```
+AxiOwl's encrypted relay connections protect application content between paired endpoints. The relay forwards encrypted traffic so devices on different networks can communicate.
 
-The relay processes connection and routing metadata required for delivery. Provider prompts, timelines, credentials, and project files remain with the paired endpoints and host environment.
+Approval matters as much as encryption. A host identifies the requesting device and requires the intended pairing flow before granting its product capabilities. A pairing code or link starts that relationship; it is sensitive setup material.
 
-## Direct Connections
+The endpoints necessarily see the content they display or act upon. Encryption across the relay does not prevent the selected model provider from receiving context sent to it, or protect data already exposed by a compromised endpoint.
 
-Direct mode connects to a daemon endpoint chosen by the user or operator. The operator owns address exposure, private-network or VPN policy, transport security, daemon authentication, firewall configuration, and lifecycle.
+## Credentials Stay With Their Purpose
 
-## Provider Credentials
+Provider authentication belongs to the selected provider environment or explicit IDE connection. Mobile pairing does not copy those account tokens to the phone.
 
-Provider processes run on the host under the intended user context. Pairing a phone does not copy provider tokens to the phone or relay. The provider continues to control account authentication, model access, tools, and session semantics.
+Usage Meter collects with the account method assigned to a card. Its companion export excludes provider secrets and raw credential state.
 
-## Provider Permissions
+An AxiOwl website login or license has a different purpose from provider authentication, SSH access, or an A2A credential. One should not be treated as permission for the others.
 
-When a provider asks for permission to use a tool or perform an action, the request appears in the agent timeline. The user's decision returns to the provider runtime that issued it. The relay does not approve provider tools.
+## Project And Tool Access
 
-## Identity Model
+Agents run with the access supplied by their runtime and host user. A workspace label is context; it is not automatically an operating-system sandbox.
 
-| Identity | Meaning |
-|---|---|
-| Host ID | One daemon and its project/agent state |
-| Host label | User-facing name for that host |
-| Mobile client ID | One paired app installation |
-| Connection ID | One live relay or direct connection |
-| Agent ID | One daemon-managed agent lifecycle |
-| Provider session ID | Underlying provider conversation |
-| Timeline sequence | Ordered reconnect and rendering state |
-| A2A task ID | Separate standards-based task identity |
+Review provider permissions and the target of an operation. A terminal opened through Mobile operates on the real host. A conversation transferred in the IDE makes supported context available to the destination provider.
 
-Friendly names can change without changing the identity used for routing.
+## Direct Connections And Remote Agents
 
-## Reconnect And Duplicate Prevention
+Direct routes require deliberate endpoint protection. The operator owns the network exposure, transport security, authentication, and firewall configuration.
 
-Stable operation, agent, host, and timeline identities let the daemon return the existing operation during reconnect recovery. Ordered timeline acknowledgements let the client reconcile events without treating the connection as a new conversation.
+SSH routes use the selected SSH identity and remote account. A2A endpoints use their advertised authentication and task semantics. The receiving agent's own provider and data policy still apply to content you send.
 
-## Trust Boundaries
+## Local State And Retention
 
-| Boundary | Authority |
-|---|---|
-| Mobile app | Client identity, paired host profiles, user controls, and presentation |
-| Daemon | Host identity, paired clients, agents, provider processes, permissions, and timelines |
-| Relay | Encrypted frame routing and service availability |
-| Direct-route operator | Network reachability and endpoint protection |
-| Provider | Account, model, tools, session, and provider-side execution |
-| A2A endpoint | Agent Card, authentication, task, result, and artifact semantics |
-| Installer | Selected AxiOwl components and lifecycle |
-| Licensing | Optional product entitlement |
-| Release authority | Signed artifact and update publication |
+Messaging retains registry and mailbox information needed for coordination. Providers retain their own session history. The IDE keeps account/session metadata and AxiCode-owned state. Usage Meter retains account bindings and readings according to its platform behavior.
 
-## Metadata And Privacy
+A product's uninstall or account-removal action has a defined ownership scope. Read that scope rather than assuming uninstalling one app deletes every provider conversation or revokes every remote credential.
 
-Connection infrastructure can observe timing, availability, route identifiers, and encrypted frame sizes. The host and mobile app see the project and agent data needed for the product. Logs and support reports should minimize private paths, provider session IDs, pairing material, and message content.
+## Updates And Downloads
 
-## Updates
+Use the product and platform entries on [Downloads](https://axiowl.com/downloads/). Release identity, publisher signatures, and channel information help distinguish the artifact you intended to install.
 
-Core applications and provider packages have identifiable revisions. Signed artifacts, immutable publication, channel selection, verified download, staging, and explicit application form separate release stages. An update does not become provider authentication or mobile pairing authority.
+A signed package identifies its publisher and bytes. It does not grant model access or approve a new phone. Preview and Stable remain separate release choices.
 
-## Shared Responsibilities
+## Share Less In Support Requests
 
-Users approve devices and provider permissions. Host operators control machine and network access. Mobile platforms protect local app state. Providers protect provider accounts. Relay operators maintain availability and routing. AxiOwl keeps these roles explicit rather than combining them into one credential.
+Start with the product, platform, version, selected operation, and visible status. Add narrow redacted logs when needed.
+
+Keep passwords, access tokens, pairing links, private keys, raw provider account files, and unnecessary billing or project information out of public reports. Report sensitive security concerns privately through [Contact](https://axiowl.com/contact/).
+
+Product detail: [IDE privacy](ide/security-and-privacy.md), [Mobile privacy](mobile/security-and-privacy.md), and [Usage Meter privacy](usage-meter/security-and-privacy.md).

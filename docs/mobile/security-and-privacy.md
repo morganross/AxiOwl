@@ -1,52 +1,56 @@
 ---
 sidebar_position: 5
+title: Mobile Security And Privacy
 ---
 
-# Security And Privacy
+# Mobile Security And Privacy
 
-AxiOwl Mobile separates the mobile client, host daemon, relay, direct network route, and provider runtime so each has a narrow role.
+AxiOwl Mobile connects a specific phone to a specific host. Pairing, encrypted transport, and provider permissions serve different purposes: identify the device, protect the connection, and control what an agent may do.
 
-## Device Approval
+## Approve The Intended Device
 
-Pairing begins with a fresh offer from the host daemon. The offer opens a bounded approval window. The phone presents its stable client identity, and the desktop user approves or rejects that pending device.
+The host creates a fresh pairing offer. The phone presents its identity, and the desktop user approves or rejects the pending device.
 
-Approved clients are stored individually. Removing one phone does not change the identities of other paired devices.
+Treat the pairing QR or link as private setup information. It is not a public invitation or something to include in a support screenshot. Review unexpected pending devices before accepting them.
 
-## Encrypted Relay Traffic
+Use the host's device controls to remove access when a phone is lost or no longer belongs in the setup.
 
-The hosted relay carries end-to-end encrypted daemon-protocol frames between the paired phone and host. It uses routing and connection identifiers to join the two sides without needing provider prompts or timelines in plaintext.
+## Encryption Between Endpoints
 
-## Provider Credentials Stay On The Host
+On the encrypted relay route, application content is protected between the paired phone and host. The relay forwards encrypted traffic and the routing information needed to deliver it.
 
-The mobile app controls an agent through the daemon. Provider account tokens, provider processes, project files, and working directories remain on the computer.
+This protects content from being read merely by operating the relay. The paired endpoints still see the content required for the session, and a model provider receives the context sent through its own runtime.
 
-## Direct Route Responsibility
+Encryption does not make a compromised phone or host safe. Keep those devices and their app access protected.
 
-Direct mode places network reachability under the user or operator's control. The operator owns address exposure, private-network or VPN policy, transport security, daemon authentication, firewall rules, and endpoint lifecycle.
+## What Stays On The Computer
 
-## Identity Layers
+Provider credentials, running tools, working directories, and repository files remain in the host environment. The phone receives the views and controls exposed by the host.
 
-| Identity | Purpose |
-|---|---|
-| Host ID | Names one daemon and its project/agent state |
-| Host label | Human-readable mobile display name |
-| Mobile client ID | Names one paired app installation |
-| Connection ID | Names one live relay or direct connection |
-| Agent ID | Names one daemon-managed agent lifecycle |
-| Provider session ID | Names the underlying provider conversation |
+Pairing does not copy a provider token into the mobile app. It also does not grant access to every user account on the computer.
 
-These identifiers remain distinct even when the user gives several of them the same friendly title.
+Terminal and file controls can still be powerful: they operate against the real host environment. Approve only devices that should have the capabilities offered by that host.
 
-## Metadata
+## Direct Network Routes
 
-Connection infrastructure can observe timing, availability, route identifiers, and encrypted frame sizes. The paired phone and host see the project and agent content required for the product experience.
+A direct endpoint has its own transport and authentication configuration. The operator owns its exposure, firewall, VPN, and endpoint protection.
 
-Logs and support records should minimize private paths, provider session IDs, pairing material, network addresses, and message content.
+Use a deliberate protected route. Do not assume a public network address has the same security properties as a configured encrypted relay session.
 
-## Revocation And Reset
+## Permissions Remain With The Provider
 
-The host can reject a pending device, remove a paired client, or reset pairing state. Active connections for removed clients are closed, and those devices must complete pairing again.
+A tool approval returns to the provider session that requested it. The relay does not approve commands, and a mobile pairing does not purchase model access or bypass provider permissions.
 
-## Separate Authorities
+Read the selected host, agent, and operation before deciding.
 
-Mobile pairing is not provider authentication, licensing, A2A authentication, or SSH access. The relay is not the agent host. The daemon is not the provider account. Keeping those roles separate makes the connected product easier to understand and operate.
+## Connection Metadata
+
+Infrastructure can observe connection timing, availability, routing identifiers, and traffic sizes. The host and phone see the session information necessary to provide the product.
+
+Keep logs and support attachments narrow. Redact pairing offers, credentials, private paths, personal identifiers, and unrelated conversation content.
+
+## Separate Product Pairing
+
+Usage Meter has its own companion identity and approval. A Usage Meter device receives usage snapshots; it does not gain Mobile's session, file, or terminal capabilities.
+
+The [family security guide](../security.md) explains how these roles fit together.

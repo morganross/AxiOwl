@@ -1,73 +1,38 @@
-<div align="center">
-  <img src="https://github.com/morganross/AxiOwl/blob/main/owl_head_transparent.png" width="156" alt="AxiOwl owl mascot" />
+# AxiOwl Documentation
 
-  <h1>AxiOwl</h1>
-
-  <p>
-    <strong>Bring your AI tools together.</strong>
-  </p>
-
-  <p>
-    Coordinate provider sessions, A2A agents, AxiOwl hosts, and paired mobile clients through one clear messaging and normalization layer.
-  </p>
-</div>
-
----
-
-## What Is AxiOwl?
-
-AxiOwl helps people and AI agents find the right session, send focused work through the correct provider integration, follow the handoff, and receive a correlated result.
-
-It works as both:
-
-- a **normalization layer** for providers, surfaces, sessions, targets, receipts, and replies;
-- a **communication layer** for local provider packages, MCP, A2A agents, configured nodes, and paired mobile clients.
-
-Documentation site: [axiowl.com/docs](https://axiowl.com/docs/)
-
-## What You Can Build
-
-- cross-provider project teams;
-- builder and reviewer workflows;
-- reusable specialist sessions;
-- external A2A agent integrations;
-- AxiOwl-to-AxiOwl task handoffs;
-- mobile access to agent sessions running on paired AxiOwl hosts;
-- observable workflows with receipts and correlated replies.
-
-## How It Fits Together
-
-```mermaid
-flowchart LR
-  human["Human or coordinator"] --> registry["AxiOwl registry"]
-  registry --> route["Selected provider or protocol route"]
-  route --> agent["Provider session or agent"]
-  agent --> result["Reply, result, or artifact"]
-  result --> human
-```
-
-AxiOwl normalizes the boundary while each provider keeps its own authentication, model access, session storage, and delivery behavior.
-
-## Start Here
-
-- [Explore use cases](https://axiowl.com/docs/use-cases/)
-- [Understand AxiOwl and AxiOwl Mobile](https://axiowl.com/docs/intro/)
-- [See how AxiOwl works](https://axiowl.com/docs/how-it-works/)
-- [Install and send a first message](https://axiowl.com/docs/getting-started/)
-- [Browse provider surfaces](https://axiowl.com/docs/providers/)
-- [Use AxiOwl Mobile](https://axiowl.com/docs/mobile/)
-- [Understand security and trust](https://axiowl.com/docs/security/)
+User documentation for the AxiOwl product family, published at [axiowl.com/docs](https://axiowl.com/docs/).
 
 ## Product Guides
 
-- [Providers](https://axiowl.com/docs/providers/)
-- [AxiOwl Mobile](https://axiowl.com/docs/mobile/)
-- [Platforms](https://axiowl.com/docs/platforms/)
-- [Windows Installer](https://axiowl.com/docs/installer/)
-- [Developer Guide](https://axiowl.com/docs/developer/)
+- [What is AxiOwl?](docs/what-is-axiowl.md)
+- [AxiOwl Messaging](docs/getting-started.md)
+- [Axiom Messaging](docs/axiom.md)
+- [AxiOwl IDE](docs/ide/README.md)
+- [AxiOwl Mobile](docs/mobile/README.md)
+- [AxiOwl Usage Meter](docs/usage-meter/README.md)
 
-## Security
+The guides cover setup, everyday workflows, providers, accounts, connections, privacy, and updates. Product-specific pages keep the distinction between agent control and usage-reading companions clear.
 
-AxiOwl pairs each mobile client to a host daemon with its own identity. Relay traffic is encrypted between the phone and host, while provider credentials and provider processes remain on the computer that owns the agent session.
+## Shared References
 
-Sensitive security reports should be shared privately with the maintainer rather than placed in a public issue.
+- [Workflows and benefits](docs/use-cases.md)
+- [How the products work together](docs/how-it-works.md)
+- [Products and platforms](docs/platforms.md)
+- [Security and privacy](docs/security.md)
+- [Help and everyday questions](docs/troubleshooting.md)
+- [Architecture and source guide](docs/developer.md)
+- [Releases and updates](docs/release/update-publication-operator-guide.md)
+
+## Source And Publication
+
+Markdown lives in `docs/`. `sidebars.js` organizes substantial guides by product without changing their established public URLs.
+
+This Docusaurus application has an embedded production profile for the WordPress-owned website shell. WordPress supplies the global navigation, theme, and footer; Docusaurus supplies the documentation routes, content, and sidebar under `/docs/`.
+
+GitHub is the source history. Website publication is a separate operation; this repository no longer deploys automatically through GitHub Pages. Do not build the documentation on the local Windows workstation.
+
+## Editorial Scope
+
+Use current product code and product contracts to describe actual account, session, connection, and data ownership. Explain features in plain English with useful steps and clear product boundaries.
+
+Keep secrets, private infrastructure identifiers, deployment credentials, and detailed cryptographic implementation recipes out of public documentation. Product release and capability claims belong to their exact platform and distribution, not every application with the AxiOwl name.

@@ -1,79 +1,76 @@
 ---
 sidebar_position: 12
 slug: /developer
+title: Architecture And Source Guide
 ---
 
-# Developer Guide
+# Architecture And Source Guide
 
-AxiOwl is a monorepo with a local coordination core, provider packages, daemon runtimes, mobile clients, A2A, SSH transports, installers, and release services.
+AxiOwl is now a product family with several source repositories. Messaging and Mobile share substantial host infrastructure, while Usage Meter and the platform IDE projects have their own application code and product contracts.
+
+This guide is a map for contributors and integrators. The product guides explain what users do; the source determines the exact behavior of a component.
 
 ## Repository Map
 
-| Area | Responsibility |
-|---|---|
-| `apps/windows-desktop` | Windows GUI, CLI, MCP, mailbox, discovery, provider orchestration, A2A, pairing UI, and installer integration |
-| `apps/linux-desktop` | Linux desktop/CLI, provider assets, Debian packaging, and bundled daemon |
-| `apps/macos-desktop` | Swift desktop/CLI, provider integration, bundled daemon, and package publication |
-| `apps/mobile_shared` | Shared mobile application, host registry, pairing, relay/direct connections, agent UI, and timelines |
-| `apps/android-copper-wombat` | Android packaging and platform integration |
-| `apps/iphone` | iOS/Xcode packaging for the shared mobile product |
-| `providers` | Local provider manifests, workers, assets, and package contracts |
-| `remote_transport/axiowl/node_daemon` | TypeScript daemon, protocol, client, CLI, provider runtimes, pairing, persistence, and service host |
-| `remote_transport/axiowl/windows_daemon` | Native C++ service, transport, core, pairing, persistence, timeline, and provider runtimes |
-| `remote_transport/axiowl/prelay_server` | Hosted relay service |
-| `remote_transport/a2a` | Standards-based A2A client and server |
-| `remote_transport/ssh` | SSH transport |
-| `services/activation` | Optional licensing capability |
-| `services/update` | Release/channel metadata and update publication |
-| `installer/windows` | WiX feature graph, daemon payloads, build, signing, and publication |
-| `release` | Release identities, artifacts, manifests, and lifecycle scripts |
+| Product or service | Repository | Principal source areas |
+|---|---|---|
+| Messaging, host runtimes, Mobile, A2A, and SSH | `morganross/Axiowl4` | `apps`, `core`, `providers`, `remote_transport`, `installer`, `release` |
+| Usage Meter and its platform apps/companions | `morganross/axiowl-usage-meter` | `src`, `platforms/windows`, `platforms/linux`, `platforms/apple`, `platforms/android-companion` |
+| macOS IDE | `morganross/AxiOwl-IDE-macOS` | React interface in `src`; Rust/Tauri host in `src-tauri` |
+| Linux IDE | `morganross/AxiOwl-IDE-Linux` | Platform IDE source and its product specification |
+| Public documentation | `morganross/AxiOwl` | Markdown in `docs`, navigation in `sidebars.js`, embedded Docusaurus profile |
+| Main website | `morganross/axiowl-website` | WordPress presentation, product/download catalog, and docs bridge |
 
-## Main Flows
+Some application repositories require repository access. The public [documentation repository](https://github.com/morganross/AxiOwl) contains the guides served here.
 
-### Local Provider
+Axiom is a website product title. The source references above describe the concrete implementations used by these guides; they should not be read as evidence of a separate Axiom repository.
 
-```text
-caller -> registry target -> provider package -> provider session -> receipt/reply
-```
+## Messaging Boundaries
 
-### Daemon Client
+The CLI, mailbox, and MCP interface resolve a registry target before invoking a provider package. A package owns its integration assets and worker. The provider owns account authentication, model access, and its session semantics.
 
-```text
-client -> relay/direct transport -> host handshake -> agent command -> provider runtime -> timeline
-```
+`providers/provider-package-inventory.json` describes Windows package ownership and declared operations. Capability declarations guide routing; they are not a universal cross-platform provider matrix.
 
-### A2A
+Core workflows preserve the distinction between accepted request, integration handoff, and correlated response. Keep provider/surface/session identity separate from user-facing aliases.
 
-```text
-A2A client -> Agent Card -> authenticated message/task -> destination agent -> result/artifacts
-```
+## Connected Host And Mobile
 
-## Daemon Ownership
+The host runtime owns agents, workspaces, provider processes, pairing, and timeline state. The mobile client displays and controls the capabilities it advertises.
 
-The daemon owns host identity, paired devices, projects, workspaces, worktrees, provider catalog, provider processes, agents, timeline sequencing, permissions, acknowledgements, and reconnect state.
+Shared mobile source is under `apps/mobile_shared`; Android and iPhone packaging have their own directories. The current Windows connection implementation is under `remote_transport/axiowl/windows_daemon`. Other daemon source remains relevant to platform-specific products and existing deployments.
 
-The Node daemon is the broad recommended Windows implementation. The native C++ daemon uses separate service, transport, core, and provider processes. Linux and macOS package branded daemon runtimes through their platform lifecycle.
+The relay routes encrypted frames. It does not implement provider logic or authorize a tool request. Terminal and file operations belong to the authenticated host boundary.
 
-## Windows Feature IDs
+## IDE Execution
 
-- `FeatureNodeAxiOwlDaemon` for the Node daemon;
-- `FeatureAxiOwlDaemon` for the native daemon;
-- `FeatureA2AServer` and `FeatureA2AClient` for A2A;
-- `FeatureSshCommandDispatch` for SSH command routes;
-- one feature per provider package.
+The platform IDE product specification is `docs/PRODUCT-SPEC.md`. Key implementation areas include:
 
-`AXIOWL_DAEMON_RUNTIME` selects `NODE`, `NATIVE`, or `NONE`.
+- `src/lib/providerCapabilities.js`: provider route declarations.
+- `src/lib/executionRouteChoices.js`: compatible billing/model/brain choices.
+- `src/components/ThreadView/ThreadView.jsx`: conversation selection and execution UI.
+- `src-tauri/src/process.rs`: external provider process integration.
+- `src-tauri/src/goose_backend.rs`: AxiCode's local Goose runtime.
+- `src-tauri/src/subscription_proxy.rs`: supported local proxy connections.
+- `src-tauri/src/session_registry.rs` and `session_migrate.rs`: session metadata and conversation transfer.
 
-## Identity Rules
+A route change must preserve the visible account, model, and brain relationship. A transcript copy does not establish ownership of the source provider's live session.
 
-Keep provider session ID, local registry target, host ID, mobile client ID, connection ID, project/workspace ID, agent ID, timeline sequence, A2A task ID, run ID, and receipt ID distinct.
+## Usage Meter Data Flow
 
-## Provider Boundaries
+A collector reads the selected provider account, produces an observation, and publishes it to the local dashboard. Cloud-cost collection uses separate account bindings and monetary snapshots.
 
-Local provider packages and daemon provider runtimes are related but separate catalogs. A local package supports AxiOwl messaging to an existing provider surface. The daemon catalog describes provider agents available for host-client creation and control.
+The companion boundary exports allowed display fields over a product-specific approved connection. Account identity, method, observed time, source desktop, and snapshot ordering remain distinct. The phone must not become a provider credential store or reinterpret receipt time as collection time.
 
-## Packaging
+Read `docs/DATA_CONTRACT.md`, `docs/SHARED_CONTRACT.md`, `docs/MACOS_CLOUD_COSTS.md`, and the companion documentation alongside the current collector/export source. Dated implementation reports describe their own revisions, not every later package.
 
-Windows release entry points live under `installer/windows` and `release`. Linux packaging lives under `apps/linux-desktop/installer`. macOS packaging and publication live under `apps/macos-desktop/installer` and `release`.
+## Self-Hosted Documentation
 
-The whole-product lifecycle remains Uninstall and Uninstall-install. Provider applications, accounts, conversations, and user projects remain outside AxiOwl ownership.
+Docusaurus produces the documentation routes and assets. The website's WordPress bridge supplies the main site header, footer, and theme while embedding the matching documentation route under `/docs/`.
+
+The documentation repository has an embedded production profile. Content remains Markdown; it is not copied into an Elementor page for each publication. GitHub is source history, while publication of the built docs to the website is a separate operation.
+
+## Keeping Public Guides Accurate
+
+Use the current product specification, executable route declarations, installer ownership, and published platform information together. Keep setup instructions tied to the product and version they describe.
+
+Public docs should explain account and security behavior without publishing credentials, private network details, or low-level encryption implementation recipes. Historical reports remain useful engineering references but should not be copied wholesale into user guides.

@@ -1,84 +1,55 @@
 ---
 sidebar_position: 1
 slug: /intro
+title: What Is AxiOwl?
 ---
 
-# What Is AxiOwl? What Is AxiOwl Mobile?
+# What Is AxiOwl?
 
-AxiOwl and AxiOwl Mobile are closely connected products with different jobs.
+AxiOwl is a family of tools for working with AI agents. You can connect conversations that live in different applications, work with agents in a dedicated desktop workspace, continue a session from your phone, and see the subscription capacity available across your accounts.
 
-**AxiOwl** runs on your computers and coordinates AI providers, sessions, agents, messages, A2A endpoints, and remote nodes.
+Choose the product around the job you want to do. You can use Usage Meter to understand your allowances without installing Messaging, or use Messaging to coordinate existing provider chats without adopting a new IDE.
 
-**AxiOwl Mobile** runs on Android and iPhone and connects to the AxiOwl daemon on those computers. It gives you a focused mobile interface for the projects and agents that continue running on the host.
+## Choose Your Product
 
-## AxiOwl
+| Product | What you use it for | Start here |
+|---|---|---|
+| **AxiOwl Messaging** | Find provider sessions, send work between agents, and follow their replies | [Messaging setup](getting-started.md) |
+| **Axiom Messaging** | The agent-to-agent messaging offering listed in the AxiOwl product family | [Axiom Messaging](axiom.md) |
+| **AxiOwl IDE** | Work with conversations, models, agent runtimes, and project files in one desktop workspace | [IDE guide](ide/README.md) |
+| **AxiOwl Mobile** | View and control agent sessions on a paired computer from your phone | [Mobile guide](mobile/README.md) |
+| **AxiOwl Usage Meter** | Compare subscription allowance, reset times, accounts, and reported cloud costs | [Usage Meter guide](usage-meter/README.md) |
 
-AxiOwl is the desktop, command-line, and host-side product. It provides:
+The [Downloads page](https://axiowl.com/downloads/) identifies each product, operating system, and release channel. A Preview release belongs to that particular product and platform; it does not describe every other AxiOwl app.
 
-- provider discovery and a normalized local registry;
-- provider-specific messaging and MCP replies;
-- a mailbox and desktop interface;
-- local CLI operations;
-- provider plugins, bridges, extensions, metadata integrations, and workers;
-- standards-based A2A client and server roles;
-- A2A-over-SSH and SSH Command Dispatch;
-- the AxiOwl daemon that hosts projects, workspaces, agents, and connected clients;
-- platform packaging and signed pull updates.
+## AxiOwl Messaging: Connect The Work You Already Have
 
-AxiOwl integrates with provider products while leaving provider accounts, model access, credentials, and conversation data under provider ownership.
+Your builder may be working in Cursor, your reviewer in Codex, and another specialist in Claude Code. Messaging lets those sessions exchange focused requests and replies while keeping their existing provider identities and workspaces.
 
-## AxiOwl Mobile
+AxiOwl discovers sessions, records their addresses, and uses the integration for the selected provider surface. The mailbox gives you a local view of messages and delivery information. Agents can use AxiOwl MCP tools to communicate from their own conversations.
 
-AxiOwl Mobile is the connected client product. It provides:
+This also makes AxiOwl a normalization layer: the caller has a consistent way to identify an agent and request an operation, even when the destination uses a different provider or runs on another computer.
 
-- QR-code and pairing-link setup;
-- a registry of paired AxiOwl hosts;
-- encrypted relay connections across networks;
-- direct connections through local, VPN, Tailscale, or managed routes;
-- provider, model, project, and workspace browsing;
-- existing and newly created agent sessions;
-- live agent timelines;
-- user turns, tool output, permission requests, usage, and terminal results;
-- reconnect behavior tied to the same host and agent identities.
+## AxiOwl IDE: Choose How The Agent Works
 
-The shared mobile application is packaged for Android and iPhone. Both platforms use the same host, connection, agent, and timeline model.
+The IDE puts your conversation beside its project. Its account, model, and brain choices describe three different decisions: which account supplies access, which model answers, and which software runs the agent's tools and working loop.
 
-## How They Work Together
+You can use a supported provider client or an AxiCode connection. AxiCode is the local agent runtime within the IDE. The available combinations come from the configured accounts and model catalogs. [Understand models, brains, and billing](ide/models-and-accounts.md) before moving a conversation between routes.
 
-```text
-AxiOwl Mobile
-  -> paired relay or direct connection
-  -> AxiOwl daemon on a computer
-  -> project and provider agent
-  -> live timeline back to mobile
-```
+## AxiOwl Mobile: Keep The Same Computer Within Reach
 
-The phone does not replace the desktop provider or move the repository onto the phone. The host remains authoritative for project files, provider processes, provider credentials, agent sessions, and timeline state.
+Mobile is a substantial connected product in its own right. Pair it with a computer, open a session, send the next instruction, read tool activity, and respond to the permissions exposed by that provider. File and terminal controls are available when the connected host advertises them.
 
-## What Runs Where
+Your computer continues to hold the repository and run the provider tools. Your phone supplies the view and controls. Pairing requires approval, and the relay carries encrypted traffic between the paired devices.
 
-| Responsibility | AxiOwl host | AxiOwl Mobile |
-|---|---:|---:|
-| Provider account and process | Yes | No |
-| Repository and working directory | Yes | No |
-| Provider discovery and local registry | Yes | Reads host state |
-| Agent creation and lifecycle | Owns | Controls through daemon |
-| Authoritative timeline | Owns | Displays and interacts |
-| Pairing approval | Owns | Requests |
-| Mobile client identity | Records | Owns |
-| Relay/direct connection | Participates | Participates |
-| A2A service role | Optional | Separate client capability |
+## AxiOwl Usage Meter: See Capacity Before Choosing Work
 
-## AxiOwl Daemon
+Usage Meter brings provider-reported allowances and reset windows into one dashboard. Separate account cards help you see which subscription has room for the next task. Cloud Costs adds a distinct view of reported spending, with its own account bindings, periods, currencies, and refresh controls.
 
-The daemon is the bridge between the products. It owns the stable host identity, paired clients, provider catalog, projects, workspaces, agents, provider processes, permissions, timelines, and reconnect state.
+Usage Meter also has phone companions. These show readings from a paired desktop. They are different apps with different permissions from AxiOwl Mobile: a usage-reading connection does not grant access to agent sessions or a host terminal.
 
-On Windows, the installer offers the recommended Node daemon, the native C++ daemon, or no mobile daemon. Linux and macOS packages include an AxiOwl-branded daemon through their platform lifecycle.
+## A Typical Day
 
-## When You Need Each Product
+Look at Usage Meter before assigning a long task. Work in the IDE or your preferred provider application. Use Messaging when another agent needs to contribute. Open AxiOwl Mobile when you step away and want to follow the same work.
 
-Use AxiOwl by itself when all coordination happens on computers, provider sessions, A2A endpoints, or SSH nodes.
-
-Add AxiOwl Mobile when you want to open and control those host-owned agents from a phone without using a full remote desktop.
-
-Continue with [Getting Started](getting-started.md) for desktop setup or [AxiOwl Mobile](mobile/README.md) for mobile setup and use.
+Each product serves a useful role on its own. Together, they help you keep account capacity, conversations, project context, and human decisions close to the work.

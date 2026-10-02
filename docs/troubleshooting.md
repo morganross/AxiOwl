@@ -1,91 +1,77 @@
 ---
 sidebar_position: 11
 slug: /troubleshooting
+title: Help And Everyday Questions
 ---
 
-# Troubleshooting
+# Help And Everyday Questions
 
-Start by identifying the selected route, then follow its boundaries in order.
+Start with the product and action you are using. A Messaging receipt, an IDE account, a Mobile connection, and a Usage Meter reading each describe a different state.
 
-## Core Log Locations
+## Which App Should I Install?
 
-```text
-%LOCALAPPDATA%\AxiOwl\logs
-%LOCALAPPDATA%\AxiOwl\registry
-%LOCALAPPDATA%\AxiOwl\runtime
-%PROGRAMDATA%\AxiOwl\logs
-```
+Use [Downloads](https://axiowl.com/downloads/) and select the product first.
 
-The selected daemon and provider integrations also keep AxiOwl-managed state and logs in their installed user or service scope.
+- Messaging connects agents in provider applications.
+- IDE supplies a desktop conversation and project workspace.
+- Mobile controls agents on a paired computer.
+- Usage Meter displays account capacity and reported cloud spending.
+- Usage Meter companions display a desktop meter's readings on a phone.
 
-## Local Provider Message
+A shared brand does not mean the installers or pairing links are interchangeable.
 
-1. Confirm the exact provider surface is installed and selected.
-2. Confirm the provider product is signed in and the target session exists.
-3. Refresh discovery and inspect the provider-owned session ID.
-4. Follow the AxiOwl receipt into the provider worker result.
-5. Match any MCP reply to the same run, message, and provider session.
+## I Sent A Message. Where Is The Answer?
 
-For VS Code and Cursor, also inspect the installed bridge/extension status and the correct application window. For CLI providers, confirm the current provider session and working directory.
+Read the delivery result and the target's actual session. Ask the recipient to reply through AxiOwl MCP when you need a correlated response.
 
-## Provider Reply
+An acceptance receipt records the request entering AxiOwl. The recipient still needs to run and answer. Keep the message's sender, target, and correlation information when following up.
 
-A send receipt identifies the accepted handoff. A provider reply requires the target session to call back through its configured AxiOwl MCP boundary. Keep the sender provider, surface, session ID, run ID, and receipt ID together.
+Refresh discovery if the provider session or workspace changed. Choose the exact provider surface, particularly when the same brand has desktop and CLI entries.
 
-## Mobile Pairing
+## The Agent Does Not Show AxiOwl Tools
 
-1. Confirm the selected Node or native daemon service is running.
-2. Confirm the desktop can ask the daemon for a pairing offer.
-3. Confirm the offer is current when scanned or imported.
-4. Confirm the phone appears in pending devices.
-5. Approve the intended client locally.
-6. Confirm the client appears in the paired-device list.
+Open the provider environment that received the integration. Confirm that the selected application or managed copy has loaded its current MCP configuration or bridge.
 
-Do not publish the pairing link, private device identity material, or complete daemon state.
+A provider can require a new session or application restart to load changed tools. Follow its configuration status rather than treating the presence of a package file as an active MCP session.
 
-## Mobile Connection
+## My IDE Account Is Signed In. How Do I Choose A Model?
 
-For the relay route, distinguish relay service reachability, daemon control connection, phone data connection, encrypted session establishment, and daemon protocol readiness.
+Read **Billed to**, **Model**, and **Brain** together. The model must be available through that account and compatible with the chosen runtime.
 
-For a direct route, confirm host, port, network reachability, TLS/private-network policy, and daemon authentication.
+A provider CLI login, AxiCode direct connection, and AxiCode proxy connection are separate routes. Use the account setup for the route you selected. See [Models and accounts](ide/models-and-accounts.md).
 
-Once connected, confirm the daemon publishes providers, projects, workspaces, and agents before diagnosing an individual turn.
+## Did Changing The Brain Move My Original Chat?
 
-## Mobile Agent Timeline
+A confirmed brain change can create a destination session with transferred context. The source remains separately owned by its provider.
 
-Record the host ID, project, workspace, agent ID, provider, underlying provider session, turn ID, and terminal timeline state. Determine whether the stop occurred while opening history, sending the turn, starting the provider, handling a permission, streaming output, or settling completion.
+Open the destination history and continue there. A transcript transfer is not a transfer of all credentials, live processes, tool state, or filesystem contents.
 
-## A2A
+## My Phone Is Paired But The Host Is Unavailable
 
-Follow:
+Keep the host awake with its connection runtime running. For relay access, both devices need their route to the relay. For direct access, the selected endpoint must be reachable through the configured network.
 
-1. Agent Card retrieval;
-2. advertised endpoint and capability;
-3. configured client authentication;
-4. message or task acceptance;
-5. interactive-user broker handoff when a desktop provider is involved;
-6. destination provider result;
-7. task completion and artifacts;
-8. callback delivery when configured.
+Pairing identifies an approved relationship; it does not keep a powered-off computer online. Reconnection and provider readiness remain separate.
 
-## A2A-Over-SSH And SSH Dispatch
+## Where Are My Files On Mobile?
 
-Confirm the SSH host, user, key reference, remote AxiOwl command availability, and selected route. A2A-over-SSH retains A2A task semantics; SSH Command Dispatch runs explicit remote CLI operations.
+File views refer to the selected host workspace. Mobile does not automatically clone the repository onto the phone.
 
-## Stale State
+Confirm the host and project before sending a path or opening a terminal. The same-looking folder on another computer can contain different files.
 
-Provider sessions, host routes, and agent records can change. Refresh from the owning system and use provider session IDs, host IDs, client IDs, and agent IDs rather than relying only on display names.
+## Why Is A Usage Card Missing A Number?
 
-## Evidence To Save
+Read the account identity, method, observation time, and current status. A missing value is not zero used or unlimited capacity.
 
-- platform and AxiOwl version;
-- exact installer or package identity;
-- selected features and daemon runtime;
-- route type;
-- redacted host, client, provider-session, agent, message, receipt, or task IDs;
-- service and process state;
-- the first concrete error;
-- relevant surrounding log lines;
-- final boundary reached.
+A login may need attention, a method may be unavailable for that platform, or the provider may not have supplied the required current fields. Use the account's offered controls. Do not add another label pointing at the same credentials to represent a second account.
 
-Redact access tokens, SSH private keys, provider credentials, pairing links, private network addresses, and message content not required for diagnosis.
+## Why Do Cloud Costs Look Delayed?
+
+Cloud providers report costs for particular periods and can report them after resource activity. Read the displayed data-through time and currency.
+
+Cloud refresh is manual. Opening a phone companion does not request a new provider billing query, and a recent connection time does not make an older cost observation current.
+
+## Ask For Help
+
+Include the product, operating system, version/channel, selected provider or connection, action, and visible status. Add only the relevant redacted log lines or screenshot.
+
+Keep credentials, pairing links, private keys, complete account directories, and unrelated project content private. Use [Contact](https://axiowl.com/contact/) for support.

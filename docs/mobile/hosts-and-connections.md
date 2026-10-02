@@ -1,58 +1,54 @@
 ---
 sidebar_position: 3
+title: Hosts And Connections
 ---
 
 # Hosts And Connections
 
-An AxiOwl host is a computer running the daemon and the provider agents you want to access.
+A host is a computer running the AxiOwl connection runtime and the provider agents you want to use. A saved host profile keeps that computer's identity and connection methods together.
 
-## Host Profile
+## Name The Computer, Preserve Its Identity
 
-Each profile contains:
+Give a host a label that helps you recognize it. The underlying host ID remains the address for its projects and agents.
 
-- immutable host ID;
-- friendly label and appearance;
-- one or more connection methods;
-- preferred connection method;
-- creation and update information.
-
-Renaming a host changes the label, not the host identity that owns its agents.
+A renamed computer is not automatically a new host. Conversely, a newly installed host with a new identity should not inherit trust merely because it uses an old display name.
 
 ## Encrypted Relay
 
-The relay is the normal cross-network route:
+The relay carries encrypted application traffic between the paired devices. The host establishes outbound connections, making it possible to reach it across networks without configuring ordinary inbound port forwarding for that route.
 
-```text
-mobile client -> encrypted relay channel -> host daemon
-```
+The relay provides routing and availability. It does not run your provider agents, own the repository, or approve a tool request.
 
-The host creates outbound relay connections, so normal use does not require incoming port forwarding. Pairing gives the mobile client the host identity needed to establish the encrypted application channel.
+Your phone and host can change networks while retaining their paired identities. The app follows connection state and reconnects using the saved relationship.
 
-The relay routes opaque frames and connection metadata. Provider credentials, repository files, prompts, and agent timelines remain at the paired endpoints.
+## Direct Connections
 
-## Direct Connection
+A direct connection reaches the host runtime through an address you or an operator provide. This is useful on a local network, VPN, or another deliberately configured route.
 
-Direct mode connects the app to a daemon endpoint through a route controlled by the user or operator. Common environments include:
+Protect that endpoint with the authentication and network controls supported by the deployment. A private address, VPN membership, or host label does not replace product authorization.
 
-- the same local network;
-- a private VPN;
-- Tailscale;
-- an operator-managed server address.
-
-The direct endpoint can use configured transport security and daemon authentication.
+Direct and relay routes have distinct connection arrangements. Do not assume the encryption properties of one automatically describe every configuration of the other.
 
 ## Several Routes, One Host
 
-A host can retain both relay and direct connection methods. The app selects the preferred available route while keeping projects and agents under one host record.
+A host profile can contain multiple connection methods and a preferred method. Review the selected route when moving between networks. The routes point to one host identity and its existing agents.
 
-## Connection State
+The software's connection state tells you whether it is opening, reconnecting, unavailable, or ready for host operations. A connected host can still have a provider waiting for sign-in or permission.
 
-Connection state tells the app whether a host is online, reconnecting, unavailable, or ready for agent operations. Once ready, the daemon publishes its capabilities and current host state.
+## Several Computers
 
-## Multiple Hosts
+Keep projects and sessions attached to the computer that owns them. A path on a laptop is not necessarily present on a workstation, even if both have a folder with the same name.
 
-AxiOwl Mobile can store more than one host profile. This lets one phone move among a laptop, workstation, build machine, or managed host while keeping every host's agents and projects separate.
+Switching hosts changes the available provider processes, working directories, and account environment. It does not transfer those assets between computers.
 
-## Mobile And A2A Are Different
+## Reconnect To Work
 
-The daemon connection provides an interactive view of a host's projects, workspaces, provider agents, and timelines. A2A provides standards-based Agent Cards, messages, tasks, results, and artifacts. AxiOwl supports both, but they use different identities and routes.
+After reconnecting, the client reconciles the agent timeline with the host. Review the latest state before sending another instruction, especially if a turn was already in progress when the connection changed.
+
+A lost phone connection is different from a canceled provider task. The host can continue running the task while the phone is away.
+
+## Other AxiOwl Connections
+
+A2A connects agent endpoints and tasks. Messaging relay connections address agents enrolled on other computers. Usage Meter companions receive usage readings. These can reuse connection infrastructure while retaining separate permissions and product state.
+
+Use the setup flow for the product you are connecting.

@@ -9,40 +9,40 @@ import styles from './index.module.css';
 
 const cards = [
   {
-    label: 'Use cases',
-    title: 'Put your AI tools to work together',
-    body: 'Build cross-provider teams, delegate to specialists, compare results, and keep project context moving.',
-    slug: 'use-cases',
+    label: 'Start here',
+    title: 'Choose your AxiOwl product',
+    body: 'Find the right product for agent messaging, a desktop workspace, mobile control, or account usage.',
+    slug: 'intro',
   },
   {
-    label: 'How it works',
-    title: 'Follow a message from start to reply',
-    body: 'See how discovery, identity, provider packages, transports, receipts, and replies fit into one clear journey.',
-    slug: 'how-it-works',
-  },
-  {
-    label: 'Get started',
-    title: 'Send your first message',
-    body: 'Install the integrations you want, discover a current session, send a focused request, and receive a reply.',
+    label: 'AxiOwl Messaging',
+    title: 'Connect your agents',
+    body: 'Discover real sessions, send focused work across providers, and follow the replies.',
     slug: 'getting-started',
   },
   {
-    label: 'Providers',
-    title: 'Bring your preferred AI products',
-    body: 'Coordinate Codex, Cursor, VS Code Copilot, Claude Code, Antigravity, OpenCode, Copilot CLI, and A2A agents.',
-    slug: 'providers',
+    label: 'AxiOwl IDE',
+    title: 'Bring the conversation and project together',
+    body: 'Choose the account, model, and brain, then work with sessions and files in one desktop workspace.',
+    slug: 'ide',
   },
   {
-    label: 'Mobile control',
-    title: 'Take your desktop agents with you',
-    body: 'Pair an Android phone or iPhone, open an existing host session, send turns, and follow the live timeline.',
+    label: 'AxiOwl Mobile',
+    title: 'Keep your host sessions within reach',
+    body: 'Pair your phone, follow agent activity, and use the controls exposed by your computer.',
     slug: 'mobile',
   },
   {
-    label: 'A2A',
-    title: 'Connect standards-based agents',
-    body: 'Call external A2A services, expose selected agent endpoints, and combine task results with local provider work.',
-    slug: 'a2a',
+    label: 'AxiOwl Usage Meter',
+    title: 'See capacity and reported spending',
+    body: 'Understand account allowances, reset times, cloud costs, and dedicated phone companions.',
+    slug: 'usage-meter',
+  },
+  {
+    label: 'Security and privacy',
+    title: 'Know what is connected and shared',
+    body: 'Understand encrypted relay connections, device approval, account ownership, and permissions.',
+    slug: 'security',
   },
 ];
 
@@ -60,8 +60,8 @@ function HomepageHeader() {
         </Heading>
         <img className={styles.logo} src={heroOwl} alt="AxiOwl owl reading a book" />
         <div className={styles.buttons}>
-          <Link className="button button--primary button--lg" to={docsTo(siteConfig, 'use-cases')}>
-            Explore use cases
+          <Link className="button button--primary button--lg" to={docsTo(siteConfig, 'intro')}>
+            Choose a product
           </Link>
           <Link
             className="button button--secondary button--lg"
@@ -79,7 +79,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="Coordinate desktop AI agents locally or from a paired mobile app through AxiOwl hosts, provider integrations, and A2A services.">
+      description="Guides for AxiOwl Messaging, Axiom Messaging, AxiOwl IDE, AxiOwl Mobile, and AxiOwl Usage Meter.">
       <HomepageHeader />
       <main className={styles.main}>
         <section className="container">

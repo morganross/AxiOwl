@@ -1,67 +1,56 @@
 ---
 sidebar_position: 1
 slug: /mobile
+title: AxiOwl Mobile
 ---
 
 # AxiOwl Mobile
 
-AxiOwl Mobile is the Android and iPhone product for accessing AI agents that run on your computers.
+AxiOwl Mobile keeps your agent sessions within reach when you leave the desk. Pair your phone with a computer, open a conversation, follow its progress, and send the next instruction while the computer continues running the provider tools.
 
-After pairing a phone with an AxiOwl host, you can browse the host's projects, providers, workspaces, and agents; open an existing conversation; send a new turn; respond to permission requests; and follow the live timeline.
+The phone is a working interface to that real environment. It can show messages, tool activity, permissions, and the file or terminal controls supported by the connected host.
 
-## Product Model
+## The Computer Keeps The Workspace
 
-```text
-AxiOwl Mobile
-  -> paired host connection
-  -> AxiOwl daemon
-  -> host provider runtime and agent session
-  -> live timeline returned to the phone
-```
+Your repositories, provider applications, account credentials, and tool processes remain on the host. Mobile receives the information needed to display and control the selected session.
 
-The daemon is the host-side authority for projects, provider processes, agent sessions, and timeline state. The mobile application is the connected client.
+You can keep a long-running conversation open on its original computer instead of creating a separate phone conversation with a copied prompt. The provider session identity remains attached to the work.
 
-## What AxiOwl Mobile Is For
+## What You Can Do
 
-- continue a coding-agent session away from the desk;
-- monitor long-running work from a phone;
-- send the next user turn to an existing desktop session;
-- review assistant output, reasoning, and tool activity;
-- respond when a provider asks for permission;
-- switch among several paired computers;
-- use relay and direct routes under one host profile;
-- return to the same agent after reconnecting.
+- Open an existing host-owned agent or create one through an available provider.
+- Follow streamed assistant output and tool activity.
+- Send another instruction with the relevant context.
+- Answer permission requests exposed by the provider.
+- Inspect project files and changes when the host supports those views.
+- Use a host terminal when that capability is available.
+- Return to the same host and session after reconnecting.
+
+The host catalog determines the controls available for each provider. Provider brands alone do not imply identical tools or permissions.
+
+## Pair Deliberately
+
+The host creates a fresh pairing offer. Import it on the phone and approve the intended device on the host. The resulting relationship identifies the phone and computer separately.
+
+A pairing link is sensitive setup material. Use it for the intended device rather than posting it in a public message or repository.
+
+## Connect Across Networks
+
+The encrypted relay route joins the paired phone and host across networks. A direct route uses an address under your control, such as a private network or VPN. Both are described in [Hosts and connections](hosts-and-connections.md).
+
+The host must remain running and able to reach its provider tools. Leaving the desk is different from shutting down the computer that is doing the work.
 
 ## Android And iPhone
 
-Android and iPhone package the shared AxiOwl mobile application for their respective platforms. They use the same daemon protocol, pairing model, host registry, agent concepts, and timeline behavior.
+Android and iPhone packages share the host, agent, and timeline model. Obtain the current distribution for your device from [Downloads](https://axiowl.com/downloads/).
 
-Platform packaging and protected local storage follow Android and iOS conventions, but they do not define separate AxiOwl products.
+Android packages and Apple distribution channels have different installation requirements. An Apple registered-device package is not an App Store installation; follow the delivery method listed for that release.
 
-## Host Requirements
+## Start Here
 
-The computer runs AxiOwl and an AxiOwl daemon. The daemon owns:
+1. [Install, pair, and connect](getting-started.md).
+2. [Choose hosts and connection routes](hosts-and-connections.md).
+3. [Work with agents, files, and terminals](agents-and-workspaces.md).
+4. [Understand mobile privacy](security-and-privacy.md).
 
-- a stable host identity;
-- paired mobile identities;
-- relay and direct client sessions;
-- projects, workspaces, and worktrees;
-- provider availability and provider processes;
-- agents and underlying provider sessions;
-- ordered timelines, acknowledgements, and reconnect state.
-
-## Connection Choices
-
-- **Encrypted relay:** reaches the host across networks without opening an inbound host port.
-- **Direct connection:** reaches the daemon through an address controlled by the user or operator.
-
-A host profile can contain both types and keep one preferred route.
-
-## Mobile Documentation
-
-- [Install, Pair, And Connect](getting-started.md)
-- [Hosts And Connections](hosts-and-connections.md)
-- [Agents, Workspaces, And Timelines](agents-and-workspaces.md)
-- [Security And Privacy](security-and-privacy.md)
-
-For the product distinction, read [What Is AxiOwl? What Is AxiOwl Mobile?](../what-is-axiowl.md).
+Looking only for subscription and cloud-cost readings? Use the separate [Usage Meter companion](../usage-meter/phone-companions.md).

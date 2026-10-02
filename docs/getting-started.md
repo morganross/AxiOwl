@@ -1,84 +1,60 @@
 ---
 sidebar_position: 2
 slug: /getting-started
+title: Get Started With Messaging
 ---
 
-# Getting Started
+# Get Started With AxiOwl Messaging
 
-AxiOwl connects AI provider sessions, daemon-hosted agents, paired mobile clients, and standards-based A2A agents. Start with one local provider, complete one message round trip, and add connected features when you need them.
+Start with a provider conversation you already use. Install its AxiOwl integration, discover the session, and send a request through the mailbox or your agent's AxiOwl tools.
 
-## 1. Choose The Experience
+## Install The Desktop Product
 
-| Goal | Install or configure |
+Choose **AxiOwl Messaging** and your operating system on [Downloads](https://axiowl.com/downloads/). Install the package for that computer, then open the AxiOwl desktop interface.
+
+On Windows, the installer discovers provider applications before recommending checkboxes. Review the list and select the integrations you intend to use. The labels describe whether a provider needs MCP configuration, a plugin, a bridge extension, or session integration. [The installer guide](installer.md) explains the connected features separately.
+
+Keep your provider applications installed and signed in. AxiOwl uses their existing account and project environment; installing an integration does not purchase model access or sign you into the provider.
+
+## Find The Right Conversation
+
+Open the provider session you want to reach. In AxiOwl, refresh discovery and inspect its registry entry. Look at the provider, surface, title, and workspace where those fields are available.
+
+A provider's desktop app and CLI are separate destinations. Two chats with the same title can also be different sessions. Select the concrete target shown in the registry instead of relying on the name alone.
+
+The built-in **AxiOwl Mailbox** is a local destination for messages and results. It can receive a response without a model account of its own.
+
+## Send Work
+
+Select the target and write the actual request you want it to handle. Include the project context and whether you want advice, a file change, or a status update. When you need an answer, explicitly request a response through AxiOwl MCP.
+
+You can also ask a provider agent to list AxiOwl targets and send the message using its installed AxiOwl tools. The integration supplies the session identity used to attribute the call.
+
+Read the returned receipt, then follow the recipient's reply. These are distinct parts of the conversation:
+
+| What you see | What it tells you |
 |---|---|
-| Coordinate provider sessions on one computer | Core AxiOwl plus the selected provider integrations |
-| Open desktop agents from Android or iPhone | An AxiOwl daemon on the host, then pair the mobile app |
-| Expose or call standards-based agents | A2A Server, A2A Client, or an external Agent Card |
-| Reach an operator-managed AxiOwl node | Direct A2A, A2A-over-SSH, or SSH Command Dispatch |
+| Registry entry | AxiOwl knows the target's identity and route |
+| Acceptance receipt | AxiOwl accepted the messaging request |
+| Delivery result | The selected integration reported its handoff outcome |
+| Correlated reply | The recipient answered through AxiOwl |
 
-## 2. Install On Windows
+## Create A New Agent
 
-The MSI discovers supported provider products and recommends matching integrations. Review the choices before continuing.
+Choose a provider that exposes **Create**, and supply the intended name, project context, and first instruction. Creation uses that provider's own session machinery. The resulting session is registered so later messages can address the same conversation.
 
-Core installation provides the local runtime, CLI, MCP server, mailbox, registry, discovery, logs, and AxiOwl-owned lifecycle. Provider selections can add a plugin, skill, MCP entry, bridge extension, metadata integration, or isolated worker depending on that provider.
+Use an existing conversation when its accumulated context matters. Create a new one when the next task should begin with a separate history. [Work with agents](messaging-workflows.md) covers both choices.
 
-Connected features are separate:
+## Add Connected Features As Needed
 
-- **A2A Server** exposes selected agent endpoints.
-- **A2A Client** installs the interactive user broker for provider-backed A2A work.
-- **SSH Command Dispatch** enables configured command-line node routes.
-- **AxiOwl Node daemon** is the recommended mobile host runtime and uses the installed Node environment.
-- **AxiOwl native C++ daemon** is the native Windows daemon alternative.
-- **No mobile daemon** keeps the installation focused on local provider, A2A, and SSH features.
+- **AxiOwl Remote Connections** supplies the Windows host runtime used by connected clients.
+- **AxiOwl Relay** enables selected computer-to-computer registry and messaging routes.
+- **A2A Server and Client** connect standards-based agent endpoints.
+- **SSH Command Dispatch** uses a configured SSH node for remote AxiOwl operations.
+- **Codex Remote** targets Codex's own remote conversations.
 
-## 3. Discover A Provider Session
+Each route has its own destination and authorization. Use [Mobile setup](mobile/getting-started.md) for a phone, or [Connected systems](a2a.md) for remote agent communication.
 
-Open a current provider session, then run discovery from AxiOwl. A registry entry keeps the friendly name together with the provider, surface, and exact provider-owned session identity.
+## Keep Useful Conversations Findable
 
-Good project roles include Builder, Reviewer, Researcher, and Coordinator. The role is for people; the provider session ID remains the delivery address.
-
-## 4. Send A First Message
-
-Choose a current registry target and send a short request that asks for a reply through AxiOwl MCP. The request returns an AxiOwl receipt, and the provider response returns with sender and correlation information.
-
-The basic loop is:
-
-```text
-discover -> resolve target -> send -> receipt -> provider reply
-```
-
-## 5. Read Status Correctly
-
-| State | Meaning |
-|---|---|
-| Discovered | A provider or agent target was found and recorded |
-| Accepted | AxiOwl accepted the operation |
-| Delivered | The selected integration accepted the handoff |
-| Replied | The provider session returned a correlated response |
-| Task completed | An A2A task returned its terminal result and artifacts |
-| Timeline completed | A daemon-hosted provider turn reached a terminal event |
-
-Keep the run, message, receipt, task, host, and agent identifiers with important work so concurrent handoffs remain easy to distinguish.
-
-## 6. Pair A Phone
-
-When a daemon runtime is installed:
-
-1. Open the **Mobile App** area on the host.
-2. Ask the daemon to create a fresh pairing offer.
-3. Scan the QR code or import the pairing link on Android or iPhone.
-4. Approve the pending device on the host.
-5. Open the paired host in the mobile app.
-6. Choose a project, workspace, provider, and agent.
-7. Send a turn and follow the live timeline.
-
-The phone controls the agent through the daemon. Provider credentials, provider processes, project files, and the authoritative session remain on the host.
-
-## 7. Continue From Here
-
-- [Use Cases](use-cases.md)
-- [How AxiOwl Works](how-it-works.md)
-- [Providers](providers.md)
-- [AxiOwl Mobile](mobile/README.md)
-- [A2A And Connected Systems](a2a.md)
-- [Installer](installer.md)
+Give active specialists meaningful titles and preserve the project context in each request. Refresh discovery after changing provider installations or workspaces. Keep the message and reply together when a decision matters, so you can return to the original participant and continue the work.
