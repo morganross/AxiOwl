@@ -36,7 +36,7 @@ Keep the returned provider identity visible while setting up multiple accounts. 
 
 ## Add Cloud Costs Separately
 
-Open **Cloud Costs** and manage cloud accounts there. Select the actual profile or billing scope, authorize the connection, and request a manual refresh.
+Open **Cloud Costs** and manage cloud accounts there. Select the actual profile or billing scope, authorize the connection, and review its refresh settings. Request a manual refresh when you want a deliberate observation. The current Windows implementation also schedules eligible active accounts, with separate automatic-query consent for AWS and Google Cloud.
 
 A cloud account is separate from a subscription card. A Google model-provider login, for example, does not automatically authorize a Google Cloud billing export. [Cloud Costs](cloud-costs.md) lists the connection requirements.
 
@@ -48,4 +48,10 @@ The phone then receives allowed readings. It does not need the provider CLIs or 
 
 ## Daily Use
 
-Keep the desktop available while you want fresh collection and companion updates. Review reset times before assigning long tasks. Refresh cloud costs deliberately, and keep the displayed period and currency in view when comparing spending.
+Keep the desktop available while you want fresh collection and companion updates. Review reset times before assigning long tasks. Review automatic cloud-query consent as well as manual refresh, and keep the displayed period and currency in view when comparing spending.
+
+## Know Which Stage You Have Reached
+
+An account card is configured when its binding exists. It has a current reading when the provider returns a usable observation. A phone is connected when it reaches its approved desktop source. Those states are separate.
+
+On the phone, look for the desktop source and underlying collection time. The companion can reconnect to its existing approved identity without collecting from providers itself. No new provider sign-in belongs in that reconnect flow.

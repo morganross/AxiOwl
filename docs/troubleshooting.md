@@ -68,7 +68,39 @@ A login may need attention, a method may be unavailable for that platform, or th
 
 Cloud providers report costs for particular periods and can report them after resource activity. Read the displayed data-through time and currency.
 
-Cloud refresh is manual. Opening a phone companion does not request a new provider billing query, and a recent connection time does not make an older cost observation current.
+Cloud collection can be manual or scheduled in the current Windows app. Review the exact account's eligibility and automatic-query consent. Opening a phone companion does not request a new provider billing query, and a recent connection time does not make an older cost observation current.
+
+## My Phone Sees The Host But Not The IDE
+
+The host runtime and IDE attachment are separate. Open the intended desktop IDE and read the host's IDE attachment and device-grant status. A successful phone pairing does not select or attach an IDE account.
+
+Do not create another phone identity merely to refresh that application connection. Keep the approved relationship and follow the host's available controls.
+
+## Is This Chat Running On The Phone Or Computer?
+
+Read the selected mode and host. Native Goose phone apps can have a local agent loop and connected desktop sessions. Local provider setup belongs to the phone; desktop session credentials and project tools remain on the host.
+
+Two conversations with the same title are not necessarily the same session. Keep the host, provider, workspace, and native session identity together when continuing work.
+
+## I Reconnected. Should I Send The Task Again?
+
+First return to the selected conversation and read its current state. The provider may have continued while the phone was disconnected. An unknown request outcome is not evidence that the request was never accepted.
+
+Avoid duplicating file-changing work while the earlier result is unresolved. Keep the request or session details when asking for help.
+
+## My Usage Meter Companion Reopened With Older Readings
+
+The companion reconnects to its approved desktop source; it does not collect from providers. Read the observation time and the stored/disconnected/current label. Keep the desktop meter running and inspect its account status or collection controls there.
+
+For a normal reopen, use the existing approved phone identity. A fresh offer is for a new pairing relationship, not a substitute for a desktop refresh.
+
+## Why Does A Reset Date Not Have A Countdown?
+
+A countdown needs an actual reset timestamp. A provider's date-only renewal field or an observation time should not acquire an invented time of day. Read the date and its source as supplied.
+
+## Why Do Scaleway Charts And A Monthly Amount Differ?
+
+The interval chart can be a provider allocation of raw charges, while monthly consumption has its own update time and treatment of tax and discounts. Read the cost-basis label, currency, and period. These are not interchangeable views of a final invoice. See [Cloud Costs](usage-meter/cloud-costs.md).
 
 ## Ask For Help
 

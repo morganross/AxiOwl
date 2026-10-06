@@ -4,6 +4,7 @@
 const sidebars = {
   tutorialSidebar: [
     'what-is-axiowl',
+    'product-guide',
     'use-cases',
     {
       type: 'category',
@@ -30,6 +31,7 @@ const sidebars = {
       link: {type: 'doc', id: 'mobile/README'},
       items: [
         'mobile/getting-started',
+        'mobile/on-device-agents',
         'mobile/hosts-and-connections',
         'mobile/agents-and-workspaces',
         'mobile/security-and-privacy',

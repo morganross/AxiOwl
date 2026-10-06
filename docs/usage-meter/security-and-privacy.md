@@ -24,7 +24,7 @@ Removing an account removes its AxiOwl-managed binding or profile according to t
 
 Cloud collection uses the profile and billing scope you select. The app reads existing credential configuration for that connection without changing the cloud CLI's default account or modifying cloud resources.
 
-Discovery presents local metadata and readiness hints. It does not perform a billing query. Activation and manual refresh are explicit actions, and providers with billable query methods require deliberate consent.
+Discovery presents local metadata and readiness hints. It does not perform a billing query. Account activation, manual refresh, and automatic-query consent are distinct controls. Current Windows scheduled collection follows the account's eligibility and consent; AWS and Google Cloud require separate permission for automatic billable queries.
 
 Subscription sign-ins and cloud billing credentials remain separate.
 
@@ -35,6 +35,8 @@ Usage Meter maintains its own desktop identity, device approvals, and revocation
 The relay routes encrypted application traffic. It does not need the plaintext quota data or provider credentials to carry it. Routing metadata, timing, and connection availability remain visible to infrastructure involved in delivery.
 
 The phone receives only the fields needed to display readings. It does not obtain a provider credential, terminal, or agent-control capability.
+
+Removing a usage-reading approval does not replace the removal controls for another AxiOwl product. Each app's device identity and allowed operations remain separate, even when they use the same relay infrastructure.
 
 ## Local Phone State
 

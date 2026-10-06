@@ -24,6 +24,12 @@ The phone sends a turn to the selected agent and receives a timeline of the prov
 
 Relay connections provide reachability across networks through encrypted application traffic. Direct connections use a route chosen by the operator. The host identity remains the same when the network path changes.
 
+## Native Phone Apps: A Separate Local Loop
+
+The native Goose Android and iPhone applications can run an agent loop inside the phone app. That loop uses its own configured model connection and local capabilities. It is separate from a desktop provider session reached through the host runtime.
+
+Local phone inference still depends on the chosen model route; a local loop does not imply an offline model. A desktop pairing supplies remote access, not credentials for this separate local mode. Read [On-device agents](mobile/on-device-agents.md).
+
 ## IDE: Resolve Account, Model, And Brain
 
 The IDE resolves three selections into one execution route:
@@ -67,5 +73,9 @@ A connection can be healthy while a provider waits for permission. A usage readi
 ## Shared Infrastructure, Separate Permissions
 
 Products may reuse a relay or connection library. Their device approvals, credentials, and allowed operations remain product-specific. Approving a Usage Meter reader does not approve terminal access in Mobile.
+
+The daemon is the host connection component, not the IDE's brain. It forwards an IDE request to the local IDE integration; the IDE still owns its selected execution route. A relay is a routing service, not another provider runtime. Installer helpers carry out application-owned setup, not provider authentication.
+
+For the current Windows native producer, the delivered shared artifact is a binary bundle. Consuming applications own installation and service integration. POSIX host packages follow their platform packaging contracts. These implementation roles are separate from the thirteen product/platform targets in [Products and platforms](platforms.md).
 
 See [Security and privacy](security.md) for the responsibilities at each boundary.

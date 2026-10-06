@@ -31,9 +31,9 @@ Use the readings to inform your choice in the provider app or IDE. Usage Meter o
 
 ## Cloud Costs
 
-The desktop cloud-account code includes OCI, AWS, Azure, and Google Cloud connections. Each needs an explicitly selected account and the provider's billing access. The options available in your installed platform release determine what you can add.
+The current Windows cloud-account code includes OCI, AWS, Azure, Google Cloud, and Scaleway connections. Each needs an explicitly selected account and the provider's billing access. The options available in your installed platform release determine what you can add.
 
-Cloud collection is manual. The view keeps currencies, source methods, reporting periods, and freshness visible. Read [Cloud Costs](cloud-costs.md) before connecting an account, particularly when the provider charges for billing queries.
+Cloud collection supports explicit refresh and, in the current Windows implementation, scheduled collection for eligible active accounts. Automatic billable queries have separate consent controls. The view keeps currencies, source methods, reporting periods, and freshness visible. Read [Cloud Costs](cloud-costs.md) before connecting an account.
 
 ## Phone Companions
 

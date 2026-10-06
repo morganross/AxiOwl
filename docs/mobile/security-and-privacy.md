@@ -23,11 +23,13 @@ This protects content from being read merely by operating the relay. The paired 
 
 Encryption does not make a compromised phone or host safe. Keep those devices and their app access protected.
 
-## What Stays On The Computer
+## What Stays On The Computer In Remote Mode
 
 Provider credentials, running tools, working directories, and repository files remain in the host environment. The phone receives the views and controls exposed by the host.
 
 Pairing does not copy a provider token into the mobile app. It also does not grant access to every user account on the computer.
+
+Native phone-local mode is different. A provider configured inside the native Goose app uses that phone's dedicated secret storage and sends model requests through its selected connection. Do not describe those locally configured credentials as desktop-owned or assume pairing supplied them.
 
 Terminal and file controls can still be powerful: they operate against the real host environment. Approve only devices that should have the capabilities offered by that host.
 

@@ -9,7 +9,7 @@ Prepare the computer that will run the agents, then pair the phone you want to u
 
 ## Prepare The Host
 
-Install the appropriate AxiOwl host components on the computer. On Windows, the current connected-runtime selection is **AxiOwl Remote Connections**. Shared-runtime packages own their connection components independently of individual Messaging provider selections.
+Install the appropriate AxiOwl host components on the computer. On Windows, the current connected-runtime selection is **AxiOwl Remote Connections**. The consuming application's installer owns setup and integration of its shared connection components; the native daemon producer is not a separate end-user MSI. Provider selections and connection-runtime ownership remain distinct.
 
 Open the desktop connection or mobile-device area and confirm the host runtime is available. Use the normal Windows user session that owns the provider tools and project files.
 
@@ -22,6 +22,8 @@ macOS and Linux packages have their own daemon lifecycle and supported provider 
 Use the **AxiOwl Mobile** download for Android or the listed Apple distribution channel. Keep it distinct from the Usage Meter companion.
 
 The app maintains its own client identity and saved host profiles. Retain that app state when updating through the supported installation path if you want to keep the same pairing relationship.
+
+For a native Goose release, decide whether you are configuring a local phone agent or connecting a desktop. Local provider setup uses that app's account controls; desktop access uses its host-pairing controls. Neither substitutes for the other. Read [On-device agents](on-device-agents.md).
 
 ## Create An Offer On The Computer
 
@@ -45,6 +47,8 @@ Select the host, then browse its available projects, workspaces, providers, and 
 
 Read the workspace and provider identity before sending the next instruction. The operation runs on the host, under its provider environment.
 
+If the selected surface is the IDE, the desktop IDE must be attached to the runtime and the phone must have its IDE access grant. A reachable host does not by itself establish that connection.
+
 ## Add A Direct Route
 
 Where the host and client offer direct connections, add the actual daemon address on your controlled network or VPN. Keep it associated with the correct host identity.
@@ -56,3 +60,9 @@ The operator is responsible for endpoint exposure and connection protection. A f
 Open the saved host to reconnect. The app and daemon retain the agent identity and reconcile the timeline, so returning to a host does not mean starting a new conversation.
 
 If the computer sleeps or shuts down, its provider sessions are not reachable through the phone until the host is available again. Read [Hosts and connections](hosts-and-connections.md) for network and session behavior.
+
+## Recognize A Ready Setup
+
+The intended host is connected, the correct conversation is open, and the controls for that provider are available. When you send work, follow the actual assistant response rather than interpreting a request-accepted notification as the answer.
+
+If a request's outcome is unknown, return to the session state before submitting it again. Preserve the phone's existing approved identity during ordinary updates; deleting app data can require a new pairing.

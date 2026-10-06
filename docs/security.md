@@ -32,6 +32,8 @@ The endpoints necessarily see the content they display or act upon. Encryption a
 
 Provider authentication belongs to the selected provider environment or explicit IDE connection. Mobile pairing does not copy those account tokens to the phone.
 
+Native phone-local agent mode is a different relationship: a provider configured in that app uses its dedicated phone secret store and selected model connection. Keep that distinction visible when deciding what context to send. Local agent execution does not automatically mean local or offline model inference.
+
 Usage Meter collects with the account method assigned to a card. Its companion export excludes provider secrets and raw credential state.
 
 An AxiOwl website login or license has a different purpose from provider authentication, SSH access, or an A2A credential. One should not be treated as permission for the others.
@@ -59,6 +61,8 @@ A product's uninstall or account-removal action has a defined ownership scope. R
 Use the product and platform entries on [Downloads](https://axiowl.com/downloads/). Release identity, publisher signatures, and channel information help distinguish the artifact you intended to install.
 
 A signed package identifies its publisher and bytes. It does not grant model access or approve a new phone. Preview and Stable remain separate release choices.
+
+Source changes, release artifacts, and installed applications are also separate. A security-related source improvement applies to your device only through the corresponding delivered application or component. Use the release actually installed when interpreting its capabilities.
 
 ## Share Less In Support Requests
 

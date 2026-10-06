@@ -28,6 +28,14 @@ A release record ties together the product, version, platform, source revision, 
 
 Operating-system signatures and package metadata help establish publisher and artifact identity. They do not authorize a new device, grant provider access, or prove that every configured account is signed in.
 
+## From Source To A Usable Application
+
+The product's release process turns a source revision into its platform artifact, records the artifact identity and signing, and publishes the selected bytes. A channel can then select that release. The user still needs the matching installation and account or pairing setup.
+
+Keep those events distinct when reading an announcement: committed source, produced artifact, published download, selected channel, installed app, and connected account. An update in one stage should not be described as though every later stage happened on every machine.
+
+The shared daemon is a component, not another copy of the main application. Its current native Windows producer emits a binary bundle consumed by application-owned installation. A component revision and an IDE or Messaging version therefore need not be the same number.
+
 ## Provider Integrations
 
 Messaging provider packages have their own IDs and revisions. A provider update changes the integration's owned files and assets, independently of unrelated provider packages.

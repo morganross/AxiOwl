@@ -57,6 +57,20 @@ Use the companion release intended for the desktop source. The Windows/Android a
 
 The app negotiates what the source can supply. A chart appears from genuine compatible readings; an absent field is not a zero amount.
 
+## Android's Current Reading Views
+
+The 0.5.3 Android companion includes quota details, reset countdowns, and supported bar, line, and calendar views. Historical quota points come from readings actually observed while the app runs; the app does not manufacture earlier quota history.
+
+Cloud views preserve source, currency, period, and cost basis. Daily bars can show the complete reported range, including the current Scaleway thirty-day series. Service breakdowns appear only where the supplied amounts reconcile to that period. Missing days are not filled with zero spending, and signed credits are not turned into positive charges.
+
+The recorded Windows 1.0.32 to Android 0.5.3 physical-device flow includes normal desktop approval, fresh quota delivery, OCI and Scaleway daily charts, desktop refresh delivery while the phone stays open, and automatic reconnect after normal app reopen. No second pairing or provider login was needed for that reopen.
+
+These are capabilities of that paired product combination. They do not imply that the phone collected the readings or that every cloud/provider account has been connected.
+
+## Apple Distribution
+
+The Apple companion uses its own platform app, protected identity, and compatible desktop payload. Obtain the distribution listed for your device and follow its setup. A prepared signed IPA is an artifact; use an actual installed app and approved source for current readings rather than assuming another phone's state applies to yours.
+
 ## Remove Access
 
 Revoke the device from the desktop companion controls when it should no longer receive readings. Unpairing on the phone removes that local relationship and its retained source state according to the platform's controls.

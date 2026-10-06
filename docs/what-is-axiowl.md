@@ -17,10 +17,12 @@ Choose the product around the job you want to do. You can use Usage Meter to und
 | **AxiOwl Messaging** | Find provider sessions, send work between agents, and follow their replies | [Messaging setup](getting-started.md) |
 | **Axiom Messaging** | The agent-to-agent messaging offering listed in the AxiOwl product family | [Axiom Messaging](axiom.md) |
 | **AxiOwl IDE** | Work with conversations, models, agent runtimes, and project files in one desktop workspace | [IDE guide](ide/README.md) |
-| **AxiOwl Mobile** | View and control agent sessions on a paired computer from your phone | [Mobile guide](mobile/README.md) |
+| **AxiOwl Mobile** | Reach computer-owned sessions from your phone, with native Goose apps also offering a phone-local agent runtime | [Mobile guide](mobile/README.md) |
 | **AxiOwl Usage Meter** | Compare subscription allowance, reset times, accounts, and reported cloud costs | [Usage Meter guide](usage-meter/README.md) |
 
 The [Downloads page](https://axiowl.com/downloads/) identifies each product, operating system, and release channel. A Preview release belongs to that particular product and platform; it does not describe every other AxiOwl app.
+
+New to the family? The [Product guide](product-guide.md) explains setup, accounts, shared components, and what a successful result means for each application.
 
 ## AxiOwl Messaging: Connect The Work You Already Have
 
@@ -41,6 +43,8 @@ You can use a supported provider client or an AxiCode connection. AxiCode is the
 Mobile is a substantial connected product in its own right. Pair it with a computer, open a session, send the next instruction, read tool activity, and respond to the permissions exposed by that provider. File and terminal controls are available when the connected host advertises them.
 
 Your computer continues to hold the repository and run the provider tools. Your phone supplies the view and controls. Pairing requires approval, and the relay carries encrypted traffic between the paired devices.
+
+The native Goose phone applications also introduce an on-device agent loop with its own model connection. That local mode does not inherit desktop credentials or become the same conversation as a paired host session. [On-device agents](mobile/on-device-agents.md) explains the distinction.
 
 ## AxiOwl Usage Meter: See Capacity Before Choosing Work
 

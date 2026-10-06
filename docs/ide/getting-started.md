@@ -52,3 +52,21 @@ Read [Models and accounts](models-and-accounts.md) before changing the route of 
 ## Keep The Product Boundaries Clear
 
 The IDE's own account setup controls its execution routes. A Messaging provider integration or Mobile pairing does not sign you into an IDE provider account. Each product keeps its own purpose and configuration.
+
+## Returning To A Provider Account
+
+Use the account store that belongs to the selected route. An external Codex CLI brain uses its configured Codex profile; it is not the same login relationship as a Goose direct connection or a local proxy account. Other brands have their own route-specific state too.
+
+A stored login and a current model catalog are separate. If the app shows a readable saved conversation but no send-ready route, keep the history and use the account controls for that route. Do not clear all provider history merely to refresh an account state.
+
+## Working From A Phone
+
+Start with the desktop IDE and its selected workspace. Use the host application's connection setup, approve the phone, and ensure the IDE has attached to the shared runtime with the relevant grant.
+
+The daemon supplies the connection path. It does not choose the IDE's model, billing account, or brain. Continue only the IDE sessions advertised by that attached application.
+
+## What To Look For In A Conversation
+
+The selected route should remain visible, your instruction should belong to the intended session, and the assistant's response should appear there. On reopening, read the same session's history before continuing.
+
+Saved-history display, a new response, and connected phone control are distinct capabilities. Use the release and platform actually installed instead of assuming a newer source change has already replaced it.

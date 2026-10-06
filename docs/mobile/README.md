@@ -40,9 +40,17 @@ The encrypted relay route joins the paired phone and host across networks. A dir
 
 The host must remain running and able to reach its provider tools. Leaving the desk is different from shutting down the computer that is doing the work.
 
+## Native Phone Agents
+
+The native Goose Android and iPhone applications also run an agent loop inside the phone app. This is a separate mode from controlling a computer. Its configured provider, account storage, local tools, and conversation history belong to the phone application.
+
+The model can still run at a remote provider. "On-device" describes where the agent loop runs, not an automatic promise of offline inference or desktop-equivalent tooling.
+
+Read [On-device agents and desktop sessions](on-device-agents.md) before deciding where a task should run.
+
 ## Android And iPhone
 
-Android and iPhone packages share the host, agent, and timeline model. Obtain the current distribution for your device from [Downloads](https://axiowl.com/downloads/).
+Connected implementations use the shared host, agent, and timeline contract, while native Android and iPhone apps have their own interfaces and local runtime integration. Obtain the exact distribution for your device from [Downloads](https://axiowl.com/downloads/). Common source contracts do not make every installed version interchangeable.
 
 Android packages and Apple distribution channels have different installation requirements. An Apple registered-device package is not an App Store installation; follow the delivery method listed for that release.
 

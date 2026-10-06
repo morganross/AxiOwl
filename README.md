@@ -5,6 +5,7 @@ User documentation for the AxiOwl product family, published at [axiowl.com/docs]
 ## Product Guides
 
 - [What is AxiOwl?](docs/what-is-axiowl.md)
+- [Product guide and everyday setup](docs/product-guide.md)
 - [AxiOwl Messaging](docs/getting-started.md)
 - [Axiom Messaging](docs/axiom.md)
 - [AxiOwl IDE](docs/ide/README.md)
@@ -12,6 +13,8 @@ User documentation for the AxiOwl product family, published at [axiowl.com/docs]
 - [AxiOwl Usage Meter](docs/usage-meter/README.md)
 
 The guides cover setup, everyday workflows, providers, accounts, connections, privacy, and updates. Product-specific pages keep the distinction between agent control and usage-reading companions clear.
+
+The Mobile category also covers [on-device agents versus connected desktop sessions](docs/mobile/on-device-agents.md). The product/platform map identifies thirteen targets separately from shared daemon, relay, proxy, and helper roles. Current source and installed outcomes are described at their actual scope rather than as universal feature parity.
 
 ## Shared References
 

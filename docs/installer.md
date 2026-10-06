@@ -44,7 +44,9 @@ Other selections serve separate jobs:
 | SSH Command Dispatch | Run explicit AxiOwl operations through configured SSH nodes |
 | Codex Remote | Integrate Codex's own remote conversations |
 
-Shared connection components may have their own package ownership. A local Messaging provider checkbox is not an authorization switch for every other product using a shared runtime.
+Shared connection components retain their own component identity. The current native Windows producer supplies a binary bundle; the consuming application's installer owns its installation and service integration. Do not interpret older shared-MSI developer notes as instructions to install a second competing runtime.
+
+A local Messaging provider checkbox is not an authorization switch for every other product using a shared runtime. Removing one application's consumer relationship and removing the entire shared connection system are different actions; follow the installed product's ownership-aware removal flow.
 
 ## After Installation
 
@@ -65,3 +67,9 @@ Other AxiOwl products have their own state-preservation policies. In particular,
 ## macOS And Linux
 
 Use the platform package and provider setup in the native application. Desktop preparation, provider paths, protected storage, and service registration follow that platform's conventions. Windows MSI feature names should not be used as commands on another operating system.
+
+## Keep Installation And Readiness Separate
+
+Installation puts the selected files and configuration in place. The provider must then load its integration in the correct user session. Phone access additionally needs pairing and the advertised host capability; IDE phone access needs an attached IDE and its grant.
+
+When recording a setup question, name the application version and the action you attempted. A shared runtime version is useful component information, but it is not the version of every application using it.
