@@ -13,8 +13,9 @@ AxiOwl can reach work beyond the current computer. Choose the connection accordi
 | You want to reach | Use |
 |---|---|
 | A paired computer's interactive agent sessions from a phone | AxiOwl Mobile with relay or direct connection |
-| Agents enrolled on another AxiOwl computer | The configured AxiOwl Relay messaging route |
-| An AxiOwl node accessible through your SSH setup | SSH Command Dispatch or A2A-over-SSH, as configured |
+| Agents enrolled on another AxiOwl computer | The configured AxiOwl Relay or [SSH Messaging](ssh.md) route |
+| Chats on a computer accessible through your SSH setup | AxiOwl SSH registry synchronization and Messaging |
+| An A2A service reached over SSH | A2A-over-SSH, with its own task interface |
 | A standards-based agent service | A2A Client and its Agent Card |
 | Codex's remote projects and conversations | The Codex Remote provider integration |
 
@@ -22,9 +23,11 @@ These routes retain their own authentication and target identity. Select the rou
 
 ## Computer-To-Computer Messaging
 
-AxiOwl Relay supports reciprocal registry synchronization and messaging between configured AxiOwl installations. Each computer retains its local provider sessions. The source resolves a remote target, and the destination uses its local integration to deliver the message.
+AxiOwl Relay and configured SSH connections support registry synchronization and messaging between AxiOwl installations. Each computer retains its local provider sessions. The source resolves a remote target, and the destination uses its local integration to deliver the message.
 
-The relay supplies reachability. The destination still needs the appropriate provider, account, session, and workspace. A message naming a source file does not transfer the repository to the other computer.
+Choose the full remote chat name and its intended route. For SSH, retain the computer qualifier and `(SSH)` ending. AxiOwl supplies the return destination automatically and retains the selected chat's exact identity for the exchange.
+
+Relay supplies reachability for the relay route; SSH uses the configured SSH connection. The destination still needs the appropriate provider, account, session, and workspace. A message naming a source file does not transfer the repository to the other computer.
 
 ## What A2A Adds
 
@@ -52,9 +55,11 @@ Keep an A2A task ID separate from any provider session used behind it. This avoi
 
 ## SSH Connections
 
-SSH routes use the host, user, key configuration, and permissions selected by the operator. **SSH Command Dispatch** invokes explicit AxiOwl commands remotely. **A2A-over-SSH** retains the A2A task interface while using SSH for the connection.
+SSH routes use the host, user, key configuration, and permissions selected by the operator. AxiOwl can exchange chat registries and deliver ordinary chat messages over that connection. **SSH Command Dispatch** also invokes explicit AxiOwl commands remotely. **A2A-over-SSH** retains a separate A2A task interface.
 
-The remote user must have access to the intended AxiOwl installation and provider environment. Credentials and project access follow that remote account, not the friendly name shown in the registry.
+The remote user must have access to the intended AxiOwl installation and provider environment. Windows delivery into the provider-owning user's environment requires that user's existing signed-in desktop session. Credentials and project access follow the remote account, rather than the friendly computer name.
+
+For a chat and its answer to travel over SSH, configure both directions and keep both network paths available. A registry-sync receipt alone is not a completed conversation. Follow [Messaging over SSH](ssh.md) for setup, exact CLI commands, observed CLI exchanges, and the current Windows Copilot reply limitation.
 
 ## Network And Data Ownership
 

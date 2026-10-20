@@ -29,7 +29,9 @@ A coordinator can collect the answers and reconcile them. A human can occupy the
 
 ## Keep Replies Attached To The Request
 
-Ask the recipient to answer through AxiOwl MCP. Reply metadata lets AxiOwl identify the responding session and relate the answer to the original message. Preserve the correlation supplied by the tools when continuing the exchange.
+Ask the recipient to answer through AxiOwl MCP. AxiOwl appends the sending chat's name and return route to the delivered message, and the recipient follows those instructions. The integration identifies the executing session and retains the exact selected chat identity behind the human-readable name. Keep technical identifiers in diagnostic evidence, rather than inserting UUIDs or a manual reply-to address into the message.
+
+Read both conversations to confirm that the answer reached the original sender. A response written only in the recipient's own chat does not complete the return exchange. If AxiOwl reports a pending or uncertain operation, check that existing request before considering another send; a timeout does not cancel it.
 
 A delivery receipt alone does not tell you whether the agent finished. Read the returned response or the provider's own task state before treating the requested work as complete.
 
@@ -39,7 +41,9 @@ Where the selected provider supports Rename, use AxiOwl to update the conversati
 
 ## Work Across Computers
 
-Choose a registered computer and its explicit route. The destination computer owns provider authentication and delivery into its local sessions. Relay messaging, SSH dispatch, and A2A each retain their own connection model.
+Choose a registered computer and its explicit route. The destination computer owns provider authentication and delivery into its local sessions. Relay messaging, [SSH Messaging](ssh.md), and A2A each retain their own connection model.
+
+For SSH, preserve the full chat name, computer qualifier, and `(SSH)` ending. Configure the return connection as well as the outgoing connection. The [SSH guide](ssh.md) separates connection checks, registry synchronization, provider delivery, and an actual reply.
 
 Remote work still needs real files at the destination. A message can refer to a repository or artifact, but mentioning a local path does not copy that file to another computer. Include a location the recipient can access or arrange the transfer through your normal project tools.
 

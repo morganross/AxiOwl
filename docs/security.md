@@ -48,7 +48,9 @@ Review provider permissions and the target of an operation. A terminal opened th
 
 Direct routes require deliberate endpoint protection. The operator owns the network exposure, transport security, authentication, and firewall configuration.
 
-SSH routes use the selected SSH identity and remote account. A2A endpoints use their advertised authentication and task semantics. The receiving agent's own provider and data policy still apply to content you send.
+SSH routes use the selected SSH identity and remote account. Configure verified host keys and key-based access for each sending computer; a chat reply needs an authorized connection back. Provider credentials remain with the destination's provider environment. AxiOwl account or link pairing does not replace SSH authentication or firewall configuration. See [Messaging over SSH](ssh.md).
+
+A2A endpoints use their advertised authentication and task semantics. The receiving agent's own provider and data policy still apply to content you send.
 
 ## Local State And Retention
 

@@ -10,7 +10,7 @@ const sidebars = {
       type: 'category',
       label: 'AxiOwl Messaging',
       link: {type: 'doc', id: 'getting-started'},
-      items: ['messaging-workflows', 'providers', 'installer', 'a2a'],
+      items: ['messaging-workflows', 'providers', 'installer', 'ssh', 'a2a'],
     },
     'axiom',
     {

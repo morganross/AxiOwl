@@ -28,7 +28,7 @@ The built-in **AxiOwl Mailbox** is a local destination for messages and results.
 
 Select the target and write the actual request you want it to handle. Include the project context and whether you want advice, a file change, or a status update. When you need an answer, explicitly request a response through AxiOwl MCP.
 
-You can also ask a provider agent to list AxiOwl targets and send the message using its installed AxiOwl tools. The integration supplies the session identity used to attribute the call.
+You can also ask a provider agent to send the message using its installed AxiOwl tools. Use the target name shown in the registry, including its computer and transport qualifier for a remote chat. The integration supplies the sending session's identity and appends the return destination; you do not need to look up UUIDs or write a reply-to address.
 
 Read the returned receipt, then follow the recipient's reply. These are distinct parts of the conversation:
 
@@ -50,7 +50,7 @@ Use an existing conversation when its accumulated context matters. Create a new 
 - **AxiOwl Remote Connections** supplies the Windows host runtime used by connected clients.
 - **AxiOwl Relay** enables selected computer-to-computer registry and messaging routes.
 - **A2A Server and Client** connect standards-based agent endpoints.
-- **SSH Command Dispatch** uses a configured SSH node for remote AxiOwl operations.
+- **SSH Command Dispatch** uses configured SSH connections for registry synchronization, chat delivery, and remote AxiOwl operations. [Set up Messaging over SSH](ssh.md).
 - **Codex Remote** targets Codex's own remote conversations.
 
 Each route has its own destination and authorization. Use [Mobile setup](mobile/getting-started.md) for a phone, or [Connected systems](a2a.md) for remote agent communication.

@@ -40,6 +40,14 @@ The CLI, mailbox, and MCP interface resolve a registry target before invoking a 
 
 Core workflows preserve the distinction between accepted request, integration handoff, and correlated response. Keep provider/surface/session identity separate from user-facing aliases.
 
+## SSH Messaging Boundaries
+
+The shared SSH transport source is under `remote_transport/ssh`. Its protocol and reply-route helpers preserve the selected computer, provider surface, and exact chat identity across registry synchronization, delivery, and the return exchange. Initial recipient-name collision handling uses recorded chat usage; sender identity comes from the executing session.
+
+The Windows CLI and core pipeline, macOS Swift bridge, and Linux CLI adapter consume that contract through platform-specific integration code. Windows 3.1.408 uses Task Scheduler for incoming SSH delivery from a noninteractive SSH session into the same user's existing signed-in desktop session. Local and relay delivery keep their established launch paths. This Windows change does not establish Mac or Linux launch behavior.
+
+Operation admission, provider delivery, and a returned chat message remain separate evidence boundaries. A `worker_started` receipt must not be promoted to completed delivery. The [SSH guide](ssh.md#observed-cli-compatibility) records the October 20 CLI observations, their version scope and deviations, and the unresolved Windows Copilot outgoing reply.
+
 ## Connected Host And Mobile
 
 The host runtime owns agents, workspaces, provider processes, pairing, and timeline state. The mobile client displays and controls the capabilities it advertises.

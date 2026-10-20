@@ -28,6 +28,20 @@ An acceptance receipt records the request entering AxiOwl. The recipient still n
 
 Refresh discovery if the provider session or workspace changed. Choose the exact provider surface, particularly when the same brand has desktop and CLI entries.
 
+## An SSH Computer Appears In The List But A Message Cannot Reach It
+
+A saved chat list can outlive a network connection. Confirm that the destination is running, its SSH service is reachable from the sending computer, and its SSH alias still points to the intended address. A temporary firewall allowance can expire between registry synchronization and the send.
+
+Replies need the reverse connection too. Keep the full computer-qualified chat name and `(SSH)` ending; removing them can select a local or relay route instead. Follow [Messaging over SSH](ssh.md).
+
+## The Request Stays At `worker_started`
+
+This means AxiOwl admitted the request and started its background operation. It does not establish that the provider received the message or returned an answer. Follow the existing operation status, and read the sender's and recipient's recent chat history before sending anything again.
+
+On Windows 3.1.408, one recorded Mac-to-Windows Copilot CLI exchange reached Copilot successfully, but Copilot's outgoing answer remained `worker_started` and never reached the Mac chat. The recorded process had exited without publishing a result. That reply failure remains unresolved; see the [version-specific observation](ssh.md#windows-copilot-reply-limitation).
+
+Include the operation reference and the versions of both computers when reporting a stuck exchange. Do not clear provider credentials or the whole registry to conceal its pending state.
+
 ## The Agent Does Not Show AxiOwl Tools
 
 Open the provider environment that received the integration. Confirm that the selected application or managed copy has loaded its current MCP configuration or bridge.
