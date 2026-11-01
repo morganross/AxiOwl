@@ -1,8 +1,14 @@
 import React, {useEffect, useId, useMemo, useState} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 export default function DocsSearch() {
+  const {siteConfig} = useDocusaurusContext();
+  return siteConfig.customFields?.axiowlDocsEmbedded ? <EmbeddedDocsSearch /> : null;
+}
+
+function EmbeddedDocsSearch() {
   const id = useId();
   const indexUrl = useBaseUrl('/search-index.json');
   const url = `${indexUrl}?v=${process.env.AXIOWL_DOCS_SOURCE_COMMIT}`;

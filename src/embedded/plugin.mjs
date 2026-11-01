@@ -28,7 +28,7 @@ export default function axiowlEmbeddedPlugin({siteDir}) {
         plugins: [
           new currentBundler.instance.DefinePlugin({
             'process.env.AXIOWL_DOCS_EMBEDDED': JSON.stringify(embedded ? '1' : ''),
-            'process.env.AXIOWL_DOCS_SOURCE_COMMIT': JSON.stringify(readSourceCommit()),
+            'process.env.AXIOWL_DOCS_SOURCE_COMMIT': JSON.stringify(embedded ? readSourceCommit() : ''),
           }),
           ...(embedded ? [createColorModeReplacementPlugin()] : []),
         ],

@@ -56,3 +56,8 @@ Title/summary search returned the SSH guide, but a body-only query such as timeo
 returned no matches. The follow-up indexes actual public Markdown as well, ranks
 title/summary matches first, exposes more results, and versions the fetch URL by
 source commit so an older cached index does not hide newly published content.
+
+The embedded search component is explicitly gated by the existing embedded
+profile. Standalone/dev does not request a post-build-only website index, and
+standalone compilation does not acquire a new Git-HEAD requirement from the
+search version token. No additional standalone build is claimed here.
