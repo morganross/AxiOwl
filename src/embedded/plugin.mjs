@@ -7,7 +7,7 @@ import {scopeGeneratedCss} from './scope-css.mjs';
 
 const COLOR_MODE_STUB = fileURLToPath(new URL('./color-mode-stub.js', import.meta.url));
 
-export default function axiowlEmbeddedPlugin() {
+export default function axiowlEmbeddedPlugin({siteDir}) {
   const embedded = process.env.AXIOWL_DOCS_EMBEDDED === '1';
   let searchRecords = [];
 
@@ -15,18 +15,20 @@ export default function axiowlEmbeddedPlugin() {
     name: 'axiowl-embedded-docs',
     async allContentLoaded({allContent}) {
       const versions = allContent['docusaurus-plugin-content-docs'].default.loadedVersions;
-      searchRecords = versions.flatMap((version) => version.docs)
-        .filter((doc) => !doc.unlisted && !doc.draft)
-        .map(({title, description, permalink}) => ({
-          title, description, url: `${permalink.replace(/\/$/, '')}/`,
-        }))
-        .sort((left, right) => left.title.localeCompare(right.title));
+      const docs = versions.flatMap((version) => version.docs)
+        .filter((doc) => !doc.unlisted && !doc.draft);
+      searchRecords = await Promise.all(docs.map(async ({title, description, permalink, source}) => ({
+        title, description, url: `${permalink.replace(/\/$/, '')}/`,
+        body: await readFile(join(siteDir, source.slice('@site/'.length)), 'utf8'),
+      })));
+      searchRecords.sort((left, right) => left.title.localeCompare(right.title));
     },
     configureWebpack(_config, _isServer, {currentBundler}) {
       return {
         plugins: [
           new currentBundler.instance.DefinePlugin({
             'process.env.AXIOWL_DOCS_EMBEDDED': JSON.stringify(embedded ? '1' : ''),
+            'process.env.AXIOWL_DOCS_SOURCE_COMMIT': JSON.stringify(readSourceCommit()),
           }),
           ...(embedded ? [createColorModeReplacementPlugin()] : []),
         ],

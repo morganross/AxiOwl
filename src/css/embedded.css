@@ -65,7 +65,7 @@ html[data-axiowl-theme] #__docusaurus,
 }
 #__docusaurus .axiowl-docs-search input:focus-visible,
 #__docusaurus .axiowl-docs-browse:focus-visible { outline: 2px solid var(--ax-primary); outline-offset: 2px; }
-#__docusaurus .axiowl-docs-search ul { padding: 0; margin: 0.5rem 0 0; list-style: none; }
+#__docusaurus .axiowl-docs-search ul { padding: 0; margin: 0.5rem 0 0; list-style: none; max-height: 50vh; overflow: auto; }
 #__docusaurus .axiowl-docs-search li { padding: 0.6rem 0; border-top: 1px solid color-mix(in srgb, var(--ax-ink) 12%, transparent); }
 #__docusaurus .axiowl-docs-search li a { color: var(--ax-ink); font-weight: 600; text-decoration: underline; }
 #__docusaurus .axiowl-docs-search li p { margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.45; color: var(--ax-muted); }

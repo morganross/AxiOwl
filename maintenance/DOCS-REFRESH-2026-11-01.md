@@ -21,8 +21,8 @@ Preserve existing document slugs and all IDE, Mobile, Usage Meter and family
 guides. Reuse the imported eighteen-guide Messaging structure, retain precise
 Claude Desktop Code scope and provider/Windows-feature reference detail. Keep
 explicit Send separate from task completion and any later authorized message.
-Add title/summary search from actual Docusaurus metadata with no external search
-service or account data, and a compact mobile browse control. Search failure
+Add guide search from actual Docusaurus metadata and published Markdown text
+with no external search service or account data, and a compact mobile browse control. Search failure
 is visible, not replaced with invented results. Keep the existing site palette.
 
 The website-owned companion repair supplies generated route metadata, safe
@@ -47,3 +47,12 @@ adapters, credentials, releases and WebView2 packaging are untouched.
 
 Implementation/publication observations will be recorded after the focused docs
 build and public browser readback. No native provider compatibility is claimed.
+
+The first documentation-only build passed in the already-installed Node 22
+container, with no network or dependency installation. Public initial metadata,
+new Messaging pages, other product guides and the retained older script worked.
+The website's exact sitemap/search alias permission required a follow-up repair.
+Title/summary search returned the SSH guide, but a body-only query such as timeout
+returned no matches. The follow-up indexes actual public Markdown as well, ranks
+title/summary matches first, exposes more results, and versions the fetch URL by
+source commit so an older cached index does not hide newly published content.
