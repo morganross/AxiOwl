@@ -61,3 +61,36 @@ The embedded search component is explicitly gated by the existing embedded
 profile. Standalone/dev does not request a post-build-only website index, and
 standalone compilation does not acquire a new Git-HEAD requirement from the
 search version token. No additional standalone build is claimed here.
+
+## Final observed publication
+
+The final code commit is 15f2d8020d64a4fb0bc182aacabbd2d46b3e1f3a, preserved
+on remote main and built as 15f2d8020d64a4fb0bc182aacabbd2d46b3e1f3a-20261101T235226Z.
+Three focused embedded builds passed in the existing Node 22 container with
+network disabled, no dependency installation and bounded CPU/memory. No native
+application build or provider test was performed.
+
+The website's tracked atomic publisher selected this build and retained 110 old
+hashed assets. The separate website issue record documents metadata, Apache
+static delivery, typography and selector fixes. Public search has 46 actual
+guides; the sitemap has 47 URLs including the landing page. The timeout query
+returned seven guides, and send returned 33 with More results increasing the
+rendered list from eight to sixteen. Search links and the mobile browse control
+opened the intended guides. The vertical diagram loaded without horizontal page
+overflow at a measured 389x843 CSS-pixel viewport. Website-scoped title/body sizes
+were 32px/16px on mobile and the desktop title was 44px at 1280x913.
+
+The initial title/description/canonical and image delivery defects were corrected
+by the companion bridge change. The inspected browser had a single title and
+social-title tag and returned no captured console warnings/errors. Actual final
+desktop/mobile screenshots and public route results are retained in the
+controller's output/docs-refresh-20261101 directory. These observations do not
+qualify provider compatibility, all browsers/OSes/palettes or current native
+installer behavior. Existing product claims retain their stated scope.
+Final HEAD readback after publication returned 200 for all 46 indexed guides.
+
+The server checkout lacked GitHub push credentials; source commits were pushed
+through the controller's existing authenticated Git workflow using a bare bundle
+transfer. No new credential, access grant, branch or second Git working checkout
+was created. Temporary edit staging held selected files only; the canonical
+docs Git source remains on the website node.
