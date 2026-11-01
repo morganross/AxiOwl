@@ -1,63 +1,52 @@
 ---
-sidebar_position: 5
+title: "Providers and surfaces"
 slug: /providers
-title: Providers And Surfaces
+description: "Distinguish provider brands, desktop applications, CLIs and configured remote routes."
 ---
 
-# Providers And Surfaces
+# Providers and surfaces
 
-A provider is both a brand and a surface. Codex Desktop, Codex CLI, and Codex Remote have different session lifecycles. Cursor's desktop agent and Cursor Agent CLI also need separate integrations. AxiOwl keeps these distinctions so a message reaches the conversation you selected.
+A provider brand can expose several different surfaces. AxiOwl keeps their conversation identities and integrations separate.
 
-## Messaging Integrations
+## Main integration families
 
-The current Windows package inventory contains the following thirteen provider packages. This table describes their purpose and integration; the operations available for a particular session come from the installed provider's capabilities.
+| Provider family | Desktop surface | Command-line surface |
+| --- | --- | --- |
+| Claude | Claude Desktop integration, including its applicable Code environment | Claude Code CLI |
+| Codex | Codex desktop conversations | Codex CLI |
+| Cursor | Cursor Agent/Composer conversations | Cursor Agent CLI |
+| OpenCode | OpenCode Desktop | OpenCode CLI |
+| GitHub Copilot | VS Code Copilot desktop conversations | Standalone GitHub Copilot CLI |
+| Antigravity | Antigravity desktop agent conversations | Antigravity CLI |
 
-| Provider surface | What it connects | Integration installed by AxiOwl |
-|---|---|---|
-| Antigravity agents | Desktop agent conversations | Desktop MCP configuration and provider worker |
-| Antigravity CLI | Command-line conversations | CLI configuration, session identity, and worker |
-| Claude Code CLI | Claude Code terminal sessions | User MCP configuration and provider worker |
-| Claude Desktop Code | Code conversations in Claude Desktop | Desktop integration, MCP configuration, and managed bridge |
-| Codex agents | Codex desktop threads | AxiOwl Codex plugin, MCP tools, skill, and worker |
-| Codex CLI | Codex terminal sessions | CLI MCP configuration and session integration |
-| Codex Remote | Codex-owned SSH Remote conversations | Local support for Codex's remote projects and sessions |
-| Copilot CLI | Standalone GitHub Copilot CLI sessions | MCP session metadata integration and worker |
-| Cursor agents | Desktop Agent/Composer conversations | Bridge extension, MCP configuration, and desktop integration |
-| Cursor Agent CLI | Cursor's command-line agent | CLI discovery, session metadata, and worker |
-| OpenCode CLI | OpenCode terminal sessions | MCP configuration and provider worker |
-| OpenCode Desktop | Native OpenCode desktop sessions | Desktop plugin and provider integration |
-| VS Code Copilot-backed | Copilot Agent Host conversations in VS Code | VSIX bridge, MCP metadata, and worker |
+This is an integration map, not a table of passed provider pairs. Availability and operations depend on the operating system, provider version and installed integration.
 
-Claude Desktop here means its **Code** surface. Selecting that integration does not make every Claude web or desktop conversation an interchangeable target.
+**VS Code means the VS Code Copilot desktop surface.** It is not another name for standalone Copilot CLI. Likewise, Claude Desktop and Claude Code CLI, or OpenCode Desktop and OpenCode CLI, are different targets.
 
-## Understand The Operations
+Some releases expose additional provider-specific routes, including Codex Remote. Use the capability entry actually offered by that installed release.
 
-**Discover** reads the provider state needed to identify sessions. **Send** addresses an existing session. **Create** starts a provider session and registers it for subsequent work. **Rename** changes the provider title where supported. **Status** exposes the state the provider makes available.
+## What an integration supplies
 
-AxiOwl MCP supplies the return path for an agent's message. Session metadata identifies who made the tool call. An agent title is a convenient label, while the exact provider session identity remains the address.
+Depending on the surface, installation supplies MCP configuration, a plugin or extension, a bridge, native session metadata and a provider worker. Some desktop methods use an AxiOwl-managed local copy derived from a user-installed application.
 
-Operations vary by surface and platform. The installed capability view is the practical authority for a session. In particular, a provider listed in the installer is not a promise that every operation is enabled for every release of that provider.
+Open the integrated environment indicated by setup. A publisher application and its managed copy are not interchangeable merely because their names are similar.
 
-## Windows, macOS, And Linux
+Provider applications come from their own distributions. Their authentication, subscriptions, available models and tool permissions remain separate from AxiOwl.
 
-Windows uses isolated provider workers and provider-specific integration assets. macOS and Linux have their own discovery, configuration, and delivery implementations. Use the platform package to install the integrations appropriate to that operating system.
+## Capabilities are specific
 
-Some desktop integrations operate on an AxiOwl-managed local copy of a provider application. Where that is the selected platform method, the publisher's application remains the original source and you use the prepared copy for the integrated session. The macOS package prepares managed copies locally from user-installed applications; provider applications are not shipped inside the AxiOwl package.
+Discover identifies conversations. Send addresses a selected conversation. Create and Rename are available only where advertised. Status and installation controls also vary.
 
-Provider sign-in remains separate. Open the selected provider environment and complete its normal authentication before asking it to perform work.
+A declared capability is not delivery evidence for every provider version or operating-system combination. A package being installed does not prove the provider loaded its tools.
 
-## Three Catalogs With Different Jobs
+## Platform boundaries
 
-| Catalog | What its entries mean |
-|---|---|
-| Messaging provider registry | Existing provider sessions and the local or remote route used to address them |
-| Connected host catalog | Providers, models, agents, and controls exposed to AxiOwl Mobile by that computer |
-| IDE model/account/brain choices | Compatible execution routes configured inside AxiOwl IDE |
+Windows, macOS and Linux use different native adapters. A desktop route needs the relevant graphical user environment. Some application/OS combinations need a managed application or compatibility layer; this does not imply an official publisher application exists on every OS.
 
-A model appearing in the IDE does not add a Messaging package. A Messaging package does not grant mobile control of every provider action. Each product exposes the capabilities supplied by its own integration.
+Choose the current artifact architecture and provider requirements shown for your release. Do not infer Intel Mac or Linux ARM availability from a generic platform logo.
 
-## External Agents And The Mailbox
+## After a provider changes
 
-The **AxiOwl Mailbox** is a built-in local destination for messages and results. An **A2A agent** is a standards-based endpoint discovered through an Agent Card. Both can participate in coordination without being another installed model provider.
+Provider updates can change sessions, APIs, configuration or extensions. Check [Components and updates](messaging/components-and-updates.md) and the integration outcome before continuing.
 
-See [Messaging setup](getting-started.md), [IDE accounts](ide/models-and-accounts.md), or [Mobile agents](mobile/agents-and-workspaces.md) for the next step in your chosen product.
+Use [Messaging setup](getting-started.md) for first use and [Troubleshooting](messaging/faq-troubleshooting.md) for incomplete setup.

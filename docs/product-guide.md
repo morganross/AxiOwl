@@ -25,15 +25,13 @@ Axiom Messaging is also a title on the product website. It describes agent-to-ag
 
 ## Messaging: Give Work An Address
 
-Messaging starts with an actual destination: a provider, a surface, a session, and sometimes a remote computer. A friendly chat name helps you find that destination. It does not replace the underlying identity.
+Messaging starts with an actual destination: provider, desktop or CLI surface, conversation and computer route. A friendly name helps you find it; the native identity preserves the selected conversation.
 
-Prepare the provider in the user account that owns it. Install the relevant AxiOwl integration, let the provider load its tools, and refresh discovery. Choose the conversation that should receive the request.
+Install the relevant integration in the provider-owning user's environment and let the provider load its tools. An agent given an exact destination name can Send directly without a preliminary identity or listing call.
 
-A useful message states the question, the relevant context, and how the recipient should reply. You can ask for a reply through AxiOwl MCP without asking the recipient to rebuild your entire working context.
+A useful message gives the target an accessible reference, objective and permissions. An acceptance result, delivery at that native target and completion of the requested task establish different things. Another message requires separate explicit authorization.
 
-**What the result means:** an acceptance receipt says the request entered AxiOwl. A delivery result describes the handoff. A reply is the recipient's answer. Do not treat those as three names for the same event.
-
-Read [Messaging setup](getting-started.md) and [Messaging workflows](messaging-workflows.md).
+Read the [Messaging overview](messaging/README.md), [setup](getting-started.md) and [Sending messages](messaging/sending-messages.md).
 
 ## IDE: Keep The Execution Route Visible
 

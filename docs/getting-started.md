@@ -1,60 +1,51 @@
 ---
-sidebar_position: 2
+title: "Get started with AxiOwl Messaging"
 slug: /getting-started
-title: Get Started With Messaging
+description: "Install the right integration and send one message to a real conversation."
 ---
 
-# Get Started With AxiOwl Messaging
+# Get started with AxiOwl Messaging
 
-Start with a provider conversation you already use. Install its AxiOwl integration, discover the session, and send a request through the mailbox or your agent's AxiOwl tools.
+Start with two real provider conversations: the one you work in and the one you want to reach.
 
-## Install The Desktop Product
+## Install the platform package
 
-Choose **AxiOwl Messaging** and your operating system on [Downloads](https://axiowl.com/downloads/). Install the package for that computer, then open the AxiOwl desktop interface.
+Choose **AxiOwl Messaging**, the correct operating system and the intended channel on [Downloads](https://axiowl.com/downloads/). The IDE and Usage Meter are separate applications.
 
-On Windows, the installer discovers provider applications before recommending checkboxes. Review the list and select the integrations you intend to use. The labels describe whether a provider needs MCP configuration, a plugin, a bridge extension, or session integration. [The installer guide](installer.md) explains the connected features separately.
+Follow [Installation](installer.md). Keep the provider applications you intend to use installed and authenticated. An AxiOwl integration does not purchase model access or sign you into a provider.
 
-Keep your provider applications installed and signed in. AxiOwl uses their existing account and project environment; installing an integration does not purchase model access or sign you into the provider.
+## Prepare your provider surface
 
-## Find The Right Conversation
+Open the application or locally prepared managed copy associated with the selected integration. Desktop and CLI surfaces are different destinations.
 
-Open the provider session you want to reach. In AxiOwl, refresh discovery and inspect its registry entry. Look at the provider, surface, title, and workspace where those fields are available.
+Let it load its AxiOwl tools and follow its normal permission prompts. If setup reports an incomplete integration, read that warning before treating the surface as ready.
 
-A provider's desktop app and CLI are separate destinations. Two chats with the same title can also be different sessions. Select the concrete target shown in the registry instead of relying on the name alone.
+## Choose a clear destination
 
-The built-in **AxiOwl Mailbox** is a local destination for messages and results. It can receive a response without a model account of its own.
+Give the target conversation a distinctive name, such as **API review**. In the desktop interface, refresh the provider/session list when you need to browse and confirm the provider, computer and conversation.
 
-## Send Work
+An agent already given the exact target name can use Send directly. It does not need a preliminary identity, discovery or listing call.
 
-Select the target and write the actual request you want it to handle. Include the project context and whether you want advice, a file change, or a status update. When you need an answer, explicitly request a response through AxiOwl MCP.
+## Send a focused instruction
 
-You can also ask a provider agent to send the message using its installed AxiOwl tools. Use the target name shown in the registry, including its computer and transport qualifier for a remote chat. The integration supplies the sending session's identity and appends the return destination; you do not need to look up UUIDs or write a reply-to address.
+For example, ask your integrated agent:
 
-Read the returned receipt, then follow the recipient's reply. These are distinct parts of the conversation:
+> Use AxiOwl to send one message to “API review”: “Review the authorization change in docs/change-note.md. Record your findings in this conversation; do not edit files.”
 
-| What you see | What it tells you |
-|---|---|
-| Registry entry | AxiOwl knows the target's identity and route |
-| Acceptance receipt | AxiOwl accepted the messaging request |
-| Delivery result | The selected integration reported its handoff outcome |
-| Correlated reply | The recipient answered through AxiOwl |
+Use a file the target can actually access. Messaging does not transfer the repository merely because the body contains a path.
 
-## Create A New Agent
+For a human-operated send, select the target in the desktop Send interface, enter the authored body and submit it once. Screen names differ across platforms.
 
-Choose a provider that exposes **Create**, and supply the intended name, project context, and first instruction. Creation uses that provider's own session machinery. The resulting session is registered so later messages can address the same conversation.
+## Finish the Send, then inspect what matters
 
-Use an existing conversation when its accumulated context matters. Create a new one when the next task should begin with a separate history. [Work with agents](messaging-workflows.md) covers both choices.
+Read the tool or desktop result. Acceptance and target delivery are different facts. When you need delivery confirmation, inspect the intended native conversation for the actual authored text.
 
-## Add Connected Features As Needed
+A Send-only instruction ends after the tool reports its result. AxiOwl does not require the agent to wait for another model or automatically send an answer elsewhere.
 
-- **AxiOwl Remote Connections** supplies the Windows host runtime used by connected clients.
-- **AxiOwl Relay** enables selected computer-to-computer registry and messaging routes.
-- **A2A Server and Client** connect standards-based agent endpoints.
-- **SSH Command Dispatch** uses configured SSH connections for registry synchronization, chat delivery, and remote AxiOwl operations. [Set up Messaging over SSH](ssh.md).
-- **Codex Remote** targets Codex's own remote conversations.
+If the outcome is uncertain, keep its operation reference. Do not repeat an accepted or uncertain Send.
 
-Each route has its own destination and authorization. Use [Mobile setup](mobile/getting-started.md) for a phone, or [Connected systems](a2a.md) for remote agent communication.
+## Add remote features deliberately
 
-## Keep Useful Conversations Findable
+Use [SSH](ssh.md) for an existing SSH connection, [connected computers and A2A](a2a.md) for other routes, or [mobile access](messaging/mobile-and-remote.md) for a paired phone.
 
-Give active specialists meaningful titles and preserve the project context in each request. Refresh discovery after changing provider installations or workspaces. Keep the message and reply together when a decision matters, so you can return to the original participant and continue the work.
+Remote access, website sign-in and provider authentication are separate relationships.

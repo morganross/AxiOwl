@@ -12,7 +12,7 @@ AxiOwl products work with different kinds of sensitive information: provider acc
 
 | Product | What it needs | What the user controls |
 |---|---|---|
-| Messaging | Session discovery, registry state, message delivery, and MCP replies | Selected integrations, targets, and remote routes |
+| Messaging | Session discovery, registry/operation records, message delivery and native MCP tools | Selected integrations, targets, and remote routes |
 | IDE | Chosen workspace, provider connection, conversation, and agent tools | Account, model, brain, workspace, and permissions |
 | Mobile | Approved connection to a host and its advertised controls | Device approval, host selection, and requested actions |
 | Usage Meter | Selected account methods and provider-reported readings | Account binding, refresh, cloud-query consent, and companion access |
@@ -54,7 +54,7 @@ A2A endpoints use their advertised authentication and task semantics. The receiv
 
 ## Local State And Retention
 
-Messaging retains registry and mailbox information needed for coordination. Providers retain their own session history. The IDE keeps account/session metadata and AxiCode-owned state. Usage Meter retains account bindings and readings according to its platform behavior.
+Messaging retains registry, operation and diagnostic records; native Send records can contain message text. Providers retain their own session history. The IDE keeps account/session metadata and AxiCode-owned state. Usage Meter retains account bindings and readings according to its platform behavior.
 
 A product's uninstall or account-removal action has a defined ownership scope. Read that scope rather than assuming uninstalling one app deletes every provider conversation or revokes every remote credential.
 
@@ -72,4 +72,4 @@ Start with the product, platform, version, selected operation, and visible statu
 
 Keep passwords, access tokens, pairing links, private keys, raw provider account files, and unnecessary billing or project information out of public reports. Report sensitive security concerns privately through [Contact](https://axiowl.com/contact/).
 
-Product detail: [IDE privacy](ide/security-and-privacy.md), [Mobile privacy](mobile/security-and-privacy.md), and [Usage Meter privacy](usage-meter/security-and-privacy.md).
+Product detail: [Messaging privacy](messaging/security-and-privacy.md), [IDE privacy](ide/security-and-privacy.md), [Mobile privacy](mobile/security-and-privacy.md), and [Usage Meter privacy](usage-meter/security-and-privacy.md).

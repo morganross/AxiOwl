@@ -6,7 +6,7 @@ User documentation for the AxiOwl product family, published at [axiowl.com/docs]
 
 - [What is AxiOwl?](docs/what-is-axiowl.md)
 - [Product guide and everyday setup](docs/product-guide.md)
-- [AxiOwl Messaging](docs/getting-started.md)
+- [AxiOwl Messaging](docs/messaging/README.md)
 - [Axiom Messaging](docs/axiom.md)
 - [AxiOwl IDE](docs/ide/README.md)
 - [AxiOwl Mobile](docs/mobile/README.md)
@@ -15,6 +15,15 @@ User documentation for the AxiOwl product family, published at [axiowl.com/docs]
 The guides cover setup, everyday workflows, providers, accounts, connections, privacy, and updates. Product-specific pages keep the distinction between agent control and usage-reading companions clear.
 
 The Mobile category also covers [on-device agents versus connected desktop sessions](docs/mobile/on-device-agents.md). The product/platform map identifies thirteen targets separately from shared daemon, relay, proxy, and helper roles. Current source and installed outcomes are described at their actual scope rather than as universal feature parity.
+
+## Messaging by audience
+
+- New users: [Overview](docs/messaging/README.md), [who it is for](docs/messaging/who-its-for.md), [getting started](docs/getting-started.md).
+- Everyday users: [Send workflow](docs/messaging/sending-messages.md), [components and updates](docs/messaging/components-and-updates.md), [help](docs/messaging/faq-troubleshooting.md).
+- Integrators and evaluators: [MCP integration](docs/messaging/integrating-agents.md), [architecture](docs/messaging/architecture.md), [technology stack](docs/messaging/technology-stack.md).
+- Administrators: [Administration](docs/messaging/administration.md), [privacy/security](docs/messaging/security-and-privacy.md), [remote access](docs/messaging/mobile-and-remote.md).
+
+The Messaging set follows the explicit-Send contract: authored body, native identity, exact destination, separate admission/delivery, and no automatic messaging exchange. Historical observations do not establish current universal compatibility.
 
 ## Shared References
 

@@ -10,11 +10,11 @@ The AxiOwl family connects several kinds of work: messages between agents, direc
 
 ## Messaging: Address A Real Session
 
-A caller chooses a registry target. AxiOwl resolves its provider, surface, session identity, and route, then hands the request to that integration. The target's response returns through its configured AxiOwl tools with sender and correlation information.
+An integrated caller supplies the destination and authored body. The native host supplies the executing conversation's identity. AxiOwl resolves the target within its provider/computer scope, binds its exact identity and uses the appropriate provider integration.
 
-The common interface saves the caller from knowing every provider's delivery mechanism. Provider workers still handle the details of their own applications.
+A Send-only request ends after the tool reports its result. AxiOwl does not automatically instruct another messaging operation or wait for the target's task. Acceptance and observed target delivery are separate facts.
 
-Names help you navigate. Session IDs address conversations. A renamed chat can remain the same destination, while two chats with identical names remain distinct.
+Names help navigation, while native conversation identity preserves the destination. See [How messaging works](messaging/how-it-works.md) and [Architecture](messaging/architecture.md).
 
 ## Mobile: Interact With A Paired Host
 
@@ -61,7 +61,7 @@ A2A task identity is separate from a provider conversation. A task may use a pro
 | Product event | Meaning |
 |---|---|
 | Messaging acceptance | AxiOwl accepted the request |
-| Messaging reply | The selected agent answered |
+| Messaging target delivery | The authored text reached the intended native conversation |
 | Mobile connection | The phone reached its paired host |
 | Provider turn complete | The provider reported completion of that turn |
 | IDE route selected | An account, model, and brain are selected |

@@ -1,50 +1,51 @@
 ---
-title: Work With Agents
+title: "Work with agents"
 slug: /messaging/workflows
+description: "Use focused handoffs while preserving conversation, project and permission boundaries."
 ---
 
-# Work With Agents
+# Work with agents
 
-Messaging is most useful when a second conversation can contribute something the first one does not have: another part of the repository, a different model, a specialized tool, or an independent perspective.
+Messaging connects participants with different context or capabilities. Plan the work around those differences.
 
-## Make The Handoff Small And Complete
+## Implementation and independent review
 
-A useful message gives the recipient enough information to act without repeating the entire history. State the objective, point to the relevant files or material, name decisions that should remain in place, and say what should come back.
+Keep the implementation conversation responsible for the change. Send a reviewer an accessible commit or change description, the review objective and whether editing is allowed.
 
-For a review, identify the exact change and ask for findings. For implementation, identify the allowed files and intended behavior. For research, explain the question and the evidence you need. This keeps the recipient's work aligned with the request and makes its answer easier to use.
+For example:
 
-The token benefit comes from reducing repeated context. A coordinator can retain the decisions and results while specialists keep their own detailed command output and exploration. AxiOwl does not change a provider's token price or guarantee a fixed percentage saving.
+> Review the authorization change described in docs/change-note.md. Identify concerns and record them in this conversation. Do not modify files.
 
-## Continue Or Create
+Read the review in that conversation or explicitly authorize a separate Send of the findings when needed. A delivery operation does not automatically start an exchange between agents.
 
-Continue an existing session when it owns relevant context. A long-running specialist can remember why a decision was made and where the corresponding code lives.
+## Focused investigation
 
-Create a separate session when the task needs an independent starting point or a different workspace. Select the provider surface deliberately. A CLI session, editor conversation, and desktop agent can expose different tools even when they use the same model brand.
+Give an investigator the question, relevant evidence and the boundary between investigation and repair. An instruction to inspect a failure should not silently become permission to change code, install software or run tests.
 
-## Coordinate Several Participants
+Include the operating system and application/provider versions when they matter.
 
-Agree which participant owns each file or decision before sending parallel work. Messaging can carry the handoffs, but it does not make overlapping edits safe by itself. Keep implementation assignments distinct and use replies to report completed changes, unresolved questions, and the next decision.
+## Coordination across several conversations
 
-A coordinator can collect the answers and reconcile them. A human can occupy the same role through the mailbox. Both benefit from keeping the exact session identity behind each friendly title.
+Assign an owner to each file or decision before parallel work. Messaging does not prevent conflicting edits or merge changes automatically.
 
-## Keep Replies Attached To The Request
+Keep durable decisions in the project and send accessible references. A coordinator can retain the objective and selected results while specialists keep their detailed exploration.
 
-Ask the recipient to answer through AxiOwl MCP. AxiOwl appends the sending chat's name and return route to the delivered message, and the recipient follows those instructions. The integration identifies the executing session and retains the exact selected chat identity behind the human-readable name. Keep technical identifiers in diagnostic evidence, rather than inserting UUIDs or a manual reply-to address into the message.
+This can reduce manual copying. Actual model cost and completion time still depend on the task, providers and workflow.
 
-Read both conversations to confirm that the answer reached the original sender. A response written only in the recipient's own chat does not complete the return exchange. If AxiOwl reports a pending or uncertain operation, check that existing request before considering another send; a timeout does not cancel it.
+## Continue or create
 
-A delivery receipt alone does not tell you whether the agent finished. Read the returned response or the provider's own task state before treating the requested work as complete.
+Continue an existing conversation when its accumulated context matters. Use Create only on a surface advertising that operation and when the user wants a new conversation.
 
-## Rename Without Losing The Destination
+Creation, renaming and browsing are administrative operations. They do not add an automatic messaging step to Send.
 
-Where the selected provider supports Rename, use AxiOwl to update the conversation's title. The title is for navigation; the provider session ID remains the address. Rename support is specific to the surface, so use the operations advertised for that target.
+## Across computers
 
-## Work Across Computers
+Use the complete target label and intended route. A remote file path refers to the recipient's computer; it is not a file transfer.
 
-Choose a registered computer and its explicit route. The destination computer owns provider authentication and delivery into its local sessions. Relay messaging, [SSH Messaging](ssh.md), and A2A each retain their own connection model.
+For [SSH](ssh.md), retain the computer and transport qualifier displayed by AxiOwl. A separate message in the other direction needs its own authorized route and operation.
 
-For SSH, preserve the full chat name, computer qualifier, and `(SSH)` ending. Configure the return connection as well as the outgoing connection. The [SSH guide](ssh.md) separates connection checks, registry synchronization, provider delivery, and an actual reply.
+## Finish at the right boundary
 
-Remote work still needs real files at the destination. A message can refer to a repository or artifact, but mentioning a local path does not copy that file to another computer. Include a location the recipient can access or arrange the transfer through your normal project tools.
+For Send, distinguish admission from delivery at the target. For the requested task, inspect its actual work or native history. For an additional message, obtain explicit authorization rather than relying on generated instructions.
 
-Continue with [Providers](providers.md), [Connected systems](a2a.md), and [Security and privacy](security.md).
+See [How messaging works](messaging/how-it-works.md) and [Agent-tool reference](messaging/integrating-agents.md).

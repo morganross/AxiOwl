@@ -9,8 +9,22 @@ const sidebars = {
     {
       type: 'category',
       label: 'AxiOwl Messaging',
-      link: {type: 'doc', id: 'getting-started'},
-      items: ['messaging-workflows', 'providers', 'installer', 'ssh', 'a2a'],
+      link: {type: 'doc', id: 'messaging/README'},
+      items: [
+        {type: 'category', label: 'Understand Messaging', items: [
+          'messaging/who-its-for', 'messaging/how-it-works', 'providers',
+        ]},
+        {type: 'category', label: 'Use Messaging', items: [
+          'getting-started', 'installer', 'messaging/sending-messages',
+          'messaging-workflows', 'messaging/components-and-updates',
+          'messaging/mobile-and-remote', 'ssh', 'a2a',
+        ]},
+        {type: 'category', label: 'Develop and administer', items: [
+          'messaging/integrating-agents', 'messaging/architecture',
+          'messaging/technology-stack', 'messaging/security-and-privacy',
+          'messaging/administration', 'messaging/faq-troubleshooting',
+        ]},
+      ],
     },
     'axiom',
     {

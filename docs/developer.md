@@ -14,7 +14,7 @@ This guide is a map for contributors and integrators. The product guides explain
 
 | Product or service | Repository | Principal source areas |
 |---|---|---|
-| Messaging, host runtimes, original connected Mobile client, A2A, and SSH | `morganross/Axiowl4` | `apps`, `core`, `providers`, `remote_transport`, `installer`, `release` |
+| Messaging and its shared native host infrastructure | Maintained access-controlled application/runtime sources | Native clients, provider adapters, connection services and packaging |
 | Usage Meter and its platform apps/companions | `morganross/axiowl-usage-meter` | `src`, `platforms/windows`, `platforms/linux`, `platforms/apple`, `platforms/android-companion` |
 | macOS IDE | `morganross/AxiOwl-IDE-macOS` | React interface in `src`; Rust/Tauri host in `src-tauri` |
 | Linux IDE | `morganross/AxiOwl-IDE-Linux` | Platform IDE source and its product specification |
@@ -34,33 +34,31 @@ Linux Usage Meter has its own release and signing source under `platforms/linux/
 
 ## Messaging Boundaries
 
-The CLI, mailbox, and MCP interface resolve a registry target before invoking a provider package. A package owns its integration assets and worker. The provider owns account authentication, model access, and its session semantics.
+Messaging's public developer entrypoints are described in [Agent-tool integration](messaging/integrating-agents.md). Native Send takes the selected conversation and authored body; its host supplies the executing identity.
 
-`providers/provider-package-inventory.json` describes Windows package ownership and declared operations. Capability declarations guide routing; they are not a universal cross-platform provider matrix.
+Target resolution, operation admission and provider handoff remain distinct. The operation binds the resolved native conversation and preserves its route. A timeout is uncertainty, not authorization to repeat it.
 
-Core workflows preserve the distinction between accepted request, integration handoff, and correlated response. Keep provider/surface/session identity separate from user-facing aliases.
+Provider workers and integration packages have OS- and surface-specific capabilities. Source declarations, installation and actual target delivery are different evidence boundaries.
+
+The [Messaging architecture](messaging/architecture.md) and [technology stack](messaging/technology-stack.md) describe the current native application/runtime boundary without exposing private deployment information.
 
 ## SSH Messaging Boundaries
 
-The shared SSH transport source is under `remote_transport/ssh`. Its protocol and reply-route helpers preserve the selected computer, provider surface, and exact chat identity across registry synchronization, delivery, and the return exchange. Initial recipient-name collision handling uses recorded chat usage; sender identity comes from the executing session.
+[SSH Messaging](ssh.md) uses the selected SSH identity, remote user and complete conversation label. Registry synchronization does not prove target delivery or grant a different provider account.
 
-The Windows CLI and core pipeline, macOS Swift bridge, and Linux CLI adapter consume that contract through platform-specific integration code. Windows 3.1.408 uses Task Scheduler for incoming SSH delivery from a noninteractive SSH session into the same user's existing signed-in desktop session. Local and relay delivery keep their established launch paths. This Windows change does not establish Mac or Linux launch behavior.
+The destination computer performs its local integration work. An explicit new message in another direction has its own route and operation. Native Send does not append instructions for an automatic messaging exchange.
 
-Operation admission, provider delivery, and a returned chat message remain separate evidence boundaries. A `worker_started` receipt must not be promoted to completed delivery. The [SSH guide](ssh.md#observed-cli-compatibility) records the October 20 CLI observations, their version scope and deviations, and the unresolved Windows Copilot outgoing reply.
+Do not promote old transport observations or worker-start receipts into current compatibility claims.
 
 ## Connected Host And Mobile
 
-The host runtime owns agents, workspaces, provider processes, pairing, and timeline state. The mobile client displays and controls the capabilities it advertises.
+The native host runtime owns the capabilities it advertises to an approved client. The provider or attached application retains its own account, session and tool permissions.
 
-The original shared connected client is under `apps/mobile_shared`. The native Goose Android and iPhone applications have their own repositories and interfaces; their local engine bridges share the Goose fork rather than becoming another copy of the original client. Connected host operations still follow the shared desktop contract.
+AxiOwl Mobile's connected-host interface and its separate phone-local modes must not be confused. See [Messaging remote/mobile access](messaging/mobile-and-remote.md) and the [Mobile guide](mobile/README.md).
 
-The current Windows connection implementation is under `remote_transport/axiowl/windows_daemon`. POSIX connected-host source includes `remote_transport/axiowl/node_daemon` and platform-consumer trees. The exact component included in a release follows that consumer's package contract, not a generic assertion that every product uses the same daemon implementation.
+Shared native components, provider packages and consuming applications have separate source, version and installation boundaries. A relay provides reachability; it is not a provider brain or tool-authorization service. Native Windows, macOS and Linux adapters remain platform-specific.
 
-The relay routes encrypted frames. It does not implement provider logic or authorize a tool request. Terminal and file operations belong to the authenticated host boundary.
-
-The native Windows producer's current [Consumer build contract](https://github.com/morganross/Axiowl4/blob/main/release/shared-daemon/CONSUMER-BUILD-CONTRACT.md) describes a binary ZIP with inventory, manifest, signing evidence, and build receipt. It does not produce a separate end-user MSI. Consuming applications own installation, uninstallation, and service integration. Historical shared-MSI sections are explicitly superseded for that producer output.
-
-The [POSIX IDE handoff](https://github.com/morganross/Axiowl4/blob/main/release/shared-daemon/POSIX-IDE-HANDOFF.md) keeps the local IDE server distinct from its encrypted remote bridge. A connected daemon does not establish an IDE attachment or grant by itself.
+The original shared connected-client workspace uses React Native/Expo and TypeScript. Current native desktop shared infrastructure is C++; older Node-host implementation notes do not describe every current desktop package.
 
 ## IDE Execution
 

@@ -12,7 +12,7 @@ AxiOwl is useful when your work spans more than one conversation, account, or de
 
 Let one agent own the implementation and another examine the result. Use Messaging to give the reviewer the exact change, relevant files, and question.
 
-The reviewer keeps an independent context. Its response can return to the builder or coordinator, where the decision and next action remain visible. This works across supported provider surfaces rather than requiring all participants to use the same app.
+The reviewer keeps an independent context. Read its findings in that conversation or explicitly authorize a separate Send of them. Delivery and the reviewer's work remain separate events. Provider surfaces can differ between participants.
 
 ## Keep A Coordinator Focused
 

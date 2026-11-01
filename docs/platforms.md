@@ -14,7 +14,7 @@ The product map has thirteen platform targets. These rows identify the applicati
 
 | Product | Platform | Application role |
 |---|---|---|
-| AxiOwl Messaging | Windows | Desktop mailbox, CLI/MCP, provider integrations, and connected host features |
+| AxiOwl Messaging | Windows | Desktop controls, CLI/MCP, provider integrations and connected-host features |
 | AxiOwl Messaging | macOS | Native desktop/CLI coordination and platform provider preparation |
 | AxiOwl Messaging | Linux | Desktop/CLI coordination and platform provider integration |
 | AxiOwl IDE | Windows | Conversation, workspace, model/account selection, and agent runtimes |
@@ -40,13 +40,13 @@ Axiom Messaging is a website product title for agent coordination, not an additi
 
 ## Windows Messaging
 
-The MSI combines core components with selected provider integrations. The current catalog includes thirteen provider packages, and connected features include AxiOwl Remote Connections, relay messaging, A2A, and SSH.
+The MSI combines core components with selected provider integrations. Provider packages are surface-specific; connected features include AxiOwl Remote Connections, relay messaging, A2A, and SSH.
 
 Provider processes use the intended user's environment. Open and authenticate the provider there before asking AxiOwl to deliver into its sessions.
 
 ## macOS Messaging
 
-The native application provides provider setup, discovery, registry, mailbox, and daemon controls. Managed provider integrations prepare local copies from user-installed publisher applications where required.
+The native application provides provider setup, discovery, registry, messaging and daemon controls. Managed provider integrations prepare local copies from user-installed publisher applications where required.
 
 Routine package behavior follows the platform's ownership rules. Provider sign-in and managed-app identity matter independently of an application's visible name or path. Use the supported preparation and update flow for that provider.
 

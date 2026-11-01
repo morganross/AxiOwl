@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="230" viewBox="0 0 1100 230" role="img" aria-labelledby="title description">
+<title id="title">An explicit Send reaches a selected conversation</title>
+<desc id="description">The source conversation uses native Send tooling. AxiOwl resolves and pins the target, uses its provider route and delivers to the selected conversation. An authorized remote route is optional. Acceptance is separate from observed delivery.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#126775"/></marker></defs>
+<rect width="1100" height="230" rx="16" fill="#f6fafb"/>
+<g fill="#fff" stroke="#126775" stroke-width="2">
+<rect x="20" y="45" width="180" height="90" rx="12"/><rect x="240" y="45" width="180" height="90" rx="12"/>
+<rect x="460" y="45" width="180" height="90" rx="12"/><rect x="680" y="45" width="180" height="90" rx="12"/>
+<rect x="900" y="45" width="180" height="90" rx="12"/>
+</g>
+<g fill="none" stroke="#126775" stroke-width="2.5" marker-end="url(#arrow)">
+<path d="M201 90H233"/><path d="M421 90H453"/><path d="M641 90H673"/><path d="M861 90H893"/>
+</g>
+<g fill="#172c35" font-family="Arial,sans-serif" text-anchor="middle" font-size="18">
+<text x="110" y="83">Source<tspan x="110" dy="25">conversation</tspan></text>
+<text x="330" y="83">Native Send<tspan x="330" dy="25">tool or desktop</tspan></text>
+<text x="550" y="83">Resolve and pin<tspan x="550" dy="25">the destination</tspan></text>
+<text x="770" y="83">Provider route<tspan x="770" dy="25">and integration</tspan></text>
+<text x="990" y="83">Selected target<tspan x="990" dy="25">conversation</tspan></text>
+<text x="660" y="171" font-size="16">Local delivery or an authorized remote route</text>
+<text x="550" y="207" font-size="16">A Send result and observed target delivery establish different facts.</text>
+</g></svg>

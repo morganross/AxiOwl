@@ -22,25 +22,21 @@ A shared brand does not mean the installers or pairing links are interchangeable
 
 ## I Sent A Message. Where Is The Answer?
 
-Read the delivery result and the target's actual session. Ask the recipient to reply through AxiOwl MCP when you need a correlated response.
+A Send puts the authored message into the selected conversation; it does not automatically start another messaging operation. Inspect that target's native history and work separately.
 
-An acceptance receipt records the request entering AxiOwl. The recipient still needs to run and answer. Keep the message's sender, target, and correlation information when following up.
-
-Refresh discovery if the provider session or workspace changed. Choose the exact provider surface, particularly when the same brand has desktop and CLI entries.
+Acceptance is not target-delivery proof. After a Send-only tool call returns, the source agent reports its result and finishes. Use [Messaging help](messaging/faq-troubleshooting.md) for delivery and task questions.
 
 ## An SSH Computer Appears In The List But A Message Cannot Reach It
 
-A saved chat list can outlive a network connection. Confirm that the destination is running, its SSH service is reachable from the sending computer, and its SSH alias still points to the intended address. A temporary firewall allowance can expire between registry synchronization and the send.
+A saved chat list can outlive connectivity. Check the intended computer, SSH account, verified host identity, integration and provider session.
 
-Replies need the reverse connection too. Keep the full computer-qualified chat name and `(SSH)` ending; removing them can select a local or relay route instead. Follow [Messaging over SSH](ssh.md).
+Preserve the complete computer/transport qualifier in the target name. A separate message in the other direction needs its own authorized route; it is not part of the first Send. See [Messaging over SSH](ssh.md).
 
-## The Request Stays At `worker_started`
+## The Send Result Does Not Confirm Delivery
 
-This means AxiOwl admitted the request and started its background operation. It does not establish that the provider received the message or returned an answer. Follow the existing operation status, and read the sender's and recipient's recent chat history before sending anything again.
+A reported worker start establishes admission, not native target delivery. Preserve that operation reference and inspect the exact target or its exposed status when requested.
 
-On Windows 3.1.408, one recorded Mac-to-Windows Copilot CLI exchange reached Copilot successfully, but Copilot's outgoing answer remained `worker_started` and never reached the Mac chat. The recorded process had exited without publishing a result. That reply failure remains unresolved; see the [version-specific observation](ssh.md#windows-copilot-reply-limitation).
-
-Include the operation reference and the versions of both computers when reporting a stuck exchange. Do not clear provider credentials or the whole registry to conceal its pending state.
+A timeout does not cancel the operation. Do not dispatch another copy or delete its records to resolve uncertainty. Older version-specific examples are not evidence about the currently installed implementation.
 
 ## The Agent Does Not Show AxiOwl Tools
 

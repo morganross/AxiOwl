@@ -14,7 +14,7 @@ Choose the product around the job you want to do. You can use Usage Meter to und
 
 | Product | What you use it for | Start here |
 |---|---|---|
-| **AxiOwl Messaging** | Find provider sessions, send work between agents, and follow their replies | [Messaging setup](getting-started.md) |
+| **AxiOwl Messaging** | Find real provider conversations and explicitly send authored messages | [Messaging setup](getting-started.md) |
 | **Axiom Messaging** | The agent-to-agent messaging offering listed in the AxiOwl product family | [Axiom Messaging](axiom.md) |
 | **AxiOwl IDE** | Work with conversations, models, agent runtimes, and project files in one desktop workspace | [IDE guide](ide/README.md) |
 | **AxiOwl Mobile** | Reach computer-owned sessions from your phone, with native Goose apps also offering a phone-local agent runtime | [Mobile guide](mobile/README.md) |
@@ -26,11 +26,11 @@ New to the family? The [Product guide](product-guide.md) explains setup, account
 
 ## AxiOwl Messaging: Connect The Work You Already Have
 
-Your builder may be working in Cursor, your reviewer in Codex, and another specialist in Claude Code. Messaging lets those sessions exchange focused requests and replies while keeping their existing provider identities and workspaces.
+Messaging puts an authored instruction into a selected conversation in a supported provider application. The source and destination keep their own account, surface, native identity and project environment.
 
-AxiOwl discovers sessions, records their addresses, and uses the integration for the selected provider surface. The mailbox gives you a local view of messages and delivery information. Agents can use AxiOwl MCP tools to communicate from their own conversations.
+The operation is an explicit Send. Delivery at the target is separate from the agent's subsequent work; the product does not generate instructions to initiate another message or automatically wait for an exchange.
 
-This also makes AxiOwl a normalization layer: the caller has a consistent way to identify an agent and request an operation, even when the destination uses a different provider or runs on another computer.
+Start with the [Messaging overview](messaging/README.md), [who it is for](messaging/who-its-for.md) or [first-use guide](getting-started.md).
 
 ## AxiOwl IDE: Choose How The Agent Works
 
