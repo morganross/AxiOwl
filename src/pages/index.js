@@ -6,6 +6,7 @@ import Heading from '@theme/Heading';
 import heroOwl from '@site/static/img/axiowl-owl-book.png';
 import {docsContentPath} from '../embedded/profile.mjs';
 import styles from './index.module.css';
+import DocsSearch from '../components/DocsSearch';
 
 const cards = [
   {
@@ -17,8 +18,8 @@ const cards = [
   {
     label: 'AxiOwl Messaging',
     title: 'Connect your agents',
-    body: 'Discover real sessions, send focused work across providers, and follow the replies.',
-    slug: 'getting-started',
+    body: 'Find real conversations and send focused work across providers and computers.',
+    slug: 'messaging',
   },
   {
     label: 'AxiOwl IDE',
@@ -78,11 +79,12 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={siteConfig.title}
+      title="Documentation"
       description="Guides for AxiOwl Messaging, Axiom Messaging, AxiOwl IDE, AxiOwl Mobile, and AxiOwl Usage Meter.">
       <HomepageHeader />
       <main className={styles.main}>
         <section className="container">
+          <div className="axiowl-docs-home-search"><DocsSearch /></div>
           <div className={styles.cardGrid}>
             {cards.map((card) => (
               <Link className={styles.card} to={docsTo(siteConfig, card.slug)} key={card.title}>

@@ -12,7 +12,7 @@ A provider brand can expose several different surfaces. AxiOwl keeps their conve
 
 | Provider family | Desktop surface | Command-line surface |
 | --- | --- | --- |
-| Claude | Claude Desktop integration, including its applicable Code environment | Claude Code CLI |
+| Claude | Claude Desktop **Code** conversations | Claude Code CLI |
 | Codex | Codex desktop conversations | Codex CLI |
 | Cursor | Cursor Agent/Composer conversations | Cursor Agent CLI |
 | OpenCode | OpenCode Desktop | OpenCode CLI |
@@ -24,6 +24,27 @@ This is an integration map, not a table of passed provider pairs. Availability a
 **VS Code means the VS Code Copilot desktop surface.** It is not another name for standalone Copilot CLI. Likewise, Claude Desktop and Claude Code CLI, or OpenCode Desktop and OpenCode CLI, are different targets.
 
 Some releases expose additional provider-specific routes, including Codex Remote. Use the capability entry actually offered by that installed release.
+
+Claude Desktop's Code surface is not every Claude desktop or web conversation.
+
+## Integration reference
+
+The provider inventory distinguishes these integration methods. Use the entries
+offered by your installed platform; this reference is not a passed-pair matrix.
+
+| Surface | Integration boundary |
+| --- | --- |
+| Antigravity desktop and CLI | Separate desktop/CLI configuration, session identity and workers |
+| Claude Desktop Code | Desktop MCP configuration and managed bridge |
+| Claude Code CLI | User MCP configuration and provider worker |
+| Codex Desktop | Codex plugin, MCP tools, skill and worker |
+| Codex CLI | CLI MCP configuration and session integration |
+| Codex Remote | Codex-owned remote project and session integration |
+| Copilot CLI | Standalone CLI MCP metadata and worker |
+| Cursor desktop | Bridge extension, MCP configuration and desktop integration |
+| Cursor Agent CLI | CLI discovery, metadata and worker |
+| OpenCode Desktop and CLI | Separate desktop plugin and CLI configuration/worker |
+| VS Code Copilot | VSIX bridge, MCP metadata and worker |
 
 ## What an integration supplies
 

@@ -30,6 +30,25 @@ Installation attempts each selected integration through its normal path. That ca
 
 Save work before installation or an integration update. Follow application-close prompts and allow the installer to verify required shutdown before replacing live integration files.
 
+## Windows connected-feature reference
+
+Provider integrations and connected features serve different purposes. Use the
+choices offered by your installed release, rather than enabling every route.
+
+| Feature | Purpose |
+| --- | --- |
+| AxiOwl Remote Connections | Host runtime for approved connected clients |
+| AxiOwl Relay | Configured computer-to-computer registry and messaging routes |
+| A2A Server | Expose selected agents through service endpoints |
+| A2A Client | Connect to external or provider-backed agent services |
+| SSH Command Dispatch | Operations through configured SSH computers |
+| Codex Remote | Codex's own remote conversations |
+
+The shared runtime is a component consumed by the application. A Messaging
+feature selection does not grant every other application access to that runtime,
+and removing one consumer is not the same as removing the whole shared service.
+Windows setup labels are not commands to run on macOS or Linux.
+
 ## Read completion with warnings accurately
 
 Independent selected integrations continue when another integration cannot finish. Healthy completed work is retained.

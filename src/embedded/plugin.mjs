@@ -9,9 +9,19 @@ const COLOR_MODE_STUB = fileURLToPath(new URL('./color-mode-stub.js', import.met
 
 export default function axiowlEmbeddedPlugin() {
   const embedded = process.env.AXIOWL_DOCS_EMBEDDED === '1';
+  let searchRecords = [];
 
   return {
     name: 'axiowl-embedded-docs',
+    async allContentLoaded({allContent}) {
+      const versions = allContent['docusaurus-plugin-content-docs'].default.loadedVersions;
+      searchRecords = versions.flatMap((version) => version.docs)
+        .filter((doc) => !doc.unlisted && !doc.draft)
+        .map(({title, description, permalink}) => ({
+          title, description, url: `${permalink.replace(/\/$/, '')}/`,
+        }))
+        .sort((left, right) => left.title.localeCompare(right.title));
+    },
     configureWebpack(_config, _isServer, {currentBundler}) {
       return {
         plugins: [
@@ -30,6 +40,16 @@ export default function axiowlEmbeddedPlugin() {
       const htmlFiles = await listHtmlFiles(outDir);
       const builtAt = new Date().toISOString();
       const sourceCommit = readSourceCommit();
+      await writeFile(join(outDir, 'search-index.json'), `${JSON.stringify(searchRecords)}\n`);
+      const image = new URL(`${siteConfig.baseUrl}${siteConfig.themeConfig.image}`, siteConfig.url).href;
+      const metadata = Object.fromEntries(searchRecords.map((record) => [
+        record.url.slice(siteConfig.baseUrl.length).replace(/\/$/, ''),
+        {title: `${record.title} | ${siteConfig.title}`, description: record.description,
+          canonical: new URL(record.url, siteConfig.url).href, image},
+      ]));
+      metadata[''] = {title: `Documentation | ${siteConfig.title}`, description: siteConfig.tagline,
+        canonical: new URL(siteConfig.baseUrl, siteConfig.url).href, image};
+      await writeFile(join(outDir, 'route-metadata.json'), `${JSON.stringify(metadata)}\n`);
       await writeEmbeddedManifest({
         outDir,
         htmlFiles,

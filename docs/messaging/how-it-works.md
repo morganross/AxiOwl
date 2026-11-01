@@ -4,11 +4,13 @@ slug: /messaging/how-it-works
 description: "Understand conversation identity, routing, acceptance and target delivery."
 ---
 
+import MessageFlow from '@site/src/components/MessageFlow';
+
 # How messaging works
 
 A conversation has more than a title. Its provider, desktop or CLI surface, account environment, computer and native identity determine where work belongs.
 
-![A message passes from a source conversation through native Send tooling, destination resolution and a provider integration into the selected conversation.](../../static/img/messaging-send-path.svg)
+<MessageFlow />
 
 ## 1. Author one message
 
