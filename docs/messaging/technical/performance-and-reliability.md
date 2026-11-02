@@ -32,7 +32,7 @@ Slow provider work should not cause HTTPS authorization calls while file/bridge/
 
 ## Reconnection and retries
 
-Transport reconnection, account refresh backoff and authority-outbox retry are distinct from replaying a user operation. Healthy account fallback is five minutes in updated source; account failures back off. Offline nodes can miss immediate hints.
+Transport reconnection and account refresh backoff are distinct from replaying a user operation. Healthy account fallback is five minutes in updated source; account failures back off. Offline nodes can miss immediate hints.
 
 ## Operational evaluation
 

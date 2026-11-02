@@ -28,11 +28,11 @@ MCP uses a JSON-RPC tool interface. Its role is agent-to-tool integration; A2A p
 
 A JavaScript bridge in one provider does not mean the whole desktop application or shared native runtime runs on Node.js.
 
-## Connected clients and relay
+## Connected clients and Relay client
 
 The original shared connected-mobile workspace uses TypeScript, React Native and Expo, with native platform modules. Native phone applications elsewhere in the product family have separate implementation stacks; they should not be inferred from this workspace.
 
-The relay service uses Elixir/OTP and Cowboy. Connected-client libraries include WebSocket and NaCl-family encryption support. Native builds also use platform cryptography/TLS facilities and dependencies such as OpenSSL, with additional libraries varying by platform and route.
+Connected-client libraries include WebSocket and NaCl-family encryption support. Native builds also use platform cryptography/TLS facilities and dependencies such as OpenSSL, with additional libraries varying by platform and route.
 
 These technology names are not a claim of an independent cryptographic audit or identical security behavior on every connection.
 
@@ -48,4 +48,4 @@ The public guides are Markdown/MDX in Docusaurus and React, embedded in the Word
 
 Package dependencies evolve. Match implementation details to the installed release rather than treating a dependency list as a platform-support promise.
 
-Detailed references: [Windows](technical/stack-windows.md), [Mac](technical/stack-macos.md), [Linux](technical/stack-linux.md), [shared runtime](technical/stack-runtime.md), [mobile/SDK](technical/stack-mobile-sdk.md), [provider integrations](technical/provider-integrations.md), [Relay](technical/relay.md), [account/web](technical/stack-account-web.md) and [release/docs tooling](technical/stack-release-documentation.md).
+Detailed references: [Windows](technical/stack-windows.md), [Mac](technical/stack-macos.md), [Linux](technical/stack-linux.md), [shared runtime](technical/stack-runtime.md), [mobile/SDK](technical/stack-mobile-sdk.md), [provider integrations](technical/provider-integrations.md), [Relay client](technical/relay.md), [account/web](technical/stack-account-web.md) and [release/docs tooling](technical/stack-release-documentation.md).

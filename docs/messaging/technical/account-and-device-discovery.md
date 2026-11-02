@@ -29,7 +29,7 @@ The latest source replaces idle profile polling with reconciliation on initial c
 
 A received hint invalidates the current observation; it does not approve anything. A generation captured before the HTTPS request prevents an older response from reversing a newer invalidation. Account-only new work needs a fresh authority decision within five minutes.
 
-The server outbox coalesces changes, advances bounded device batches and retries publication failures. Offline clients refresh after reconnect or fallback. Notification delivery requires matching deployed server configuration and is not established by the source commit.
+Offline clients refresh after reconnect or fallback. New client source does not establish that notifications are available on the current connection.
 
 ## Sign-out and independence
 

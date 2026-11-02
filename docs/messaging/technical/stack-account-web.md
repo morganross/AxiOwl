@@ -16,8 +16,6 @@ It stores account/device membership, public device identity, short-lived routing
 
 The browser login flow uses the website's existing session and a PKCE-bound authorization code. The desktop does not ask the user to give it the WordPress password. TLS, correct proxy HTTPS handling and non-cacheable authenticated/token responses remain deployment responsibilities.
 
-The latest source also includes a durable invalidation outbox. It requires matching authenticated publisher configuration with Relay; committing the code does not activate it on either server.
-
 ## Public documentation
 
 The public docs are Markdown/MDX rendered with Docusaurus and React. The reviewed source uses Docusaurus 3.10.1 and a Node 20-or-newer development requirement. These are documentation-build dependencies, not desktop application prerequisites.

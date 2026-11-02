@@ -39,10 +39,6 @@ A changed bind address, proxy, firewall rule or tunnel can change exposure. A2A/
 
 Release hosting is currently an HTTPS object-storage origin; deployment-specific bucket names and internal infrastructure identifiers are not client integration APIs.
 
-## Account-to-Relay backend traffic
-
-The new authority outbox sends authenticated account-change hints to the configured Relay publication endpoint. This is server-to-server traffic, separate from desktop fallback requests. A hint invalidates cached membership; desktop HTTPS remains authoritative.
-
 ## Observability limits
 
 Passive status reports selected local events, not all sockets or bytes. “No observation” does not prove no traffic. Relay-off is not a global kill switch for provider/cloud/SSH/mobile services. See [defaults](network-defaults.md), [account timing](account-and-device-discovery.md) and [observability](observability.md).

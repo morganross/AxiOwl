@@ -27,7 +27,7 @@ The reviewed desktop package families are Windows x64, Mac Apple Silicon/macOS 1
 
 The protocol includes feature/capability negotiation so older clients do not receive unsupported messages or fields. Examples in reviewed client source include selective timeline subscription, terminal snapshot/reflow, provider-child descriptors and project updates.
 
-The latest Relay account-change control type also requires explicit capability negotiation. Old servers still require HTTPS fallback; new client source does not prove their publication endpoint is deployed.
+The latest Relay account-change control type also requires explicit capability negotiation. The client retains HTTPS account refresh; new client source does not establish negotiated support on a current connection.
 
 A requested configuration field can exist while the feature owner is inactive. Treat advertised supported capabilities as the runtime boundary, not a client UI package's wish list.
 

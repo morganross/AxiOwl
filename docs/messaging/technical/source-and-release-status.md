@@ -37,7 +37,7 @@ These public references describe responsibilities and contracts without publishi
 | --- | --- | --- |
 | Remote opt-in defaults | Relay off by default; explicit choices persisted; new Windows A2A selections off | Older installed packages may retain older defaults/preferences |
 | Separate sign-in and device consent | Explicit Connect my devices | Not inferred from a website login |
-| Relay account-change hints | Negotiated client control event and authority outbox | Requires matching authority/Relay deployment and publisher configuration |
+| Relay client account-change hints | Negotiated client control event and HTTPS reconciliation | Requires supported capability on the current connection |
 | Membership freshness | Five-minute account-only lease and request-time admission checks | Runtime behavior not established by documentation |
 | Passive network status | Windows/Linux components view and Mac Provider Setup; local observations | Rendering and installation not exercised here |
 
