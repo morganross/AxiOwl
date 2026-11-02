@@ -31,6 +31,7 @@ Messaging gives work an address. It does not supply a model subscription, copy a
 | Connect computers or a phone | [Remote and mobile access](mobile-and-remote.md) |
 | Integrate an agent | [Agent-tool reference](integrating-agents.md) |
 | Evaluate the implementation | [Architecture](architecture.md) and [technology stack](technology-stack.md) |
+| Inspect implementation contracts by feature | [Technical handbook](technical/README.md) and [feature coverage](technical/feature-reference.md) |
 | Operate a deployment | [Administration](administration.md) and [security](security-and-privacy.md) |
 
 ## One explicit Send

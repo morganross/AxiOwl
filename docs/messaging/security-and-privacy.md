@@ -53,3 +53,5 @@ Use approved packages and normal signature/hash, descriptor and publisher verifi
 For support, share the product, OS, versions, intended operation and narrowly redacted status/log evidence. Message bodies and diagnostic records can contain confidential project material.
 
 Use [Contact](https://axiowl.com/contact/) for sensitive reports. No compliance certification, zero-logging guarantee or universal security audit is asserted by this guide.
+
+Technical details: [trust boundaries](technical/security-model.md), [data lifecycle](technical/data-lifecycle.md), [storage formats](technical/storage-and-file-layout.md), [credentials](technical/credential-storage.md), [network inventory](technical/network-connections.md) and [source defaults](technical/network-defaults.md). Recent network changes are [source-only until separately built and deployed](technical/source-and-release-status.md).

@@ -47,3 +47,5 @@ Signing uses the applicable platform/publisher mechanisms, including Windows Aut
 The public guides are Markdown/MDX in Docusaurus and React, embedded in the WordPress-owned website shell. That website delivery stack is separate from the Messaging runtime.
 
 Package dependencies evolve. Match implementation details to the installed release rather than treating a dependency list as a platform-support promise.
+
+Detailed references: [Windows](technical/stack-windows.md), [Mac](technical/stack-macos.md), [Linux](technical/stack-linux.md), [shared runtime](technical/stack-runtime.md), [mobile/SDK](technical/stack-mobile-sdk.md), [provider integrations](technical/provider-integrations.md), [Relay](technical/relay.md), [account/web](technical/stack-account-web.md) and [release/docs tooling](technical/stack-release-documentation.md).

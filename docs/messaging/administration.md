@@ -63,3 +63,5 @@ A registry entry, successful installation, reachable service and actual message 
 Include the application and component versions, operating system, selected provider surface, route, action, visible result and relevant time. Use narrow redacted logs or screenshots.
 
 Exclude credentials, pairing offers and unrelated conversation history. Do not use historical compatibility claims as proof for a new release.
+
+The [technical operations reference](technical/operations-and-recovery.md) covers outages and recovery. Use the [network inventory](technical/network-connections.md), [default-state table](technical/network-defaults.md), [account-discovery contract](technical/account-and-device-discovery.md), [passive status limits](technical/observability.md) and [release trust chain](technical/release-and-supply-chain.md) for deployment review.

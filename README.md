@@ -25,6 +25,8 @@ The Mobile category also covers [on-device agents versus connected desktop sessi
 
 The Messaging set follows the explicit-Send contract: authored body, native identity, exact destination, separate admission/delivery, and no automatic messaging exchange. Historical observations do not establish current universal compatibility.
 
+The [Messaging technical handbook](docs/messaging/technical/README.md) adds stack-specific references, provider contracts, data/credential lifecycle, network ingress/egress and defaults, account discovery, security boundaries, installation/update behavior and operations. Its [feature coverage map](docs/messaging/technical/feature-reference.md) provides the complete reading index, and [source/release status](docs/messaging/technical/source-and-release-status.md) separates source-only work from installed behavior.
+
 ## Shared References
 
 - [Workflows and benefits](docs/use-cases.md)

@@ -71,3 +71,5 @@ Choose the current artifact architecture and provider requirements shown for you
 Provider updates can change sessions, APIs, configuration or extensions. Check [Components and updates](messaging/components-and-updates.md) and the integration outcome before continuing.
 
 Use [Messaging setup](getting-started.md) for first use and [Troubleshooting](messaging/faq-troubleshooting.md) for incomplete setup.
+
+For version, asset, identity and failure boundaries by provider family, see the [technical provider catalog](messaging/technical/provider-integrations.md). Its six family references keep all desktop/CLI entries and Codex Remote distinct.

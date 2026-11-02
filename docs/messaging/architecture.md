@@ -50,3 +50,5 @@ The relay is a transport service. It does not become the model provider or autho
 A source commit, signed component, published artifact, installed integration and observed delivery are distinct facts. A build proves neither deployment nor universal provider compatibility.
 
 See [Technology stack](technology-stack.md), [Agent-tool integration](integrating-agents.md) and [Security](security-and-privacy.md).
+
+For implementation contracts, use the [technical handbook](technical/README.md), [native identity and resolution](technical/identity-and-resolution.md), [runtime stack](technical/stack-runtime.md) and [protocol/IPC reference](technical/protocols-and-ipc.md).
