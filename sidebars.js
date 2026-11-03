@@ -88,7 +88,6 @@ const sidebars = {
           ]},
       ],
     },
-    'axiom',
     {
       type: 'category',
       label: 'AxiOwl IDE',

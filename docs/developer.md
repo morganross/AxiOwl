@@ -26,7 +26,7 @@ This guide is a map for contributors and integrators. The product guides explain
 
 Some application repositories require repository access. The public [documentation repository](https://github.com/morganross/AxiOwl) contains the guides served here.
 
-Axiom is a website product title. The source references above describe the concrete implementations used by these guides; they should not be read as evidence of a separate Axiom repository.
+The source references above describe the concrete AxiOwl implementations used by these guides. Messaging, IDE and Usage Meter have distinct product and release responsibilities.
 
 The product inventory is thirteen platform targets, not thirteen developers or thirteen independent infrastructure stacks. Messaging and IDE each have three desktop targets; Mobile has Android and iPhone targets; Usage Meter has three desktop and two phone targets. Shared daemon, relay, proxy, and helpers have component responsibilities rather than additional product/platform rows.
 

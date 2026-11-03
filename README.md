@@ -7,7 +7,6 @@ User documentation for the AxiOwl product family, published at [axiowl.com/docs]
 - [What is AxiOwl?](docs/what-is-axiowl.md)
 - [Product guide and everyday setup](docs/product-guide.md)
 - [AxiOwl Messaging](docs/messaging/README.md)
-- [Axiom Messaging](docs/axiom.md)
 - [AxiOwl IDE](docs/ide/README.md)
 - [AxiOwl Mobile](docs/mobile/README.md)
 - [AxiOwl Usage Meter](docs/usage-meter/README.md)

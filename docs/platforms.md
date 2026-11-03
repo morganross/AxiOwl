@@ -36,7 +36,7 @@ Use the release actually offered on [Downloads](https://axiowl.com/downloads/). 
 
 The host daemon, relay, provider workers, local proxy, and installer helpers support the applications above. They are not additional platform rows. Their purpose and permissions are described in the [Product guide](product-guide.md).
 
-Axiom Messaging is a website product title for agent coordination, not an additional implementation or installer in this platform inventory.
+AxiOwl Messaging is the messaging product in this platform inventory. Use its product and platform release entry rather than inferring another installer from an older page name.
 
 ## Windows Messaging
 

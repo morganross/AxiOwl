@@ -15,7 +15,6 @@ Choose the product around the job you want to do. You can use Usage Meter to und
 | Product | What you use it for | Start here |
 |---|---|---|
 | **AxiOwl Messaging** | Find real provider conversations and explicitly send authored messages | [Messaging setup](getting-started.md) |
-| **Axiom Messaging** | The agent-to-agent messaging offering listed in the AxiOwl product family | [Axiom Messaging](axiom.md) |
 | **AxiOwl IDE** | Work with conversations, models, agent runtimes, and project files in one desktop workspace | [IDE guide](ide/README.md) |
 | **AxiOwl Mobile** | Reach computer-owned sessions from your phone, with native Goose apps also offering a phone-local agent runtime | [Mobile guide](mobile/README.md) |
 | **AxiOwl Usage Meter** | Compare subscription allowance, reset times, accounts, and reported cloud costs | [Usage Meter guide](usage-meter/README.md) |

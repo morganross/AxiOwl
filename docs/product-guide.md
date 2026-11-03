@@ -21,7 +21,7 @@ This guide brings those choices together. The individual product categories prov
 | Read a desktop meter's usage and cloud costs on a phone | Usage Meter companion | Collection on the desktop, display on the phone |
 | Address a standards-based agent service | Messaging's A2A interfaces | The selected A2A endpoint |
 
-Axiom Messaging is also a title on the product website. It describes agent-to-agent coordination; these guides do not introduce a separate Axiom executable, installer, or account system.
+Use AxiOwl Messaging for agent-to-agent coordination. The product overview and the Messaging guides refer to the same product, installer and account relationships.
 
 ## Messaging: Give Work An Address
 
